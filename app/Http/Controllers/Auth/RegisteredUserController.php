@@ -34,31 +34,33 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username'  => ['required', 'string', 'max:255'],
+            'email'     => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'mobile_no' => ['required','max:11','unique:users'],
             'image'     => ['required','image','mimes:jpg,jpeg,png,svg'],
             'uni_id'    => ['required','string'],
             'uni_name'  => ['required','string'],
+            'department'=> ['required'],
             'gender'    => ['required'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'terms' =>  ['accepted', 'required'],
+            'password'  => ['required', 'confirmed', Rules\Password::defaults()],
+            'terms'     =>  ['accepted', 'required'],
         ]);
      
         $filename = time().'_'.$request['image']->getClientOriginalName();
         $imgPath = $request['image']->storeAs('profile-photos',$filename,'public');
         
         $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'mobile_no' => $request->mobile_no,
-            'image'  =>$imgPath,
-            'uni_id' => $request->uni_id,
-            'gender' => $request->gender,
-            'uni_name' => $request->uni_name,
-            'password' => Hash::make($request->password),
-            'role_id' => '2',
-            'badge_id' => '1',
+            'username'   => $request->username,
+            'email'      => $request->email,
+            'mobile_no'  => $request->mobile_no,
+            'image'      => $imgPath,
+            'uni_id'     => $request->uni_id,
+            'gender'     => $request->gender,
+            'uni_name'   => $request->uni_name,
+            'department' => $request->department,
+            'password'   => Hash::make($request->password),
+            'role_id'    => '2',
+            'badge_id'   => '1',
         ]);
 
         event(new Registered($user));
