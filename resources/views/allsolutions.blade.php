@@ -10,7 +10,7 @@
 
 <div class="wrapper">
     <div class="container">
-        <div class="row">mmmmm
+        <div class="row">
             <div class="owl-carousel evtcate_slider">
                 <div class="item text-center">
                     <a href="#" class="event-cate-links">
