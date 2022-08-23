@@ -39,6 +39,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropsolutionController;
 use App\Http\Controllers\ReqSolutionController;
 use App\Http\Controllers\ResourcebidController;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,7 +116,7 @@ Route::post('/request_bid',[ReqbidController::class, 'store'])->name('reqbid.sto
 Route::post('/request_sol',[ReqSolutionController::class, 'store'])->name('reqsol.store');
 Route::post('/request_comment',[ReqcommentController::class, 'store'])->name('reqcomment.store');
 Route::get('/latestreq',[RequestController::class, 'latest'])->name('request.latest');
-Route::get('/weekly',[RequestController::class, 'week'])->name('req.week');
+Route::get('/week',[RequestController::class, 'weekly'])->name('req.weekly');
 Route::delete('/delete/{id}',[RequestController::class, 'destroy'])->name('req.destroy');
 Route::get('/myrequests',[RequestController::class,('getuserrequests')])->name('req.myrequests');
 //proposal routes
