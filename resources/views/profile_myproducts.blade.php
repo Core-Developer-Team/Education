@@ -79,9 +79,7 @@
                                                 </div>
                                             </div>
                                             @empty
-                                            <div class="alert alert-success mt-3">
-                                                Sorry! No data found
-                                            </div>
+                                            
                                             @endforelse
                                             <div class="mt-35">
                                                 {{$product->links()}}

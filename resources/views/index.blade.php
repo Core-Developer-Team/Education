@@ -16,7 +16,7 @@
                     <a href="#" class="event-cate-links">
                         <div class="event-full-width">
                             <div class="event-cate-items">
-                                <h6>Data Structure 1</h6>
+                                <h6>Data Structure 188</h6>
                             </div>
                         </div>
                     </a>
@@ -157,9 +157,9 @@
                                 <div class="col-lg-12">
                                     <div class="filter-section">
                                         <div class="btn-4585">
-                                            <a href="" class="fltr-btn fltr-active">Newest</a>
-                                            <button onclick="window.location=''" class="fltr-btn">Trending</button>
-                                            <button onclick='' class="fltr-btn">Weekly</button>
+                                            <a href="{{route('request.latest')}}" class="fltr-btn fltr-active">Newest</a>
+                                            <button  class="fltr-btn">Trending</button>
+                                            <a href="{{route('req.weekly')}}" class="fltr-btn">Weekly</a>
                                         </div>
                                         <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                                     </div>
