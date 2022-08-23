@@ -84,7 +84,6 @@ class RequestController extends Controller
         $prop   = Proposal::count();
         return view('index',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
       }
-
    
        //store requests
        public function insert(Request $request)
