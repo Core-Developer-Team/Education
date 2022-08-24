@@ -69,11 +69,15 @@
                                             </p>
                                             <div class="jbopdt142">
                                                 <div class="jbbdges10">
+                                                    <span class="btn btn-success" id="bKash_button" onclick="BkashPayment()">
+                                                        Pay with bKash
+                                                    </span>
                                                     <span class="job-badge ffcolor">@if ($data->tag == 1)
                                                         Offline
                                                         @else
                                                         Online
-                                                        @endif</span>
+                                                        @endif
+                                                    </span>
                                                     <span class="job-badge ddcolor">$ {{$data->price}}</span>
                                                 </div>
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
@@ -342,6 +346,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -475,7 +480,7 @@
                 if (errorResponse.description) {
                     $('.descriptionError').text(errorResponse.description[0]);
                 }
-               
+
             }
         })
     })
@@ -507,8 +512,9 @@
                 if (errorResponse.description) {
                     $('.descriptioneror').text(errorResponse.description[0]);
                 }
-               
+
             }
         });
     });
+
 </script>
