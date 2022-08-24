@@ -124,13 +124,7 @@
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
-                    <div class="btn_1589">
-                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" data-bs-target=" @auth
-            #addrequest
-            @else
-            #loginlink
-            @endauth ">Post your problem</a>
-                    </div>
+               
                     @include('layouts.sidebar')
                     <!--/side bar-->
                     <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
@@ -152,20 +146,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="filter_items">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="filter-section">
-                                        <div class="btn-4585">
-                                            <a href="" class="fltr-btn fltr-active">Newest</a>
-                                            <button onclick="window.location=''" class="fltr-btn">Trending</button>
-                                            <button onclick='' class="fltr-btn">Weekly</button>
-                                        </div>
-                                        <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                     
                         @if(session()->has('success'))
                         <div class="alert alert-success mt-3">
                             {{ session()->get('success') }}

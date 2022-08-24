@@ -39,6 +39,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropsolutionController;
 use App\Http\Controllers\ReqSolutionController;
 use App\Http\Controllers\ResourcebidController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -123,29 +124,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/proposal_single/{id}', [ProposalController::class, 'showproposal'])->name('proposal.showproposal');
     Route::post('/proposal_single', [ProposalbidController::class, 'store'])->name('proposalbid.store');
     Route::post('/proposal_sol', [PropsolutionController::class, 'store'])->name('prosolution.store');
-    Route::get('/latest', [ProposalController::class, 'latest'])->name('dev.latest');
-    Route::get('/weekly', [ProposalController::class, 'week'])->name('dev.week');
+    Route::get('/latest_tutorial', [ProposalController::class, 'latesttutorial'])->name('proposal.new');
+    Route::get('/weekly_tutorial', [ProposalController::class, 'week'])->name('proposal.week');
     //book routes
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books_single/{id}', [BookController::class, 'showbook'])->name('books.showbook');
-    Route::get('/latest', [BookController::class, 'latest'])->name('book.latest');
-    Route::get('/weekly', [BookController::class, 'week'])->name('book.week');
+    Route::get('/books_latest', [BookController::class, 'latest'])->name('book.latest');
+    Route::get('/books_weekly', [BookController::class, 'week'])->name('book.week');
     //course routes
     Route::post('/course', [CourseController::class, 'get'])->name('course.get');
     Route::get('/course_single/{id}', [CourseController::class, 'showcourse'])->name('course.showcourse');
-    Route::get('/latest', [CourseController::class, 'latest'])->name('course.latest');
-    Route::get('/weekly', [CourseController::class, 'week'])->name('course.week');
+    Route::get('/course_latest', [CourseController::class, 'latest'])->name('course.latest');
+    Route::get('/course_weekly', [CourseController::class, 'week'])->name('course.week');
     //tutorial routes
     Route::post('/tutorial', [TutorialController::class, 'get'])->name('tutorial.get');
     Route::get('/tutorial_sin/{id}', [TutorialController::class, 'showsinglevideos'])->name('tutorial.sin');
-    Route::get('/tutlatest', [TutorialController::class, 'latesttut'])->name('tutorial.latest');
-    Route::get('/weekly', [TutorialController::class, 'week'])->name('tutorial.week');
+    Route::get('/tutlatest', [TutorialController::class, 'latest'])->name('tutorial.latest');
+    Route::get('/tutorial_weekly', [TutorialController::class, 'week'])->name('tutorial.week');
     //Resource
     Route::post('/resource', [ResourceController::class, 'store'])->name('resource.store');
     Route::get('/resource_single/{id}', [ResourceController::class, 'showresource'])->name('resource.showresource');
     Route::post('/resource_single', [ResourcebidController::class, 'store'])->name('resourcebid.store');
-    Route::get('/latest', [ResourceController::class, 'latest'])->name('res.latest');
-    Route::get('/weekly', [ResourceController::class, 'week'])->name('res.week');
+    Route::get('/res_latest', [ResourceController::class, 'latest'])->name('res.latest');
+    Route::get('/res_weekly', [ResourceController::class, 'week'])->name('res.week');
     // event page
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
@@ -165,6 +166,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/product', [ProductController::class, ('store')])->name('product.store');
     Route::patch('/product', [ProductController::class, ('search')])->name('product.search');
     Route::get('/product_single/{id}', [ProductController::class, ('showproduct')])->name('product.showproduct');
+    Route::get('/product_latest', [ProductController::class, 'latest'])->name('prod.latest');
+    Route::get('/product_weekly', [ProductController::class, 'week'])->name('prod.week');
 
     //profile
     Route::get('/profile_dashboard/{id}', [ProfileController::class, ('show')])->name('profile.show');

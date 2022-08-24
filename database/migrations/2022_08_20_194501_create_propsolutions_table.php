@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('propsolutions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->unique();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('proposal_id')->constrained();
             $table->text('description');
             $table->string('file');

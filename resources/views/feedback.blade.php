@@ -236,9 +236,7 @@
                                         </div>
                                     </div>
                                     @empty
-                                    <div class="alert alert-success mt-3">
-                                        No Feedback Yet!
-                                    </div>
+                                 
                                     @endforelse
                                     <div class="mt-3">
                                         {{ $datas->links() }}
