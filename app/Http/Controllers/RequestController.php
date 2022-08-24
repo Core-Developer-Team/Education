@@ -216,6 +216,6 @@ class RequestController extends Controller
           File::delete($file_path);
          }
          $data->delete();
-         return back()->with('success', 'Course has deleted Successfully');
+         return back()->with('success', 'Request has deleted Successfully');
      }
 }

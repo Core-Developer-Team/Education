@@ -93,7 +93,7 @@
                                     <div class="form_group mt-25">
                                         <label class="label25">Profile_Image*</label>
                                         <input class="form-control @error('image') border-danger @enderror" name="image"
-                                            type="file" placeholder="" value="{{old('image')}}">
+                                            type="file"   accept="image/*" placeholder="" value="{{old('image')}}">
                                         @error('image')
                                         <div class="text-danger text-sm">
                                             {{ $message }}

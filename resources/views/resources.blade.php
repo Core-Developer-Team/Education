@@ -278,7 +278,7 @@
                             </div>
                             <div class="form-group pt-2">
                                 <label for="chooseFile" class="custom-file-label">Select File</label>
-                                <input type="file" name="file" class="form-control" id="chooseFile">
+                                <input type="file" name="file" class="form-control" accept="image/*,.doc,.docx,.pdf,.pptx"  id="chooseFile">
                                 <div class="text-danger mt-2 text-sm fileerror"></div>
                             </div>
 

@@ -160,9 +160,9 @@
                                 <div class="col-lg-12">
                                     <div class="filter-section">
                                         <div class="btn-4585">
-                                            <button class="fltr-btn fltr-active">Newest</button>
-                                            <button class="fltr-btn">Trending</button>
-                                            <button class="fltr-btn">Weekly</button>
+                                            <a href="{{route('proposal.new')}}" class="fltr-btn fltr-active">Newest</a>
+                                            <a href="" class="fltr-btn">Trending</a>
+                                            <a href="{{route('proposal.week')}}" class="fltr-btn">Weekly</a>
                                         </div>
                                         <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                                     </div>
@@ -180,11 +180,60 @@
                                 <div class="recent-items">
                                     <div class="posts-list">
                                         <div class="feed-shared-author-dt">
-                                            <div class="author-left">
+                                            <div class="author-left userimg">
                                                 <a href="#"><img
-                                                        class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                        class="ft-plus-square job-bg-circle  bg-cyan mr-0"
                                                         src="/storage/{{ $item->user->image }}" alt=""></a>
-                                              
+                                                <!--hover on image-->
+                                                <div class="box imagehov shadow"
+                                                    style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                    <div class="full-width">
+                                                        <div class="recent-items">
+                                                            <div class="posts-list">
+                                                                <div class="feed-shared-author-dt">
+                                                                    <div class="author-left">
+                                                                        <a href="#"><img
+                                                                                class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                                src="/storage/{{ $item->user->image }}"
+                                                                                alt=""></a>
+                                                                    </div>
+                                                                    <div class="author-dts">
+                                                                        <p class="notification-text font-username">
+                                                                            <a href="#"
+                                                                                class="text-danger">{{ $item->user->username }}
+                                                                            </a><img
+                                                                                src="{{ $item->user->badge->image }}"
+                                                                                alt="" style="width: 20px;"
+                                                                                title="{{ $item->user->badge->name }}">
+                                                                            <span class="job-loca"><i
+                                                                                    class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                        </p>
+
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Joined on
+                                                                                {{ $item->user->created_at }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Total Solutions
+                                                                                {{ $item->user->solutions }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span
+                                                                                class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end hover-->
+                                            </div>
+                                            <div class="iconreq">
+                                                <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                    src="{{ $item->user->badge->image }}"
+                                                    style="width:30px; height:30px" alt="">
                                             </div>
                                             <div class="author-dts">
                                                 <a href="job_detail_view.html"
@@ -192,8 +241,8 @@
                                                 </a>
                                                 <p class="notification-text font-username">
                                                     <a href="#" class="text-danger">{{ $item->user->username }}
-                                                    </a><img src="images/badges/verified.svg" alt="Verified"
-                                                        style="width: 15px;" title="Verified">
+                                                    </a><img src="images/badges/verified.svg" class="d-none"
+                                                        alt="Verified" style="width: 15px;" title="Verified">
                                                     <span class="job-loca"><i
                                                             class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
                                                 </p>
@@ -212,11 +261,7 @@
                                             <div
                                                 class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                                 <a href=""
-                                                    class="label-dker post_categories_reported mr-10"><span>Reported</span></a>
-                                                <a href=""
-                                                    class="label-dker post_categories_top_right mr-20"><span>Course
-                                                        Name</span>
-                                                </a>
+                                                    class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
 
                                             </div>
                                         </div>
@@ -298,7 +343,7 @@
                             </div>
                             <div class="form-group pt-2">
                                 <label for="file">Image/PDF</label>
-                                <input type="file" class="form-control" name="file" id="file"
+                                <input type="file" class="form-control" name="file"  accept="image/*,.pdf" id="file"
                                     value="{{ old('file') }}"
                                     placeholder="Upload image or
                                 pdf">

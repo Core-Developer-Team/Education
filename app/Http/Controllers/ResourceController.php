@@ -36,13 +36,31 @@ class ResourceController extends Controller
         //get latest request
         public function latest(){
          $datas=Resource::whereDate('created_at', Carbon::today())->orderBy('updated_at','DESC')->cursorPaginate(6);
-         return view('resources',compact('datas'));
+         $req_count = ModelsRequest::count();
+         $feed_count = Feedback::count();
+         $mysol = ReqSolution::where('user_id',Auth()->id())->count();
+         $myques = ModelsRequest::where('user_id',Auth()->id())->count();
+         $res  = Resource::count();
+         $event = Event::count();
+         $offline = Offlinetopic::count();
+         $product = Product::count();
+         $prop   = Proposal::count();
+         return view('resources',compact('datas','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
        }
  
         //get week request
      public function week(){
          $datas=Resource::whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->orderBy('updated_at','DESC')->cursorPaginate(6);
-         return view('resources',compact('datas'));
+         $req_count = ModelsRequest::count();
+         $feed_count = Feedback::count();
+         $mysol = ReqSolution::where('user_id',Auth()->id())->count();
+         $myques = ModelsRequest::where('user_id',Auth()->id())->count();
+         $res  = Resource::count();
+         $event = Event::count();
+         $offline = Offlinetopic::count();
+         $product = Product::count();
+         $prop   = Proposal::count();
+         return view('resources',compact('datas','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
        }
       //insert data into database
   public function store(Request $request){

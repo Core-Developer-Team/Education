@@ -81,9 +81,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <button class="fltr-btn fltr-active">Newest</button>
-                                    <button onclick="window.location=''" class="fltr-btn">Trending</button>
-                                    <button class="fltr-btn">Weekly</button>
+                                    <a href="{{route('prod.latest')}}" class="fltr-btn fltr-active">Newest</a>
+                                    <a href="" class="fltr-btn">Trending</a>
+                                    <a href="{{route('prod.week')}}" class="fltr-btn">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>

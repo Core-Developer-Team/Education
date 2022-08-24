@@ -35,15 +35,35 @@ class ProposalController extends Controller
         return view('devproposal',compact('data','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
     }
            //get latest request
-           public function latest(){
+           public function latesttutorial(){
             $data=Proposal::whereDate('created_at', Carbon::today())->orderBy('updated_at','DESC')->cursorPaginate(6);
-            return view('devproposal',compact('data'));
+            $bid = Proposalbid::all();
+            $req_count = ModelsRequest::count();
+             $feed_count = Feedback::count();
+             $mysol = ReqSolution::where('user_id',Auth()->id())->count();
+             $myques = ModelsRequest::where('user_id',Auth()->id())->count();
+             $res  = Resource::count();
+             $event = Event::count();
+             $offline = Offlinetopic::count();
+             $product = Product::count();
+             $prop   = Proposal::count();
+            return view('devproposal',compact('data','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));    
           }
     
            //get week request
         public function week(){
             $data=Proposal::whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->orderBy('updated_at','DESC')->cursorPaginate(6);
-            return view('devproposal',compact('data'));
+            $bid = Proposalbid::all();
+            $req_count = ModelsRequest::count();
+             $feed_count = Feedback::count();
+             $mysol = ReqSolution::where('user_id',Auth()->id())->count();
+             $myques = ModelsRequest::where('user_id',Auth()->id())->count();
+             $res  = Resource::count();
+             $event = Event::count();
+             $offline = Offlinetopic::count();
+             $product = Product::count();
+             $prop   = Proposal::count();
+            return view('devproposal',compact('data','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));  
           }
     //add new proposal
     public function get(Request $request)
