@@ -8,10 +8,9 @@
     </div>
 </header>
 
-
 <div class="wrapper pt-0">
     <div class="main-background-cover breadcrumb-pt">
-        <div class="banner-user" style="background-image:url(images/banners/bg-2.jpg);">
+        <div class="banner-user" style="background-image:url({{ asset('images/banners/bg-2.jpg') }});">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -20,13 +19,12 @@
                             <div class="banner-content">
                                 <div class="banner-media">
                                     <div class="item-profile-img">
-                                        <img src="/storage/{{$user->image}}" alt="User-Avatar"
-                                            id="wizardPicturePreview">
-
+                                        <img src="/storage/{{ $user->image }}" alt="User-Avatar"
+                                            style="width: 100px; height:100px">
                                     </div>
                                     <div class="banner-media-body">
-                                        <h3 class="item-user-title">{{$user->username}}</h3>
-                                        <div class="item-username">{{$user->email}}</div>
+                                        <h3 class="item-user-title">{{ $user->username }}</h3>
+                                        <div class="item-username">{{ $user->email }}</div>
                                         <div class="profile-rating-section">
                                             <div class="profile-rating">
                                                 <p>Rating :</p>
@@ -40,7 +38,25 @@
                                                 <span>(39 ratings)</span>
                                             </div>
                                         </div>
-
+                                        <div class="item-total-link-group">
+                                            <div class="item-total-product-links">
+                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.myreqs', ['id' => Auth()->id()]) }} 
+                                                @else
+                                                {{ route('profile.myreqs', ['id' => request()->route('id')]) }} @endif "
+                                                    class="myprofle-item-links">Requests<span
+                                                        class="badge-alert">{{ $user->request()->count() }}</span></a>
+                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.products', ['id' => Auth()->id()]) }}
+                                                @else
+                                                {{ route('profile.products', ['id' => request()->route('id')]) }} @endif "
+                                                    class="myprofle-item-links">Products<span
+                                                        class="badge-alert">{{ $user->product()->count() }}</span></a>
+                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.book', ['id' => Auth()->id()]) }}
+                                                @else
+                                                {{ route('profile.book', ['id' => request()->route('id')]) }} @endif "
+                                                    class="myprofle-item-links">Books<span
+                                                        class="badge-alert">{{ $user->book()->count() }}</span></a>
+                                            </div>
+                                        </div>
                                         <ul class="user-meta-btns">
                                             <li><a href="{{ route('profile.index') }}"
                                                     class="profile-edit-btn btn-hover"><i
@@ -72,8 +88,12 @@
                             <div class="offcanvas-body">
                                 <ul class="navbar-nav justify-content-start flex-grow-1 pe_5">
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('profile_dashboard')) ? 'active' : '' }}"
-                                            aria-current="page" href="{{route('profile.show')}}">
+                                        <a class="nav-link {{ request()->is('profile_dashboard') ? 'active' : '' }}"
+                                            aria-current="page"
+                                            href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.show', ['id' => Auth()->id()]) }}
+                                             @else
+                                             {{ route('profile.show', [request()->route('id')]) }} @endif
+                                             ">
                                             <span class="nav-icon">
                                                 <i class="feather-grid"></i>
                                             </span>
@@ -81,8 +101,10 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('profile_activity')) ? 'active' : '' }}"
-                                            href="{{route('profile.activity')}}">
+                                        <a class="nav-link {{ request()->is('profile_activity') ? 'active' : '' }}"
+                                            href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.activity', ['id' => Auth()->id()]) }}
+                                            @else
+                                            {{ route('profile.activity', [request()->route('id')]) }} @endif ">
                                             <span class="nav-icon">
                                                 <i class="feather-align-right"></i>
                                             </span>
@@ -90,22 +112,29 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('profile_review')) ? 'active' : '' }}"
-                                            href="{{route('profile.review')}}">
+                                        <a class="nav-link {{ request()->is('profile_review') ? 'active' : '' }}"
+                                            href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.review', ['id' => Auth()->id()]) }}
+                                            @else
+                                            {{ route('profile.review', ['id' => request()->route('id')]) }} @endif ">
                                             <span class="nav-icon">
                                                 <i class="feather-star"></i>
                                             </span>
                                             Reviews
                                         </a>
                                     </li>
-                                    <li class="nav-item {{ (request()->is('profile_earning')) ? 'active' : '' }}">
-                                        <a class="nav-link " aria-current="page" href="{{route('profile.earning')}}">
-                                            <span class="nav-icon">
-                                                <i class="feather-dollar-sign"></i>
-                                            </span>
-                                            Earning
-                                        </a>
-                                    </li>
+                                    @if (request()->route('id') == Auth()->id())
+                                        <li class="nav-item {{ request()->is('profile_earning') ? 'active' : '' }}">
+                                            <a class="nav-link " aria-current="page"
+                                                href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.earning', ['id' => Auth()->id()]) }}
+                                                @else
+                                                {{ route('profile.earning', ['id' => request()->route('id')]) }} @endif ">
+                                                <span class="nav-icon">
+                                                    <i class="feather-dollar-sign"></i>
+                                                </span>
+                                                Earning
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -138,10 +167,10 @@
                                         <i class="feather-user"></i>
                                     </div>
                                     <div class="ttlpple">
-                                        @if($user->gender==0)
-                                        <span>Male</span>
-                                        @elseif($user->gender==1)
-                                        <span>Female</span>
+                                        @if ($user->gender == 0)
+                                            <span>Male</span>
+                                        @elseif($user->gender == 1)
+                                            <span>Female</span>
                                         @endif
                                     </div>
                                 </div>
@@ -152,7 +181,7 @@
                                         <i class="fas fa-location-arrow"></i>
                                     </div>
                                     <div class="ttlpple">
-                                        <span>{{$user->uni_name}}</span>
+                                        <span>{{ $user->uni_name }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -163,82 +192,79 @@
                 <div class="col-xl-9 col-lg-8 col-md-12 order-lg-2 order-1">
                     <div class="headtte14m box-shadow_main">
                         <span><i class="feather-star"></i></span>
-                        <h4>Reviews ({{$review->count()}})</h4>
+                        <h4>Reviews ({{ $review->count() }})</h4>
                     </div>
                     <div class="product-items-list pl_item_search mt-4">
                         <div class="item-review">
 
                             @forelse ($review as $item)
-                            <div class="review-card mt-4">
-                                <div class="review-content">
-                                    <div class="review-head">
-                                        <div class="review-rating-stars">
-                                            @if($item->rating==1)
-                                            <div class="item-rating-stars">
-                                                <i class="feather-star"></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                                <i class="feather-star color-gray-medium"></i>
+                                <div class="review-card mt-4">
+                                    <div class="review-content">
+                                        <div class="review-head">
+                                            <div class="review-rating-stars">
+                                                @if ($item->rating == 1)
+                                                    <div class="item-rating-stars">
+                                                        <i class="feather-star"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($item->rating == 2)
+                                                    <div class="item-rating-stars">
+                                                        <i class="feather-star"></i>
+                                                        <i class="feather-star "></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($item->rating == 3)
+                                                    <div class="item-rating-stars">
+                                                        <i class="feather-star"></i>
+                                                        <i class="feather-star "></i>
+                                                        <i class="feather-star"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($item->rating == 4)
+                                                    <div class="item-rating-stars">
+                                                        <i class="feather-star"></i>
+                                                        <i class="feather-star "></i>
+                                                        <i class="feather-star "></i>
+                                                        <i class="feather-star "></i>
+                                                        <i class="feather-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($item->rating == 5)
+                                                    <div class="item-rating-stars">
+                                                        <i class="feather-star"></i>
+                                                        <i class="feather-star "></i>
+                                                        <i class="feather-star "></i>
+                                                        <i class="feather-star"></i>
+                                                        <i class="feather-star"></i>
+                                                    </div>
+                                                @endif
                                             </div>
-                                            @elseif ($item->rating==2)
-                                            <div class="item-rating-stars">
-                                                <i class="feather-star"></i>
-                                                <i class="feather-star "></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                            </div>
-                                            @elseif ($item->rating==3)
-                                            <div class="item-rating-stars">
-                                                <i class="feather-star"></i>
-                                                <i class="feather-star "></i>
-                                                <i class="feather-star"></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                            </div>
-                                            @elseif ($item->rating==4)
-                                            <div class="item-rating-stars">
-                                                <i class="feather-star"></i>
-                                                <i class="feather-star "></i>
-                                                <i class="feather-star "></i>
-                                                <i class="feather-star "></i>
-                                                <i class="feather-star color-gray-medium"></i>
-                                            </div>
-                                            @elseif ($item->rating==5)
-                                            <div class="item-rating-stars">
-                                                <i class="feather-star"></i>
-                                                <i class="feather-star "></i>
-                                                <i class="feather-star "></i>
-                                                <i class="feather-star"></i>
-                                                <i class="feather-star"></i>
-                                            </div>
-                                            @endif
+                                            <span class="rating-time-posting"><i
+                                                    class="feather-clock me-2"></i>{{ $item->created_at->diffForHumans() }}</span>
                                         </div>
-                                        <span class="rating-time-posting"><i class="feather-clock me-2"></i>{{
-                                            $item->created_at->diffForHumans() }}</span>
-                                    </div>
-                                    <div class="rating-by">
-                                        by:
-                                        <a href="#" class="ms-2">
-                                            <div class="ttlcnt15 invtbyuser">
-                                                <div class="invited_avtar_ee">
-                                                    <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
-                                                        src="/storage/{{ $item->user->image }}" alt="">
+                                        <div class="rating-by">
+                                            by:
+                                            <a href="#" class="ms-2">
+                                                <div class="ttlcnt15 invtbyuser">
+                                                    <div class="invited_avtar_ee">
+                                                        <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
+                                                            src="/storage/{{ $item->user->image }}" alt="">
+                                                    </div>
+                                                    <span class="evntcunt">{{ $item->user->username }}</span>
                                                 </div>
-                                                <span class="evntcunt">{{ $item->user->username }}</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="rating_descp">
-                                        <p>{{ $item->description }}</p>
+                                            </a>
+                                        </div>
+                                        <div class="rating_descp">
+                                            <p>{{ $item->description }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @empty
-                            <div class="alert alert-success mt-3">
-                                No Feedback Yet!
-                            </div>
                             @endforelse
                             <div class="comment-pagination main-pagination mt-4">
                                 {{ $review->links() }}
@@ -250,8 +276,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!--footer-->
 @include('layouts.footer')

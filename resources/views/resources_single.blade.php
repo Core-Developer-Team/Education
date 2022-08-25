@@ -138,7 +138,7 @@
                                 </ul>
                             </div>
                             <div class="profile-link">
-                                <a href="#">View Detail</a>
+                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}">View Detail</a>
                             </div>
                         </div>
                     </div>

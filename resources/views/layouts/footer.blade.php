@@ -62,7 +62,7 @@
 <script src="{{asset('js/night-mode.js')}}"></script>
 <script src="{{asset('js/offset_overlay.js')}}"></script>
 <script src="{{asset('js/video.js')}}"></script>
-<script src="{{asset('js/submit.js')}}"></script>
+<script src="{{asset('js/imagehover.js')}}"></script>
 
 
 

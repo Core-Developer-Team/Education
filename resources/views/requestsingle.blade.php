@@ -431,7 +431,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">File/Image</label>
-                            <input type="file" class="form-control" id="description" name="file"
+                            <input type="file" class="form-control"  accept="image/*,.doc,.docx,.pdf,.pptx" id="description" name="file"
                                 value=" {{ old('file') }}">
                             <div class="text-danger mt-2 text-sm fileeror"></div>
                         </div>

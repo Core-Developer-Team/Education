@@ -81,9 +81,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <button class="fltr-btn fltr-active">Newest</button>
-                                    <button onclick="window.location=''" class="fltr-btn">Trending</button>
-                                    <button class="fltr-btn">Weekly</button>
+                                    <a href="{{route('book.latest')}}" class="fltr-btn fltr-active">Newest</a>
+                                    <a href="" class="fltr-btn">Trending</a>
+                                    <a href="{{route('book.week')}}" class="fltr-btn">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -187,13 +187,13 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="cover-pic">Book_Cover_Image</label>
-                            <input type="file" id="cover-pic" class="form-control" name="cover_pic"
+                            <input type="file" id="cover-pic" class="form-control"  accept="image/*" name="cover_pic"
                                 value="{{ old('cover-pic') }}">
                             <div class="text-danger mt-2 text-sm cover_picError"></div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="book">Upload_Book</label>
-                            <input type="file" id="book" class="form-control" name="book" value="{{ old('book') }}">
+                            <input type="file" id="book" class="form-control" name="book"  accept="image/*,.doc,.docx,.pdf,.pptx" value="{{ old('book') }}">
                             <div class="text-danger mt-2 text-sm bookError"></div>
                         </div>
                         <div class="form-group pt-2">

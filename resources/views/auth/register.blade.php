@@ -93,7 +93,7 @@
                                     <div class="form_group mt-25">
                                         <label class="label25">Profile_Image*</label>
                                         <input class="form-control @error('image') border-danger @enderror" name="image"
-                                            type="file" placeholder="" value="{{old('image')}}">
+                                            type="file"   accept="image/*" placeholder="" value="{{old('image')}}">
                                         @error('image')
                                         <div class="text-danger text-sm">
                                             {{ $message }}
@@ -109,6 +109,21 @@
                                             <option value="1">Female</option>
                                         </select>
                                         @error('gender')
+                                        <div class="text-danger text-sm">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                      <div class="form-group mt-25">
+                                        <label class="label25" for="dep">Departmment*</label>
+                                        <select name="department" id="dep" value="{{ old('department') }}"
+                                            class="form-control">
+                                            <option selected disabled>Select dep</option>
+                                            <option value="0">bba</option>
+                                            <option value="1">bse</option>
+                                            <option value="2">bcs</option>
+                                        </select>
+                                        @error('department')
                                         <div class="text-danger text-sm">
                                             {{ $message }}
                                         </div>

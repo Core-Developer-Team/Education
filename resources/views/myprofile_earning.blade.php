@@ -8,10 +8,9 @@
     </div>
 </header>
 
-
 <div class="wrapper pt-0">
     <div class="main-background-cover breadcrumb-pt">
-        <div class="banner-user" style="background-image:url(images/banners/bg-2.jpg);">
+        <div class="banner-user" style="background-image:url({{ asset('images/banners/bg-2.jpg') }});">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -20,13 +19,13 @@
                             <div class="banner-content">
                                 <div class="banner-media">
                                     <div class="item-profile-img">
-                                        <img src="/storage/{{$user->image}}" alt="User-Avatar"
-                                            id="wizardPicturePreview">
+                                        <img src="/storage/{{ $user->image }}" alt="User-Avatar"
+                                            style="width: 100px; height:100px">
 
                                     </div>
                                     <div class="banner-media-body">
-                                        <h3 class="item-user-title">{{$user->username}}</h3>
-                                        <div class="item-username">{{$user->email}}</div>
+                                        <h3 class="item-user-title">{{ $user->username }}</h3>
+                                        <div class="item-username">{{ $user->email }}</div>
                                         <div class="profile-rating-section">
                                             <div class="profile-rating">
                                                 <p>Rating :</p>
@@ -40,7 +39,25 @@
                                                 <span>(39 ratings)</span>
                                             </div>
                                         </div>
-
+                                        <div class="item-total-link-group">
+                                            <div class="item-total-product-links">
+                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.myreqs', ['id' => Auth()->id()]) }} 
+                                                @else
+                                                {{ route('profile.myreqs', ['id' => request()->route('id')]) }} @endif "
+                                                    class="myprofle-item-links">Requests<span
+                                                        class="badge-alert">{{ $user->request()->count() }}</span></a>
+                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.products', ['id' => Auth()->id()]) }}
+                                                @else
+                                                {{ route('profile.products', ['id' => request()->route('id')]) }} @endif "
+                                                    class="myprofle-item-links">Products<span
+                                                        class="badge-alert">{{ $user->product()->count() }}</span></a>
+                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.book', ['id' => Auth()->id()]) }}
+                                                @else
+                                                {{ route('profile.book', ['id' => request()->route('id')]) }} @endif "
+                                                    class="myprofle-item-links">Books<span
+                                                        class="badge-alert">{{ $user->book()->count() }}</span></a>
+                                            </div>
+                                        </div>
                                         <ul class="user-meta-btns">
                                             <li><a href="{{ route('profile.index') }}"
                                                     class="profile-edit-btn btn-hover"><i
@@ -72,8 +89,12 @@
                             <div class="offcanvas-body">
                                 <ul class="navbar-nav justify-content-start flex-grow-1 pe_5">
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('profile_dashboard')) ? 'active' : '' }}"
-                                            aria-current="page" href="{{route('profile.show')}}">
+                                        <a class="nav-link {{ request()->is('profile_dashboard') ? 'active' : '' }}"
+                                            aria-current="page"
+                                            href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.show', ['id' => Auth()->id()]) }}
+                                             @else
+                                             {{ route('profile.show', [request()->route('id')]) }} @endif
+                                             ">
                                             <span class="nav-icon">
                                                 <i class="feather-grid"></i>
                                             </span>
@@ -81,8 +102,10 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('profile_activity')) ? 'active' : '' }}"
-                                            href="{{route('profile.activity')}}">
+                                        <a class="nav-link {{ request()->is('profile_activity') ? 'active' : '' }}"
+                                            href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.activity', ['id' => Auth()->id()]) }}
+                                            @else
+                                            {{ route('profile.activity', [request()->route('id')]) }} @endif ">
                                             <span class="nav-icon">
                                                 <i class="feather-align-right"></i>
                                             </span>
@@ -90,22 +113,29 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('profile_review')) ? 'active' : '' }}"
-                                            href="{{route('profile.review')}}">
+                                        <a class="nav-link {{ request()->is('profile_review') ? 'active' : '' }}"
+                                            href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.review', ['id' => Auth()->id()]) }}
+                                            @else
+                                            {{ route('profile.review', ['id' => request()->route('id')]) }} @endif ">
                                             <span class="nav-icon">
                                                 <i class="feather-star"></i>
                                             </span>
                                             Reviews
                                         </a>
                                     </li>
-                                    <li class="nav-item {{ (request()->is('profile_earning')) ? 'active' : '' }}">
-                                        <a class="nav-link " aria-current="page" href="{{route('profile.earning')}}">
-                                            <span class="nav-icon">
-                                                <i class="feather-dollar-sign"></i>
-                                            </span>
-                                            Earning
-                                        </a>
-                                    </li>
+                                    @if (request()->route('id') == Auth()->id())
+                                        <li class="nav-item {{ request()->is('profile_earning') ? 'active' : '' }}">
+                                            <a class="nav-link " aria-current="page"
+                                                href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.earning', ['id' => Auth()->id()]) }}
+                                                @else
+                                                {{ route('profile.earning', ['id' => request()->route('id')]) }} @endif ">
+                                                <span class="nav-icon">
+                                                    <i class="feather-dollar-sign"></i>
+                                                </span>
+                                                Earning
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -321,7 +351,6 @@
         </div>
     </div>
 </div>
-
 
 <!--footer-->
 @include('layouts.footer')

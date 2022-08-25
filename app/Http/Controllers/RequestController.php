@@ -53,18 +53,37 @@ class RequestController extends Controller
              $prop   = Proposal::count();
              return view('previousyearrequests',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
          }
-          //get latest request
-          public function latest(){
-            dd("hello");
-           $datas=ModelsRequest::whereDate('created_at', Carbon::today())->orderBy('updated_at','DESC')->cursorPaginate(6);
-           return view('index',compact('datas'));
-         }
+        //get latest request
+        public function latest(){
+          $datas=ModelsRequest::whereDate('created_at', Carbon::today())->orderBy('updated_at','DESC')->cursorPaginate(6);
+          $bid = Reqbid::all();
+            $req_count = ModelsRequest::count();
+            $feed_count = Feedback::count();
+            $mysol = ReqSolution::where('user_id',Auth()->id())->count();
+            $myques = ModelsRequest::where('user_id',Auth()->id())->count();
+            $res  = Resource::count();
+            $event = Event::count();
+            $offline = Offlinetopic::count();
+            $product = Product::count();
+            $prop   = Proposal::count();
+            return view('index',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+        }
    
-          //get week request
-       public function week(){
-           $datas=ModelsRequest::whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->orderBy('updated_at','DESC')->cursorPaginate(6);
-           return view('index',compact('datas'));
-         }
+           //get week request
+       public function weekly(){
+        $datas=ModelsRequest::whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->orderBy('updated_at','DESC')->cursorPaginate(6);
+        $bid = Reqbid::all();
+        $req_count = ModelsRequest::count();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id',Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id',Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        return view('index',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+      }
    
        //store requests
        public function insert(Request $request)
@@ -197,6 +216,6 @@ class RequestController extends Controller
           File::delete($file_path);
          }
          $data->delete();
-         return back()->with('success', 'Course has deleted Successfully');
+         return back()->with('success', 'Request has deleted Successfully');
      }
 }

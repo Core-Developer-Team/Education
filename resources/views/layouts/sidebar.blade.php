@@ -8,7 +8,7 @@
     </li>
     <li>
         <a href="{{ route('feedback.store') }}" class="all-info__sections">
-            <span class="all-info__left"><i class="feather-user me-2"></i>Feedbackee</span>
+            <span class="all-info__left"><i class="feather-user me-2"></i>Feedback</span>
             <span class="all-info__right">{{$feed_count}}</span>
         </a>
     </li>
