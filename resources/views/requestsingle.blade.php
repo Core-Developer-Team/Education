@@ -575,7 +575,7 @@
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 {{-- <script src="https://code.jquery.com/jquery-1.8.3.min.js" integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script> --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if(env("BKASH_STATUS") == "sandbox")
+@if(@env("BKASH_STATUS") == "sandbox")
     <script id="myScript" src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script>
 @else
     <script id="myScript" src="https://scripts.pay.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout.js"></script>
@@ -626,7 +626,7 @@
         };
         var paymentRequest;
         paymentRequest = {amount: $('.amount').val(), intent: 'request', invoice: $('.invoice').text() ,rid:$('.reqId').val()};
-        console.log(JSON.stringify(paymentRequest));
+        // console.log(JSON.stringify(paymentRequest));
         bKash.init({
             paymentMode: 'checkout',
             paymentRequest: paymentRequest,
@@ -638,9 +638,9 @@
                     type: 'GET',
                     contentType: 'application/json',
                     success: function (data) {
-                        console.log('got data from create  ..');
-                        console.log('data ::=>');
-                        console.log(JSON.stringify(data));
+                        // console.log('got data from create  ..');
+                        // console.log('data ::=>');
+                        // console.log(JSON.stringify(data));
                         var obj = JSON.parse(data);
                         if (data && obj.paymentID != null) {
                             paymentID = obj.paymentID;
