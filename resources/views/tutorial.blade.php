@@ -121,7 +121,7 @@
                                                                     <div class="posts-list">
                                                                         <div class="feed-shared-product-dt">
                                                                             <div class="pdct-img crse-img-tt">
-                                                                                <a href="course_detail_view.html">
+                                                                                <a href="">
                                                                                     <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                                         src="{{ $item->snippet->thumbnails->medium->url }}"
                                                                                         alt="">
@@ -137,7 +137,7 @@
                                                                                 </a>
                                                                             </div>
                                                                             <div class="author-dts pp-20">
-                                                                                <a href="course_detail_view.html"
+                                                                                <a href=""
                                                                                     class="job-heading pp-title">{{ Str::limit($item->snippet->title, 50, $end = '....') }}</a>
                                                                                 <p
                                                                                     class="notification-text font-small-4">
@@ -321,7 +321,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group pt-2">
-                            <label for="playlists_id">playlists_id</label>
+                            <label for="playlists_id">video_Id</label>
                             <input type="text" id="playlists_id" class="form-control" name="playlists_id"
                                 value="{{ old('playlists_id') }}">
                             <div class="text-danger mt-2 text-sm playlistserror">

@@ -58,11 +58,13 @@
                                                         class="badge-alert">{{ $user->book()->count() }}</span></a>
                                             </div>
                                         </div>
-                                        <ul class="user-meta-btns">
-                                            <li><a href="{{ route('profile.index') }}"
-                                                    class="profile-edit-btn btn-hover"><i
-                                                        class="feather-edit me-2"></i>Edit</a></li>
-                                        </ul>
+                                        @if (request()->route('id') == Auth()->id())
+                                            <ul class="user-meta-btns">
+                                                <li><a href="{{ route('profile.index') }}"
+                                                        class="profile-edit-btn btn-hover"><i
+                                                            class="feather-edit me-2"></i>Edit</a></li>
+                                            </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +185,7 @@
                                 </div>
                             @endforeach
 
-                            @foreach ($reqbid as $item)
+                            @foreach ($propbid as $item)
                                 <div class="full-width mb-30">
                                     <div class="recent-items">
                                         <div class="activities-noti-acts">
@@ -198,8 +200,8 @@
                                                                 href="#">{{ $item->user->username }}</a></span>
                                                         Bid on
                                                         <a href="#"
-                                                            class="second-user-link">{{ $item->request->requestname }}</a>
-                                                        Request
+                                                            class="second-user-link">{{ $item->proposal->proposalname }}</a>
+                                                        Proposal
                                                         <p class="activity-noti-time">
                                                             <span>{{ $item->created_at->diffForHumans() }}</span>
                                                         </p>
@@ -211,7 +213,7 @@
                                 </div>
                             @endforeach
 
-                            @foreach ($reqsol as $item)
+                            @foreach ($propsol as $item)
                                 <div class="full-width mb-30">
                                     <div class="recent-items">
                                         <div class="activities-noti-acts">
@@ -226,8 +228,8 @@
                                                                 href="#">{{ $item->user->username }}</a></span>
                                                         Gave solution on
                                                         <a href="#"
-                                                            class="second-user-link">{{ $item->request->requestname }}</a>
-                                                        Request
+                                                            class="second-user-link">{{ $item->proposal->proposalname }}</a>
+                                                        Proposal
                                                         <p class="activity-noti-time">
                                                             <span>{{ $item->created_at->diffForHumans() }}</span>
                                                         </p>
@@ -238,6 +240,62 @@
                                     </div>
                                 </div>
                             @endforeach
+
+                            @foreach ($reqbid as $item)
+                            <div class="full-width mb-30">
+                                <div class="recent-items">
+                                    <div class="activities-noti-acts">
+                                        <div class="activities-noti-list">
+                                            <div class="comet-avatar pull-left">
+                                                <a href="#"><img src="/storage/{{ $item->user->image }}"
+                                                        alt=""></a>
+                                            </div>
+                                            <div class="activities-noti_text-sidebar">
+                                                <div>
+                                                    <span class="user-popover"><a
+                                                            href="#">{{ $item->user->username }}</a></span>
+                                                    Bid on
+                                                    <a href="#"
+                                                        class="second-user-link">{{ $item->request->requestname }}</a>
+                                                    Request
+                                                    <p class="activity-noti-time">
+                                                        <span>{{ $item->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
+                        @foreach ($reqsol as $item)
+                            <div class="full-width mb-30">
+                                <div class="recent-items">
+                                    <div class="activities-noti-acts">
+                                        <div class="activities-noti-list">
+                                            <div class="comet-avatar pull-left">
+                                                <a href="#"><img src="/storage/{{ $item->user->image }}"
+                                                        alt=""></a>
+                                            </div>
+                                            <div class="activities-noti_text-sidebar">
+                                                <div>
+                                                    <span class="user-popover"><a
+                                                            href="#">{{ $item->user->username }}</a></span>
+                                                    Gave solution on
+                                                    <a href="#"
+                                                        class="second-user-link">{{ $item->request->requestname }}</a>
+                                                    Request
+                                                    <p class="activity-noti-time">
+                                                        <span>{{ $item->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
 
                         </div>
                     </div>

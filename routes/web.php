@@ -31,16 +31,24 @@ use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
+<<<<<<< HEAD
 use App\Http\Controllers\BkashController;
+=======
+use App\Http\Controllers\BookreviewController;
+use App\Http\Controllers\CoursereviewController;
+>>>>>>> 26-main
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductreviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropsolutionController;
 use App\Http\Controllers\ReqSolutionController;
 use App\Http\Controllers\ResourcebidController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TutorialreviewController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
 
@@ -117,6 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/request_bid', [ReqbidController::class, 'store'])->name('reqbid.store');
     Route::post('/request_sol', [ReqSolutionController::class, 'store'])->name('reqsol.store');
     Route::post('/request_comment', [ReqcommentController::class, 'store'])->name('reqcomment.store');
+    Route::post('/request_review', [ReviewController::class, 'store'])->name('reqreview.store');
     Route::get('/latestreq', [RequestController::class, 'latest'])->name('request.latest');
     Route::get('/week', [RequestController::class, 'weekly'])->name('req.weekly');
     Route::delete('/delete/{id}', [RequestController::class, 'destroy'])->name('req.destroy');
@@ -131,16 +140,19 @@ Route::middleware('auth')->group(function () {
     //book routes
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books_single/{id}', [BookController::class, 'showbook'])->name('books.showbook');
+    Route::post('/books_single', [BookreviewController::class, 'store'])->name('books.storereview');
     Route::get('/books_latest', [BookController::class, 'latest'])->name('book.latest');
     Route::get('/books_weekly', [BookController::class, 'week'])->name('book.week');
     //course routes
     Route::post('/course', [CourseController::class, 'get'])->name('course.get');
     Route::get('/course_single/{id}', [CourseController::class, 'showcourse'])->name('course.showcourse');
+    Route::post('/course_single', [CoursereviewController::class, 'store'])->name('course.storereview');
     Route::get('/course_latest', [CourseController::class, 'latest'])->name('course.latest');
     Route::get('/course_weekly', [CourseController::class, 'week'])->name('course.week');
     //tutorial routes
     Route::post('/tutorial', [TutorialController::class, 'get'])->name('tutorial.get');
     Route::get('/tutorial_sin/{id}', [TutorialController::class, 'showsinglevideos'])->name('tutorial.sin');
+    Route::post('/tutorial_sin', [TutorialreviewController::class, 'store'])->name('playlist.storereview');
     Route::get('/tutlatest', [TutorialController::class, 'latest'])->name('tutorial.latest');
     Route::get('/tutorial_weekly', [TutorialController::class, 'week'])->name('tutorial.week');
     //Resource
@@ -168,6 +180,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/product', [ProductController::class, ('store')])->name('product.store');
     Route::patch('/product', [ProductController::class, ('search')])->name('product.search');
     Route::get('/product_single/{id}', [ProductController::class, ('showproduct')])->name('product.showproduct');
+    Route::post('/product_single', [ProductreviewController::class, 'store'])->name('products.storereview');
     Route::get('/product_latest', [ProductController::class, 'latest'])->name('prod.latest');
     Route::get('/product_weekly', [ProductController::class, 'week'])->name('prod.week');
 

@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Feedback;
 use App\Models\Product;
+use App\Models\Proposalbid;
+use App\Models\Propsolution;
 use App\Models\Reqbid;
 use App\Models\Reqcomment;
 use App\Models\ReqSolution;
 use App\Models\Request as ModelsRequest;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
@@ -28,8 +31,8 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'username' => ['required', 'string', 'max:255'],
-            'email' => 'unique:users,email,' . $id,
+            'username'  => ['required', 'string', 'max:255'],
+            'email'     => 'unique:users,email,' . $id,
             'mobile_no' => ['required', 'max:11'],
             'uni_id'    => ['required', 'string'],
             'uni_name'  => ['required', 'string'],
@@ -45,12 +48,12 @@ class ProfileController extends Controller
             $users->update(['image' => $imgPath]);
         }
         $users->update([
-            'username' => $request->username,
-            'email' => $request->email,
+            'username'  => $request->username,
+            'email'     => $request->email,
             'mobile_no' => $request->mobile_no,
-            'uni_id' => $request->uni_id,
-            'uni_name' => $request->uni_name,
-            'gender'   => $request->gender,
+            'uni_id'    => $request->uni_id,
+            'uni_name'  => $request->uni_name,
+            'gender'    => $request->gender,
         ]);
         return back()->with('message', 'Profile Updated Susseffully:)');
     }
@@ -74,28 +77,33 @@ class ProfileController extends Controller
 
     public function show($id)
     {
-        $user = User::where('id', $id)->first();
-        $review = Feedback::where('user_id', $id)->inRandomOrder()->limit(4)->get();
+        $user       = User::where('id', $id)->first();
+        $review     = Review::where('t_user_id', $id)->inRandomOrder()->limit(4)->get();
         $reqcomment = Reqcomment::where('user_id', $id)->inRandomOrder()->limit(4)->get();
-        $reqbid  = Reqbid::where('user_id', $id)->inRandomOrder()->limit(4)->get();
-        $reqsol  = ReqSolution::where('user_id', $id)->inRandomOrder()->limit(4)->get();
-        return view('profile_dashboard', compact('user', 'review', 'reqcomment', 'reqbid', 'reqsol'));
+        $reqbid     = Reqbid::where('user_id', $id)->inRandomOrder()->limit(4)->get();
+        $reqsol     = ReqSolution::where('user_id', $id)->inRandomOrder()->limit(4)->get();
+        $propbid    = Proposalbid::where('user_id', $id)->inRandomOrder()->limit(4)->get();
+        $propsol    = Propsolution::where('user_id', $id)->inRandomOrder()->limit(4)->get();
+        return view('profile_dashboard', compact('user', 'review', 'reqcomment', 'reqbid', 'reqsol', 'propbid', 'propsol'));
     }
-
 
     public function showreview($id)
     {
-        $review = Feedback::where('user_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(6);
+        $review = Review::where('t_user_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(6);
+
         $user = User::where('id', $id)->first();
         return view('myprofile_reviews', compact('user', 'review'));
     }
     public function showactivity($id)
     {
         $reqcomment = Reqcomment::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
-        $reqbid  = Reqbid::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
-        $reqsol  = ReqSolution::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
-        $user = User::where('id', $id)->first();
-        return view('myprofile_activity', compact('user', 'reqcomment', 'reqbid', 'reqsol'));
+        $reqbid     = Reqbid::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
+        $reqsol     = ReqSolution::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
+        $propbid    = Proposalbid::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
+        $propsol    = Propsolution::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
+        $user       = User::where('id', $id)->first();
+        $propsol    = Propsolution::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
+        return view('myprofile_activity', compact('user', 'reqcomment', 'reqbid', 'reqsol', 'propbid', 'propsol'));
     }
     public function showearning($id)
     {

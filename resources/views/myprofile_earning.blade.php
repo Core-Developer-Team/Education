@@ -58,11 +58,13 @@
                                                         class="badge-alert">{{ $user->book()->count() }}</span></a>
                                             </div>
                                         </div>
+                                        @if (request()->route('id') == Auth()->id())
                                         <ul class="user-meta-btns">
                                             <li><a href="{{ route('profile.index') }}"
                                                     class="profile-edit-btn btn-hover"><i
                                                         class="feather-edit me-2"></i>Edit</a></li>
                                         </ul>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
