@@ -17,12 +17,13 @@ class Proposal extends Model
         'filename',
     ];
 
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function proposalbid(){
+    public function proposalbid()
+    {
         return $this->hasMany(Proposalbid::class);
     }
     public function propsolution()

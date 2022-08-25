@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class playlists extends Model
+class Playlist extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -20,5 +20,9 @@ class playlists extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function tutorialreview()
+    {
+        return $this->hasMany(Tutorialreview::class);
     }
 }

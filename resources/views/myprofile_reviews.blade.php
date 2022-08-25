@@ -57,11 +57,13 @@
                                                         class="badge-alert">{{ $user->book()->count() }}</span></a>
                                             </div>
                                         </div>
-                                        <ul class="user-meta-btns">
-                                            <li><a href="{{ route('profile.index') }}"
-                                                    class="profile-edit-btn btn-hover"><i
-                                                        class="feather-edit me-2"></i>Edit</a></li>
-                                        </ul>
+                                        @if (request()->route('id') == Auth()->id())
+                                            <ul class="user-meta-btns">
+                                                <li><a href="{{ route('profile.index') }}"
+                                                        class="profile-edit-btn btn-hover"><i
+                                                            class="feather-edit me-2"></i>Edit</a></li>
+                                            </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -253,9 +255,9 @@
                                                 <div class="ttlcnt15 invtbyuser">
                                                     <div class="invited_avtar_ee">
                                                         <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
-                                                            src="/storage/{{ $item->user->image }}" alt="">
+                                                            src="/storage/{{ $item->f_user->image }}" alt="">
                                                     </div>
-                                                    <span class="evntcunt">{{ $item->user->username }}</span>
+                                                    <span class="evntcunt">{{ $item->f_user->username }}</span>
                                                 </div>
                                             </a>
                                         </div>

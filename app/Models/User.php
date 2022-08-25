@@ -90,4 +90,28 @@ class User extends Authenticatable
     {
         return $this->hasMany(Propsolution::class);
     }
+    public function f_user(){
+        return $this->hasMany(Review::class);
+    }
+    public function t_user(){
+        return $this->hasMany(Review::class);
+    }
+    public function bookreview()
+    {
+        return $this->hasMany(Bookreview::class);
+    }
+    public function productreview()
+    {
+        return $this->hasMany(Productreview::class);
+    }
+    public function tutorialreview()
+    {
+        return $this->hasMany(Tutorialreview::class);
+    }
+
+    public function coursereview()
+    {
+        return $this->hasMany(Coursereview::class);
+    }
+
 }

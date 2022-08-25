@@ -14,14 +14,12 @@ class Propsolution extends Model
         'description',
         'file',
     ];
-
-    
     public function user()
     {
         return $this->belongsTo(User::class);
     }
     public function proposal()
     {
-        return $this->belongsTo(Request::class);
+        return $this->belongsTo(Proposal::class);
     }
 }

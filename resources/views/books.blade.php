@@ -14,14 +14,16 @@
             <div class="col-xl-3 col-lg-4 col-md-12">
                 <div class="full-width">
                     <div class="btn_1589">
-                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" data-bs-target=" @auth
+                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
+                            data-bs-target=" @auth
                         #addbook
 @else
 #loginlink
-                        @endauth ">Add New Book</a>
+                        @endauth ">Add
+                            New Book</a>
                     </div>
                     <div class="posted_1590">
-                        <div class="count-ttl">{{$data->count()}}</div>
+                        <div class="count-ttl">{{ $data->count() }}</div>
                         <div class="cate-post">Added Books</div>
                     </div>
                     <div class="manage-section">
@@ -31,7 +33,7 @@
                         <li>
                             <a href="" class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My books</span>
-                                <span class="all-info__right">{{$data->where('user_id',Auth()->id())->count()}}</span>
+                                <span class="all-info__right">{{ $data->where('user_id', Auth()->id())->count() }}</span>
                             </a>
                         </li>
 
@@ -52,7 +54,7 @@
                                 <span>Learning Plateform</span>
                                 <h4>Keep learning in the moments that matter.</h4>
                                 <button class="main-btn color btn-hover"
-                                    onclick="window.location.href='{{route('course.index')}}'">See Courses</button>
+                                    onclick="window.location.href='{{ route('course.index') }}'">See Courses</button>
                             </div>
                         </div>
                     </div>
@@ -71,7 +73,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
-                                <button class="post-link-btn color btn-hover w-100 rmt-10" type="submit">Search</button>
+                                <button class="post-link-btn color btn-hover w-100 rmt-10"
+                                    type="submit">Search</button>
                             </div>
                         </div>
                     </form>
@@ -81,9 +84,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{route('book.latest')}}" class="fltr-btn fltr-active">Newest</a>
+                                    <a href="{{ route('book.latest') }}" class="fltr-btn fltr-active">Newest</a>
                                     <a href="" class="fltr-btn">Trending</a>
-                                    <a href="{{route('book.week')}}" class="fltr-btn">Weekly</a>
+                                    <a href="{{ route('book.week') }}" class="fltr-btn">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -91,67 +94,67 @@
                     </div>
                 </div>
                 @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
                 @endif
                 <div class="all-items">
                     <div class="product-items-list">
                         <div class="row">
                             @forelse ($data as $item)
-                            <div class="col-xl-4 col-lg-6 col-md-6">
-                                <div class="full-width mt-4">
-                                    <div class="recent-items">
-                                        <div class="posts-list">
-                                            <div class="feed-shared-product-dt">
-                                                <div class="pdct-img">
-                                                    <a href="product_detail_view.html"><img
-                                                            class="ft-plus-square product-bg-w bg-cyan me-0"
-                                                            src="{{ $item->cover_pic }}" alt="">
-                                                        <div class="overlay-item">
-                                                            <div class="badge-timer">
-                                                                {{$item->created_at->diffForHumans()}}
+                                <div class="col-xl-4 col-lg-6 col-md-6">
+                                    <div class="full-width mt-4">
+                                        <div class="recent-items">
+                                            <div class="posts-list">
+                                                <div class="feed-shared-product-dt">
+                                                    <div class="pdct-img">
+                                                        <a href="product_detail_view.html"><img
+                                                                class="ft-plus-square product-bg-w bg-cyan me-0"
+                                                                src="{{ $item->cover_pic }}" alt="">
+                                                            <div class="overlay-item">
+                                                                <div class="badge-timer">
+                                                                    {{ $item->created_at->diffForHumans() }}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="author-dts pp-20">
-                                                    <a href="product_detail_view.html" class="job-heading pp-title">{{
-                                                        $item->book_name }}</a>
+                                                        </a>
+                                                    </div>
+                                                    <div class="author-dts pp-20">
+                                                        <a href="product_detail_view.html"
+                                                            class="job-heading pp-title">{{ $item->book_name }}</a>
 
-                                                    <div class="ppdt-price-sales">
-                                                        <div class="ppdt-price">
-                                                            $ {{$item->price}}
-                                                        </div>
-                                                        <div class="ppdt-sales">
-                                                            314 Sales
+                                                        <div class="ppdt-price-sales">
+                                                            <div class="ppdt-price">
+                                                                $ {{ $item->price }}
+                                                            </div>
+                                                            <div class="ppdt-sales">
+                                                                314 Sales
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="post-meta">
-                                            <div class="job-actions">
-                                                <div class="aplcnts_15">
-                                                    <a href="{{ route('books.showbook', ['id' => $item->id]) }}"
-                                                        class="view-btn btn-hover">Detail
-                                                        View</a>
-                                                </div>
-                                                <div class="action-btns-job">
-                                                    <a href="#" class="crt-btn crt-btn-hover me-2"><i
-                                                            class="feather-shopping-cart"></i></a>
-                                                    <a href="#" class="bm-btn bm-btn-hover active"><i
-                                                            class="feather-bookmark"></i></a>
+                                            <div class="post-meta">
+                                                <div class="job-actions">
+                                                    <div class="aplcnts_15">
+                                                        <a href="{{ route('books.showbook', ['id' => $item->id]) }}"
+                                                            class="view-btn btn-hover">Detail
+                                                            View</a>
+                                                    </div>
+                                                    <div class="action-btns-job">
+                                                        <a href="#" class="crt-btn crt-btn-hover me-2"><i
+                                                                class="feather-shopping-cart"></i></a>
+                                                        <a href="#" class="bm-btn bm-btn-hover active"><i
+                                                                class="feather-bookmark"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             @empty
-                            <div class="alert alert-success">
-                                <strong>Sorry! No Data Found</strong>
-                            </div>
+                                <div class="alert alert-success">
+                                    <strong>Sorry! No Data Found</strong>
+                                </div>
                             @endforelse
                             <div class="mt-3">
                                 {{ $data->links() }}
@@ -163,7 +166,6 @@
         </div>
     </div>
 </div>
-
 
 <!--Add Book Model-->
 <div class="modal fade" id="addbook" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -187,19 +189,19 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="cover-pic">Book_Cover_Image</label>
-                            <input type="file" id="cover-pic" class="form-control"  accept="image/*" name="cover_pic"
-                                value="{{ old('cover-pic') }}">
+                            <input type="file" id="cover-pic" class="form-control" accept="image/*"
+                                name="cover_pic" value="{{ old('cover-pic') }}">
                             <div class="text-danger mt-2 text-sm cover_picError"></div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="book">Upload_Book</label>
-                            <input type="file" id="book" class="form-control" name="book"  accept="image/*,.doc,.docx,.pdf,.pptx" value="{{ old('book') }}">
+                            <input type="file" id="book" class="form-control" name="book"
+                                accept="image/*,.doc,.docx,.pdf,.pptx" value="{{ old('book') }}">
                             <div class="text-danger mt-2 text-sm bookError"></div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="desc">Description</label>
-                            <textarea id="desc" class="form-control" name="description"
-                                rows="3">{{ old('description') }}</textarea>
+                            <textarea id="desc" class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
                         <hr>
