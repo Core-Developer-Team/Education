@@ -312,6 +312,54 @@
                                         </div>
                                     </div>
                                 @endforeach
+
+                                @foreach ($propbid as $item)
+                                    <div class="activities-noti-acts">
+                                        <div class="activities-noti-list">
+                                            <div class="comet-avatar pull-left">
+                                                <a href="#"><img src="/storage/{{ $item->user->image }}"
+                                                        alt=""></a>
+                                            </div>
+                                            <div class="activities-noti_text-sidebar">
+                                                <div>
+                                                    <span class="user-popover"><a
+                                                            href="#">{{ $item->user->username }}</a></span>
+                                                    Bid on
+                                                    <a href="#"
+                                                        class="second-user-link">{{ $item->proposal->proposalname }}</a>
+                                                    Proposal
+                                                    <p class="activity-noti-time">
+                                                        <span>{{ $item->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                @foreach ($propsol as $item)
+                                    <div class="activities-noti-acts">
+                                        <div class="activities-noti-list">
+                                            <div class="comet-avatar pull-left">
+                                                <a href="#"><img src="/storage/{{ $item->user->image }}"
+                                                        alt=""></a>
+                                            </div>
+                                            <div class="activities-noti_text-sidebar">
+                                                <div>
+                                                    <span class="user-popover"><a
+                                                            href="#">{{ $item->user->username }}</a></span>
+                                                    Gave solution on
+                                                    <a href="#"
+                                                        class="second-user-link">{{ $item->proposal->proposalname }}</a>
+                                                    Proposal
+                                                    <p class="activity-noti-time">
+                                                        <span>{{ $item->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -378,10 +426,10 @@
                                                     <div class="ttlcnt15 invtbyuser">
                                                         <div class="invited_avtar_ee">
                                                             <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
-                                                                src="/storage/{{ $item->user->image }}"
+                                                                src="/storage/{{ $item->f_user->image }}"
                                                                 alt="">
                                                         </div>
-                                                        <span class="evntcunt">{{ $item->user->username }}</span>
+                                                        <span class="evntcunt">{{ $item->f_user->username }}</span>
                                                     </div>
                                                 </a>
                                             </div>

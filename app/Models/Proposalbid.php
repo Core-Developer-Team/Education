@@ -19,8 +19,8 @@ class Proposalbid extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function propasal()
+    public function proposal()
     {
-        return $this->belongsTo(Propasal::class);
+        return $this->belongsTo(Proposal::class);
     }
 }

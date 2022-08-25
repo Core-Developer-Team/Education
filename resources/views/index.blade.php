@@ -12,114 +12,18 @@
     <div class="container">
         <div class="row">
             <div class="owl-carousel evtcate_slider">
+                @foreach ($categ as $cat)
                 <div class="item text-center">
-                    <a href="#" class="event-cate-links">
+                    <a href=""  class="event-cate-links">
                         <div class="event-full-width">
                             <div class="event-cate-items">
-                                <h6>Data Structure 188</h6>
+                                <h6>{{$cat->coursename}}</h6>
                             </div>
                         </div>
                     </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Artificial Intelligence</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Web Programming</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Architecture</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 2</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Software Engineering</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Discrete Mathematics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Green Computing</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Networks</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electrical Circuits</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Theory of Computation</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electronics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                </div> 
+                @endforeach
+    
             </div>
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
