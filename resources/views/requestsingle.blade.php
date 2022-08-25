@@ -69,9 +69,16 @@
                                             </p>
                                             <div class="jbopdt142">
                                                 <div class="jbbdges10">
-                                                    <span class="btn btn-success" id="bKash_button" onclick="BkashPayment()">
-                                                        Pay with bKash
+                                                    @if($data->user_id == auth()->id() && $data->payment_status == false)
+                                                    <span class="job-badge bg-success payNow" >
+                                                        Pay Now
                                                     </span>
+                                                    @endif
+                                                    @if($data->payment_status == true)
+                                                    <span class="job-badge bg-success" id="">
+                                                        Paid
+                                                    </span>
+                                                    @endif
                                                     <span class="job-badge ffcolor">@if ($data->tag == 1)
                                                         Offline
                                                         @else
@@ -352,6 +359,32 @@
         </div>
     </div>
 </div>
+<input type="hidden" class="amount" value="{{$data->price}}">
+<input type="hidden" class="reqId" value="{{$data->id}}">
+
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header paymentModalHead">
+          <h5 class="modal-title" id="exampleModalLongTitle">Make Your Payment </h5>
+        </div>
+        <div class="modal-body pt-3">
+            <div class="d-flex justify-content-center">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="javascript:void(0)" id="bKash_button">
+                            <img class="img-container img-fluied bkashImg" src="{{asset('images/bkash.png')}}" alt="Pay with bKash">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger dangerButton" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!--Bid Model-->
 <div class="modal fade" id="addbid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -451,6 +484,26 @@
 @include('layouts.footer')
 <!---/footer-->
 <!--req Bid model script-->
+
+
+<style>
+    .swal2-container, .swal2-center, .swal2-backdrop-show{
+        z-index: 100000;
+    }
+    .bkashImg{
+        border: 3px solid green;
+    }
+    .paymentModalHead{
+        display: flex;
+        justify-content: center;
+        background: #d7d7d7;
+    }
+    .dangerButton{
+        background: #900 !important;
+        color: white !important;
+    }
+</style>
+
 <script>
     const reqbidform = $('form#reqbid');
     reqbidform.on('submit', (e) => {
@@ -517,4 +570,128 @@
         });
     });
 
+</script>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+{{-- <script src="https://code.jquery.com/jquery-1.8.3.min.js" integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script> --}}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if(env("BKASH_STATUS") == "sandbox")
+    <script id="myScript" src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script>
+@else
+    <script id="myScript" src="https://scripts.pay.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout.js"></script>
+@endif
+
+<script>
+    var accessToken = '';
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).on("click",".payNow",function(){
+            $("#paymentModal").modal("show");
+        });
+
+        $(document).on("click",".dangerButton",function(){
+            $("#paymentModal").modal("hide");
+        })
+
+        $.ajax({
+            url:"{{route('ser.rid',$data->id)}}",
+            type:"GET",
+            success:function(res){
+                console.log(res)
+            }
+        });
+
+
+        $.ajax({
+            url: "{!! route('token') !!}",
+            type: 'POST',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log('got data from token  ..');
+                console.log(JSON.stringify(data));
+                accessToken = JSON.stringify(data);
+            },
+            error: function () {
+                console.log('error');
+            }
+        });
+        var paymentConfig = {
+            createCheckoutURL: "{!! route('createpayment') !!}",
+            executeCheckoutURL: "{!! route('executepayment') !!}"
+        };
+        var paymentRequest;
+        paymentRequest = {amount: $('.amount').val(), intent: 'request', invoice: $('.invoice').text() ,rid:$('.reqId').val()};
+        console.log(JSON.stringify(paymentRequest));
+        bKash.init({
+            paymentMode: 'checkout',
+            paymentRequest: paymentRequest,
+            createRequest: function (request) {
+                console.log('=> createRequest (request) :: ');
+                console.log(request);
+                $.ajax({
+                    url: paymentConfig.createCheckoutURL + "?amount=" + paymentRequest.amount + "&invoice=" + paymentRequest.invoice + "?rqid=" + paymentRequest.rid,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        console.log('got data from create  ..');
+                        console.log('data ::=>');
+                        console.log(JSON.stringify(data));
+                        var obj = JSON.parse(data);
+                        if (data && obj.paymentID != null) {
+                            paymentID = obj.paymentID;
+                            bKash.create().onSuccess(obj);
+                        }
+                        else {
+                            console.log('error');
+                            bKash.create().onError();
+                        }
+                    },
+                    error: function () {
+                        console.log('error');
+                        bKash.create().onError();
+                    }
+                });
+            },
+            executeRequestOnAuthorization: function () {
+                console.log('=> executeRequestOnAuthorization');
+                $.ajax({
+                    url: paymentConfig.executeCheckoutURL + "?paymentID=" + paymentID,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        if (data && data.paymentID != null) {
+                            Swal.fire(
+                                'Success!',
+                                '!! Payment Success !!',
+                                'success'
+                            ).then((result) => {
+                                window.location.href = location.reload();
+                            })
+                            // alert('[SUCCESS] data : ' + JSON.stringify(data));
+
+                        }
+                        else {
+                            bKash.execute().onError();
+                        }
+                    },
+                    error: function () {
+                        bKash.execute().onError();
+                    }
+                });
+            }
+        });
+        console.log("Right after init ");
+    });
+    function callReconfigure(val) {
+        bKash.reconfigure(val);
+    }
+    function clickPayButton() {
+        $("#bKash_button").trigger('click');
+    }
 </script>

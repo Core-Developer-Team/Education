@@ -2,112 +2,118 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\CustomerPackage;
-use App\Models\SellerPackage;
-use App\Models\CombinedOrder;
-use App\Models\BusinessSetting;
-use App\Models\Seller;
-use Session;
 
 class BkashController extends Controller
 {
     private $base_url;
+    private $app_key;
+    private $app_secret;
+    private $username;
+    private $password;
+
     public function __construct()
     {
-        if (get_setting('bkash_sandbox', 1)) {
-            $this->base_url = "https://checkout.sandbox.bka.sh/v1.2.0-beta/";
-        } else {
-            $this->base_url = "https://checkout.pay.bka.sh/v1.2.0-beta/";
-        }
+        // bKash Merchant API Information
+
+        // You can import it from your Database
+        $bkash_app_key = env("BKASH_APP_KEY"); // bKash Merchant API APP KEY
+        $bkash_app_secret = env("BKASH_APP_SECRET"); // bKash Merchant API APP SECRET
+        $bkash_username = env("BKASH_USER_NAME"); // bKash Merchant API USERNAME
+        $bkash_password = env("BKASH_PASSWORD"); // bKash Merchant API PASSWORD
+        $bkash_base_url = env("BKASH_PAYMENT_URL"); // For Live Production URL: https://checkout.pay.bka.sh/v1.2.0-beta
+
+        $this->app_key = $bkash_app_key;
+        $this->app_secret = $bkash_app_secret;
+        $this->username = $bkash_username;
+        $this->password = $bkash_password;
+        $this->base_url = $bkash_base_url;
     }
 
-    public function pay()
+    public function getToken($amount)
     {
-        $amount = 0;
-        if (Session::has('payment_type')) {
-            if (Session::get('payment_type') == 'cart_payment') {
-                $combined_order = CombinedOrder::findOrFail(Session::get('combined_order_id'));
-                $amount = round($combined_order->grand_total);
-            } elseif (Session::get('payment_type') == 'wallet_payment') {
-                $amount = round(Session::get('payment_data')['amount']);
-            } elseif (Session::get('payment_type') == 'customer_package_payment') {
-                $customer_package = CustomerPackage::findOrFail(Session::get('payment_data')['customer_package_id']);
-                $amount = round($customer_package->amount);
-            } elseif (Session::get('payment_type') == 'seller_package_payment') {
-                $seller_package = SellerPackage::findOrFail(Session::get('payment_data')['seller_package_id']);
-                $amount = round($seller_package->amount);
-            }
-        }
+        session()->forget('bkash_token');
 
-        $request_data = array('app_key' => env('BKASH_CHECKOUT_APP_KEY'), 'app_secret' => env('BKASH_CHECKOUT_APP_SECRET'));
+        $post_token = array(
+            'app_key' => $this->app_key,
+            'app_secret' => $this->app_secret
+        );
 
-        $url = curl_init($this->base_url . 'checkout/token/grant');
-        $request_data_json = json_encode($request_data);
-
+        $url = curl_init("$this->base_url/checkout/token/grant");
+        $post_token = json_encode($post_token);
         $header = array(
             'Content-Type:application/json',
-            'username:' . env('BKASH_CHECKOUT_USER_NAME'),
-            'password:' . env('BKASH_CHECKOUT_PASSWORD')
+            "password:$this->password",
+            "username:$this->username"
         );
+
+        curl_setopt($url, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($url, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($url, CURLOPT_POSTFIELDS, $post_token);
+        curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
+        $resultdata = curl_exec($url);
+        curl_close($url);
+
+        $response = json_decode($resultdata, true);
+
+        if (array_key_exists('msg', $response)) {
+            return $response;
+        }
+
+        session()->put('bkash_token', $response['id_token']);
+        session()->put('bkamount', $amount);
+
+        return response()->json(['success', true]);
+    }
+
+    public function createPayment(Request $request)
+    {
+        if (((string) $request->amount != (string) session()->get('bkamount'))) {
+            return response()->json([
+                'errorMessage' => 'Amount Mismatch',
+                'errorCode' => 2006
+            ], 422);
+        }
+
+        $token = session()->get('bkash_token');
+
+        $request['intent'] = 'sale';
+        $request['currency'] = 'BDT';
+        $request['merchantInvoiceNumber'] = rand();
+
+        $url = curl_init("https://www.emartwayskincare.com.bd/checkout/payment/create");
+        // dd($url);
+        $request_data_json = json_encode($request->all());
+        $header = array(
+            'Content-Type:application/json',
+            "authorization: $token",
+            "x-app-key: $this->app_key"
+        );
+
         curl_setopt($url, CURLOPT_HTTPHEADER, $header);
         curl_setopt($url, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($url, CURLOPT_POSTFIELDS, $request_data_json);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-
         $resultdata = curl_exec($url);
         curl_close($url);
-
-        $token = json_decode($resultdata)->id_token;
-
-        Session::put('bkash_token', $token);
-        Session::put('payment_amount', $amount);
-
-        return view('frontend.bkash.index');
+        return json_decode($resultdata, true);
     }
 
-    public function checkout(Request $request)
+    public function executePayment(Request $request)
     {
-        $auth = Session::get('bkash_token');
+        $token = session()->get('bkash_token');
 
-        $requestbody = array(
-            'amount' => Session::get('payment_amount'),
-            'currency' => 'BDT',
-            'intent' => 'sale'
-        );
-        $url = curl_init($this->base_url . 'checkout/payment/create');
-        $requestbodyJson = json_encode($requestbody);
-
-        $header = array(
-            'Content-Type:application/json',
-            'Authorization:' . $auth,
-            'X-APP-Key:' . env('BKASH_CHECKOUT_APP_KEY')
-        );
-
-        curl_setopt($url, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($url, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($url, CURLOPT_POSTFIELDS, $requestbodyJson);
-        curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        $resultdata = curl_exec($url);
-        curl_close($url);
-
-        return $resultdata;
-    }
-
-    public function excecute(Request $request)
-    {
         $paymentID = $request->paymentID;
-        $auth = Session::get('bkash_token');
-
-        $url = curl_init($this->base_url . 'checkout/payment/execute/' . $paymentID);
+        $url = curl_init("$this->base_url/checkout/payment/execute/" . $paymentID);
         $header = array(
             'Content-Type:application/json',
-            'Authorization:' . $auth,
-            'X-APP-Key:' . env('BKASH_CHECKOUT_APP_KEY')
+            "authorization:$token",
+            "x-app-key:$this->app_key"
         );
 
         curl_setopt($url, CURLOPT_HTTPHEADER, $header);
@@ -116,31 +122,44 @@ class BkashController extends Controller
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
         $resultdata = curl_exec($url);
         curl_close($url);
-
-        return $resultdata;
+        return json_decode($resultdata, true);
     }
 
-    public function success(Request $request)
+    public function queryPayment(Request $request)
     {
-        $payment_type = Session::get('payment_type');
+        $token = session()->get('bkash_token');
+        $paymentID = $request->payment_info['payment_id'];
 
-        if ($payment_type == 'cart_payment') {
-            $checkoutController = new CheckoutController;
-            return $checkoutController->checkout_done(Session::get('combined_order_id'), $request->payment_details);
+        $url = curl_init("$this->base_url/checkout/payment/query/" . $paymentID);
+        $header = array(
+            'Content-Type:application/json',
+            "authorization:$token",
+            "x-app-key:$this->app_key"
+        );
+
+        curl_setopt($url, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($url, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
+        $resultdata = curl_exec($url);
+        curl_close($url);
+        return json_decode($resultdata, true);
+    }
+
+    public function bkashSuccess(Request $request)
+    {
+        // IF PAYMENT SUCCESS THEN YOU CAN APPLY YOUR CONDITION HERE
+        if ('Noman' == 'success') {
+
+            // THEN YOU CAN REDIRECT TO YOUR ROUTE
+
+            Session::flash('successMsg', 'Payment has been Completed Successfully');
+
+            return response()->json(['status' => true]);
         }
 
-        if ($payment_type == 'wallet_payment') {
-            $walletController = new WalletController;
-            return $walletController->wallet_payment_done(Session::get('payment_data'), $request->payment_details);
-        }
+        Session::flash('error', ' Error Message');
 
-        if ($payment_type == 'customer_package_payment') {
-            $customer_package_controller = new CustomerPackageController;
-            return $customer_package_controller->purchase_payment_done(Session::get('payment_data'), $request->payment_details);
-        }
-        if ($payment_type == 'seller_package_payment') {
-            $seller_package_controller = new SellerPackageController;
-            return $seller_package_controller->purchase_payment_done(Session::get('payment_data'), $request->payment_details);
-        }
+        return response()->json(['status' => false]);
     }
 }
