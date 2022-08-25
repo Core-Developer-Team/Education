@@ -31,12 +31,9 @@ use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
-<<<<<<< HEAD
 use App\Http\Controllers\BkashController;
-=======
 use App\Http\Controllers\BookreviewController;
 use App\Http\Controllers\CoursereviewController;
->>>>>>> 26-main
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\MessageController;
