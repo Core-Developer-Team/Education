@@ -24,7 +24,8 @@ class RequestController extends Controller
        // All requests page
        public function index()
        {
-           $datas =ModelsRequest::orderBy('created_at','DESC')->cursorPaginate(6);
+           $datas = ModelsRequest::orderBy('created_at','DESC')->cursorPaginate(6);
+           $categ = ModelsRequest::orderBy('created_at','DESC')->inRandomOrder()->limit(15)->get();
            $bid = Reqbid::all();
            $req_count = ModelsRequest::count();
            $feed_count = Feedback::count();
@@ -35,12 +36,13 @@ class RequestController extends Controller
            $offline = Offlinetopic::count();
            $product = Product::count();
            $prop   = Proposal::count();
-           return view('index',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+           return view('index',compact('datas','categ','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
        }
          // All requests page
          public function previousyearQuestion()
          {
              $datas =ModelsRequest::whereYear('created_at',date('Y',strtotime('-1 year')))->cursorPaginate(6);
+             $categ = ModelsRequest::orderBy('created_at','DESC')->inRandomOrder()->limit(15)->get();
              $bid = Reqbid::all();
              $req_count = ModelsRequest::count();
              $feed_count = Feedback::count();
@@ -51,12 +53,13 @@ class RequestController extends Controller
              $offline = Offlinetopic::count();
              $product = Product::count();
              $prop   = Proposal::count();
-             return view('previousyearrequests',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+             return view('previousyearrequests',compact('datas','categ','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
          }
         //get latest request
         public function latest(){
           $datas=ModelsRequest::whereDate('created_at', Carbon::today())->orderBy('updated_at','DESC')->cursorPaginate(6);
           $bid = Reqbid::all();
+          $categ = ModelsRequest::orderBy('created_at','DESC')->inRandomOrder()->limit(15)->get();
             $req_count = ModelsRequest::count();
             $feed_count = Feedback::count();
             $mysol = ReqSolution::where('user_id',Auth()->id())->count();
@@ -66,13 +69,14 @@ class RequestController extends Controller
             $offline = Offlinetopic::count();
             $product = Product::count();
             $prop   = Proposal::count();
-            return view('index',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+            return view('index',compact('datas','categ','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
         }
    
            //get week request
        public function weekly(){
         $datas=ModelsRequest::whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->orderBy('updated_at','DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
+        $categ = ModelsRequest::orderBy('created_at','DESC')->inRandomOrder()->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id',Auth()->id())->count();
@@ -82,7 +86,7 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('index',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+        return view('index',compact('datas','categ','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
       }
    
        //store requests
@@ -126,6 +130,7 @@ class RequestController extends Controller
        {
            
             $datas = ModelsRequest::where('user_id', Auth()->id())->orderBy('updated_at','DESC')->cursorPaginate(6);
+            
             $req_count = ModelsRequest::count();
             $feed_count = Feedback::count();
             $mysol = ReqSolution::where('user_id',Auth()->id())->count();
@@ -149,6 +154,7 @@ class RequestController extends Controller
         ->orWhere('coursename', 'LIKE', "%{$search}%")
         ->cursorPaginate(6);
         $bid = Reqbid::all();
+        $categ = ModelsRequest::orderBy('created_at','DESC')->inRandomOrder()->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id',Auth()->id())->count();
@@ -158,7 +164,7 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('index',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+        return view('index',compact('datas','categ','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
      }
      //show edit page
      public function show($id)

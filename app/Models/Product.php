@@ -20,4 +20,8 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function productreview()
+    {
+        return $this->hasMany(Productreview::class);
+    }
 }
