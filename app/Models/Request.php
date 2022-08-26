@@ -18,20 +18,24 @@ class Request extends Model
         'coursename',
         'file',
         'tag',
+        'payment_status',
     ];
 
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function reqcomment(){
+    public function reqcomment()
+    {
         return $this->hasMany(Reqcomment::class);
     }
-    public function reqbid(){
+    public function reqbid()
+    {
         return $this->hasMany(Reqbid::class);
     }
-    public function reqoreder(){
+    public function reqoreder()
+    {
         return $this->hasMany(Reqoreder::class);
     }
     public function reqsolution()
