@@ -272,7 +272,7 @@
                         <div class="form-group">
                             <label for="price">Enter Your Amount</label>
                             <input type="number" class="form-control" name="price" id="price"
-                                placeholder="$" value="{{ old('price') }}">
+                                placeholder="" value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceError"></div>
                         </div>
                         <div class="form-group pt-2 pb-2">
@@ -364,7 +364,9 @@
                     <!--Review Form-->
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
-                        <input type="hidden" name="t_user_id" value="{{ $data->propsolution->user_id }}">
+                        @if ($data->propsolution()->count()>=1)
+                        <input type="hidden" name="t_user_id" value="{{ $data->propsolution->user_id }}">           
+                        @endif
                         <div class="mt-30">
                             <div class="rating-container">
                                 <div class="rating-text">

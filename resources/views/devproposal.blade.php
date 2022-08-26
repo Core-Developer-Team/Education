@@ -327,7 +327,7 @@
                             <div class="form-group">
                                 <label for="proposalname">Project Name</label>
                                 <input type="text" class="form-control" name="proposalname" id="proposalname"
-                                    value="{{ old('proposalname') }}" placeholder="Request Name">
+                                    value="{{ old('proposalname') }}" placeholder="Proposal Name">
                                 <div class="text-danger mt-2 text-sm proposalname"></div>
                             </div>
                             <div class="form-group pt-2">

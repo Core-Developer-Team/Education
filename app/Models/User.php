@@ -59,8 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Course::class);
     }
-    public function playlist()
-    {
+
+    public function playlist(){
+
         return $this->hasMany(Playlist::class);
     }
     public function resource()
@@ -71,7 +72,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Offlinetopic::class);
     }
-    //un
+    
     public function bookorder()
     {
         return $this->hasMany(Bookorder::class);

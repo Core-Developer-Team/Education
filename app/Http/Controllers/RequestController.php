@@ -225,4 +225,5 @@ class RequestController extends Controller
         $data->delete();
         return back()->with('success', 'Request has deleted Successfully');
     }
+
 }

@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Session;
 
 class TutorialController extends Controller
 {
+
+
     //store tutorial data
     public function get(Request $request)
     {

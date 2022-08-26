@@ -31,6 +31,7 @@ use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
+use App\Http\Controllers\BadgesController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
 use App\Http\Controllers\CoursereviewController;
@@ -45,6 +46,7 @@ use App\Http\Controllers\PropsolutionController;
 use App\Http\Controllers\ReqSolutionController;
 use App\Http\Controllers\ResourcebidController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TermsandPrivacyController;
 use App\Http\Controllers\TutorialreviewController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
@@ -63,6 +65,7 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', function () {
     return view('index');
 });
+
 Route::get('/', function () {
     return view('index');
 })->middleware(['auth'])->name('index');
@@ -196,7 +199,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/', [RequestController::class, 'index'])->name('req.index');
 Route::patch('/', [RequestController::class, 'search'])->name('req.search');
-
+Route::get('ch/{name}', [RequestController::class, 'searchcat'])->name('req.searchcat');
 //proposal
 Route::get('/proposals', [ProposalController::class, 'index'])->name('proposal.index');
 Route::patch('/proposals', [ProposalController::class, 'search'])->name('proposal.search');
@@ -240,7 +243,10 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('/admin/event', AdminEventController::class);
 });
 
-
+// terms of use and privacy
+Route::get('/terms', [TermsandPrivacyController::class, 'termshow'])->name('term.show');
+Route::get('/privacy', [TermsandPrivacyController::class, 'privacyshow'])->name('privacy.show');
+Route::get('/badge', [BadgesController::class, 'show'])->name('badge.show');
 //check chat
 Route::get('/chat/{reqid}/{toid}', [MessageController::class, ('index')])->name('chat.index');
 Route::post('/messages', [MessageController::class, ('store')])->name('chat.store');

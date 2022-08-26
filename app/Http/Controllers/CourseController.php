@@ -137,7 +137,7 @@ class CourseController extends Controller
   {
     $request->validate([
       'playlists_id'  => ['required'],
-      'Category'      => ['required', 'max:11'],
+      'Category'      => ['required', 'max:25'],
       'file'          =>  ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx', 'max:30000'],
       'price'         => ['required'],
       'type'          => ['required'],
