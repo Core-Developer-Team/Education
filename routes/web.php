@@ -32,11 +32,13 @@ use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
 use App\Http\Controllers\BadgesController;
+use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
 use App\Http\Controllers\CoursereviewController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductreviewController;
 use App\Http\Controllers\ProfileController;
@@ -248,3 +250,11 @@ Route::get('/badge', [BadgesController::class, 'show'])->name('badge.show');
 //check chat
 Route::get('/chat/{reqid}/{toid}', [MessageController::class, ('index')])->name('chat.index');
 Route::post('/messages', [MessageController::class, ('store')])->name('chat.store');
+
+// Payment Routes for bKash
+
+Route::post('token', [PaymentController::class, 'token'])->name('token');
+Route::get('createpayment', [PaymentController::class, 'createpayment'])->name('createpayment');
+Route::get('executepayment', [PaymentController::class, 'executepayment'])->name('executepayment');
+
+Route::get('req/{id}', [PaymentController::class, 'setRId'])->name('ser.rid');

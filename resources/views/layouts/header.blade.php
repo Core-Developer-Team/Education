@@ -10,7 +10,7 @@
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
     <title>Micko - Jobs</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="icon" type="image/png" href="{{asset('images/fav.png')}}">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;700;800;900&amp;display=swap"
