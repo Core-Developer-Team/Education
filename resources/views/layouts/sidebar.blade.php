@@ -38,6 +38,13 @@
     </li>
 
     <li>
+        <a href="{{route('badge.show')}}" class="all-info__sections">
+            <span class="all-info__left"><i class="feather-award me-2"></i>Badges</span>
+            <span class="all-info__right">{{$event}}</span>
+        </a>
+    </li>
+
+    <li>
         <a href="{{route('req.prevyear')}}" class="all-info__sections">
             <span class="all-info__left"><i class="feather-package me-2"></i>Previous Year Ques
                 Solutions</span>

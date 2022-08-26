@@ -13,15 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('privacies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->integer('price');
-            $table->string('Category');
-            $table->string('file');
-            $table->integer('view_count')->default(0);
-            $table->enum('type', ['0', '1']);
-            $table->string('playlists_id');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('privacies');
     }
 };

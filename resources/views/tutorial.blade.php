@@ -342,7 +342,7 @@
                             <div class="text-danger mt-2 text-sm fileError"></div>
                         </div>
                         <div class="form-group pt-2">
-                            <label for="type">Course/Category Name</label>
+                            <label for="type">Tutorial Type</label>
                             <select name="type" id="type" value="{{ old('type') }}" class="form-control">
                                 <option selected disabled>Select type</option>
                                 <option value="0">free</option>

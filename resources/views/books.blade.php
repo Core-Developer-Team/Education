@@ -33,7 +33,8 @@
                         <li>
                             <a href="" class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My books</span>
-                                <span class="all-info__right">{{ $data->where('user_id', Auth()->id())->count() }}</span>
+                                <span
+                                    class="all-info__right">{{ $data->where('user_id', Auth()->id())->count() }}</span>
                             </a>
                         </li>
 
@@ -186,6 +187,13 @@
                             <input type="number" id="price" class="form-control" name="price"
                                 value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceerror"></div>
+                        </div>
+                        <div class="form-group pt-2">
+                            <label for="category">Category</label>
+                            <input type="text" id="category" class="form-control" name="Category"
+                                value="{{ old('Category') }}">
+                            <div class="text-danger mt-2 text-sm categoryerror">
+                            </div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="cover-pic">Book_Cover_Image</label>

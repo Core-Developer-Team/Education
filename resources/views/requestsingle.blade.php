@@ -349,8 +349,9 @@
                             </div>
                         </div>
                     </div>
+                    </aside>
                 </div>
-                   <!--/right sidebar-->
+                <!--/right sidebar-->
             </div>
         </div>
     </div>
@@ -373,8 +374,8 @@
                         <input type="hidden" name="user_id" value="{{ Auth()->id() }}" required>
                         <div class="form-group pt-2 pb-2">
                             <label for="price">Enter Your Amount</label>
-                            <input type="number" class="form-control" name="price" id="price"
-                                placeholder="$" value="{{ old('price') }}">
+                            <input type="number" class="form-control" name="price" id="price" placeholder=""
+                                value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceError"></div>
                         </div>
                         <div class="form-group pt-2 pb-2">
@@ -470,7 +471,9 @@
                     <!--Review Form-->
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
-                        <input type="hidden" name="t_user_id" value="{{ $data->reqsolution->user_id }}">
+                        @if ($data->reqsolution()->count() >= 1)
+                            <input type="hidden" name="t_user_id" value="{{ $data->reqsolution->user_id }}">
+                        @endif
                         <div class="mt-30">
                             <div class="rating-container">
                                 <div class="rating-text">

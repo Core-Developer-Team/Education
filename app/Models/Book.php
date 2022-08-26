@@ -13,6 +13,7 @@ class Book extends Model
         'book_name',
         'description',
         'cover_pic',
+        'Category',
         'book',
         'price',
     ];

@@ -178,8 +178,8 @@
                                         </div>
                                         @enderror
                                         <input type="checkbox" name="terms" id="google_analytics_check">
-                                        <label for="google_analytics_check">I agree to the <a href="#">Privacy
-                                                Policy</a> and <a href="#">Terms and Conditions</a></label>
+                                        <label for="google_analytics_check">I agree to the <a href="{{route('privacy.show')}}">Privacy
+                                                Policy</a> and <a href="{{route('term.show')}}">Terms and Conditions</a></label>
 
                                     </div>
                                     <button class="btn-register btn-hover" type="submit">Create Account</button>

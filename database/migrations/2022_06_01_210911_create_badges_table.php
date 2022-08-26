@@ -44,6 +44,11 @@ return new class extends Migration
             'image'       =>  '/storage/badges/master.svg',
         ]);
         DB::table('badges')->insert([
+            'name'        => 'Verified',
+            'description' => 'Who solve 100+ solutions with average 4+ Ratings ',
+            'image'       =>  '/storage/badges/verified.svg',
+        ]);
+        DB::table('badges')->insert([
             'name'        => 'Blocked',
             'description' => 'Those Who are blocked by admin',
             'image'       =>  '/storage/badges/elite.svg',

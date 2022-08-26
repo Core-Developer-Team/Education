@@ -124,15 +124,7 @@
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
-                    <div class="btn_1589">
-                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" @auth
-            #addrequest
-@else
-#loginlink
-            @endauth ">Post
-                            your problem</a>
-                    </div>
+                   
                     @include('layouts.sidebar')
                     <!--/side bar-->
                     <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">

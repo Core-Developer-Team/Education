@@ -14,7 +14,7 @@
             <div class="owl-carousel evtcate_slider">
                 @foreach ($categ as $cat)
                 <div class="item text-center">
-                    <a href=""  class="event-cate-links">
+                    <a href="{{ route('req.searchcat', ['name'=>$cat->coursename]) }}"  class="event-cate-links">
                         <div class="event-full-width">
                             <div class="event-cate-items">
                                 <h6>{{$cat->coursename}}</h6>
@@ -38,6 +38,7 @@
                             your problem</a>
                     </div>
                     @include('layouts.sidebar')
+                    
                     <!--/side bar-->
                     <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                         <div class="pl_item_search rrmt-30">
@@ -65,7 +66,7 @@
                                         <div class="btn-4585">
                                             <a href="{{ route('request.latest') }}"
                                                 class="fltr-btn fltr-active">Newest</a>
-                                            <button class="fltr-btn">Trending</button>
+                                            <a class="fltr-btn">Trending</a>
                                             <a href="{{ route('req.weekly') }}" class="fltr-btn">Weekly</a>
                                         </div>
                                         <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
@@ -93,10 +94,55 @@
                                 <div class="recent-items">
                                     <div class="posts-list">
                                         <div class="feed-shared-author-dt">
-                                            <div class="author-left">
-                                                <a href="#"><img
+                                            <div class="author-left userimg">
+                                                <a href=""><img
                                                         class="ft-plus-square job-bg-circle  bg-cyan mr-0"
                                                         src="/storage/{{ $data->user->image }}" alt=""></a>
+                                                              <!--hover on image-->
+                                                <div class="box imagehov shadow"
+                                                style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                <div class="full-width">
+                                                    <div class="recent-items">
+                                                        <div class="posts-list">
+                                                            <div class="feed-shared-author-dt">
+                                                                <div class="author-left">
+                                                                    <a href="#"><img
+                                                                            class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                            src="/storage/{{ $data->user->image }}"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="author-dts">
+                                                                    <p class="notification-text font-username">
+                                                                        <a href="#"
+                                                                            class="text-danger">{{ $data->user->username }}
+                                                                        </a><img
+                                                                            src="{{ $data->user->badge->image }}"
+                                                                            alt="" style="width: 20px;"
+                                                                            title="{{ $data->user->badge->name }}">
+                                                                        <span class="job-loca"><i
+                                                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                                                    </p>
+
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Joined on
+                                                                            {{ $data->user->created_at }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Total Solutions
+                                                                            {{ $data->user->solutions }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span
+                                                                            class="time-dt">{{ $data->user->badge->name }}</span>
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end hover-->
                                             </div>
                                             <div class="iconreq">
                                                 <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
@@ -104,12 +150,12 @@
                                                     style="width:30px; height:30px" alt="">
                                             </div>
                                             <div class="author-dts">
-                                                <a href="job_detail_view.html"
+                                                <a href=""
                                                     class="problems_title">{{ $data->requestname }}</a>
                                                 <p class="notification-text font-username">
-                                                    <a href="#" class="text-success">{{ $data->user->username }}
+                                                    <a href="#" class="@if($data->user->badge->id==1) text-primary @elseif($data->user->badge->id==2) text-secondary @elseif($data->user->badge->id==3) text-info @elseif($data->user->badge->id==4) text-warning @elseif($data->user->badge->id==5) text-danger @elseif($data->user->badge->id==6) text-success @endif ">{{ $data->user->username }}
                                                         &nbsp;
-                                                    </a><img src="images/badges/verified.svg" alt="Verified"
+                                                    </a><img src="images/badges/verified.svg" class="d-none" alt="Verified"
                                                         style="width: 17px;" title="Verified">
                                                     <span class="job-loca"><i
                                                             class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
@@ -129,7 +175,11 @@
                                                             @endif
                                                         </span>
                                                         <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                                        <span class="job-badge ttcolor">3 days left</span>
+                                                        <span class="job-badge ttcolor">@if (($data->days-$data->created_at->diffInDays(\Carbon\Carbon::now())) <=0 )
+                                                             0 days left
+                                                             @else
+                                                             {{$data->days-$data->created_at->diffInDays(\Carbon\Carbon::now())}} days left
+                                                        @endif</span>
                                                     </div>
                                                 </div>
                                             </div>
