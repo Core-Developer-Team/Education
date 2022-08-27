@@ -8,7 +8,7 @@
     </li>
     <li>
         <a href="{{ route('feedback.store') }}" class="all-info__sections">
-            <span class="all-info__left"><i class="feather-user me-2"></i>Feedbackee</span>
+            <span class="all-info__left"><i class="feather-user me-2"></i>Feedback</span>
             <span class="all-info__right">{{$feed_count}}</span>
         </a>
     </li>
@@ -33,6 +33,13 @@
     <li>
         <a href="{{route('event.index')}}" class="all-info__sections">
             <span class="all-info__left"><i class="feather-user me-2"></i>events</span>
+            <span class="all-info__right">{{$event}}</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{route('badge.show')}}" class="all-info__sections">
+            <span class="all-info__left"><i class="feather-award me-2"></i>Badges</span>
             <span class="all-info__right">{{$event}}</span>
         </a>
     </li>

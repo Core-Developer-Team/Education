@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory; 
+    use HasFactory;
     protected $fillable = [
         'role_id',
         'badge_id',
@@ -23,55 +23,71 @@ class User extends Authenticatable
         'department',
     ];
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
-    public function badge(){
+    public function badge()
+    {
         return $this->belongsTo(Badge::class);
     }
-    public function request(){
+    public function request()
+    {
         return $this->hasMany(Request::class);
     }
-    public function reqcomment(){
+    public function reqcomment()
+    {
         return $this->hasMany(Reqcomment::class);
     }
-    public function reqbid(){
+    public function reqbid()
+    {
         return $this->hasOne(Reqbid::class);
     }
-    public function proposal(){
+    public function proposal()
+    {
         return $this->hasOne(Proposal::class);
     }
-    public function proposalbid(){
+    public function proposalbid()
+    {
         return $this->hasOne(Proposalbid::class);
     }
-    public function book(){
+    public function book()
+    {
         return $this->hasMany(Book::class);
     }
-    public function course(){
+    public function course()
+    {
         return $this->hasMany(Course::class);
     }
+
     public function playlist(){
-        return $this->hasMany(playlists::class);
+
+        return $this->hasMany(Playlist::class);
     }
-    public function resource(){
+    public function resource()
+    {
         return $this->hasMany(Resource::class);
     }
-    public function offlinetopic(){
+    public function offlinetopic()
+    {
         return $this->hasMany(Offlinetopic::class);
     }
-    //un
+    
     public function bookorder()
     {
         return $this->hasMany(Bookorder::class);
     }
 
-    public function from_user(){
+    public function from_user()
+    {
         return $this->hasMany(Message::class);
     }
-    public function to_user(){
+    public function to_user()
+    {
         return $this->hasMany(Message::class);
     }
-    public function resourcebid(){
+    public function resourcebid()
+    {
         return $this->hasOne(Resourcebid::class);
     }
     public function reqsolution()
@@ -89,5 +105,30 @@ class User extends Authenticatable
     public function propsolution()
     {
         return $this->hasMany(Propsolution::class);
+    }
+    public function f_user()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function t_user()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function bookreview()
+    {
+        return $this->hasMany(Bookreview::class);
+    }
+    public function productreview()
+    {
+        return $this->hasMany(Productreview::class);
+    }
+    public function tutorialreview()
+    {
+        return $this->hasMany(Tutorialreview::class);
+    }
+
+    public function coursereview()
+    {
+        return $this->hasMany(Coursereview::class);
     }
 }

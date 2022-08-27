@@ -23,7 +23,8 @@
                         <a href="index.html"><img src="images/dark-logo.png" alt=""></a>
                     </div>
                     <div class="micko-copyright">
-                        <p><i class="fas fa-copyright"></i>Copyright 2022 Micko by <a href="#">Gambolthemes</a>. All
+                        <p><i class="fas fa-copyright"></i>Copyright 2022 Micko by <a href="#">Gambolthemes</a>.
+                            All
                             Right Reserved.</p>
                     </div>
                 </div>
@@ -31,7 +32,6 @@
         </div>
     </div>
 </footer>
-
 
 <!--login redirect model-->
 
@@ -53,20 +53,15 @@
     </div>
 </div>
 
-
-<script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>
-<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('vendor/OwlCarousel/owl.carousel.js')}}"></script>
-<script src="{{asset('vendor/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
-<script src="{{asset('js/custom.js')}}"></script>
-<script src="{{asset('js/night-mode.js')}}"></script>
-<script src="{{asset('js/offset_overlay.js')}}"></script>
-<script src="{{asset('js/video.js')}}"></script>
-<script src="{{asset('js/submit.js')}}"></script>
-
-
-
-
+<script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('vendor/OwlCarousel/owl.carousel.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
+<script src="{{ asset('js/night-mode.js') }}"></script>
+<script src="{{ asset('js/offset_overlay.js') }}"></script>
+<script src="{{ asset('js/video.js') }}"></script>
+<script src="{{ asset('js/imagehover.js') }}"></script>
 
 <!--req model script-->
 <script>
@@ -85,12 +80,12 @@
             contentType: false,
             processData: false,
             success: function(response) {
-                $('.form-prevent').on('submit',function(){
-                    $('.btn-prevent').attr('disabled','true');
+                $('.form-prevent').on('submit', function() {
+                    $('.btn-prevent').attr('disabled', 'true');
                     $('.spinner').show();
                 })
                 location.href = location.href;
-                
+
             },
             error: function(error) {
                 const errorResponse = error.responseJSON.errors;
@@ -146,6 +141,9 @@
                 if (errorResponse.cover_pic) {
                     $('.cover_picError').text(errorResponse.cover_pic[0]);
                 }
+                if (errorResponse.Category) {
+                    $('.categoryerror').text(errorResponse.Category[0]);
+                }
                 if (errorResponse.book) {
                     $('.bookError').text(errorResponse.book[0]);
                 }
@@ -182,6 +180,9 @@
                 }
                 if (errorResponse.price) {
                     $('.priceerror').text(errorResponse.price[0]);
+                }
+                if (errorResponse.Category) {
+                    $('.categoryerror').text(errorResponse.Category[0]);
                 }
                 if (errorResponse.cover_pic) {
                     $('.cover_picError').text(errorResponse.cover_pic[0]);
@@ -229,7 +230,7 @@
                 if (errorResponse.price) {
                     $('.priceError').text(errorResponse.price[0]);
                 }
-               
+
             }
         })
     })

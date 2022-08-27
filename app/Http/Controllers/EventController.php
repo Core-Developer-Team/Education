@@ -10,8 +10,8 @@ class EventController extends Controller
 {
     public function index()
     {
-        $data= Event::orderBy('updated_at','DESC')->cursorPaginate(6);
-        return view('event',compact('data'));
+        $data = Event::orderBy('updated_at', 'DESC')->cursorPaginate(6);
+        return view('event', compact('data'));
     }
     public function store(Request $request)
     {
@@ -24,11 +24,11 @@ class EventController extends Controller
             'start_time'           => 'required',
             'end_time'           => 'required',
         ]);
-        $imagename = time().'_'.$request->image->getClientOriginalName();
-        $imagepath = $request->file('image')->storeAs('Images',$imagename, 'public');
+        $imagename = time() . '_' . $request->image->getClientOriginalName();
+        $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
-        Event::create(array_merge($request->only('description','location','event_date','start_time','end_time','name'),[
-            'image' => '/storage/'.$imagepath,
+        Event::create(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
+            'image' => '/storage/' . $imagepath,
         ]));
         return back()->with('status', 'Event
          has been created Successfully');

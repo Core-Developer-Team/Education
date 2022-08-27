@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->integer('price')->nullable();
+            $table->integer('price');
             $table->string('Category');
             $table->string('file');
             $table->integer('view_count')->default(0);

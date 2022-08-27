@@ -13,6 +13,7 @@ class Book extends Model
         'book_name',
         'description',
         'cover_pic',
+        'Category',
         'book',
         'price',
     ];
@@ -28,5 +29,9 @@ class Book extends Model
     public function bookorder_details()
     {
         return $this->hasMany(bookorder_details::class);
+    }
+    public function bookreview()
+    {
+        return $this->hasMany(Bookreview::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -19,6 +20,7 @@ class ProductController extends Controller
         $request->validate([
             'cover_pic'    => 'required|image|mimes:jpg,jpeg,png,svg',
             'name'         => 'required',
+            'Category'      => ['required', 'max:25'],
             'description'  => 'required|string',
             'price'        => 'required',
         ]);
@@ -26,7 +28,7 @@ class ProductController extends Controller
         $imagename = time().'_'.$request->cover_pic->getClientOriginalName();
         $imagepath = $request->file('cover_pic')->storeAs('Images',$imagename, 'public');
 
-        Product::create(array_merge($request->only('description','name','price'),[
+        Product::create(array_merge($request->only('description','Category','name','price'),[
             'user_id'   => auth()->id(),
             'cover_pic' => '/storage/'.$imagepath,
         ]));
@@ -45,6 +47,20 @@ class ProductController extends Controller
         ->cursorPaginate(6);
         return view('marketplace', compact('data'));
      }
+
+     //get latest request
+    public function latest()
+    {
+        $data = Product::whereDate('created_at', Carbon::today())->orderBy('updated_at', 'DESC')->cursorPaginate(15);
+        return view('marketplace',compact('data'));
+    }
+
+    //get week request
+    public function week()
+    {
+        $data = Product::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('updated_at', 'DESC')->cursorPaginate(15);
+        return view('marketplace',compact('data'));
+    }
 
      //get single product
 

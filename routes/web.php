@@ -31,14 +31,24 @@ use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
+use App\Http\Controllers\BadgesController;
+use App\Http\Controllers\BkashController;
+use App\Http\Controllers\BookreviewController;
+use App\Http\Controllers\CoursereviewController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductreviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropsolutionController;
 use App\Http\Controllers\ReqSolutionController;
 use App\Http\Controllers\ResourcebidController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TermsandPrivacyController;
+use App\Http\Controllers\TutorialreviewController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -55,6 +65,7 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', function () {
     return view('index');
 });
+
 Route::get('/', function () {
     return view('index');
 })->middleware(['auth'])->name('index');
@@ -114,6 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/request_bid', [ReqbidController::class, 'store'])->name('reqbid.store');
     Route::post('/request_sol', [ReqSolutionController::class, 'store'])->name('reqsol.store');
     Route::post('/request_comment', [ReqcommentController::class, 'store'])->name('reqcomment.store');
+    Route::post('/request_review', [ReviewController::class, 'store'])->name('reqreview.store');
     Route::get('/latestreq', [RequestController::class, 'latest'])->name('request.latest');
     Route::get('/week', [RequestController::class, 'weekly'])->name('req.weekly');
     Route::delete('/delete/{id}', [RequestController::class, 'destroy'])->name('req.destroy');
@@ -123,29 +135,32 @@ Route::middleware('auth')->group(function () {
     Route::get('/proposal_single/{id}', [ProposalController::class, 'showproposal'])->name('proposal.showproposal');
     Route::post('/proposal_single', [ProposalbidController::class, 'store'])->name('proposalbid.store');
     Route::post('/proposal_sol', [PropsolutionController::class, 'store'])->name('prosolution.store');
-    Route::get('/latest', [ProposalController::class, 'latest'])->name('dev.latest');
-    Route::get('/weekly', [ProposalController::class, 'week'])->name('dev.week');
+    Route::get('/latest_tutorial', [ProposalController::class, 'latesttutorial'])->name('proposal.new');
+    Route::get('/weekly_tutorial', [ProposalController::class, 'week'])->name('proposal.week');
     //book routes
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books_single/{id}', [BookController::class, 'showbook'])->name('books.showbook');
-    Route::get('/latest', [BookController::class, 'latest'])->name('book.latest');
-    Route::get('/weekly', [BookController::class, 'week'])->name('book.week');
+    Route::post('/books_single', [BookreviewController::class, 'store'])->name('books.storereview');
+    Route::get('/books_latest', [BookController::class, 'latest'])->name('book.latest');
+    Route::get('/books_weekly', [BookController::class, 'week'])->name('book.week');
     //course routes
     Route::post('/course', [CourseController::class, 'get'])->name('course.get');
     Route::get('/course_single/{id}', [CourseController::class, 'showcourse'])->name('course.showcourse');
-    Route::get('/latest', [CourseController::class, 'latest'])->name('course.latest');
-    Route::get('/weekly', [CourseController::class, 'week'])->name('course.week');
+    Route::post('/course_single', [CoursereviewController::class, 'store'])->name('course.storereview');
+    Route::get('/course_latest', [CourseController::class, 'latest'])->name('course.latest');
+    Route::get('/course_weekly', [CourseController::class, 'week'])->name('course.week');
     //tutorial routes
     Route::post('/tutorial', [TutorialController::class, 'get'])->name('tutorial.get');
     Route::get('/tutorial_sin/{id}', [TutorialController::class, 'showsinglevideos'])->name('tutorial.sin');
-    Route::get('/tutlatest', [TutorialController::class, 'latesttut'])->name('tutorial.latest');
-    Route::get('/weekly', [TutorialController::class, 'week'])->name('tutorial.week');
+    Route::post('/tutorial_sin', [TutorialreviewController::class, 'store'])->name('playlist.storereview');
+    Route::get('/tutlatest', [TutorialController::class, 'latest'])->name('tutorial.latest');
+    Route::get('/tutorial_weekly', [TutorialController::class, 'week'])->name('tutorial.week');
     //Resource
     Route::post('/resource', [ResourceController::class, 'store'])->name('resource.store');
     Route::get('/resource_single/{id}', [ResourceController::class, 'showresource'])->name('resource.showresource');
     Route::post('/resource_single', [ResourcebidController::class, 'store'])->name('resourcebid.store');
-    Route::get('/latest', [ResourceController::class, 'latest'])->name('res.latest');
-    Route::get('/weekly', [ResourceController::class, 'week'])->name('res.week');
+    Route::get('/res_latest', [ResourceController::class, 'latest'])->name('res.latest');
+    Route::get('/res_weekly', [ResourceController::class, 'week'])->name('res.week');
     // event page
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
@@ -165,6 +180,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/product', [ProductController::class, ('store')])->name('product.store');
     Route::patch('/product', [ProductController::class, ('search')])->name('product.search');
     Route::get('/product_single/{id}', [ProductController::class, ('showproduct')])->name('product.showproduct');
+    Route::post('/product_single', [ProductreviewController::class, 'store'])->name('products.storereview');
+    Route::get('/product_latest', [ProductController::class, 'latest'])->name('prod.latest');
+    Route::get('/product_weekly', [ProductController::class, 'week'])->name('prod.week');
 
     //profile
     Route::get('/profile_dashboard/{id}', [ProfileController::class, ('show')])->name('profile.show');
@@ -178,11 +196,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile_review/{id}', [ProfileController::class, ('showreview')])->name('profile.review');
     Route::get('/profile_activity/{id}', [ProfileController::class, ('showactivity')])->name('profile.activity');
     Route::get('/profile_earning/{id}', [ProfileController::class, ('showearning')])->name('profile.earning');
-
 });
 Route::get('/', [RequestController::class, 'index'])->name('req.index');
 Route::patch('/', [RequestController::class, 'search'])->name('req.search');
-
+Route::get('ch/{name}', [RequestController::class, 'searchcat'])->name('req.searchcat');
 //proposal
 Route::get('/proposals', [ProposalController::class, 'index'])->name('proposal.index');
 Route::patch('/proposals', [ProposalController::class, 'search'])->name('proposal.search');
@@ -226,7 +243,18 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('/admin/event', AdminEventController::class);
 });
 
-
+// terms of use and privacy
+Route::get('/terms', [TermsandPrivacyController::class, 'termshow'])->name('term.show');
+Route::get('/privacy', [TermsandPrivacyController::class, 'privacyshow'])->name('privacy.show');
+Route::get('/badge', [BadgesController::class, 'show'])->name('badge.show');
 //check chat
 Route::get('/chat/{reqid}/{toid}', [MessageController::class, ('index')])->name('chat.index');
 Route::post('/messages', [MessageController::class, ('store')])->name('chat.store');
+
+// Payment Routes for bKash
+
+Route::post('token', [PaymentController::class, 'token'])->name('token');
+Route::get('createpayment', [PaymentController::class, 'createpayment'])->name('createpayment');
+Route::get('executepayment', [PaymentController::class, 'executepayment'])->name('executepayment');
+
+Route::get('req/{id}', [PaymentController::class, 'setRId'])->name('ser.rid');

@@ -82,9 +82,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <button class="fltr-btn fltr-active">Newest</button>
-                                    <button onclick="window.location=''" class="fltr-btn">Trending</button>
-                                    <button class="fltr-btn">Weekly</button>
+                                    <a href="{{route('course.latest')}}" class="fltr-btn fltr-active">Newest</a>
+                                    <a href="" class="fltr-btn">Trending</a>
+                                    <a href="{{route('course.week')}}" class="fltr-btn">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -320,12 +320,12 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="file">File</label>
-                            <input type="file" class="form-control" name="file" id="file" value="{{ old('file') }}"
+                            <input type="file" class="form-control" name="file"  accept=".doc,.docx,.pdf,.pptx" id="file" value="{{ old('file') }}"
                                 placeholder="Upload image or pdf">
                             <div class="text-danger mt-2 text-sm fileError"></div>
                         </div>
                         <div class="form-group pt-2">
-                            <label for="type">Course/Category Name</label>
+                            <label for="type">Course Type</label>
                             <select name="type" id="type" value="{{ old('type') }}" class="form-control">
                                 <option selected disabled>Select type</option>
                                 <option value="0">free</option>

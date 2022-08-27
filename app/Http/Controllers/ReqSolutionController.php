@@ -23,8 +23,8 @@ class ReqSolutionController extends Controller
         
           $request->validate([
               'file'         => ['required','mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx,jpg,jpeg,png,svg','max:10000'],
-              'description' => ['required','string','max:255'],
-              'request_id'   => ['required'],
+              'description'  => ['required','string','max:255'],
+              'request_id'   => ['unique:req_solutions,request_id,'.$request->request_id],
               'user_id'      => ['required'],
           ]);
         
