@@ -35,7 +35,7 @@ class MessageController extends Controller
     public function messages(Request $request)
     {
         $data = [];
-        $data['toId'] = $request->to_id;
+        $data['toId'] = @$request->to_id;
         $userId = Auth()->id();
         $mymessaghwith = Message::Where('to_user_id', $userId)->orWhere('from_user_id', $userId)->get();
         $usersWithMe = [];
@@ -53,14 +53,17 @@ class MessageController extends Controller
         $myUsers = array_unique($usersWithMe);
         $dropdownHtml = '';
 
-        // check is first time
-        $ifPrevious = Message::whereIn('from_user_id', [$userId, $request->to_id])->whereIn('to_user_id',  [$userId, $request->to_id])->orderBy('created_at')->get();
-        $data["messages-with"] = $ifPrevious;
-        // dd(count($ifPrevious));
-        if ($ifPrevious->count() == 0) {
-            $findData =  User::find($request->to_id);
-            $dropdownHtml .= view('chat-sidebar-data', compact('findData'))->render();
-        }
+        if (isset($request->to_id)) :
+            // check is first time
+            $ifPrevious = Message::whereIn('from_user_id', [$userId, $request->to_id])->whereIn('to_user_id',  [$userId, $request->to_id])->orderBy('created_at')->get();
+            $data["messages-with"] = $ifPrevious;
+            // dd(count($ifPrevious));
+            if ($ifPrevious->count() == 0) {
+                $findData =  User::find($request->to_id);
+                $dropdownHtml .= view('chat-sidebar-data', compact('findData','toId'))->render();
+            }
+            $data["userDetails"] = User::find($request->to_id);
+        endif;
 
         if (count($myUsers) > 0) {
             foreach ($myUsers as $key => $value) {
@@ -73,7 +76,7 @@ class MessageController extends Controller
             }
         }
 
-        $data["userDetails"] = User::find($request->to_id);
+
 
         $data['friends'] = $dropdownHtml;
 

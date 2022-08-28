@@ -75,7 +75,7 @@
                                                         </span>
                                                     @endif --}}
                                                     @if ($data->payment_status == true && auth()->id() != $data->user_id )
-                                                    <form method="POST" action="{{ route('messages') }}">
+                                                    <form method="POST" class="job-badge p-0" action="{{ route('messages') }}">
                                                         @csrf
                                                         <input type="hidden" name="reqid"  value="{{$data->id}}" >
                                                         <input type="hidden" name="to_id"  value="{{$data->user_id}}" >

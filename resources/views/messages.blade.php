@@ -124,13 +124,17 @@
                 <div class="recipients-top-dt">
                   <div class="msg-usr-dt">
                     <div class="recipient-avatar">
-                      <img
-                        src="/storage/'{{@$userDetails->image}}"
-                        loading="lazy"
-                        alt=""
-                        class="presence-entity__image nt-view-attr__img--centered chatHeadImage"
-                      />
-                      <div class="presence-entity__badge badge__online">
+                        <div id="receiverImageDiv">
+                            @isset($userDetails)
+                            <img
+                                    src="/storage/'{{@$userDetails->image}}"
+                                    loading="lazy"
+                                    alt=""
+                                    class="presence-entity__image nt-view-attr__img--centered chatHeadImage"
+                                />
+                            @endisset
+                        </div>
+                      <div class="presence-entity__badge ">
                         <span class="visually-hidden">
                           Status is online
                         </span>
@@ -224,13 +228,23 @@
       </div>
     </div>
   </div>
+@isset($toId)
+<input type="hidden" name="getMessage" id="getMessageUrl"  value="{{route('get-messages',$toId)}}"/>
+@endisset
+
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<style>
+    .activeUser{
+        background: #6479ff !important;
+    }
+</style>
+
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
-        var attr = "{{route('get-messages',$toId)}}";
+        var attr = "{!! isset($toId)?route('get-messages',$toId):'' !!}"
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -242,6 +256,10 @@
             let toId = $(this).attr("data-toid");
             if(message ==''){
                 alert("Please enter your message");
+                return false;
+            }
+            if(toId ==''){
+                alert("Please select someone to chat.");
                 return false;
             }
             $.ajax({
@@ -268,13 +286,20 @@
                 },
             });
         }
-        getMessagesData(attr);
+        if(attr){
+            getMessagesData(attr);
+        }
+
 
         $(document).on("click",".clickFromUserList",function(){
+            $('.clickFromUserList').removeClass("activeUser");
+            $(this).addClass("activeUser");
             let getdataurl = $(this).attr('data-href');
             let userImg = $(this).attr('data-Image');
             let userName = $(this).attr('data-userName');
-            $(".chatHeadImage").attr('src',userImg);
+            $(".send-button").attr('data-toid',$(this).attr("data-toId"))
+            $('.deleteMessage').attr('data-touser',$(this).attr('data-toId'))
+            $("#receiverImageDiv").html( `<img src="${userImg}" loading="lazy" alt="" class="presence-entity__image nt-view-attr__img--centered chatHeadImage">`  );
             $(".chatHeadUserName").html(userName);
             $('.chats-lists').html(`<h6 class="text-center">Loading.....</h6>`);
             getMessagesData(getdataurl);
@@ -282,6 +307,7 @@
 
         $(document).on("click",".deleteMessage",function(){
             let toUserId = $(this).attr('data-toUser');
+            if(toUserId){
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "Once delete, You won't be able to revert this!",
@@ -303,7 +329,14 @@
                             },
                         });
                     }
-            });
+                });
+            }else{
+                Swal.fire({
+                    title: '!! Why Don\'t select? !!',
+                    text: "Please select someone to delete message!",
+                    type: 'warning',
+                });
+            }
         });
 
     });
