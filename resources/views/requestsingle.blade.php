@@ -66,17 +66,21 @@
                                             <p class="notification-text font-small-4 pt-2 job-center">
                                                 <span class="time-dt">{{ $data->updated_at->diffForHumans() }}</span>
                                             </p>
+                                            <input type="hidden" id="myWalletNumber" value="{{Auth()->user()->mobile_no}}" />
                                             <div class="jbopdt142">
                                                 <div class="jbbdges10">
-                                                    @if ($data->user_id == auth()->id() && $data->payment_status == false)
+                                                    {{-- @if ($data->user_id == auth()->id() && $data->payment_status == false)
                                                         <span class="job-badge bg-success payNow">
                                                             Pay Now
                                                         </span>
-                                                    @endif
-                                                    @if ($data->payment_status == true)
-                                                        <span class="job-badge bg-success" id="">
-                                                            Paid
-                                                        </span>
+                                                    @endif --}}
+                                                    @if ($data->payment_status == true && auth()->id() != $data->user_id )
+                                                    <form method="POST" action="{{ route('messages') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="reqid"  value="{{$data->id}}" >
+                                                        <input type="hidden" name="to_id"  value="{{$data->user_id}}" >
+                                                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                                    </form>
                                                     @endif
                                                     <span class="job-badge ffcolor">
                                                         @if ($data->tag == 1)
@@ -156,15 +160,20 @@
                                                     </p>
                                                     <div class="jbopdt142">
                                                         <div class="jbbdges10">
-                                                            <form method="GET"
-                                                                action="{{ route('chat.index', ['reqid' => $data->id, 'toid' => $bids->id]) }}">
+                                                            @if ($data->user_id == auth()->id() && $data->payment_status == false)
+                                                                <span class="job-badge bg-success payNow" id="bKash_button">
+                                                                    Take this offer
+                                                                </span>
+                                                            @else
+                                                            <form method="POST" action="{{ route('messages') }}">
                                                                 @csrf
-                                                                <button type="submit"
-                                                                    class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                                    Now</button>
+                                                                <input type="hidden" name="reqid"  value="{{$data->id}}" >
+                                                                <input type="hidden" name="to_id"  value="{{$bids->user->id}}" >
+                                                                <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
                                                                 <span class="job-badge ffcolor">$
                                                                     {{ $bids->price }}</span>
                                                             </form>
+                                                            @endif
                                                         </div>
                                                         <div class="aplcnts_15 job-center applcntres ml-3">
                                                             <i class="feather-users ms-2"></i> Do On
@@ -591,7 +600,6 @@
         </div>
     </div>
 
-  
     <!--footer-->
     @include('layouts.footer')
     <!---/footer-->
@@ -706,9 +714,9 @@
                 }
             });
 
-            $(document).on("click", ".payNow", function() {
-                $("#paymentModal").modal("show");
-            });
+            // $(document).on("click", ".payNow", function() {
+            //     $("#paymentModal").modal("show");
+            // });
 
             $(document).on("click", ".dangerButton", function() {
                 $("#paymentModal").modal("hide");
@@ -816,5 +824,11 @@
 
         function clickPayButton() {
             $("#bKash_button").trigger('click');
+            setMyWallet();
+        }
+
+        function setMyWallet(){
+            $("#wallet").val($("#myWalletNumber").val());
+            alert("called");
         }
     </script>
