@@ -626,6 +626,9 @@
             background: #900 !important;
             color: white !important;
         }
+        .payNow{
+            cursor: pointer;
+        }
     </style>
 
     <script>
@@ -824,11 +827,14 @@
 
         function clickPayButton() {
             $("#bKash_button").trigger('click');
-            setMyWallet();
+            setTimeout(() => {
+                setMyWallet();
+            }, 2000);
+
         }
 
         function setMyWallet(){
             $("#wallet").val($("#myWalletNumber").val());
-            alert("called");
+            console.log("called");
         }
     </script>
