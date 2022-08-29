@@ -116,7 +116,7 @@
 
                 @auth
                 <li class="mn-icon">
-                    <a class="mn-link" href="messages.html" role="button">
+                    <a class="mn-link" href="{{route('messages')}}" role="button">
                         <i class="feather-message-square"></i>
                         <div class="alert-circle"></div>
                     </a>
