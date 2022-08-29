@@ -256,5 +256,10 @@ Route::post('/messages', [MessageController::class, ('store')])->name('chat.stor
 Route::post('token', [PaymentController::class, 'token'])->name('token');
 Route::get('createpayment', [PaymentController::class, 'createpayment'])->name('createpayment');
 Route::get('executepayment', [PaymentController::class, 'executepayment'])->name('executepayment');
-
-Route::get('req/{id}', [PaymentController::class, 'setRId'])->name('ser.rid');
+Route::middleware('auth')->group(function () {
+    Route::get('req/{id}', [PaymentController::class, 'setRId'])->name('ser.rid');
+    Route::any('my-messages', [MessageController::class, 'messages'])->name('messages');
+    Route::post('send-message', [MessageController::class, 'sendMessage'])->name('messages-send');
+    Route::post('get-messages/{from}', [MessageController::class, 'getMessage'])->name('get-messages');
+    Route::post('delete-message', [MessageController::class, 'deleteMessage'])->name('delete-message');
+});

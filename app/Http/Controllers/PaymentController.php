@@ -84,12 +84,12 @@ class PaymentController extends Controller
     {
         session_start();
 
-        $array = $this->_get_config_file();
+        // $array = $this->_get_config_file();
 
         $paymentID = $_GET['paymentID'];
-        $proxy = $array["proxy"];
+        // $proxy = $array["proxy"];
 
-        $url = curl_init($array["executeURL"] . $paymentID);
+        $url = curl_init(env("BKASH_EXECUTE_URL") . $paymentID);
 
         $header = array(
             'Content-Type:application/json',
