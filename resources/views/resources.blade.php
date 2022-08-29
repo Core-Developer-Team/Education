@@ -289,7 +289,7 @@
                                         </a>
                                         <p class="notification-text font-username">
                                             <a href="#" class="text-danger">{{ $data->user->username }}
-                                            </a><img src="images/badges/verified.svg" alt="Verified"
+                                            </a><img src="storage/badges/verified.svg" alt="Verified" class="d-none"
                                                 style="width: 15px;" title="Verified">
                                             <span class="job-loca"><i
                                                     class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
