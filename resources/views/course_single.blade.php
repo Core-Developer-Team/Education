@@ -304,25 +304,56 @@
                             <span class="product_stats_label">Videos</span>
                         </div>
                     </div>
-                    <div class="full-width mt-30">
+                    <div class="full-width mt-4">
                         <div class="user-profile">
-                            <div class="author-info-dts">
-                                <div class="media d-flex">
-                                    <div class="job-left">
-                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                            src="/storage/{{$playlist->user->image}}" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <a href="#" class="job-heading">{{$playlist->user->username}}</a>
-                                        <p class="notification-text font-small-4">
-                                            <span class="job-loca">Since: 2019</span>
-                                        </p>
-                                    </div>
+                            <div class="username-dt dpbg-1">
+                                <div class="usr-pic">
+                                    <img src="/storage/{{ $playlist->user->image }}" alt="">
                                 </div>
                             </div>
-                            <div class="profile-link">
-                                <a href="#">View Products</a>
+                            <div class="username-main-dt">
+                                <h4>{{ $playlist->user->username }}</h4>
                             </div>
+                            <div class="user-info__sections">
+                                <ul class="info__sections">
+                                    <li>
+                                        <div class="all-info__sections">
+                                            <span class="all-info__left">Post Requests</span>
+                                            <span class="all-info__right">{{ $playlist->user->request->count() }}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="all-info__sections">
+                                            <span class="all-info__left">Tutorial</span>
+                                            <span class="all-info__right">{{ $playlist->user->playlist->count() }}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="all-info__sections">
+                                            <span class="all-info__left">Courses</span>
+                                            <span class="all-info__right">{{ $playlist->user->course->count() }}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="profile-link">
+                                <a href="{{ route('profile.show', ['id' => $playlist->user_id]) }}">View Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="full-width mt-30">
+                        <div class="headtte14m">
+                            <h4>Item Rating</h4>
+                        </div>
+                        <div class="item-rating-stars-dts">
+                            <div class="item-rating-stars">
+                                <i class="feather-star"></i>
+                                <i class="feather-star"></i>
+                                <i class="feather-star"></i>
+                                <i class="feather-star"></i>
+                                <i class="feather-star color-gray-medium"></i>
+                            </div>
+                            <p class="rating_text">4.50 average based on 7 ratings.</p>
                         </div>
                     </div>
 

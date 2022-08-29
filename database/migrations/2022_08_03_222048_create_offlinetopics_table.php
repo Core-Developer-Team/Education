@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('offlinetopics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('group_chat_message')->nullable();
+            $table->string('group_chat_message');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

@@ -31,7 +31,9 @@ class ResourceController extends Controller
          $offline = Offlinetopic::count();
          $product = Product::count();
          $prop   = Proposal::count();
-         return view('resources',compact('datas','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+           $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+ $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+         return view('resources',compact('datas','sol_count','prev_count','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
      }                  
         //get latest request
         public function latest(){
@@ -45,7 +47,9 @@ class ResourceController extends Controller
          $offline = Offlinetopic::count();
          $product = Product::count();
          $prop   = Proposal::count();
-         return view('resources',compact('datas','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+           $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+ $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+         return view('resources',compact('datas','sol_count','prev_count','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
        }
  
         //get week request
@@ -60,7 +64,9 @@ class ResourceController extends Controller
          $offline = Offlinetopic::count();
          $product = Product::count();
          $prop   = Proposal::count();
-         return view('resources',compact('datas','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+           $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+ $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+         return view('resources',compact('datas','sol_count','prev_count','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
        }
       //insert data into database
   public function store(Request $request){

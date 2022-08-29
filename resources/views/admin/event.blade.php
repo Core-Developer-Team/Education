@@ -50,7 +50,8 @@
                                     <th>Description</th>
                                     <th>Location</th>
                                     <th>Event_Date</th>
-                                    <th>Event_time</th>
+                                    <th>start_time</th>
+                                    <th>End_Time</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -61,8 +62,10 @@
                                     <td>{{ $item->name }} </td>
                                     <td>{{ $item->description }} </td>
                                     <td> <img src="{{ $item->image }}" class="w-100 h-auto" alt="" srcset=""> </td>
+                                    <td>{{ $item->location }} </td>
                                     <td>{{ $item->event_date }} </td>
-                                    <td>{{ $item->event_time }} </td>
+                                    <td>{{ $item->start_time }} </td>
+                                    <td>{{ $item->end_time }} </td>
                                     <td>
                                         <form action="" method="POST">
                                             @method('DELETE')

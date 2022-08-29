@@ -27,7 +27,9 @@ class FeedbackController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('feedback', compact('datas', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('feedback', compact('datas','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function store(Request $request)
     {

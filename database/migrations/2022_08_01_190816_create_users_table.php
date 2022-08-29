@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('uni_id');
             $table->string('uni_name');
             $table->integer('solutions')->default('0');
+            $table->float('rating')->default('0');
             $table->enum('gender', ['0', '1']);
             $table->enum('department', ['0', '1','2']);
             $table->string('password');
