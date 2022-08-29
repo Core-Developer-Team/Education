@@ -32,6 +32,11 @@
             <span>Resource</span></a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.announcement')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Announcement</span></a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.proposals.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Proposal</span></a>

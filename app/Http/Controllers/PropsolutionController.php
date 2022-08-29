@@ -30,11 +30,11 @@ class PropsolutionController extends Controller
             
             if ($users->solutions>=20) {
              $users->badge_id = 2;
-            } elseif($users->solutions>=40) {
+            } elseif($users->solutions>=70) {
              $users->badge_id =3;
-            } elseif($users->solutions>=60) {
-             $users->badge_id =4;
             } elseif($users->solutions>=80) {
+             $users->badge_id =4;
+            } elseif($users->solutions>=100) {
              $users->badge_id =5;
             }
             $users->update();

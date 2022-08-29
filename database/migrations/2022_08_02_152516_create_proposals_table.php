@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('proposalname')->nullable();
-            $table->integer('price')->nullable();
+            $table->string('proposalname');
+            $table->integer('price');
             $table->text('description');
             $table->integer('view_count')->default(0);
-            $table->string('file')->nullable();
+            $table->string('file');
             $table->string('filename');
             $table->timestamps();
         });

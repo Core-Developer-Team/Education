@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('book_name',255);
-            $table->integer('view_count');
+            $table->integer('view_count')->default(0);
             $table->string('cover_pic');
             $table->string('book');
             $table->string('Category');
