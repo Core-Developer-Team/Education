@@ -20,7 +20,7 @@
 	- Header section
 	- Left section
 	- Center section 
-	- Right section
+- Right section
 	- Statistics section	
 	- Loading Section
 	- Footer section
@@ -15618,7 +15618,14 @@ input[class="super-sad"]:focus+svg {
 /*Profile Pic End*/
 
 
-/*imagehover*/
+
+/*image */
+
+.author-left.userimg{
+    height: min-content;
+}
+
+/* image hover*/
 
 .imagehov {
     display: none;
