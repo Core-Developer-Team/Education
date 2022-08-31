@@ -136,18 +136,42 @@ class CourseController extends Controller
   public function get(Request $request)
   {
     $request->validate([
-      'playlists_id'  => ['required'],
+      'playlists_id'  => [
+        'required',
+        'url',
+        function ($attribute, $requesturl, $failed) {
+          if (!preg_match('/(youtube.com|youtu.be)\/(embed)?(\?v=)?(\S+)?/', $requesturl)) {
+            $failed(trans("general.not_youtube_url", ["name" => trans("general.url")]));
+          }
+        },
+      ],
       'Category'      => ['required', 'max:25'],
-      'file'          =>  ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx', 'max:30000'],
       'price'         => ['required'],
       'type'          => ['required'],
     ]);
-    $filename = time() . '_' . $request->file->getClientOriginalName();
-    $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
-    Course::create(array_merge($request->only('price', 'playlists_id', 'type', 'Category'), [
-      'user_id'   => auth()->id(),
-      'file'      => '/storage/' . $filepath,
-    ]));
+
+    if ($request->hasFile('file')) {
+      $request->validate([
+        'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+      ]);
+      $url = $request->playlists_id;
+      parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
+      $filename = time() . '_' . $request->file->getClientOriginalName();
+      $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
+      Course::create(array_merge($request->only('price', 'type', 'Category'), [
+        'user_id'      => auth()->id(),
+        'playlists_id' => $my_array['list'],
+        'file'         => '/storage/' . $filepath,
+      ]));
+    } else {
+      $url = $request->playlists_id;
+      parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
+      Course::create(array_merge($request->only('price', 'type', 'Category'), [
+        'user_id'      => auth()->id(),
+        'playlists_id' => $my_array['list'],
+        'file'         => '',
+      ]));
+    }
     return back()->with('success', 'Course has been uploaded Successfully');
   }
 

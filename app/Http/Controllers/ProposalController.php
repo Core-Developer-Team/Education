@@ -81,15 +81,28 @@ class ProposalController extends Controller
       'proposalname'  => ['required', 'string'],
       'price'         => ['required', 'string'],
       'description'   => ['required', 'string'],
-      'file'          => ['required', 'mimes:jpg,jpeg,svg,pdf,png,jpeg'],
     ]);
-    $filename  = $request->file->getClientOriginalName();
-    $filePath   =  $request->file('file')->storeAs('Images', $filename, 'public');
-    Proposal::create(array_merge($request->only('proposalname', 'price', 'description'), [
-      'user_id'  => auth()->id(),
-      'file'     => '/storage/' . $filePath,
-      'filename' => $filename,
-    ]));
+    if ($request->hasFile('file')) 
+    {
+        $request->validate([
+            'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+        ]);
+        $filename  = $request->file->getClientOriginalName();
+        $filePath   =  $request->file('file')->storeAs('Images', $filename, 'public');
+        Proposal::create(array_merge($request->only('proposalname', 'price', 'description'), [
+          'user_id'  => auth()->id(),
+          'file'     => '/storage/' . $filePath,
+          'filename' => $filename,
+        ]));
+    }
+    else{
+      Proposal::create(array_merge($request->only('proposalname', 'price', 'description'), [
+        'user_id'  => auth()->id(),
+        'file'     => '',
+        'filename' => '',
+      ]));
+    }
+   
     return back()->with('status', 'Your Proposal Published Successfully:)');
   }
   //show single proposal

@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use LengthException;
+use Nette\Utils\RegexpException;
+use Symfony\Polyfill\Intl\Idn\Resources\unidata\Regex;
 
 class TutorialController extends Controller
 {
@@ -20,18 +23,45 @@ class TutorialController extends Controller
     public function get(Request $request)
     {
         $request->validate([
-            'playlists_id'  => ['required'],
-            'Category'      => ['required', 'max:11'],
+            'playlists_id'  => [
+                'required',
+                'url',
+                function ($attribute, $requesturl, $failed) {
+                    if (!preg_match('/(youtube.com|youtu.be)\/(embed)?(\?v=)?(\S+)?/', $requesturl)) {
+                        $failed(trans("general.not_youtube_url", ["name" => trans("general.url")]));
+                    }
+                },
+            ],
+            'Category'      => ['required', 'max:25'],
             'file'          =>  ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx', 'max:30000'],
             'price'         => ['required'],
             'type'          => ['required'],
         ]);
-        $filename = time() . '_' . $request->file->getClientOriginalName();
-        $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
-        Playlist::create(array_merge($request->only('playlists_id', 'type', 'Category', 'price'), [
-            'user_id'   => auth()->id(),
-            'file'      => '/storage/' . $filepath,
-        ]));
+        if ($request->has('file')) {
+            $request->validate([
+                'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+            ]);
+            $url = $request->playlists_id;
+            parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
+
+            $filename = time() . '_' . $request->file->getClientOriginalName();
+            $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
+            Playlist::create(array_merge($request->only('type', 'Category', 'price'), [
+                'user_id'      => auth()->id(),
+                'playlists_id' => $my_array['v'],
+                'file'         => '/storage/' . $filepath,
+            ]));
+        } else {
+            $url = $request->playlists_id;
+            parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
+
+            Playlist::create(array_merge($request->only('type', 'Category', 'price'), [
+                'user_id'      => auth()->id(),
+                'playlists_id' => $my_array['v'],
+                'file'         => '',
+            ]));
+        }
+
         return back()->with('success', 'Tutorial has been uploaded Successfully');
     }
 

@@ -26,7 +26,7 @@ class RequestController extends Controller
     // All requests page
     public function index()
     {
-       
+
         $datas = ModelsRequest::orderBy('created_at', 'DESC')->cursorPaginate(6);
         $categ = ModelsRequest::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
         $bid = Reqbid::all();
@@ -109,22 +109,33 @@ class RequestController extends Controller
     {
 
         $request->validate([
-            'requestname'  => ['required', 'string'],
+            'requestname'  => ['required', 'string', 'max:25'],
             'description'  => ['required', 'string'],
             'days'         => ['required'],
             'coursename'   => ['required', 'string'],
-            'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png'],
             'tag'          => ['required'],
             'price'          => ['required'],
         ]);
 
-        $filename = time() . '_' . $request->file->getClientOriginalName();
-        $imgPath = $request->file('file')->storeAs('ReqFile', $filename, 'public');
-        ModelsRequest::create(array_merge($request->only('requestname', 'days', 'coursename', 'description', 'tag', 'price'), [
-            'user_id' => auth()->id(),
-            'file'    => '/storage/' . $imgPath,
-            'filename' => $filename,
-        ]));
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+            ]);
+            $filename = time() . '_' . $request->file->getClientOriginalName();
+            $imgPath = $request->file('file')->storeAs('ReqFile', $filename, 'public');
+            ModelsRequest::create(array_merge($request->only('requestname', 'days', 'coursename', 'description', 'tag', 'price'), [
+                'user_id' => auth()->id(),
+                'file'    => '/storage/' . $imgPath,
+                'filename' => $filename,
+            ]));
+        } else {
+            ModelsRequest::create(array_merge($request->only('requestname', 'days', 'coursename', 'description', 'tag', 'price'), [
+                'user_id' => auth()->id(),
+                'file'    => '',
+                'filename' => '',
+            ]));
+        }
+
         return redirect('/')->with('reqstatus', 'Your Request Published Successfully:)');
     }
 

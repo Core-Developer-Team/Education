@@ -17,73 +17,73 @@ use Illuminate\Support\Facades\Auth;
 
 class ReqSolutionController extends Controller
 {
-      //Request solution Store
-      public function store(Request $request)
-      {
-        
-          $request->validate([
-              'file'         => ['required','mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx,jpg,jpeg,png,svg','max:10000'],
-              'description'  => ['required','string','max:255'],
-              'request_id'   => ['unique:req_solutions,request_id,'.$request->request_id],
-              'user_id'      => ['required'],
-          ]);
-        
-           ReqSolution::create($request->only('file','description','request_id','user_id'));
-           Reqbid::where('request_id', $request->request_id)->update([
-               'status' => '1',
-           ]);     
-           User::where('id',$request->user_id)->increment('solutions',1);
+    //Request solution Store
+    public function store(Request $request)
+    {
 
-           $users = User::where('id',$request->user_id)->first();
-            
-           if ($users->solutions>=20) {
+        $request->validate([
+            'file'         => ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx,jpg,jpeg,png,svg,zip,rar', 'max:10000'],
+            'description'  => ['required', 'string', 'max:255'],
+            'request_id'   => ['unique:req_solutions,request_id,' . $request->request_id],
+            'user_id'      => ['required'],
+        ]);
+
+        ReqSolution::create($request->only('file', 'description', 'request_id', 'user_id'));
+        Reqbid::where('request_id', $request->request_id)->update([
+            'status' => '1',
+        ]);
+        User::where('id', $request->user_id)->increment('solutions', 1);
+
+        $users = User::where('id', $request->user_id)->first();
+
+        if ($users->solutions >= 20) {
             $users->badge_id = 2;
-           } elseif($users->solutions>=70) {
-            $users->badge_id =3;
-           } elseif($users->solutions>=80) {
-            $users->badge_id =4;
-           } elseif($users->solutions>=100) {
-            $users->badge_id =5;
-           }
-           $users->update();
+        } elseif ($users->solutions >= 70) {
+            $users->badge_id = 3;
+        } elseif ($users->solutions >= 80) {
+            $users->badge_id = 4;
+        } elseif ($users->solutions >= 100) {
+            $users->badge_id = 5;
+        }
+        $users->update();
 
-           return back()->with('solstatus','Your Solution Published Successfully Wait for client action:)');  
-      }
+        return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
+    }
 
-      //get my solution
-       public function mysol()
-       {
-           $data = ReqSolution::where('user_id',Auth()->id())->get();
-           $req_count = ModelsRequest::count();
-           $feed_count = Feedback::count();
-           $mysol = ReqSolution::where('user_id',Auth()->id())->count();
-           $myques = ModelsRequest::where('user_id',Auth()->id())->count();
-           $res  = Resource::count();
-           $event = Event::count();
-           $offline = Offlinetopic::count();
-           $product = Product::count();
-           $prop   = Proposal::count();
-           $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
-           $sol_count = ReqSolution::orderBy('created_at','DESC')->count();
-           return view('mysolutions',compact('data','sol_count','prev_count','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
-       }
+    //get my solution
+    public function mysol()
+    {
+        $data = ReqSolution::where('user_id', Auth()->id())->get();
+        $req_count = ModelsRequest::count();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('mysolutions', compact('data', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    }
 
-       //all solutions 
-       public function allsolution()
-       {
-           $datas = ReqSolution::orderBy('created_at','DESC')->cursorPaginate(6);
-           $bid = Reqbid::all();
-           $req_count = ModelsRequest::count();
-           $feed_count = Feedback::count();
-           $mysol = ReqSolution::where('user_id',Auth()->id())->count();
-           $myques = ModelsRequest::where('user_id',Auth()->id())->count();
-           $res  = Resource::count();
-           $event = Event::count();
-           $offline = Offlinetopic::count();
-           $product = Product::count();
-           $prop   = Proposal::count();
-           $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
-           $sol_count = ReqSolution::orderBy('created_at','DESC')->count();
-           return view('allsolutions',compact('datas','sol_count','prev_count','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
-       }
+    //all solutions 
+    public function allsolution()
+    {
+        $datas = ReqSolution::orderBy('created_at', 'DESC')->cursorPaginate(6);
+        $bid = Reqbid::all();
+        $req_count = ModelsRequest::count();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('allsolutions', compact('datas', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    }
 }

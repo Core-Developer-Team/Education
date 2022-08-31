@@ -280,16 +280,65 @@
                         <div class="recent-items">
                             <div class="posts-list">
                                 <div class="feed-shared-author-dt">
-                                    <div class="author-left">
+                                    <div class="author-left userimg">
                                         <a href="#"><img class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                                 src="/storage/{{ $data->user->image }}" alt=""></a>
+                                        <!--hover on image-->
+                                        <div class="box imagehov shadow"
+                                            style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                            <div class="full-width">
+                                                <div class="recent-items">
+                                                    <div class="posts-list">
+                                                        <div class="feed-shared-author-dt">
+                                                            <div class="author-left">
+                                                                <a href="#"><img
+                                                                        class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                        src="/storage/{{ $data->user->image }}"
+                                                                        alt=""></a>
+                                                            </div>
+                                                            <div class="author-dts">
+                                                                <p class="notification-text font-username">
+                                                                    <a href="#"
+                                                                        class="text-danger">{{ $data->user->username }}
+                                                                    </a><img src="{{ $data->user->badge->image }}"
+                                                                        alt="" style="width: 20px;"
+                                                                        title="{{ $data->user->badge->name }}">
+                                                                    <span class="job-loca"><i
+                                                                            class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                                                </p>
+
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Joined on
+                                                                        {{ $data->user->created_at }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Total Solutions
+                                                                        {{ $data->user->solutions }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span
+                                                                        class="time-dt">{{ $data->user->badge->name }}</span>
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end hover-->
+                                    </div>
+                                    <div class="iconreq">
+                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                            src="{{ $data->user->badge->image }}" style="width:30px; height:30px"
+                                            alt="">
                                     </div>
                                     <div class="author-dts">
-                                        <a href="" class="problems_title">{{ $data->requestname }}
+                                        <a href="" class="problems_title">{{ $data->name }}
                                         </a>
                                         <p class="notification-text font-username">
                                             <a href="#" class="text-danger">{{ $data->user->username }}
-                                            </a><img src="images/badges/verified.svg" alt="Verified"
+                                            </a><img src="images/badges/verified.svg" class="d-none" alt="Verified"
                                                 style="width: 15px;" title="Verified">
                                             <span class="job-loca"><i
                                                     class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
@@ -304,7 +353,7 @@
                                             class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
                                         <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                         <a href=""
-                                            class="label-dker post_categories_top_right mr-20"><span>{{ $data->name }}</span></a>
+                                            class="label-dker post_categories_top_right mr-20"><span>{{ $data->category }}</span></a>
 
                                     </div>
                                 </div>
@@ -319,12 +368,12 @@
                                     <div class="action-btns-job">
                                         <a href="{{ route('resource.showresource', ['id' => $data->id]) }}"
                                             class="view-btn btn-hover">Detail</a>
-                                        <a href="my_job_detail_edit.html" title="Edit" class="bm-btn btn-hover"><i
+                                        <a href="" title="Edit" class="bm-btn btn-hover d-none"><i
                                                 class="feather-edit"></i></a>
-                                        <span class="bm-btn btn-hover ms-2" data-bs-toggle="modal" title="Delete"
+                                        <span class="bm-btn btn-hover ms-2 d-none" data-bs-toggle="modal" title="Delete"
                                             data-bs-target="#deleteJobModal"><i class="feather-trash-2"></i></span>
                                         <a href="#" title="Solved"
-                                            class="bm-btn bm-btn-hover-solve ms-2 active"><i
+                                            class="bm-btn bm-btn-hover-solve ms-2 d-none active"><i
                                                 class="fas fa-check"></i></a>
                                     </div>
                                 </div>
@@ -363,32 +412,32 @@
                         <div class="form-group">
                             <label for="name">Resource Name</label>
                             <input type="text" name="name" class="form-control" id="name">
-                            <div class="text-danger mt-2 text-sm nameerror">
+                            <div class="text-danger mt-2 text-sm name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="price">Resource Price</label>
                             <input type="number" name="price" class="form-control" id="price">
-                            <div class="text-danger mt-2 text-sm priceerror">
+                            <div class="text-danger mt-2 text-sm price">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="category">Resource Category</label>
                             <input type="text" name="category" class="form-control" id="category">
-                            <div class="text-danger mt-2 text-sm categoryerror">
+                            <div class="text-danger mt-2 text-sm category">
                             </div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="chooseFile" class="custom-file-label">Select File</label>
                             <input type="file" name="file" class="form-control"
-                                accept="image/*,.doc,.docx,.pdf,.pptx" id="chooseFile">
-                            <div class="text-danger mt-2 text-sm fileerror"></div>
+                                accept="image/*,.doc,.docx,.pdf,.pptx,.zip,.rar" id="chooseFile">
+                            <div class="text-danger mt-2 text-sm file"></div>
                         </div>
 
                         <div class="form-group pt-2">
                             <label for="desc">Description</label>
                             <textarea id="desc" class="form-control" name="description" rows="3"></textarea>
-                            <div class="text-danger mt-2 text-sm descriptionerror"></div>
+                            <div class="text-danger mt-2 text-sm description"></div>
                         </div>
 
                         <button type="submit" name="submit" class="post-link-btn btn-hover mt-2">Upload</button>
@@ -403,3 +452,43 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<!--Resoure model script-->
+<script>
+    const resForm = $('form#res');
+    resForm.on('submit', (e) => {
+        e.preventDefault();
+        const formres = document.getElementById('res');
+        const formData = new FormData(formres);
+        const action = $(e.currentTarget).attr('action');
+        formData.append('_token', '{{ csrf_token() }}');
+        $.ajax({
+            url: action,
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                location.href = location.href;
+            },
+            error: function(error) {
+                const errorResponse = error.responseJSON.errors;
+                if (errorResponse.name) {
+                    $('.name').text(errorResponse.name[0]);
+                }
+                if (errorResponse.price) {
+                    $('.price').text(errorResponse.price[0]);
+                }
+                if (errorResponse.category) {
+                    $('.category').text(errorResponse.category[0]);
+                }
+                if (errorResponse.file) {
+                    $('.file').text(errorResponse.file[0]);
+                }
+                if (errorResponse.description) {
+                    $('.description').text(errorResponse.description[0]);
+                }
+            }
+        })
+    })
+</script>

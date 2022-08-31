@@ -236,7 +236,7 @@
                                                     style="width:30px; height:30px" alt="">
                                             </div>
                                             <div class="author-dts">
-                                                <a href="job_detail_view.html"
+                                                <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
                                                     class="problems_title">{{ $item->proposalname }}
                                                 </a>
                                                 <p class="notification-text font-username">
@@ -277,7 +277,7 @@
                                             <div class="action-btns-job">
                                                 <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
                                                     class="view-btn btn-hover">Detail</a>
-                                                <a href="my_job_detail_edit.html" title="Edit"
+                                                <a href="" title="Edit"
                                                     class="bm-btn btn-hover"><i class="feather-edit"></i></a>
                                                 <span class="bm-btn btn-hover ms-2" data-bs-toggle="modal"
                                                     title="Delete" data-bs-target="#deleteJobModal"><i

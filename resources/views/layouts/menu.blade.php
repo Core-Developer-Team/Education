@@ -6,7 +6,7 @@
                 <i class="feather-menu"></i>
             </span>
         </button>
-        <a class="navbar-bran ms-lg-0 ml-2 me-auto" href="index.html">
+        <a class="navbar-bran ms-lg-0 ml-2 me-auto" href="{{route('req.index')}}">
             <div class="res_main_logo">
                 <img src="{{asset('images/res-logo.png')}}" alt="">
             </div>
@@ -149,6 +149,12 @@
                             <a href="{{ route('profile.show', ['id'=>Auth()->id()]) }}" id="night-mode"
                                 class="dropdown-item-link text-link text-center">
                                 Profile
+                            </a>
+                        </li>
+                        <li class="dropdown-menu-footer">
+                            <a href="{{ route('badge.show') }}" id="night-mode"
+                                class="dropdown-item-link text-link text-center">
+                                Badges
                             </a>
                         </li>
                         <li class="dropdown-menu-footer">

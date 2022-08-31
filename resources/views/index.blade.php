@@ -160,7 +160,7 @@
                                                     <span class="job-loca"><i
                                                             class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
                                                 </p>
-                                                <span>{{ Str::limit($data->description, 150, $end = '.........') }}</span>
+                                                <span>{{ Str::limit($data->description, 250, $end = '...') }}</span>
                                                 <p class="notification-text font-small-4 pt-1">
                                                     <span
                                                         class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
@@ -253,29 +253,29 @@
     </div>
 </div>
 @auth
-@if (Session::has('announcements'))
-    <!--announcement model-->
-    <div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="feather-mic me-2"></i> Announcement</h5>
-                    <button type="button" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                </div>
-                <div class="modal-body m-5">
-                
-                   <p> {{session()->get('announcements')->description}}</p>
-              
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="annclose">Close</button>
+    @if (Session::has('announcements'))
+        <!--announcement model-->
+        <div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="feather-mic me-2"></i> Announcement</h5>
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body m-5">
+
+                        <p> {{ session()->get('announcements')->description }}</p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="annclose">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 @endauth
 
@@ -330,7 +330,7 @@
                         <div class="form-group pt-2">
                             <label for="file">Image/PDF</label>
                             <input type="file" class="form-control" name="file" id="file"
-                                value="{{ old('file') }}" accept="image/*,.pdf" placeholder="Upload image or pdf">
+                                value="{{ old('file') }}" accept="image/*,.pdf,.zip,.rar" placeholder="Upload image or pdf">
                             <div class="text-danger mt-2 text-sm fileError"></div>
                         </div>
                         <div class="form-group pt-2">

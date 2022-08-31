@@ -321,8 +321,8 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group pt-2">
-                            <label for="playlists_id">video_Id</label>
-                            <input type="text" id="playlists_id" class="form-control" name="playlists_id"
+                            <label for="playlists_id">Video_URL</label>
+                            <input type="text" id="playlists_id" class="form-control" name="Paste video url"
                                 value="{{ old('playlists_id') }}">
                             <div class="text-danger mt-2 text-sm playlistserror">
                             </div>
@@ -337,7 +337,7 @@
                         <div class="form-group pt-2">
                             <label for="file">File</label>
                             <input type="file" class="form-control" name="file" id="file"
-                                accept=".doc,.docx,.pdf,.pptx" value="{{ old('file') }}"
+                                accept=".doc,.docx,.pdf,.pptx,.zip,.rar" value="{{ old('file') }}"
                                 placeholder="Upload file">
                             <div class="text-danger mt-2 text-sm fileError"></div>
                         </div>

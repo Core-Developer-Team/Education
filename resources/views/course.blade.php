@@ -305,8 +305,8 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group pt-2">
-                            <label for="playlists_id">playlists_id</label>
-                            <input type="text" id="playlists_id" class="form-control" name="playlists_id"
+                            <label for="playlists_id">Playlist_Url</label>
+                            <input type="text" id="playlists_id" class="form-control" name="Paste Playlist Url"
                                 value="{{ old('playlists_id') }}">
                             <div class="text-danger mt-2 text-sm playlistserror">
                             </div>

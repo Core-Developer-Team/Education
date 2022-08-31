@@ -272,40 +272,7 @@
         })
     })
 </script>
-<!--Resoure model script-->
-<script>
-    const resForm = $('form#res');
-    resForm.on('submit', (e) => {
-        e.preventDefault();
-        const formres = document.getElementById('res');
-        const formData = new FormData(formres);
-        const action = $(e.currentTarget).attr('action');
-        formData.append('_token', '{{ csrf_token() }}');
-        $.ajax({
-            url: action,
-            method: 'POST',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                location.href = location.href;
-            },
-            error: function(error) {
-                const errorResponse = error.responseJSON.errors;
-                if (errorResponse.name) {
-                    $('.name').text(errorResponse.name[0]);
-                }
-                if (errorResponse.file) {
-                    $('.file').text(errorResponse.file[0]);
-                }
-                if (errorResponse.description) {
-                    $('.description').text(errorResponse.description[0]);
-                }
-            }
-        })
-    })
-</script>
+
 <!--tutorial model script-->
 <script>
     const tutoForm = $('form#tuto');

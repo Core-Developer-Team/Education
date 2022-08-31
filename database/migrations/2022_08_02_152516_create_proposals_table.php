@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('price');
             $table->text('description');
             $table->integer('view_count')->default(0);
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->string('filename');
             $table->timestamps();
         });

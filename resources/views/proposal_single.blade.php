@@ -31,11 +31,54 @@
                             <div class="posts-list">
                                 <div class="feed-job-dt">
                                     <div class="joblftdt5">
-                                        <div class="author-left main_img_view">
+                                        <div class="author-left main_img_view userimg">
                                             <a href="#"><img
                                                     class="ft-plus-square main-job-bg-circle bg-cyan me-0"
                                                     src="/storage/{{ $data->user->image }}" alt=""></a>
+                                            <!--hover on image-->
+                                            <div class="box imagehov shadow"
+                                                style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                <div class="full-width">
+                                                    <div class="recent-items">
+                                                        <div class="posts-list">
+                                                            <div class="feed-shared-author-dt">
+                                                                <div class="author-left">
+                                                                    <a href="#"><img
+                                                                            class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                            src="/storage/{{ $data->user->image }}"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="author-dts">
+                                                                    <p class="notification-text font-username">
+                                                                        <a href="#"
+                                                                            class="text-danger">{{ $data->user->username }}
+                                                                        </a><img src="{{ $data->user->badge->image }}"
+                                                                            alt="" style="width: 20px;"
+                                                                            title="{{ $data->user->badge->name }}">
+                                                                        <span class="job-loca"><i
+                                                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                                                    </p>
 
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Joined on
+                                                                            {{ $data->user->created_at }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Total Solutions
+                                                                            {{ $data->user->solutions }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span
+                                                                            class="time-dt">{{ $data->user->badge->name }}</span>
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end hover-->
                                         </div>
                                         <div class="iconreq">
                                             <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
@@ -110,10 +153,61 @@
                                             <div
                                                 class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
                                                 <div class="">
-                                                    <div class="rounded-circle d-flex">
+                                                    <div class="rounded-circle d-flex userimg">
                                                         <img src="/storage/{{ $bids->user->image }}"
                                                             class="rounded-circle" style="width: 50px;height: 50px;"
                                                             alt="" srcset="">
+                                                        <!--hover on image-->
+                                                        <div class="box imagehov shadow"
+                                                            style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                            <div class="full-width">
+                                                                <div class="recent-items">
+                                                                    <div class="posts-list">
+                                                                        <div class="feed-shared-author-dt">
+                                                                            <div class="author-left">
+                                                                                <a href="#"><img
+                                                                                        class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                                        src="/storage/{{ $bids->user->image }}"
+                                                                                        alt=""></a>
+                                                                            </div>
+                                                                            <div class="author-dts">
+                                                                                <p
+                                                                                    class="notification-text font-username">
+                                                                                    <a href="#"
+                                                                                        class="text-danger">{{ $bids->user->username }}
+                                                                                    </a><img
+                                                                                        src="{{ $bids->user->badge->image }}"
+                                                                                        alt=""
+                                                                                        style="width: 20px;"
+                                                                                        title="{{ $bids->user->badge->name }}">
+                                                                                    <span class="job-loca"><i
+                                                                                            class="fas fa-location-arrow"></i>{{ $bids->user->uni_name }}</span>
+                                                                                </p>
+
+                                                                                <p
+                                                                                    class="notification-text font-small-4 pt-1">
+                                                                                    <span class="time-dt">Joined on
+                                                                                        {{ $bids->user->created_at }}</span>
+                                                                                </p>
+                                                                                <p
+                                                                                    class="notification-text font-small-4 pt-1">
+                                                                                    <span class="time-dt">Total
+                                                                                        Solutions
+                                                                                        {{ $bids->user->solutions }}</span>
+                                                                                </p>
+                                                                                <p
+                                                                                    class="notification-text font-small-4 pt-1">
+                                                                                    <span
+                                                                                        class="time-dt">{{ $bids->user->badge->name }}</span>
+                                                                                </p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end hover-->
                                                         <div class="ps-4 pt-3">
                                                             <p class="h3">{{ $bids->user->username }}</p>
                                                             <p> <small>Bid on
@@ -151,9 +245,59 @@
                                         @forelse ($data->propsolution()->orderBy('updated_at','DESC')->get() as $item)
                                             <div
                                                 class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
-                                                <div class="rounded-circle d-flex">
-                                                    <img src="/storage/{{ $item->user->image }}" class="rounded-circle"
-                                                        style="width: 50px;height: 50px;" alt="" srcset="">
+                                                <div class="rounded-circle d-flex userimg">
+                                                    <img src="/storage/{{ $item->user->image }}"
+                                                        class="rounded-circle" style="width: 50px;height: 50px;"
+                                                        alt="" srcset="">
+                                                    <!--hover on image-->
+                                                    <div class="box imagehov shadow"
+                                                        style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                        <div class="full-width">
+                                                            <div class="recent-items">
+                                                                <div class="posts-list">
+                                                                    <div class="feed-shared-author-dt">
+                                                                        <div class="author-left">
+                                                                            <a href="#"><img
+                                                                                    class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                                    src="/storage/{{ $item->user->image }}"
+                                                                                    alt=""></a>
+                                                                        </div>
+                                                                        <div class="author-dts">
+                                                                            <p class="notification-text font-username">
+                                                                                <a href="#"
+                                                                                    class="text-danger">{{ $item->user->username }}
+                                                                                </a><img
+                                                                                    src="{{ $item->user->badge->image }}"
+                                                                                    alt=""
+                                                                                    style="width: 20px;"
+                                                                                    title="{{ $item->user->badge->name }}">
+                                                                                <span class="job-loca"><i
+                                                                                        class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                            </p>
+
+                                                                            <p
+                                                                                class="notification-text font-small-4 pt-1">
+                                                                                <span class="time-dt">Joined on
+                                                                                    {{ $item->user->created_at }}</span>
+                                                                            </p>
+                                                                            <p
+                                                                                class="notification-text font-small-4 pt-1">
+                                                                                <span class="time-dt">Total Solutions
+                                                                                    {{ $item->user->solutions }}</span>
+                                                                            </p>
+                                                                            <p
+                                                                                class="notification-text font-small-4 pt-1">
+                                                                                <span
+                                                                                    class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end hover-->
                                                     <div class="ps-4 pt-0">
                                                         <p class="h2">{{ $item->user->username }}</p>
                                                         <p> <small>Created on
@@ -196,18 +340,20 @@
                         </div>
                     </div>
                     <!--file-->
-                    <div class="event-card mt-4">
-                        <div class="jobdt99">
-                            <div class="jbdes25">
-                                <div class="jobtxt47">
-                                    <h4>Download file from here</h4>
-                                    <hr>
-                                    <a href="{{ $data->file }}" download>Download here</a>
-                                </div>
+                    @if (!$data->file == '')
+                        <div class="event-card mt-4">
+                            <div class="jobdt99">
+                                <div class="jbdes25">
+                                    <div class="jobtxt47">
+                                        <h4>Download file from here</h4>
+                                        <hr>
+                                        <a href="{{ $data->file }}" download>Download here</a>
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <div class="col-lg-3 col-md-12">
 
@@ -271,8 +417,8 @@
                         <input type="hidden" name="proposal_id" value="{{ $data->id }}">
                         <div class="form-group">
                             <label for="price">Enter Your Amount</label>
-                            <input type="number" class="form-control" name="price" id="price"
-                                placeholder="" value="{{ old('price') }}">
+                            <input type="number" class="form-control" name="price" id="price" placeholder=""
+                                value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceError"></div>
                         </div>
                         <div class="form-group pt-2 pb-2">
@@ -364,8 +510,8 @@
                     <!--Review Form-->
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
-                        @if ($data->propsolution()->count()>=1)
-                        <input type="hidden" name="t_user_id" value="{{ $data->propsolution->user_id }}">           
+                        @if ($data->propsolution()->count() >= 1)
+                            <input type="hidden" name="t_user_id" value="{{ $data->propsolution->user_id }}">
                         @endif
                         <div class="mt-30">
                             <div class="rating-container">

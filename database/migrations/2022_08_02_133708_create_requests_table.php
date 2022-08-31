@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('view_count')->default(0);
             $table->integer('price');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->string('filename');
             $table->enum('tag', ['0', '1']);
             $table->timestamps();

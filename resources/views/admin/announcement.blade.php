@@ -68,14 +68,24 @@
                                         </td>
                                         <td>
                                             @if ($announcement->active == 0)
-                                                <a href="{{ route('admin.updateannouncement', ['id'=>$announcement->active]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit">
+                                                <a href="{{ route('admin.updateannouncement', ['id' => $announcement->id]) }}"
+                                                    class="btn btn-sm btn-info"><i class="fa fa-edit">
                                                     </i> Activate </a>
+                                            @else
+                                                <a href="" class="btn btn-sm btn-info"><i class="fa fa-edit">
+                                                    </i> Deactivate </a>
+                                            @endif
+                                            <form action="{{ route('admin.destroyannouncement', ['id'=>$announcement->id]) }}"
+                                                method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger"><i
+                                                        class="fa fa-trash-alt">
+                                                    </i></button>
+                                            </form>
                                         </td>
-                                    @else
-                                        <a href="{{ route('admin.updateannouncement', ['id'=>$announcement->active]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit">
-                                            </i> Deactivate </a></td>
-                                @endif
-                                </tr>
+
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

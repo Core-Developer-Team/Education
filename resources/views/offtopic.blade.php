@@ -31,8 +31,12 @@
                                         <li class=" @if ($chat->user_id == Auth()->id()) you @else me @endif">
                                             <div class="chat-thumb">
                                                 <img src="/storage/{{$chat->user->image}}" alt="">
+                                               
                                             </div>
                                             <div class="notifi-event">
+                                                <span class=" @if($chat->user->id==Auth()->id())text-warning @else text-secondary @endif">
+                                                    @if($chat->user->id==Auth()->id()) You @else  {{$chat->user->username }} @endif
+                                                </span>
                                                 <span class="chat-msg-item">
                                                     {{$chat->group_chat_message }}
                                                 </span>
