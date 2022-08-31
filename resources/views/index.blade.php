@@ -126,49 +126,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-<<<<<<< HEAD
-                                            <div class="iconreq">
-                                                <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                    src="{{ $data->user->badge->image }}"
-                                                    style="width:30px; height:30px" alt="">
-                                            </div>
-                                            <div class="author-dts">
-                                                <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
-                                                    class="problems_title">{{ $data->requestname }}</a>
-                                                <p class="notification-text font-username">
-                                                    <a href="#"
-                                                        class="@if ($data->user->badge->id == 1) text-primary @elseif($data->user->badge->id == 2) text-secondary @elseif($data->user->badge->id == 3) text-info @elseif($data->user->badge->id == 4) text-warning @elseif($data->user->badge->id == 5) text-danger @elseif($data->user->badge->id == 6) text-success @endif ">{{ $data->user->username }}
-                                                        &nbsp;
-                                                    </a><img src="images/badges/verified.svg" class="d-none"
-                                                        alt="Verified" style="width: 17px;" title="Verified">
-                                                    <span class="job-loca"><i
-                                                            class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
-                                                </p>
-                                                <span>{{ Str::limit($data->description, 250, $end = '...') }}</span>
-                                                <p class="notification-text font-small-4 pt-1">
-                                                    <span
-                                                        class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
-                                                </p>
-                                                <div class="jbopdt142">
-                                                    <div class="jbbdges10">
-                                                        <span class="job-badge ffcolor">
-                                                            @if ($data->tag == 1)
-                                                                Offline
-                                                            @else
-                                                                Online
-                                                            @endif
-                                                        </span>
-                                                        <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                                        <span class="job-badge ttcolor">
-                                                            @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 0)
-                                                                0 days left
-                                                            @else
-                                                                {{ $data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) }}
-                                                                days left
-                                                            @endif
-                                                        </span>
-                                                    </div>
-=======
+
                                             <!-- end hover-->
                                         </div>
                                         <div class="iconreq">
@@ -198,7 +156,7 @@
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                                     <span class="job-badge ttcolor">
                                                         @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 1) @if ($data->days*24*60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60) {{$data->days*24*60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now())}} Minutes left @else {{$data->days*24 - $data->created_at->diffInHours(\Carbon\Carbon::now())}} Hours left @endif @else {{ $data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) }} days left @endif </span>
->>>>>>> main
+
                                                 </div>
                                             </div>
                                         </div>
