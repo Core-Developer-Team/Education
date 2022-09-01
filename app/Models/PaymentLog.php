@@ -13,6 +13,9 @@ class PaymentLog extends Model
         'request_id',
         'amount',
         'payment_method',
-        'payment_details'
+        'payment_details',
+        'pay_by',
+        'pay_for',
+        'bid_id',
     ];
 }
