@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->unique();
             $table->foreignId('resource_id')->constrained();
-            $table->integer('price')->nullable();
-            $table->string('description')->nullable();
+            $table->integer('price');
+            $table->string('description');
             $table->timestamps();
         });
     }

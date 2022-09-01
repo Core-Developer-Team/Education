@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Event;
 use App\Models\Feedback;
 use App\Models\Offlinetopic;
@@ -12,6 +13,7 @@ use App\Models\ReqSolution;
 use Illuminate\Http\Request;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
+use App\Models\Review;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
@@ -24,6 +26,7 @@ class RequestController extends Controller
     // All requests page
     public function index()
     {
+       
         $datas = ModelsRequest::orderBy('created_at', 'DESC')->cursorPaginate(6);
         $categ = ModelsRequest::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
         $bid = Reqbid::all();
@@ -36,7 +39,11 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('index', compact('datas', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+
+
+        return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     // All requests page
     public function previousyearQuestion()
@@ -53,7 +60,9 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('previousyearrequests', compact('datas', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('previousyearrequests', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //get latest request
     public function latest()
@@ -70,7 +79,9 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('index', compact('datas', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //get week request
@@ -88,7 +99,9 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('index', compact('datas', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //store requests
@@ -142,7 +155,31 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('myrequests', compact('datas', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('myrequests', compact('datas', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    }
+    //search cat
+    public function searchcat($name)
+    {
+        $search = $name;
+        $datas = ModelsRequest::query()
+            ->Where('coursename', 'LIKE', "%{$search}%")
+            ->cursorPaginate(6);
+        $bid = Reqbid::all();
+        $categ = ModelsRequest::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $req_count = ModelsRequest::count();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //search
     public function search(Request $request)
@@ -166,7 +203,9 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('index', compact('datas', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //show edit page
     public function show($id)
@@ -181,7 +220,9 @@ class RequestController extends Controller
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
-        return view('editrequest', compact('data', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('editrequest', compact('data', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //update request
     public function update(Request $request, $id)
@@ -225,5 +266,4 @@ class RequestController extends Controller
         $data->delete();
         return back()->with('success', 'Request has deleted Successfully');
     }
-
 }

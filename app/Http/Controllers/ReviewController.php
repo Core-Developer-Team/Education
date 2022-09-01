@@ -18,6 +18,7 @@ class ReviewController extends Controller
             'f_user_id'   => auth()->id(),
             't_user_id'   => $request->t_user_id,
         ]));
+        
         return back()->with('reciewstatus', 'Thanks for your Review :)');
     }
 }

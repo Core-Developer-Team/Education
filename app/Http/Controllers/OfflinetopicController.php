@@ -9,7 +9,7 @@ class OfflinetopicController extends Controller
 {
      //show offline topic page
    public function show(){
-    $chats=Offlinetopic::orderBy('updated_at','DESC')->get();
+    $chats=Offlinetopic::orderBy('updated_at','ASC')->get();
   return view('offtopic', compact('chats'));
  }
  //get values

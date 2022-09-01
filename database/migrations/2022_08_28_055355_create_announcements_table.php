@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('playlists', function (Blueprint $table) {
+        Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->integer('price');
-            $table->string('Category');
-            $table->string('file');
-            $table->enum('type', ['0', '1']);
-            $table->integer('view_count')->default(0);
-            $table->string('playlists_id');
+            $table->string('description');
+            $table->boolean('active');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('playlists');
+        Schema::dropIfExists('announcements');
     }
 };

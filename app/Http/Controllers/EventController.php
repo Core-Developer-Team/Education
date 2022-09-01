@@ -10,19 +10,22 @@ class EventController extends Controller
 {
     public function index()
     {
-        $data = Event::orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        return view('event', compact('data'));
+        $data = Event::where('event_date','=', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $expires = Event::where('event_date','<', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $upcoming = Event::where('event_date','>', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        return view('event', compact('data','expires','upcoming'));
     }
+   
     public function store(Request $request)
     {
         $request->validate([
-            'name'   => 'required',
+            'name'           => 'required',
             'image'          => 'required|image|mimes:jpg,jpeg,png,svg',
             'description'    => 'required|string',
             'location'       => 'required',
-            'event_date'           => 'required',
-            'start_time'           => 'required',
-            'end_time'           => 'required',
+            'event_date'     => 'required',
+            'start_time'     => 'required',
+            'end_time'       => 'required',
         ]);
         $imagename = time() . '_' . $request->image->getClientOriginalName();
         $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');

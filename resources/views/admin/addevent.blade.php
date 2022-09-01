@@ -79,27 +79,36 @@
                         </div>
                         <div class="form-group">
                             <label for="date">Event_Date</label>
-                            <input type="date" class="form-control  @error('date') border-danger @enderror"
-                                name="event_date" id="date" placeholder="date"
-                                value=@isset($data) {{ $data->event_date }}
-                                @else{{ old('event_date') }} @endisset>
-                            @error('event_date')
+                            <input type="date" class="form-control" name="event_date" id="date"
+                                placeholder="date" value={{ old('event_date') }}>
+                              @error('event_date')
                                 <div class="text-danger mt-2 text-sm">
                                     {{ $message }}
                                 </div>
                             @enderror
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="time">Event_Time</label>
-                            <input type="time" class="form-control  @error('time') border-danger @enderror"
-                                name="event_time" id="time" placeholder="time"
-                                value=@isset($data) {{ $data->event_time }}
-                                @else{{ old('event_time') }} @endisset>
-                            @error('event_time')
+                            <label for="time">Start_Time</label>
+                            <input type="time" class="form-control" name="start_time" id="time"
+                                placeholder="time" value={{ old('start_time') }}>
+                              @error('start_time')
                                 <div class="text-danger mt-2 text-sm">
                                     {{ $message }}
                                 </div>
                             @enderror
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Event End_Time</label>
+                            <input type="time" class="form-control" name="end_time" id="time"
+                                placeholder="time" value={{ old('end_time') }}>
+                             @error('end_time')
+                                <div class="text-danger mt-2 text-sm">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>

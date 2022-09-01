@@ -216,10 +216,6 @@
                                 <div class="jbdes25">
                                     <div class="jobtxt47">
                                         <h4>Solution</h4>
-                                        @if (auth()->id() == $data->user_id)
-                                            <a href=""
-                                                class="label-dker post_categories_reported mr-10"><span>Report</span></a>
-                                        @endif
                                         @forelse ($data->reqsolution()->orderBy('updated_at','DESC')->get() as $item)
                                             <div
                                                 class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
@@ -234,12 +230,15 @@
                                                         </p>
                                                         <p>{{ $item->description }}</p>
                                                         <div class="jobtxt47">
-                                                            <hr>
-                                                            <h4>Download file from here</h4>
-
                                                             <a href="{{ $data->file }}"
-                                                                download="{{ $data->file }}">{{ $data->file }}</a>
+                                                                download=>Download file from here</a>
                                                         </div>
+                                                        <a href=""
+                                                        class="label-dker post_categories_reported mr-10"><span>Report</span></a>
+                                                    <a href=""
+                                                        class="label-dker post_categories_top_right mr-20"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#review"><span>Review</span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -259,9 +258,9 @@
                                     <h4>Download file from here</h4>
                                     <hr>
                                     <a href="{{ $data->file }}"
-                                        download="{{ $data->filename }}">{{ $data->filename }}</a>
+                                        download>download from here</a>
                                 </div>
-
+                             
                             </div>
                         </div>
                     </div>
@@ -365,7 +364,7 @@
                                 </ul>
                             </div>
                             <div class="profile-link">
-                                <a href="">View Detail</a>
+                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}">View Detail</a>
                             </div>
                         </div>
                     </div>

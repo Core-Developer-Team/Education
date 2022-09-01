@@ -142,10 +142,7 @@
                                                             View</a>
                                                     </div>
                                                     <div class="action-btns-job">
-                                                        <a href="#" class="crt-btn crt-btn-hover me-2"><i
-                                                                class="feather-shopping-cart"></i></a>
-                                                        <a href="#" class="bm-btn bm-btn-hover active"><i
-                                                                class="feather-bookmark"></i></a>
+                                                       <i class="fas fa-eye"></i> {{$item->view_count}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,9 +150,7 @@
                                     </div>
                                 </div>
                             @empty
-                                <div class="alert alert-success">
-                                    <strong>Sorry! No Data Found</strong>
-                                </div>
+                          
                             @endforelse
                             <div class="mt-3">
                                 {{ $data->links() }}
@@ -178,6 +173,15 @@
             </div>
             <div class="modal-body">
                 <div class="container bg-white rounded">
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     <!--book Form-->
                     <form action="{{ route('books.store') }}" class="form p-3" id="bok" method="POST"
                         enctype="multipart/form-data">

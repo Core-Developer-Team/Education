@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('requestname')->nullable();
+            $table->string('requestname');
             $table->string('coursename');
-            $table->integer('days')->nullable();
+            $table->integer('days');
             $table->text('description');
             $table->integer('view_count')->default(0);
             $table->integer('price');
-            $table->string('file')->nullable();
+            $table->string('file');
             $table->string('filename');
             $table->enum('tag', ['0', '1']);
             $table->timestamps();

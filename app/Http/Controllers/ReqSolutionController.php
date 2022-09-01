@@ -33,6 +33,20 @@ class ReqSolutionController extends Controller
                'status' => '1',
            ]);     
            User::where('id',$request->user_id)->increment('solutions',1);
+
+           $users = User::where('id',$request->user_id)->first();
+            
+           if ($users->solutions>=20) {
+            $users->badge_id = 2;
+           } elseif($users->solutions>=70) {
+            $users->badge_id =3;
+           } elseif($users->solutions>=80) {
+            $users->badge_id =4;
+           } elseif($users->solutions>=100) {
+            $users->badge_id =5;
+           }
+           $users->update();
+
            return back()->with('solstatus','Your Solution Published Successfully Wait for client action:)');  
       }
 
@@ -49,7 +63,9 @@ class ReqSolutionController extends Controller
            $offline = Offlinetopic::count();
            $product = Product::count();
            $prop   = Proposal::count();
-           return view('mysolutions',compact('data','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+           $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+           $sol_count = ReqSolution::orderBy('created_at','DESC')->count();
+           return view('mysolutions',compact('data','sol_count','prev_count','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
        }
 
        //all solutions 
@@ -66,6 +82,8 @@ class ReqSolutionController extends Controller
            $offline = Offlinetopic::count();
            $product = Product::count();
            $prop   = Proposal::count();
-           return view('allsolutions',compact('datas','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
+           $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+           $sol_count = ReqSolution::orderBy('created_at','DESC')->count();
+           return view('allsolutions',compact('datas','sol_count','prev_count','bid','req_count','feed_count','mysol','myques','res','event','offline','product','prop'));
        }
 }

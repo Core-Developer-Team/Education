@@ -22,6 +22,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\OfflinetopicController;
 use App\Http\Controllers\BookorderController;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AnnouncementController;
 use App\Http\Controllers\admin\BooksController;
 use App\Http\Controllers\admin\CourseController as AdminCourseController;
 use App\Http\Controllers\admin\proposalController as AdminproposalController;
@@ -163,6 +164,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/res_weekly', [ResourceController::class, 'week'])->name('res.week');
     // event page
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
+    Route::get('/event_upcomming', [EventController::class, 'upcomming'])->name('event.upcomming');
+    Route::get('/event_expires', [EventController::class, 'expires'])->name('event.expires');
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
     //offline topic
     Route::get('/offlinetopic', [OfflinetopicController::class, ('show')])->name('offlinetopic.show');
@@ -241,6 +244,10 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('/admin/badge', BadgeController::class);
     Route::resource('/admin/user', UserController::class);
     Route::resource('/admin/event', AdminEventController::class);
+    Route::get('/admin/announcement', [AnnouncementController::class, 'index'])->name('announcement');
+    Route::get('/admin/addannouncement', [AnnouncementController::class, 'get'])->name('addannouncement');
+    Route::post('/admin/addannouncement', [AnnouncementController::class, 'store'])->name('storeannouncement');
+    Route::get('/admin/announcement/{id}', [AnnouncementController::class, 'updatestatus'])->name('updateannouncement');
 });
 
 // terms of use and privacy
