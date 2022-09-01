@@ -7,6 +7,7 @@ use App\Models\Feedback;
 use App\Models\Offlinetopic;
 use App\Models\Product;
 use App\Models\Proposal;
+use App\Models\Reqbid;
 use App\Models\ReqSolution;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
@@ -22,6 +23,7 @@ class ResourceController extends Controller
   public function index()
   {
     $datas = Resource::orderBy('updated_at', 'DESC')->cursorPaginate(6);
+    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $req_count = ModelsRequest::count();
     $feed_count = Feedback::count();
     $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -33,7 +35,7 @@ class ResourceController extends Controller
     $prop   = Proposal::count();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //get latest request
   public function latest()
@@ -48,9 +50,28 @@ class ResourceController extends Controller
     $offline = Offlinetopic::count();
     $product = Product::count();
     $prop   = Proposal::count();
+    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+  }
+  //get trending request
+  public function trending()
+  {
+    $datas = Resource::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->cursorPaginate(6);
+    $req_count = ModelsRequest::count();
+    $feed_count = Feedback::count();
+    $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+    $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+    $res  = Resource::count();
+    $event = Event::count();
+    $offline = Offlinetopic::count();
+    $product = Product::count();
+    $prop   = Proposal::count();
+    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+    $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+    $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
 
   //get week request
@@ -66,9 +87,10 @@ class ResourceController extends Controller
     $offline = Offlinetopic::count();
     $product = Product::count();
     $prop   = Proposal::count();
+    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //insert data into database
   public function store(Request $request)
@@ -123,6 +145,41 @@ class ResourceController extends Controller
     $datas = Resource::query()
       ->where('name', 'LIKE', "%{$search}%")
       ->cursorPaginate(6);
-    return view('resources', compact('datas'));
+
+    $req_count = ModelsRequest::count();
+    $feed_count = Feedback::count();
+    $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+    $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+    $res  = Resource::count();
+    $event = Event::count();
+    $offline = Offlinetopic::count();
+    $product = Product::count();
+    $prop   = Proposal::count();
+    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+    $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+    $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+  }
+  //search cat
+  public function searchcategory($name)
+  {
+    $search = $name;
+    $datas = Resource::query()
+      ->Where('category', 'LIKE', "%{$search}%")
+      ->cursorPaginate(6);
+    $bid = Reqbid::all();
+    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+    $req_count = ModelsRequest::count();
+    $feed_count = Feedback::count();
+    $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+    $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+    $res  = Resource::count();
+    $event = Event::count();
+    $offline = Offlinetopic::count();
+    $product = Product::count();
+    $prop   = Proposal::count();
+    $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+    $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+    return view('resources', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
 }

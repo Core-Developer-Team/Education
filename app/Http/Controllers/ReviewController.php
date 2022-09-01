@@ -18,7 +18,39 @@ class ReviewController extends Controller
             'f_user_id'   => auth()->id(),
             't_user_id'   => $request->t_user_id,
         ]));
-        
+        $five = 0;
+        $four = 0;
+        $three = 0;
+        $two = 0;
+        $one = 0;
+        $avgrating= 0;
+        $reviews = Review::where('t_user_id', $request->t_user_id)->get();
+         foreach($reviews as $review)
+         {
+            
+           if($review->rating==5)
+           {
+            $five = $five+$review->rating;
+           }
+           if($review->rating==4)
+           {
+            $four = $four+$review->rating;
+           }
+           if($review->rating==3)
+           {
+            $three = $three+$review->rating;
+           }
+           if($review->rating==2)
+           {
+            $two = $two+$review->rating;
+           }
+           if($review->rating==1)
+           {
+            $one = $one+$review->rating;
+           }
+         }
+         $avgrating = (5*$five + 4*$four + 3*$three + 2*$two + 1*$one) / ($five + $four + $three + $two + $one);
+         dd($avgrating);
         return back()->with('reciewstatus', 'Thanks for your Review :)');
     }
 }

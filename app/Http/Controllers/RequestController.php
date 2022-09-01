@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
+use App\Models\Commentreport;
 use App\Models\Event;
 use App\Models\Feedback;
 use App\Models\Offlinetopic;
@@ -41,8 +42,8 @@ class RequestController extends Controller
         $prop   = Proposal::count();
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-
-
+         
+     
         return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     // All requests page
@@ -103,7 +104,25 @@ class RequestController extends Controller
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
         return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
-
+    //get trending requests
+    public function trending()
+    {
+        $datas = ModelsRequest::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->cursorPaginate(6);
+        $bid = Reqbid::all();
+        $categ = ModelsRequest::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $req_count = ModelsRequest::count();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        return view('index', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    }
     //store requests
     public function insert(Request $request)
     {
@@ -143,13 +162,14 @@ class RequestController extends Controller
     public function showsingle($id)
     {
         $data = ModelsRequest::find($id);
+        $reports = Commentreport::all();
         //increase view count
         $req_key = 'req_' . $id;
         if (!Session::has($req_key)) {
             $data->increment('view_count');
             Session::put($req_key, 1);
         }
-        return view('requestsingle', compact('data'));
+        return view('requestsingle', compact('data', 'reports'));
     }
     //get all requests by a user
     public function getuserrequests()

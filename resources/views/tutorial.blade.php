@@ -87,9 +87,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{ route('tutorial.latest') }}" class="fltr-btn fltr-active">Newest</a>
-                                    <a href="" class="fltr-btn">Trending</a>
-                                    <a href="{{ route('tutorial.week') }}" class="fltr-btn">Weekly</a>
+                                    <a href="{{ route('tutorial.latest') }}" class="fltr-btn @if (request()->getpathinfo() == '/tutlatest' || request()->getpathinfo() == '/tutorial') fltr-active @endif">Newest</a>
+                                    <a href="{{route('tutorial.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/tuttrending') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('tutorial.week') }}" class="fltr-btn @if (request()->getpathinfo() == '/tutorial_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -322,7 +322,7 @@
                         @csrf
                         <div class="form-group pt-2">
                             <label for="playlists_id">Video_URL</label>
-                            <input type="text" id="playlists_id" class="form-control" name="Paste video url"
+                            <input type="text" id="playlists_id" class="form-control" name="playlists_id"
                                 value="{{ old('playlists_id') }}">
                             <div class="text-danger mt-2 text-sm playlistserror">
                             </div>

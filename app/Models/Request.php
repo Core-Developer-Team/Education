@@ -42,4 +42,8 @@ class Request extends Model
     {
         return $this->hasOne(ReqSolution::class);
     }
+    public function reqsolutionreport()
+    {
+        return $this->hasOne(Reqsolutionreport::class);
+    }
 }

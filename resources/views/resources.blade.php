@@ -12,114 +12,18 @@
     <div class="container">
         <div class="row">
             <div class="owl-carousel evtcate_slider">
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 1</h6>
+                @foreach ($categ as $cat)
+                    <div class="item text-center">
+                        <a href="{{ route('resource.searchcat', ['cat'=>$cat->category ]) }}"  class="event-cate-links">
+                            <div class="event-full-width">
+                                <div class="event-cate-items">
+                                    <h6>{{ $cat->category }}</h6>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Artificial Intelligence</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Web Programming</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Architecture</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 2</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Software Engineering</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Discrete Mathematics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Green Computing</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Networks</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electrical Circuits</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Theory of Computation</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electronics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endforeach
+
             </div>
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
@@ -192,8 +96,7 @@
                         </li>
                         <li>
                             <a href="" class="all-info__sections">
-                                <span class="all-info__left"><i
-                                        class="feather-alert-triangle me-2"></i>Reported</span>
+                                <span class="all-info__left"><i class="feather-alert-triangle me-2"></i>Reported</span>
                                 <span class="all-info__right">0</span>
                             </a>
                         </li>
@@ -243,8 +146,8 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-8">
                                 <div class="form_group">
-                                    <input class="form_input_1" type="text"
-                                        placeholder="Search within these results" name="search" required>
+                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                        name="search" required>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
@@ -259,11 +162,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <button onclick="window.location='{{ route('res.latest') }}'"
-                                        class="fltr-btn fltr-active">Newest</button>
-                                    <button onclick="window.location=''" class="fltr-btn">Trending</button>
-                                    <button onclick="window.location='{{ route('res.week') }}'"
-                                        class="fltr-btn">Weekly</button>
+                                    <a href="{{ route('res.latest') }}" class="fltr-btn @if(request()->getpathinfo() == '/res_latest' || request()->getpathinfo() == '/resource') fltr-active @endif">Newest</a>
+                                    <a href="{{ route('res.trending') }}" class="fltr-btn @if(request()->getpathinfo() == '/res_trending') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('res.week') }}" class="fltr-btn @if(request()->getpathinfo() == '/res_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -338,9 +239,10 @@
                                         </a>
                                         <p class="notification-text font-username">
                                             <a href="#" class="text-danger">{{ $data->user->username }}
-                                            </a><img src="images/badges/verified.svg" class="d-none" alt="Verified"
-
-                                                style="width: 15px;" title="Verified">
+                                            </a><img
+                                                src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
+                                                class="@if ($data->user->badge_id == 5) d-block @else d-none @endif "
+                                                alt="Verified" style="width: 15px;" title="Verified">
                                             <span class="job-loca"><i
                                                     class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
                                         </p>
@@ -371,8 +273,9 @@
                                             class="view-btn btn-hover">Detail</a>
                                         <a href="" title="Edit" class="bm-btn btn-hover d-none"><i
                                                 class="feather-edit"></i></a>
-                                        <span class="bm-btn btn-hover ms-2 d-none" data-bs-toggle="modal" title="Delete"
-                                            data-bs-target="#deleteJobModal"><i class="feather-trash-2"></i></span>
+                                        <span class="bm-btn btn-hover ms-2 d-none" data-bs-toggle="modal"
+                                            title="Delete" data-bs-target="#deleteJobModal"><i
+                                                class="feather-trash-2"></i></span>
                                         <a href="#" title="Solved"
                                             class="bm-btn bm-btn-hover-solve ms-2 d-none active"><i
                                                 class="fas fa-check"></i></a>

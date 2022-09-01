@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <!--file-->
-                    @if (!$data->file == '')
+                    @if (!$playlist->file == '')
                     <div class="full-width mt-30">
                         <div class="item-description">
                             <div class="jobtxt47">

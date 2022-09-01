@@ -12,8 +12,13 @@ class Offlinetopic extends Model
         'group_chat_message',
         'user_id',
         'status',
-      ];
-      public function user(){
-          return $this->belongsTo(User::class);
-      }
+    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function offlinereport()
+    {
+        return $this->hasOne(Offlinereports::class);
+    }
 }

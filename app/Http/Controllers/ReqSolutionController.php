@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Proposal;
 use App\Models\Reqbid;
 use App\Models\ReqSolution;
+use App\Models\Reqsolutionreport;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\User;
@@ -24,11 +25,14 @@ class ReqSolutionController extends Controller
         $request->validate([
             'file'         => ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx,jpg,jpeg,png,svg,zip,rar', 'max:10000'],
             'description'  => ['required', 'string', 'max:255'],
-            'request_id'   => ['unique:req_solutions,request_id,' . $request->request_id],
+            'request_id'   => ['required'],
             'user_id'      => ['required'],
         ]);
-
-        ReqSolution::create($request->only('file', 'description', 'request_id', 'user_id'));
+        $filename = time() . '_' . $request->file->getClientOriginalName();
+        $imgPath = $request->file('file')->storeAs('ReqFile', $filename, 'public');
+        ReqSolution::create(array_merge($request->only('user_id', 'request_id', 'description'), [
+            'file'    => '/storage/' . $imgPath,
+        ]));
         Reqbid::where('request_id', $request->request_id)->update([
             'status' => '1',
         ]);
@@ -85,5 +89,14 @@ class ReqSolutionController extends Controller
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
         return view('allsolutions', compact('datas', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    }
+    public function solutionreport($uid,$rid,$sid)
+    {
+       Reqsolutionreport::Create([
+        'user_id' => $uid,
+        'request_id'  => $rid,
+         'reqsolution_id' => $sid,
+       ]);
+      return back();
     }
 }

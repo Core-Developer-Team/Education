@@ -24,4 +24,8 @@ class ReqSolution extends Model
     {
         return $this->belongsTo(Request::class);
     }
+    public function reqsolutionreport()
+    {
+        return $this->hasOne(Reqsolutionreport::class);
+    }
 }

@@ -118,6 +118,29 @@ class TutorialController extends Controller
         }
         return view('tutorial', compact('playlists_json', 'playlist'));
     }
+    public function trending()
+    {
+        $parts = 'snippet';
+        $apikey = config('services.youtube.api_key');
+        $maxResults = 40;
+        $youtubeEndPoint = config('services.youtube.playlist_endpoint');
+
+        $playlist = Playlist::where('view_count', '>=' ,20)->orderBy('updated_at', 'DESC')->get();
+        $playlists_json = [];
+        foreach ($playlist as $playlists) {
+            $playlist_id = $playlists->playlists_id;
+            $playid      = $playlists->id;
+            $price       = $playlists->price;
+            $type        = $playlists->type;
+            $cat         = $playlists->Category;
+            $view_count  = $playlists->view_count;
+            $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
+            $response = Http::get($url);
+            $playlist_data = (array)json_decode($response->body());
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+        }
+        return view('tutorial', compact('playlists_json', 'playlist'));
+    }
     public function week()
     {
         $parts = 'snippet';
@@ -194,7 +217,7 @@ class TutorialController extends Controller
             $playlist_data = (array)json_decode($response->body());
             $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
-        return view('coursetype', compact('playlists_json', 'playlist'));
+        return view('tutorialtype', compact('playlists_json', 'playlist'));
     }
 
 

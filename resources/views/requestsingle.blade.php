@@ -103,7 +103,8 @@
                                         <div class="author-dts">
                                             <h4 class="job-view-heading job-center">{{ $data->requestname }}</h4>
                                             <p class="notification-text font-small-4 job-center">
-                                                <a href="#" class="cmpny-dt">{{ $data->user->username }}</a>
+                                                <a href="#"
+                                                    class="cmpny-dt @if ($data->user->role_id == 1) text-danger @elseif($data->user->role_id == 2) text-warning @elseif($data->user->role_id == 3) text-info @endif">{{ $data->user->username }}</a>
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i><ins
                                                         class="state-name">{{ $data->user->uni_name }}</span>
                                             </p>
@@ -140,6 +141,21 @@
                                                         @endif
                                                     </span>
                                                     <span class="job-badge ddcolor">$ {{ $data->price }}</span>
+                                                    <span class="job-badge ttcolor">
+                                                        @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 1)
+                                                            @if ($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60)
+                                                                {{ $data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) }}
+                                                                Minutes left
+                                                            @else
+                                                                {{ $data->days * 24 - $data->created_at->diffInHours(\Carbon\Carbon::now()) }}
+                                                                Hours left
+                                                            @endif
+                                                        @else
+                                                            {{ $data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) }}
+                                                            days left
+                                                        @endif
+                                                    </span>
+
                                                 </div>
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
                                                     <i
@@ -154,6 +170,11 @@
                                             <a href="#"
                                                 class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
+                                                @if ($data->reqsolutionreport()->count()>0 && $data->reqsolutionreport->request_id==$data->id)
+                                                <a href="#"
+                                                class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 2) d-none @endif"
+                                                data-bs-toggle="modal" data-bs-target="#addbid">Bid Again</a>
+                                                @endif
                                             <a href="#"
                                                 class="apply_job_btn ps-4 view-btn btn-hover @if ($data->reqsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addsolution">Solution</a>
@@ -249,7 +270,8 @@
                                                 </div>
 
                                                 <div class="author-dts">
-                                                    <h4 class="job-view-heading job-center">
+                                                    <h4
+                                                        class="job-view-heading job-center @if ($bids->user->role_id == 1) text-danger @elseif($bids->user->role_id == 2) text-warning @elseif($bids->user->role_id == 3) text-info @endif">
                                                         {{ $bids->user->username }}
                                                     </h4>
                                                     <p class="notification-text font-small-4 job-center">
@@ -321,7 +343,8 @@
                                         @forelse ($data->reqsolution()->orderBy('updated_at','DESC')->get() as $item)
                                             <div
                                                 class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
-                                                <div class="rounded-circle d-flex userimg">
+                                                <div class="rounded-circle d-flex ">
+                                                    <div class="userimg">
                                                     <img src="/storage/{{ $item->user->image }}"
                                                         class="rounded-circle" style="width: 50px;height: 50px;"
                                                         alt="" srcset="">
@@ -341,7 +364,7 @@
                                                                         <div class="author-dts">
                                                                             <p class="notification-text font-username">
                                                                                 <a href="#"
-                                                                                    class="text-danger">{{ $item->user->username }}
+                                                                                    class="@if ($item->user->role_id == 1) text-danger @elseif($item->user->role_id == 2) text-warning @elseif($item->user->role_id == 3) text-info @endif">{{ $item->user->username }}
                                                                                 </a><img
                                                                                     src="{{ $item->user->badge->image }}"
                                                                                     alt=""
@@ -374,18 +397,26 @@
                                                         </div>
                                                     </div>
                                                     <!-- end hover-->
+                                                </div>
                                                     <div class="ps-4 pt-0">
-                                                        <p class="h2">{{ $item->user->username }}</p>
+                                                        <p
+                                                            class="h2 @if ($item->user->role_id == 1) text-danger @elseif($item->user->role_id == 2) text-warning @elseif($item->user->role_id == 3) text-info @endif">
+                                                            {{ $item->user->username }}</p>
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
                                                         <p>{{ $item->description }}</p>
                                                         <div class="jobtxt47">
-                                                            <a href="{{ $data->file }}" download=>Download file from
+                                                            <a href="{{ $item->file }}" download=>Download file from
                                                                 here</a>
                                                         </div>
-                                                        <a href=""
+                                                        
+                                                        @if ($data->reqsolutionreport()->count()>0 && $data->reqsolutionreport->reqsolution_id==$item->id)
+                                                         <span class="text-danger">Reported</span>   
+                                                      @else
+                                                        <a href="{{ route('profile.repsol', ['uid'=>$item->user_id,'rid'=>$item->request_id ,'sid'=>$item->id]) }}"
                                                             class="label-dker post_categories_reported mr-10"><span>Report</span></a>
+                                                            @endif
                                                         <a href=""
                                                             class="label-dker post_categories_top_right mr-20"
                                                             data-bs-toggle="modal"
@@ -440,7 +471,29 @@
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
-                                                        <p>{{ $item->comment }}</p>
+                                                        <p>{{ $item->comment }} 
+                                                        </p>
+                                                    </div>
+
+                                                    <div
+                                                        class="ellipsis-options dropdown dropdown-account ms-5  @if ($item->user_id == Auth()->id()) d-none @endif">
+                                                        <a href="#" class="option-eps" role="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                                class="fas fa-ellipsis-h"></i></a>
+                                                        <ul class="dropdown-menu dropdown-ellipsis dropdown-menu-end"
+                                                            style="">
+
+                                                            <li class="media-list">
+                                                                <form action="{{ route('req.report', ['uid'=>$item->user_id,'cid'=> $item->id]) }}" method="post">
+                                                                   @csrf
+                                                                   @if (!($item->commentreport()->count() && $item->commentreport->reqcomment_id==$item->id))
+                                                                    <button type="submit" class="btn ">Report</button>
+                                                                    @else
+                                                                    <span class="danger">Reported</span>
+                                                                   @endif
+                                                                </form>
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
@@ -554,6 +607,7 @@
         </div>
     </div>
 </div>
+
 
 <!--Bid Model-->
 <div class="modal fade" id="addbid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -995,3 +1049,4 @@
         console.log("called");
     }
 </script>
+

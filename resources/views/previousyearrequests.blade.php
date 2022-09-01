@@ -11,116 +11,7 @@
 <div class="wrapper">
     <div class="container">
         <div class="row">
-            <div class="owl-carousel evtcate_slider">
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 1</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Artificial Intelligence</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Web Programming</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Architecture</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 2</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Software Engineering</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Discrete Mathematics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Green Computing</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Networks</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electrical Circuits</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Theory of Computation</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electronics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+          
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
@@ -159,10 +50,9 @@
                                 <div class="col-lg-12">
                                     <div class="filter-section">
                                         <div class="btn-4585">
-                                            <a href="{{ route('request.latest') }}"
-                                                class="fltr-btn fltr-active">Newest</a>
-                                            <a href="" class="fltr-btn">Trending</a>
-                                            <a href="{{ route('req.weekly') }}" class="fltr-btn">Weekly</a>
+                                            <a href="{{ route('request.latest') }}" class="fltr-btn @if(request()->getpathinfo() == '/latestreq' || request()->getpathinfo() == '/') fltr-active @endif">Newest</a>
+                                            <a href="{{route('request.trending')}}" class="fltr-btn @if(request()->getpathinfo() == '/trendingreq') fltr-active @endif">Trending</a>
+                                            <a href="{{ route('req.weekly') }}" class="fltr-btn @if(request()->getpathinfo() == '/week') fltr-active @endif">Weekly</a>
                                         </div>
                                         <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                                     </div>

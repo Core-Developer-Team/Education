@@ -81,6 +81,29 @@ class CourseController extends Controller
     }
     return view('course', compact('playlists_json', 'playlist'));
   }
+  public function trending()
+  {
+    $parts = 'snippet';
+    $apikey = config('services.youtube.api_key');
+    $maxResults = 40;
+    $youtubeEndPoint = config('services.youtube.playlist_endpoint');
+
+    $playlist = Course::where('view_count', '>=' ,20)->get();
+    $playlists_json = [];
+    foreach ($playlist as $playlists) {
+      $playlist_id = $playlists->playlists_id;
+      $playid      = $playlists->id;
+      $price       = $playlists->price;
+      $type        = $playlists->type;
+      $cat         = $playlists->Category;
+      $view_count  = $playlists->view_count;
+      $url = $youtubeEndPoint . "playlistItems?part=" . $parts . "&maxResults=" . $maxResults . "&playlistId=" . $playlist_id . "&key=" . $apikey;
+      $response = Http::get($url);
+      $playlist_data = (array)json_decode($response->body());
+      $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+    }
+    return view('course', compact('playlists_json', 'playlist'));
+  }
 
   public function freecourse($id)
   {

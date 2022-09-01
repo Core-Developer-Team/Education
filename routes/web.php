@@ -35,10 +35,12 @@ use App\Http\Controllers\admin\EventController as AdminEventController;
 use App\Http\Controllers\BadgesController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
+use App\Http\Controllers\CommentreportController;
 use App\Http\Controllers\CoursereviewController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OfflinereportsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductreviewController;
@@ -128,39 +130,46 @@ Route::middleware('auth')->group(function () {
     Route::post('/request_comment', [ReqcommentController::class, 'store'])->name('reqcomment.store');
     Route::post('/request_review', [ReviewController::class, 'store'])->name('reqreview.store');
     Route::get('/latestreq', [RequestController::class, 'latest'])->name('request.latest');
+    Route::get('/trendingreq', [RequestController::class, 'trending'])->name('request.trending');
     Route::get('/week', [RequestController::class, 'weekly'])->name('req.weekly');
     Route::delete('/delete/{id}', [RequestController::class, 'destroy'])->name('req.destroy');
     Route::get('/myrequests', [RequestController::class, ('getuserrequests')])->name('req.myrequests');
+    Route::post('/report/{uid}/{cid}', [CommentreportController::class, 'get'])->name('req.report');
     //proposal routes
     Route::post('/proposals', [ProposalController::class, 'get'])->name('proposal.get');
     Route::get('/proposal_single/{id}', [ProposalController::class, 'showproposal'])->name('proposal.showproposal');
     Route::post('/proposal_single', [ProposalbidController::class, 'store'])->name('proposalbid.store');
     Route::post('/proposal_sol', [PropsolutionController::class, 'store'])->name('prosolution.store');
-    Route::get('/latest_tutorial', [ProposalController::class, 'latesttutorial'])->name('proposal.new');
-    Route::get('/weekly_tutorial', [ProposalController::class, 'week'])->name('proposal.week');
+    Route::get('/latest_proposal', [ProposalController::class, 'latesttutorial'])->name('proposal.new');
+    Route::get('/weekly_proposal', [ProposalController::class, 'week'])->name('proposal.week');
+    Route::get('/trending_proposal', [ProposalController::class, 'trending'])->name('proposal.trending');
     //book routes
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books_single/{id}', [BookController::class, 'showbook'])->name('books.showbook');
     Route::post('/books_single', [BookreviewController::class, 'store'])->name('books.storereview');
     Route::get('/books_latest', [BookController::class, 'latest'])->name('book.latest');
+    Route::get('/books_trending', [BookController::class, 'trending'])->name('book.trending');
     Route::get('/books_weekly', [BookController::class, 'week'])->name('book.week');
     //course routes
     Route::post('/course', [CourseController::class, 'get'])->name('course.get');
     Route::get('/course_single/{id}', [CourseController::class, 'showcourse'])->name('course.showcourse');
     Route::post('/course_single', [CoursereviewController::class, 'store'])->name('course.storereview');
     Route::get('/course_latest', [CourseController::class, 'latest'])->name('course.latest');
+    Route::get('/course_trending', [CourseController::class, 'trending'])->name('course.trending');
     Route::get('/course_weekly', [CourseController::class, 'week'])->name('course.week');
     //tutorial routes
     Route::post('/tutorial', [TutorialController::class, 'get'])->name('tutorial.get');
     Route::get('/tutorial_sin/{id}', [TutorialController::class, 'showsinglevideos'])->name('tutorial.sin');
     Route::post('/tutorial_sin', [TutorialreviewController::class, 'store'])->name('playlist.storereview');
     Route::get('/tutlatest', [TutorialController::class, 'latest'])->name('tutorial.latest');
+    Route::get('/tuttrending', [TutorialController::class, 'trending'])->name('tutorial.trending');
     Route::get('/tutorial_weekly', [TutorialController::class, 'week'])->name('tutorial.week');
     //Resource
     Route::post('/resource', [ResourceController::class, 'store'])->name('resource.store');
     Route::get('/resource_single/{id}', [ResourceController::class, 'showresource'])->name('resource.showresource');
     Route::post('/resource_single', [ResourcebidController::class, 'store'])->name('resourcebid.store');
     Route::get('/res_latest', [ResourceController::class, 'latest'])->name('res.latest');
+    Route::get('/res_trending', [ResourceController::class, 'trending'])->name('res.trending');
     Route::get('/res_weekly', [ResourceController::class, 'week'])->name('res.week');
     // event page
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
@@ -170,10 +179,11 @@ Route::middleware('auth')->group(function () {
     //offline topic
     Route::get('/offlinetopic', [OfflinetopicController::class, ('show')])->name('offlinetopic.show');
     Route::post('/offlinetopic', [OfflinetopicController::class, ('get')])->name('offlinetopic.get');
+    Route::post('/offlinetopic/report', [OfflinereportsController::class, ('store')])->name('offlinetopic.report');
 
     //req solution
     Route::get('/mysolution', [ReqSolutionController::class, ('mysol')])->name('profile.mysol');
-
+    Route::get('/mysolution/{uid}/{rid}/{sid}', [ReqSolutionController::class, ('solutionreport')])->name('profile.repsol');
     //feedback
     Route::get('/feedback', [FeedbackController::class, ('index')])->name('feedback.index');
     Route::post('/feedback', [FeedbackController::class, ('store')])->name('feedback.store');
@@ -185,6 +195,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/product_single/{id}', [ProductController::class, ('showproduct')])->name('product.showproduct');
     Route::post('/product_single', [ProductreviewController::class, 'store'])->name('products.storereview');
     Route::get('/product_latest', [ProductController::class, 'latest'])->name('prod.latest');
+    Route::get('/product_trending', [ProductController::class, 'trending'])->name('prod.trending');
     Route::get('/product_weekly', [ProductController::class, 'week'])->name('prod.week');
 
     //profile
@@ -225,6 +236,7 @@ Route::patch('/marketplace', [MarketplaceController::class, 'search'])->name('ma
 //resource home page
 Route::get('/resource', [ResourceController::class, 'index'])->name('resource.index');
 Route::patch('/resource', [ResourceController::class, 'search'])->name('res.search');
+Route::get('/res/{cat}', [ResourceController::class, 'searchcategory'])->name('resource.searchcat');
 
 
 //book order
