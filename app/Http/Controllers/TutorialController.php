@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use LengthException;
+use Nette\Utils\RegexpException;
+use Symfony\Polyfill\Intl\Idn\Resources\unidata\Regex;
 
 class TutorialController extends Controller
 {
@@ -19,28 +22,48 @@ class TutorialController extends Controller
     //store tutorial data
     public function get(Request $request)
     {
-
         // if ($request->ajax()) :
         $request->validate([
-            'playlists_id'  => ['required'],
-            'Category'      => ['required', 'max:11'],
-            'file'          =>  ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx', 'max:30000'],
+            'playlists_id'  => [
+                'required',
+                'url',
+                function ($attribute, $requesturl, $failed) {
+                    if (!preg_match('/(youtube.com|youtu.be)\/(embed)?(\?v=)?(\S+)?/', $requesturl)) {
+                        $failed(trans("general.not_youtube_url", ["name" => trans("general.url")]));
+                    }
+                },
+            ],
+            'Category'      => ['required', 'max:25'],
             'price'         => ['required'],
             'type'          => ['required'],
         ]);
-        $filename = time() . '_' . $request->file->getClientOriginalName();
-        $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
-        Playlist::create(array_merge($request->only('playlists_id', 'type', 'Category', 'price'), [
-            'user_id'   => auth()->id(),
-            'file'      => '/storage/' . $filepath,
-        ]));
 
-        return response()->json(["status" => true, "message" => "Tutorial has been uploaded Successfully"]);
-        // else :
-        //     $data["playlist"] = Playlist::orderBy('created_at', 'ASC')->get();
-        //     dd($data);
-        //     return back()->with('success', 'Tutorial has been uploaded Successfully');
-        // endif;
+        if ($request->has('file')) {
+            $request->validate([
+                'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+            ]);
+            $url = $request->playlists_id;
+            parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
+
+            $filename = time() . '_' . $request->file->getClientOriginalName();
+            $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
+            Playlist::create(array_merge($request->only('type', 'Category', 'price'), [
+                'user_id'      => auth()->id(),
+                'playlists_id' => $my_array['v'],
+                'file'         => '/storage/' . $filepath,
+            ]));
+        } else {
+            $url = $request->playlists_id;
+            parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
+
+            Playlist::create(array_merge($request->only('type', 'Category', 'price'), [
+                'user_id'      => auth()->id(),
+                'playlists_id' => $my_array['v'],
+                'file'         => '',
+            ]));
+        }
+
+        return back()->with('success', 'Tutorial has been uploaded Successfully');
     }
 
     //search
@@ -81,6 +104,29 @@ class TutorialController extends Controller
         $youtubeEndPoint = config('services.youtube.playlist_endpoint');
 
         $playlist = Playlist::whereDate('created_at', Carbon::today())->orderBy('updated_at', 'DESC')->get();
+        $playlists_json = [];
+        foreach ($playlist as $playlists) {
+            $playlist_id = $playlists->playlists_id;
+            $playid      = $playlists->id;
+            $price       = $playlists->price;
+            $type        = $playlists->type;
+            $cat         = $playlists->Category;
+            $view_count  = $playlists->view_count;
+            $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
+            $response = Http::get($url);
+            $playlist_data = (array)json_decode($response->body());
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+        }
+        return view('tutorial', compact('playlists_json', 'playlist'));
+    }
+    public function trending()
+    {
+        $parts = 'snippet';
+        $apikey = config('services.youtube.api_key');
+        $maxResults = 40;
+        $youtubeEndPoint = config('services.youtube.playlist_endpoint');
+
+        $playlist = Playlist::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->get();
         $playlists_json = [];
         foreach ($playlist as $playlists) {
             $playlist_id = $playlists->playlists_id;
@@ -173,7 +219,7 @@ class TutorialController extends Controller
             $playlist_data = (array)json_decode($response->body());
             $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
-        return view('coursetype', compact('playlists_json', 'playlist'));
+        return view('tutorialtype', compact('playlists_json', 'playlist'));
     }
 
 

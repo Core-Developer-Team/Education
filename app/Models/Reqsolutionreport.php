@@ -5,25 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reqcomment extends Model
+class Reqsolutionreport extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'comment',
         'user_id',
         'request_id',
+        'reqsolution_id',
     ];
-    public function request()
-    {
-        return $this->belongsTo(Request::class);
-    }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        $this->belongsTo(User::class);
     }
-    public function commentreport()
+    public function request()
     {
-        return $this->hasOne(Commentreport::class);
+        $this->belongsTo(Request::class);
+    }
+    public function req_solution()
+    {
+        $this->belongsTo(ReqSolution::class);
     }
 }

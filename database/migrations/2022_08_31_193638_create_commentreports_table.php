@@ -13,18 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('commentreports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('requestname');
-            $table->string('coursename');
-            $table->integer('days');
-            $table->text('description');
-            $table->integer('view_count')->default(0);
-            $table->integer('price');
-            $table->string('file')->nullable();
-            $table->string('filename');
-            $table->enum('tag', ['0', '1']);
+            $table->foreignId('reqcomment_id')->constrained();
             $table->timestamps();
         });
     }
@@ -36,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('commentreports');
     }
 };

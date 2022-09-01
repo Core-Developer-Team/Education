@@ -24,6 +24,13 @@ class BookController extends Controller
         return view('books', compact('data'));
     }
 
+      //get latest request
+      public function trending()
+      {
+          $data = Book::where('view_count', '>=' ,20)->orderBy('updated_at', 'DESC')->cursorPaginate(15);
+          return view('books', compact('data'));
+      }
+  
     //get week request
     public function week()
     {
@@ -36,7 +43,7 @@ class BookController extends Controller
         $request->validate([
             'cover_pic'    => 'required|image|mimes:jpg,jpeg,png,svg',
             'Category'     => 'required|max:25',
-            'book'         => 'required|mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx|max:30000',
+            'book'         => 'required|mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx,zip,rar|max:30000',
             'description'  => 'required|string',
             'price'        => 'required',
         ]);

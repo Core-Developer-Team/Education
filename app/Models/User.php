@@ -61,7 +61,8 @@ class User extends Authenticatable
         return $this->hasMany(Course::class);
     }
 
-    public function playlist(){
+    public function playlist()
+    {
 
         return $this->hasMany(Playlist::class);
     }
@@ -73,7 +74,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Offlinetopic::class);
     }
-    
+
     public function bookorder()
     {
         return $this->hasMany(Bookorder::class);
@@ -131,5 +132,17 @@ class User extends Authenticatable
     public function coursereview()
     {
         return $this->hasMany(Coursereview::class);
+    }
+    public function offlinereport()
+    {
+        return $this->hasOne(Offlinereports::class);
+    }
+    public function commentreport()
+    {
+        return $this->hasOne(Commentreport::class);
+    }
+    public function reqsolutionreport()
+    {
+        return $this->hasOne(Reqsolutionreport::class);
     }
 }

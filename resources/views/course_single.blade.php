@@ -84,6 +84,8 @@
 
                         </div>
                     </div>
+                    <!--file-->
+                    @if (!$playlist->file == '')
                     <div class="full-width mt-30">
                         <div class="item-description">
                             <div class="jobtxt47">
@@ -94,6 +96,7 @@
 
                         </div>
                     </div>
+                    @endif
                        <!--Reviews-->
        <div class="full-width mt-30">
         <div class="event-card mt-4">

@@ -19,7 +19,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'cover_pic'    => 'required|image|mimes:jpg,jpeg,png,svg',
-            'name'         => 'required',
+            'name'         => 'required|max:25',
             'Category'      => ['required', 'max:25'],
             'description'  => 'required|string',
             'price'        => 'required',
@@ -55,6 +55,13 @@ class ProductController extends Controller
         return view('marketplace',compact('data'));
     }
 
+        //get latest request
+        public function trending()
+        {
+            $data = Product::where('view_count', '>=' ,20)->orderBy('updated_at', 'DESC')->cursorPaginate(15);
+            return view('marketplace',compact('data'));
+        }
+
     //get week request
     public function week()
     {
@@ -68,7 +75,7 @@ class ProductController extends Controller
      {
         $data = Product::find($id);
         //increase view count
-        $product_key= 'book_'.$id;
+        $product_key= 'product_'.$id;
         if(!Session::has($product_key)){
           $data->increment('view_count');
           Session::put($product_key, 1);

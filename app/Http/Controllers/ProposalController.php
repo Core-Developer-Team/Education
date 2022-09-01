@@ -55,7 +55,24 @@ class ProposalController extends Controller
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
     return view('devproposal', compact('data', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
-
+ //get trending request
+ public function trending()
+ {
+   $data = Proposal::where('view_count', '>=' ,20)->orderBy('updated_at', 'DESC')->cursorPaginate(6);
+   $bid = Proposalbid::all();
+   $req_count = ModelsRequest::count();
+   $feed_count = Feedback::count();
+   $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+   $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+   $res  = Resource::count();
+   $event = Event::count();
+   $offline = Offlinetopic::count();
+   $product = Product::count();
+   $prop   = Proposal::count();
+   $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+   $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+   return view('devproposal', compact('data', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+ }
   //get week request
   public function week()
   {
@@ -81,15 +98,28 @@ class ProposalController extends Controller
       'proposalname'  => ['required', 'string'],
       'price'         => ['required', 'string'],
       'description'   => ['required', 'string'],
-      'file'          => ['required', 'mimes:jpg,jpeg,svg,pdf,png,jpeg'],
     ]);
-    $filename  = $request->file->getClientOriginalName();
-    $filePath   =  $request->file('file')->storeAs('Images', $filename, 'public');
-    Proposal::create(array_merge($request->only('proposalname', 'price', 'description'), [
-      'user_id'  => auth()->id(),
-      'file'     => '/storage/' . $filePath,
-      'filename' => $filename,
-    ]));
+    if ($request->hasFile('file')) 
+    {
+        $request->validate([
+            'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+        ]);
+        $filename  = $request->file->getClientOriginalName();
+        $filePath   =  $request->file('file')->storeAs('Images', $filename, 'public');
+        Proposal::create(array_merge($request->only('proposalname', 'price', 'description'), [
+          'user_id'  => auth()->id(),
+          'file'     => '/storage/' . $filePath,
+          'filename' => $filename,
+        ]));
+    }
+    else{
+      Proposal::create(array_merge($request->only('proposalname', 'price', 'description'), [
+        'user_id'  => auth()->id(),
+        'file'     => '',
+        'filename' => '',
+      ]));
+    }
+   
     return back()->with('status', 'Your Proposal Published Successfully:)');
   }
   //show single proposal
@@ -115,6 +145,18 @@ class ProposalController extends Controller
     $data = Proposal::query()
       ->where('proposalname', 'LIKE', "%{$search}%")
       ->cursorPaginate(6);
-    return view('devproposal', compact('data'));
+      $bid = Proposalbid::all();
+      $req_count = ModelsRequest::count();
+      $feed_count = Feedback::count();
+      $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+      $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+      $res  = Resource::count();
+      $event = Event::count();
+      $offline = Offlinetopic::count();
+      $product = Product::count();
+      $prop   = Proposal::count();
+      $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+      $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+      return view('devproposal', compact('data', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
 }

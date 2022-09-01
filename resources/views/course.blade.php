@@ -82,9 +82,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{route('course.latest')}}" class="fltr-btn fltr-active">Newest</a>
-                                    <a href="" class="fltr-btn">Trending</a>
-                                    <a href="{{route('course.week')}}" class="fltr-btn">Weekly</a>
+                                    <a href="{{route('course.latest')}}" class="fltr-btn  @if (request()->getpathinfo() == '/course_latest' || request()->getpathinfo() == '/course') fltr-active @endif">Newest</a>
+                                    <a href="{{route('course.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_trending') fltr-active @endif">Trending</a>
+                                    <a href="{{route('course.week')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -305,7 +305,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group pt-2">
-                            <label for="playlists_id">playlists_id</label>
+                            <label for="playlists_id">Playlist_Url</label>
                             <input type="text" id="playlists_id" class="form-control" name="playlists_id"
                                 value="{{ old('playlists_id') }}">
                             <div class="text-danger mt-2 text-sm playlistserror">
@@ -320,7 +320,7 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="file">File</label>
-                            <input type="file" class="form-control" name="file"  accept=".doc,.docx,.pdf,.pptx" id="file" value="{{ old('file') }}"
+                            <input type="file" class="form-control" name="file"  accept=".doc,.docx,.pdf,.pptx,.zip,.rar" id="file" value="{{ old('file') }}"
                                 placeholder="Upload image or pdf">
                             <div class="text-danger mt-2 text-sm fileError"></div>
                         </div>

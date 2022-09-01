@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('category');
             $table->text('description');
             $table->string('file_path');
-            $table->string('file_name');
+            $table->string('file_name')->nullable();
             $table->integer('view_count')->default(0);
             $table->timestamps();
         });

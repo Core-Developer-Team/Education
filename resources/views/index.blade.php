@@ -62,7 +62,7 @@
                                     <div class="filter-section">
                                         <div class="btn-4585">
                                             <a href="{{ route('request.latest') }}" class="fltr-btn @if(request()->getpathinfo() == '/latestreq' || request()->getpathinfo() == '/') fltr-active @endif">Newest</a>
-                                            <a class="fltr-btn">Trending</a>
+                                            <a href="{{route('request.trending')}}" class="fltr-btn @if(request()->getpathinfo() == '/trendingreq') fltr-active @endif">Trending</a>
                                             <a href="{{ route('req.weekly') }}" class="fltr-btn @if(request()->getpathinfo() == '/week') fltr-active @endif">Weekly</a>
                                         </div>
                                         <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
@@ -126,6 +126,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <!-- end hover-->
                                         </div>
                                         <div class="iconreq">
@@ -134,9 +135,9 @@
                                         <div class="author-dts">
                                             <a href="{{ route('req.showsingle', ['id' => $data->id]) }}" class="problems_title">{{ $data->requestname }}</a>
                                             <p class="notification-text font-username">
-                                                <a href="#" class="user_name_hover @if ($data->user->role_id == 1) text-danger @elseif($data->user->role_id == 2) text-warning @elseif($data->user->role_id == 3) text-info @endif ">{{ $data->user->username }}
+                                                <a href="#" class=" @if ($data->user->role_id == 1) text-danger @elseif($data->user->role_id == 2) text-warning @elseif($data->user->role_id == 3) text-info @endif ">{{ $data->user->username }}
                                                     &nbsp;
-                                                </a><img src="/storage/badges/verified.svg" class="d-none" alt="Verified" style="width: 17px;" title="Verified">
+                                                </a><img src="@if($data->user->badge_id == 5) {{$data->user->badge->image}} @endif" class="@if($data->user->badge_id == 5) d-block @else d-none @endif " alt="Verified" style="width: 17px;" title="Verified">
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
                                             </p>
                                             <span>{{ Str::limit($data->description, 150, $end = '.........') }}</span>
@@ -155,12 +156,13 @@
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                                     <span class="job-badge ttcolor">
                                                         @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 1) @if ($data->days*24*60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60) {{$data->days*24*60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now())}} Minutes left @else {{$data->days*24 - $data->created_at->diffInHours(\Carbon\Carbon::now())}} Hours left @endif @else {{ $data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) }} days left @endif </span>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                            <a href="" class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
-                                            <a href="" class="label-dker post_department_top_right mr-10"><span>BBA</span></a>
+                                            <a href="" class="label-dker post_categories_reported mr-10 @if ($data->reqsolutionreport()->count()>0 && $data->reqsolutionreport->request_id==$data->id) d-block @else d-none @endif"><span>Reported</span></a>
+                                            <a href="" class="label-dker post_department_top_right mr-10"><span> @if($data->user->department==0) bba @elseif($data->user->department==1)bse @elseif ($data->user->department==2)bcs @endif</span></a>
                                             <a href="" class="label-dker post_categories_top_right mr-20"><span>{{ $data->coursename }}</span></a>
                                         </div>
                                     </div>
@@ -173,7 +175,8 @@
                                         </div>
                                         <div class="action-btns-job d-flex justify-content-space">
                                             <a href="{{ route('req.showsingle', ['id' => $data->id]) }}" class="view-btn btn-hover">View Job</a>
-                                            @if ($data->reqbid()->where('request_id', $data->id)->pluck('status')->first() == 0)
+                                            @if ($data->user_id==Auth()->id())
+                                     
                                             <a href="{{ route('req.show', ['id' => $data->id]) }}" title="Edit" class="px-3">
                                                 <button type="button" class="bm-btn btn-hover">
                                                     <i class="feather-edit"></i>
@@ -186,7 +189,9 @@
                                                     <span class=""><i class="fa-solid fa-trash-can"></i></span>
                                                 </button>
                                             </form>
+                                            
                                             @endif
+                                          
                                             @isset($bid)
                                             @foreach ($bid as $item)
                                             @if ($item->request_id == $data->id && $item->status == 1)
@@ -216,6 +221,7 @@
     </div>
 </div>
 @auth
+
 @if (Session::has('announcements'))
 <!--announcement model-->
 <div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -239,6 +245,7 @@
     </div>
 </div>
 @endif
+
 @endauth
 
 <!--Request Model-->
@@ -286,7 +293,9 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="file">Image/PDF</label>
-                            <input type="file" class="form-control" name="file" id="file" value="{{ old('file') }}" accept="image/*,.pdf" placeholder="Upload image or pdf">
+                            <input type="file" class="form-control" name="file" id="file"
+                                value="{{ old('file') }}" accept="image/*,.pdf,.zip,.rar" placeholder="Upload image or pdf">
+
                             <div class="text-danger mt-2 text-sm fileError"></div>
                         </div>
                         <div class="form-group pt-2">

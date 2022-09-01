@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('request_id')->constrained()->onDelete('cascade');
             $table->integer('price');
             $table->integer('days');
-            $table->string('description');
+            $table->text('description');
             $table->enum('status',['0','1'])->default('0');
             $table->enum('reported',['0','1'])->default('0');
             $table->timestamps();

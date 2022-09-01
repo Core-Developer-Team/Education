@@ -82,9 +82,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <button class="fltr-btn fltr-active">Newest</button>
-                                    <button onclick="window.location=''" class="fltr-btn">Trending</button>
-                                    <button class="fltr-btn">Weekly</button>
+                                    <a href="{{route('course.latest')}}" class="fltr-btn  @if (request()->getpathinfo() == '/course_latest' || request()->getpathinfo() == '/course') fltr-active @endif">Newest</a>
+                                    <a href="{{route('course.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_trending') fltr-active @endif">Trending</a>
+                                    <a href="{{route('course.week')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
