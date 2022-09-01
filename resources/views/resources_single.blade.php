@@ -96,11 +96,27 @@
                                                 <span class="time-dt">{{ $data->updated_at->diffForHumans() }}</span>
                                             </p>
                                             <div class="jbopdt142">
+                                                @if($data->user_id != auth()->id())
+                                                @if ($data->isAccept($data->id) == false)
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
-                                                    <i
-                                                        class="feather-users ms-2"></i><span>Applicants</span><ins>0</ins>
+                                                    <span class="job-badge bg-success payNow" data-id="" data-amount="{{$data->price}}" data-resource="resources">
+                                                        Take this resource
+                                                    </span>
+                                                </div>
+                                                @else
+                                                <form method="POST"class="job-badge p-0" action="{{ route('messages') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="reqid"  value="{{$data->id}}" >
+                                                    <input type="hidden" name="to_id"  value="{{$data->user_id}}" >
+                                                    <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                                </form>
+                                                @endif
+                                                @endif
+                                                <div class="aplcnts_15 job-center applcntres ml-3">
+                                                    <i class="feather-users ms-2"></i><span>Applicants</span><ins>0</ins>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
@@ -233,9 +249,19 @@
     </div>
 </div>
 
+
+<input type="hidden" class="reqId" value="{{$data->id}}" />
+
+<style>
+    #bKash_button{
+        cursor: pointer;
+    }
+</style>
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<script src="{{asset('asset/js/bkashpayment.js')}}"></script>
+<link rel="stylesheet" href="{{asset('asset/css/paymentBkash.css')}}">
 <!--Resource Bid model script-->
 <script>
     const resbidform = $('form#resbid');

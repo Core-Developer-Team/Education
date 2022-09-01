@@ -101,7 +101,7 @@
                                                 alt="">
                                         </div>
                                         <div class="author-dts">
-                                            <h4 class="job-view-heading job-center">{{ $data->requestname }}</h4>
+                                            <h4 class="job-view-heading job-center" >{{ $data->requestname }}</h4>
                                             <p class="notification-text font-small-4 job-center">
                                                 <a href="#"
                                                     class="cmpny-dt @if ($data->user->role_id == 1) text-danger @elseif($data->user->role_id == 2) text-warning @elseif($data->user->role_id == 3) text-info @endif">{{ $data->user->username }}</a>
@@ -120,18 +120,14 @@
                                                             Pay Now
                                                         </span>
                                                     @endif --}}
-                                                    @if ($data->payment_status == true && auth()->id() != $data->user_id)
-                                                        <form method="POST" class="job-badge p-0"
-                                                            action="{{ route('messages') }}">
-                                                            @csrf
-                                                            <input type="hidden" name="reqid"
-                                                                value="{{ $data->id }}">
-                                                            <input type="hidden" name="to_id"
-                                                                value="{{ $data->user_id }}">
-                                                            <button type="submit"
-                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                                Now</button>
-                                                        </form>
+
+                                                    @if ($data->payment_status == true && auth()->id() != $data->user_id )
+                                                    <form method="POST" class="job-badge p-0" action="{{ route('messages') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="reqid" class="" value="{{$data->id}}" />
+                                                        <input type="hidden" name="to_id"  value="{{$data->user_id}}" />
+                                                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                                    </form>
                                                     @endif
                                                     <span class="job-badge ffcolor">
                                                         @if ($data->tag == 1)
@@ -283,26 +279,28 @@
                                                     </p>
                                                     <div class="jbopdt142">
                                                         <div class="jbbdges10">
-                                                            @if ($data->user_id == auth()->id() && $data->payment_status == false)
-                                                                <span class="job-badge bg-success payNow"
-                                                                    id="bKash_button">
+
+                                                            @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false)
+                                                            <div class="bkashPayDiv_{{$bids->id}}">
+                                                                <span class="job-badge bg-success payNow bkashPayBtn" data-id="{{$bids->id}}" data-amount="{{$bids->price}}" data-resource="requests" >
+
                                                                     Take this offer
                                                                 </span>
+                                                                {{-- <input type="hidden" id="bKash_button"> --}}
+                                                            </div>
+                                                                {{-- id="bKash_button" --}}
                                                             @else
-                                                                <form method="POST"
-                                                                    action="{{ route('messages') }}">
-                                                                    @csrf
-                                                                    <input type="hidden" name="reqid"
-                                                                        value="{{ $data->id }}">
-                                                                    <input type="hidden" name="to_id"
-                                                                        value="{{ $bids->user->id }}">
-                                                                    <button type="submit"
-                                                                        class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                                        Now</button>
-                                                                    <span class="job-badge ffcolor">$
-                                                                        {{ $bids->price }}</span>
-                                                                </form>
+
+                                                            <form method="POST" class="job-badge p-0" action="{{ route('messages') }}">
+                                                                @csrf
+                                                                <input type="hidden" name="reqid"  value="{{$data->id}}" >
+                                                                <input type="hidden" name="to_id"  value="{{ ($data->user_id != auth()->id())?$bids->user->id: $data->user_id}}" >
+                                                                <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                                            </form>
                                                             @endif
+                                                                <span class="job-badge ffcolor">$
+                                                                    {{ $bids->price }}</span>
+
                                                         </div>
                                                         <div class="aplcnts_15 job-center applcntres ml-3">
                                                             <i class="feather-users ms-2"></i> Do On
@@ -579,34 +577,8 @@
         </div>
     </div>
 </div>
-<input type="hidden" class="amount" value="{{ $data->price }}">
-<input type="hidden" class="reqId" value="{{ $data->id }}">
 
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header paymentModalHead">
-                <h5 class="modal-title" id="exampleModalLongTitle">Make Your Payment </h5>
-            </div>
-            <div class="modal-body pt-3">
-                <div class="d-flex justify-content-center">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0)" id="bKash_button">
-                                <img class="img-container img-fluied bkashImg" src="{{ asset('images/bkash.png') }}"
-                                    alt="Pay with bKash">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger dangerButton" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<input type="hidden" class="reqId" value="{{ $data->id }}" />
 
 
 <!--Bid Model-->
@@ -810,37 +782,13 @@
     </div>
 </div>
 
-<!--footer-->
-@include('layouts.footer')
-<!---/footer-->
-<!--req Bid model script-->
 
-<style>
-    .swal2-container,
-    .swal2-center,
-    .swal2-backdrop-show {
-        z-index: 100000;
-    }
-
-    .bkashImg {
-        border: 3px solid green;
-    }
-
-    .paymentModalHead {
-        display: flex;
-        justify-content: center;
-        background: #d7d7d7;
-    }
-
-    .dangerButton {
-        background: #900 !important;
-        color: white !important;
-    }
-
-    .payNow {
-        cursor: pointer;
-    }
-</style>
+    <!--footer-->
+    @include('layouts.footer')
+    <link rel="stylesheet" href="{{asset('asset/css/paymentBkash.css')}}">
+    <script src="{{asset('asset/js/bkashpayment.js')}}"></script>
+    <!---/footer-->
+    <!--req Bid model script-->
 
 <script>
     const reqbidform = $('form#reqbid');
@@ -918,135 +866,4 @@
 @else
     <script id="myScript" src="https://scripts.pay.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout.js"></script>
 @endif
-
-<script>
-    var accessToken = '';
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        // $(document).on("click", ".payNow", function() {
-        //     $("#paymentModal").modal("show");
-        // });
-
-        $(document).on("click", ".dangerButton", function() {
-            $("#paymentModal").modal("hide");
-        })
-
-        $.ajax({
-            url: "{{ route('ser.rid', $data->id) }}",
-            type: "GET",
-            success: function(res) {
-                console.log(res)
-            }
-        });
-
-
-        $.ajax({
-            url: "{!! route('token') !!}",
-            type: 'POST',
-            contentType: 'application/json',
-            success: function(data) {
-                console.log('got data from token  ..');
-                console.log(JSON.stringify(data));
-                accessToken = JSON.stringify(data);
-            },
-            error: function() {
-                console.log('error');
-            }
-        });
-        var paymentConfig = {
-            createCheckoutURL: "{!! route('createpayment') !!}",
-            executeCheckoutURL: "{!! route('executepayment') !!}"
-        };
-        var paymentRequest;
-        paymentRequest = {
-            amount: $('.amount').val(),
-            intent: 'request',
-            invoice: $('.invoice').text(),
-            rid: $('.reqId').val()
-        };
-        // console.log(JSON.stringify(paymentRequest));
-        bKash.init({
-            paymentMode: 'checkout',
-            paymentRequest: paymentRequest,
-            createRequest: function(request) {
-                console.log('=> createRequest (request) :: ');
-                console.log(request);
-                $.ajax({
-                    url: paymentConfig.createCheckoutURL + "?amount=" + paymentRequest
-                        .amount + "&invoice=" + paymentRequest.invoice + "?rqid=" +
-                        paymentRequest.rid,
-                    type: 'GET',
-                    contentType: 'application/json',
-                    success: function(data) {
-                        // console.log('got data from create  ..');
-                        // console.log('data ::=>');
-                        // console.log(JSON.stringify(data));
-                        var obj = JSON.parse(data);
-                        if (data && obj.paymentID != null) {
-                            paymentID = obj.paymentID;
-                            bKash.create().onSuccess(obj);
-                        } else {
-                            console.log('error');
-                            bKash.create().onError();
-                        }
-                    },
-                    error: function() {
-                        console.log('error');
-                        bKash.create().onError();
-                    }
-                });
-            },
-            executeRequestOnAuthorization: function() {
-                console.log('=> executeRequestOnAuthorization');
-                $.ajax({
-                    url: paymentConfig.executeCheckoutURL + "?paymentID=" + paymentID,
-                    type: 'GET',
-                    contentType: 'application/json',
-                    success: function(data) {
-                        data = JSON.parse(data);
-                        if (data && data.paymentID != null) {
-                            Swal.fire(
-                                'Success!',
-                                '!! Payment Success !!',
-                                'success'
-                            ).then((result) => {
-                                window.location.href = location.reload();
-                            })
-                            // alert('[SUCCESS] data : ' + JSON.stringify(data));
-
-                        } else {
-                            bKash.execute().onError();
-                        }
-                    },
-                    error: function() {
-                        bKash.execute().onError();
-                    }
-                });
-            }
-        });
-        console.log("Right after init ");
-    });
-
-    function callReconfigure(val) {
-        bKash.reconfigure(val);
-    }
-
-    function clickPayButton() {
-        $("#bKash_button").trigger('click');
-        setTimeout(() => {
-            setMyWallet();
-        }, 2000);
-
-    }
-
-    function setMyWallet() {
-        $("#wallet").val($("#myWalletNumber").val());
-        console.log("called");
-    }
-</script>
 

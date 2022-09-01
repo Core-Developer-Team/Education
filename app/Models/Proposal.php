@@ -30,4 +30,14 @@ class Proposal extends Model
     {
         return $this->hasOne(Propsolution::class);
     }
+
+    public function isAccept($reqId, $bidId)
+    {
+        $data = PaymentLog::where("request_id", $reqId)->where('bid_id', $bidId)->where('pay_for', 'proposals')->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

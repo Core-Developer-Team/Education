@@ -60,7 +60,8 @@ class MessageController extends Controller
             // dd(count($ifPrevious));
             if ($ifPrevious->count() == 0) {
                 $findData =  User::find($request->to_id);
-                $dropdownHtml .= view('chat-sidebar-data', compact('findData','toId'))->render();
+                $toId = $data['toId'];
+                $dropdownHtml .= view('chat-sidebar-data', compact('findData', 'toId'))->render();
             }
             $data["userDetails"] = User::find($request->to_id);
         endif;

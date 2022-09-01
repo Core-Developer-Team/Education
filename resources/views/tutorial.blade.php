@@ -17,8 +17,8 @@
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target=" @auth
                         #addtutorial
-@else
-#loginlink
+                        @else
+                        #loginlink
                         @endauth ">Add
                             Tutorials</a>
                     </div>

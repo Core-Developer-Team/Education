@@ -29,7 +29,13 @@
     <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/bootstrap-select/css/bootstrap-select.min.css')}}" rel="stylesheet">
 
+<script>
+const bKasTokenUrl = "{!! route('token') !!}";
+const bKashCreatePaymentUrl =  "{!! route('createpayment') !!}";
+const bKashExecutePaymentUrl = "{!! route('executepayment') !!}";
+const bKpaymentAdditional = "{!! route('payment.additional') !!}";
 
+</script>
 </head>
 
 <body>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Feedback;
 use App\Models\Offlinetopic;
+use App\Models\PaymentLog;
 use App\Models\Product;
 use App\Models\Proposal;
 use App\Models\Reqbid;
@@ -23,8 +24,8 @@ class ResourceController extends Controller
   public function index()
   {
     $datas = Resource::orderBy('updated_at', 'DESC')->cursorPaginate(6);
-    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $req_count = ModelsRequest::count();
+    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $feed_count = Feedback::count();
     $mysol = ReqSolution::where('user_id', Auth()->id())->count();
     $myques = ModelsRequest::where('user_id', Auth()->id())->count();
@@ -35,7 +36,8 @@ class ResourceController extends Controller
     $prop   = Proposal::count();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+
+    return view('resources', compact('datas', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //get latest request
   public function latest()
@@ -53,7 +55,8 @@ class ResourceController extends Controller
     $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+
+    return view('resources', compact('datas', 'categ', 'prev_count', 'sol_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //get trending request
   public function trending()
@@ -73,7 +76,6 @@ class ResourceController extends Controller
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
     return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
-
   //get week request
   public function week()
   {
@@ -92,6 +94,7 @@ class ResourceController extends Controller
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
     return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
+
   //insert data into database
   public function store(Request $request)
   {
@@ -126,14 +129,16 @@ class ResourceController extends Controller
   //show single resource
   public function showresource($id)
   {
-    $data = Resource::find($id);
+    $item = [];
+    $item["data"] = Resource::find($id);
+    $item["isPaid"] = PaymentLog::where('request_id', $id)->where('pay_by', auth()->id())->where('pay_for', 'resources')->first();
     //increase view count
     $res_key = 'res_' . $id;
     if (!Session::has($res_key)) {
-      $data->increment('view_count');
+      $item["data"]->increment('view_count');
       Session::put($res_key, 1);
     }
-    return view('resources_single', compact('data'));
+    return view('resources_single', $item);
   }
   public function search(Request $request)
   {

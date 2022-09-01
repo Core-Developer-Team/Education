@@ -33,6 +33,31 @@
     </div>
 </footer>
 
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header paymentModalHead">
+                <h5 class="modal-title" id="exampleModalLongTitle">Make Your Payment </h5>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0)" >
+                                <img class="img-container img-fluied bkashImg" src="{{ asset('images/bkash.png') }}"
+                                    alt="Pay with bKash" id="bKash_button">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger dangerButton" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--login redirect model-->
 
 <div class="modal fade" id="loginlink" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,7 +87,13 @@
 <script src="{{ asset('js/offset_overlay.js') }}"></script>
 <script src="{{ asset('js/video.js') }}"></script>
 <script src="{{ asset('js/imagehover.js') }}"></script>
-
+@if (@env('BKASH_STATUS') == 'sandbox')
+    <script id="myScript" src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js">
+</script>
+@else
+    <script id="myScript" src="https://scripts.pay.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout.js"></script>
+@endif
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!--req model script-->
 <script>
     const requestForm = $('form#req');

@@ -7,6 +7,7 @@
             </span>
         </button>
         <a class="navbar-bran ms-lg-0 ml-2 me-auto" href="{{route('req.index')}}">
+
             <div class="res_main_logo">
                 <img src="{{asset('images/res-logo.png')}}" alt="">
             </div>

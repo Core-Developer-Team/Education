@@ -22,6 +22,7 @@ class TutorialController extends Controller
     //store tutorial data
     public function get(Request $request)
     {
+        // if ($request->ajax()) :
         $request->validate([
             'playlists_id'  => [
                 'required',
@@ -33,10 +34,10 @@ class TutorialController extends Controller
                 },
             ],
             'Category'      => ['required', 'max:25'],
-            'file'          =>  ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx', 'max:30000'],
             'price'         => ['required'],
             'type'          => ['required'],
         ]);
+
         if ($request->has('file')) {
             $request->validate([
                 'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
@@ -125,7 +126,7 @@ class TutorialController extends Controller
         $maxResults = 40;
         $youtubeEndPoint = config('services.youtube.playlist_endpoint');
 
-        $playlist = Playlist::where('view_count', '>=' ,20)->orderBy('updated_at', 'DESC')->get();
+        $playlist = Playlist::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->get();
         $playlists_json = [];
         foreach ($playlist as $playlists) {
             $playlist_id = $playlists->playlists_id;
@@ -175,7 +176,7 @@ class TutorialController extends Controller
         $youtubeEndPoint = config('services.youtube.playlist_endpoint');
 
         $playlist = Playlist::select('playlists_id', 'id', 'price', 'type', 'view_count', 'file', 'Category')->orderBy('created_at', 'ASC')->get();
-
+        // dd($playlist);
         $playlists_json = [];
         foreach ($playlist as $playlists) {
             $playlist_id = $playlists->playlists_id;
@@ -189,6 +190,7 @@ class TutorialController extends Controller
             $playlist_data = (array)json_decode($response->body());
             $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
         }
+        // dd($playlist);
         return view('tutorial', compact('playlists_json', 'playlist'));
     }
 
