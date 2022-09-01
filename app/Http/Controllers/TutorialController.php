@@ -19,6 +19,8 @@ class TutorialController extends Controller
     //store tutorial data
     public function get(Request $request)
     {
+
+        // if ($request->ajax()) :
         $request->validate([
             'playlists_id'  => ['required'],
             'Category'      => ['required', 'max:11'],
@@ -32,7 +34,13 @@ class TutorialController extends Controller
             'user_id'   => auth()->id(),
             'file'      => '/storage/' . $filepath,
         ]));
-        return back()->with('success', 'Tutorial has been uploaded Successfully');
+
+        return response()->json(["status" => true, "message" => "Tutorial has been uploaded Successfully"]);
+        // else :
+        //     $data["playlist"] = Playlist::orderBy('created_at', 'ASC')->get();
+        //     dd($data);
+        //     return back()->with('success', 'Tutorial has been uploaded Successfully');
+        // endif;
     }
 
     //search
@@ -122,7 +130,7 @@ class TutorialController extends Controller
         $youtubeEndPoint = config('services.youtube.playlist_endpoint');
 
         $playlist = Playlist::select('playlists_id', 'id', 'price', 'type', 'view_count', 'file', 'Category')->orderBy('created_at', 'ASC')->get();
-
+        // dd($playlist);
         $playlists_json = [];
         foreach ($playlist as $playlists) {
             $playlist_id = $playlists->playlists_id;
@@ -136,6 +144,7 @@ class TutorialController extends Controller
             $playlist_data = (array)json_decode($response->body());
             $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
         }
+        // dd($playlist);
         return view('tutorial', compact('playlists_json', 'playlist'));
     }
 

@@ -257,7 +257,7 @@ Route::post('token', [PaymentController::class, 'token'])->name('token');
 Route::get('createpayment', [PaymentController::class, 'createpayment'])->name('createpayment');
 Route::get('executepayment', [PaymentController::class, 'executepayment'])->name('executepayment');
 Route::middleware('auth')->group(function () {
-    Route::get('req/{id}', [PaymentController::class, 'setRId'])->name('ser.rid');
+    Route::post('payment-additional', [PaymentController::class, 'paymentAdditional'])->name('payment.additional');
     Route::any('my-messages', [MessageController::class, 'messages'])->name('messages');
     Route::post('send-message', [MessageController::class, 'sendMessage'])->name('messages-send');
     Route::post('get-messages/{from}', [MessageController::class, 'getMessage'])->name('get-messages');

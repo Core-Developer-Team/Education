@@ -1,0 +1,27 @@
+.swal2-container,
+.swal2-center,
+.swal2-backdrop-show {
+    z-index: 100000;
+}
+
+.bkashImg {
+    border: 3px solid green;
+}
+
+.paymentModalHead {
+    display: flex;
+    justify-content: center;
+    background: #d7d7d7;
+}
+
+.dangerButton {
+    background: #900 !important;
+    color: white !important;
+}
+.payNow {
+    cursor: pointer !important;
+}
+
+.jbbdges10 {
+    display: flex;
+}

@@ -125,7 +125,18 @@
                                                 </div>
                                                 <div class="d-flex">
                                                     <span class="job-badge ddcolor">${{ $bids->price }}</span>
-
+                                                    @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false)
+                                                    <span class="job-badge bg-success payNow" data-id="{{$bids->id}}" data-amount="{{$bids->price}}" data-resource="proposals">
+                                                        Take this offer
+                                                    </span>
+                                                    @else
+                                                    <form method="POST"class="job-badge p-0" action="{{ route('messages') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="reqid"  value="{{$data->id}}" >
+                                                        <input type="hidden" name="to_id"  value="{{ ($data->user_id != auth()->id())?$bids->user->id: $data->user_id}}" >
+                                                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                                    </form>
+                                                    @endif
                                                     <button class="btn">Reply</button>
                                                 </div>
                                             </div>
@@ -365,7 +376,7 @@
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
                         @if ($data->propsolution()->count()>=1)
-                        <input type="hidden" name="t_user_id" value="{{ $data->propsolution->user_id }}">           
+                        <input type="hidden" name="t_user_id" value="{{ $data->propsolution->user_id }}">
                         @endif
                         <div class="mt-30">
                             <div class="rating-container">
@@ -449,9 +460,13 @@
     </div>
 </div>
 
+<input type="hidden" class="reqId" value="{{ $data->id }}" />
+
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<script src="{{asset('asset/js/bkashpayment.js')}}"></script>
+<link rel="stylesheet" href="{{asset('asset/css/paymentBkash.css')}}">
 <!--proposal Bid model script-->
 <script>
     const probidform = $('form#probid');

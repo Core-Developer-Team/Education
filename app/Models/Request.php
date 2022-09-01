@@ -42,4 +42,14 @@ class Request extends Model
     {
         return $this->hasOne(ReqSolution::class);
     }
+
+    public function isAccept($reqId, $bidId)
+    {
+        $data = PaymentLog::where("request_id", $reqId)->where('bid_id', $bidId)->where('pay_for', 'requests')->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
