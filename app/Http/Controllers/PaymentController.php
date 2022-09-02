@@ -139,6 +139,7 @@ class PaymentController extends Controller
             if (isset($resultdatax->paymentID) && @$resultdatax->transactionStatus == 'Completed') {
                 $additionalData = session()->get("bKadditional");
                 DB::beginTransaction();
+                // dd($resultdatax);
                 // MyRequest::find($rId)->update(['payment_status' => 1]);
                 if (
                     PaymentLog::create([

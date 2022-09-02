@@ -25,4 +25,14 @@ class Playlist extends Model
     {
         return $this->hasMany(Tutorialreview::class);
     }
+
+    public function isPaid($vId)
+    {
+        $data = PaymentLog::where('request_id', $vId)->where('pay_by', auth()->id())->where('pay_for', "playlists")->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

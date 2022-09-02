@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <!--file-->
-                    @if (!$data->file == '')
+                    @if (!@$data->file == '')
                         <div class="full-width mt-30">
                             <div class="item-description">
                                 <div class="jobtxt47">
@@ -258,10 +258,23 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="item_buttons">
-                                <div class="purchase_form_btn">
-                                    <button class="buy-btn btn-hover" type="submit">Buy Now</button>
-                                </div>
+                            <div class="item_buttons text-center">
+                                @if(auth()->id() != $playlist->user_id && $playlist->type != 0)
+                                @if($playlist->isPaid($playlist->id) !=true)
+
+                                    <div class="purchase_form_btn">
+                                        <button class="buy-btn btn-hover payNow" type="submit" data-id="{{$playlist->id}}" data-amount="{{$playlist->price}}" data-resource="playlists" >Buy Now</button>
+                                    </div>
+
+                                @else
+                                <form method="POST" class="pb-3" action="{{ route('messages') }}">
+                                    @csrf
+                                    <input type="hidden" name="reqid" class="" value="{{$playlist->id}}" />
+                                    <input type="hidden" name="to_id"  value="{{$playlist->user_id}}" />
+                                    <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                </form>
+                                @endif
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -336,7 +349,9 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" class="reqId" value="{{ $playlist->id }}" />
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<link rel="stylesheet" href="{{asset('asset/css/paymentBkash.css')}}">
+<script src="{{asset('asset/js/bkashpayment.js')}}"></script>

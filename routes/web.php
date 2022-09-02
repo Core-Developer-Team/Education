@@ -32,6 +32,7 @@ use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
+use App\Http\Controllers\admin\PaymentLogController;
 use App\Http\Controllers\BadgesController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
@@ -211,6 +212,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile_activity/{id}', [ProfileController::class, ('showactivity')])->name('profile.activity');
     Route::get('/profile_earning/{id}', [ProfileController::class, ('showearning')])->name('profile.earning');
 });
+
 Route::get('/', [RequestController::class, 'index'])->name('req.index');
 Route::patch('/', [RequestController::class, 'search'])->name('req.search');
 Route::get('ch/{name}', [RequestController::class, 'searchcat'])->name('req.searchcat');
@@ -272,14 +274,19 @@ Route::get('/chat/{reqid}/{toid}', [MessageController::class, ('index')])->name(
 Route::post('/messages', [MessageController::class, ('store')])->name('chat.store');
 
 // Payment Routes for bKash
-
 Route::post('token', [PaymentController::class, 'token'])->name('token');
 Route::get('createpayment', [PaymentController::class, 'createpayment'])->name('createpayment');
 Route::get('executepayment', [PaymentController::class, 'executepayment'])->name('executepayment');
+
 Route::middleware('auth')->group(function () {
     Route::post('payment-additional', [PaymentController::class, 'paymentAdditional'])->name('payment.additional');
     Route::any('my-messages', [MessageController::class, 'messages'])->name('messages');
     Route::post('send-message', [MessageController::class, 'sendMessage'])->name('messages-send');
     Route::post('get-messages/{from}', [MessageController::class, 'getMessage'])->name('get-messages');
     Route::post('delete-message', [MessageController::class, 'deleteMessage'])->name('delete-message');
+});
+
+Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function () {
+    Route::get('/payment-log', [PaymentLogController::class, 'index'])->name('payment-log');
+    Route::get('/pay-to-seller/{id}', [PaymentLogController::class, 'payToSeller'])->name('pay-to-seller');
 });

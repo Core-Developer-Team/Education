@@ -1,6 +1,5 @@
 var accessToken = "";
 $(document).ready(function () {
-    
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -117,7 +116,8 @@ $(document).ready(function () {
                             "!! Payment Success !!",
                             "success"
                         ).then((result) => {
-                            window.location.href = location.reload();
+                            location.reload();
+                            // window.location.href = location.reload();
                         });
                         // alert('[SUCCESS] data : ' + JSON.stringify(data));
                     } else {
