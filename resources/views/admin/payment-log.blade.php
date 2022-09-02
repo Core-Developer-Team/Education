@@ -1,5 +1,4 @@
 @include('admin.layouts.header')
-
 <!-- Sidebar -->
 @include('admin.layouts.leftmenu')
 <!-- End of Sidebar -->
