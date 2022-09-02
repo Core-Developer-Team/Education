@@ -26,7 +26,7 @@ class RequestController extends Controller
     // All requests page
     public function index()
     {
-       
+
         $datas = ModelsRequest::orderBy('created_at', 'DESC')->cursorPaginate(6);
         $categ = ModelsRequest::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
         $bid = Reqbid::all();

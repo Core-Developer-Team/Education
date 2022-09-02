@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('payment_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('request_id')->constrained();
+            $table->integer('request_id')->nullable();
             $table->integer('amount');
             $table->string('payment_method');
             $table->longText('payment_details');

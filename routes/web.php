@@ -200,6 +200,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile_activity/{id}', [ProfileController::class, ('showactivity')])->name('profile.activity');
     Route::get('/profile_earning/{id}', [ProfileController::class, ('showearning')])->name('profile.earning');
 });
+
 Route::get('/', [RequestController::class, 'index'])->name('req.index');
 Route::patch('/', [RequestController::class, 'search'])->name('req.search');
 Route::get('ch/{name}', [RequestController::class, 'searchcat'])->name('req.searchcat');
@@ -259,10 +260,10 @@ Route::get('/chat/{reqid}/{toid}', [MessageController::class, ('index')])->name(
 Route::post('/messages', [MessageController::class, ('store')])->name('chat.store');
 
 // Payment Routes for bKash
-
 Route::post('token', [PaymentController::class, 'token'])->name('token');
 Route::get('createpayment', [PaymentController::class, 'createpayment'])->name('createpayment');
 Route::get('executepayment', [PaymentController::class, 'executepayment'])->name('executepayment');
+
 Route::middleware('auth')->group(function () {
     Route::post('payment-additional', [PaymentController::class, 'paymentAdditional'])->name('payment.additional');
     Route::any('my-messages', [MessageController::class, 'messages'])->name('messages');
