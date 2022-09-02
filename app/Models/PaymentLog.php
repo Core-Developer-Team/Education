@@ -17,5 +17,26 @@ class PaymentLog extends Model
         'pay_by',
         'pay_for',
         'bid_id',
+        'status'
     ];
+
+    public function findSeller($id)
+    {
+        $findLogs = self::find($id);
+        if ($findLogs->pay_for == 'playlists') {
+            $userInfo = Playlist::with('user')->find($findLogs->request_id);
+        } elseif ($findLogs->pay_for == 'proposals') {
+            $userInfo = Proposal::with('user')->find($findLogs->request_id);
+        } elseif ($findLogs->pay_for == 'resources') {
+            $userInfo = Resource::with('user')->find($findLogs->request_id);
+        } else {
+            $userInfo = Request::with('user')->find($findLogs->request_id);
+        }
+        return $userInfo;
+    }
+
+    public function fundBuyer()
+    {
+        return $this->belongsTo(User::class, 'pay_by');
+    }
 }

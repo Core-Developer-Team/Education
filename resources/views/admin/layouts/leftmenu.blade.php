@@ -61,6 +61,11 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>User Badges</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.payment-log') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Payment Logs</span></a>
+    </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">

@@ -32,6 +32,7 @@ use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
+use App\Http\Controllers\admin\PaymentLogController;
 use App\Http\Controllers\BadgesController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
@@ -283,4 +284,9 @@ Route::middleware('auth')->group(function () {
     Route::post('send-message', [MessageController::class, 'sendMessage'])->name('messages-send');
     Route::post('get-messages/{from}', [MessageController::class, 'getMessage'])->name('get-messages');
     Route::post('delete-message', [MessageController::class, 'deleteMessage'])->name('delete-message');
+});
+
+Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function () {
+    Route::get('/payment-log', [PaymentLogController::class, 'index'])->name('payment-log');
+    Route::get('/pay-to-seller/{id}', [PaymentLogController::class, 'payToSeller'])->name('pay-to-seller');
 });
