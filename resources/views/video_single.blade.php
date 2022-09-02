@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <!--file-->
-                    @if (!@$data->file == '')
+                    @if ($playlist->isPaid($playlist->id) == true)
                         <div class="full-width mt-30">
                             <div class="item-description">
                                 <div class="jobtxt47">
@@ -62,7 +62,7 @@
 
                             </div>
                         </div>
-                    @endif
+
                     <!--Reviews-->
                     <div class="full-width mt-30">
                         <div class="event-card mt-4">
@@ -246,6 +246,7 @@
                         </div>
                     </div>
                     <!--end Review section-->
+                    @endif
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="event-card rmt-30">
@@ -267,12 +268,12 @@
                                     </div>
 
                                 @else
-                                <form method="POST" class="pb-3" action="{{ route('messages') }}">
+                                {{-- <form method="POST" class="pb-3" action="{{ route('messages') }}">
                                     @csrf
                                     <input type="hidden" name="reqid" class="" value="{{$playlist->id}}" />
                                     <input type="hidden" name="to_id"  value="{{$playlist->user_id}}" />
                                     <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
-                                </form>
+                                </form> --}}
                                 @endif
                                 @endif
                             </div>
