@@ -11,7 +11,7 @@ class AnnouncementController extends Controller
     public function index()
     {
         $announcements = Announcement::orderBy('updated_at', 'DESC')->get();
-        return view('admin/announcement',compact('announcements'));
+        return view('admin/announcement', compact('announcements'));
     }
     public function get()
     {
@@ -32,6 +32,19 @@ class AnnouncementController extends Controller
     }
     public function updatestatus($id)
     {
-        dd($id);
+        $data = Announcement::find($id);
+        if ($data->active == 1) {
+            $data->active = 0;
+        } elseif ($data->active == 0) {
+            $data->active = 1;
+        }
+        $data->update();
+        return back()->with('status', 'Announcement Update Success');
+    }
+    public function destroy($id)
+    {
+        $data=Announcement::find($id);
+       $data->delete();
+       return back()->with('status', 'Announcement has deleted Successfully');
     }
 }

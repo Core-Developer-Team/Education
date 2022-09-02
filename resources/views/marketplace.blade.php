@@ -84,9 +84,9 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{ route('prod.latest') }}" class="fltr-btn fltr-active">Newest</a>
-                                    <a href="" class="fltr-btn">Trending</a>
-                                    <a href="{{ route('prod.week') }}" class="fltr-btn">Weekly</a>
+                                    <a href="{{ route('prod.latest') }}" class="fltr-btn  @if (request()->getpathinfo() == '/product_latest' || request()->getpathinfo() == '/product') fltr-active @endif">Newest</a>
+                                    <a href="{{route('prod.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/product_trending') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('prod.week') }}" class="fltr-btn @if (request()->getpathinfo() == '/product_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -192,7 +192,7 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="cover-pic">Product_Image</label>
-                            <input type="file" id="cover-pic" class="form-control" name="cover_pic"
+                            <input type="file" id="cover-pic" class="form-control"  accept="image/*" name="cover_pic"
                                 value="{{ old('cover-pic') }}">
                             <div class="text-danger mt-2 text-sm cover_picError"></div>
                         </div>

@@ -160,9 +160,12 @@
                                 <div class="col-lg-12">
                                     <div class="filter-section">
                                         <div class="btn-4585">
-                                            <a href="{{route('proposal.new')}}" class="fltr-btn fltr-active">Newest</a>
-                                            <a href="" class="fltr-btn">Trending</a>
-                                            <a href="{{route('proposal.week')}}" class="fltr-btn">Weekly</a>
+                                            <a href="{{ route('proposal.new') }}"
+                                                class="fltr-btn @if (request()->getpathinfo() == '/latest_proposal' || request()->getpathinfo() == '/proposals') fltr-active @endif">Newest</a>
+                                            <a href="{{ route('proposal.trending') }}"
+                                                class="fltr-btn @if (request()->getpathinfo() == '/trending_proposal') fltr-active @endif">Trending</a>
+                                            <a href="{{ route('proposal.week') }}"
+                                                class="fltr-btn @if (request()->getpathinfo() == '/weekly_proposal') fltr-active @endif">Weekly</a>
                                         </div>
                                         <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                                     </div>
@@ -236,12 +239,14 @@
                                                     style="width:30px; height:30px" alt="">
                                             </div>
                                             <div class="author-dts">
-                                                <a href="job_detail_view.html"
+                                                <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
                                                     class="problems_title">{{ $item->proposalname }}
                                                 </a>
                                                 <p class="notification-text font-username">
                                                     <a href="#" class="text-danger">{{ $item->user->username }}
-                                                    </a><img src="images/badges/verified.svg" class="d-none"
+                                                    </a><img
+                                                        src="@if ($item->user->badge_id == 5) {{ $item->user->badge->image }} @endif"
+                                                        class="@if ($item->user->badge_id == 5) d-block @else d-none @endif "
                                                         alt="Verified" style="width: 15px;" title="Verified">
                                                     <span class="job-loca"><i
                                                             class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
@@ -277,9 +282,9 @@
                                             <div class="action-btns-job">
                                                 <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
                                                     class="view-btn btn-hover">Detail</a>
-                                                <a href="my_job_detail_edit.html" title="Edit"
-                                                    class="bm-btn btn-hover"><i class="feather-edit"></i></a>
-                                                <span class="bm-btn btn-hover ms-2" data-bs-toggle="modal"
+                                                <a href="" title="Edit" class="bm-btn btn-hover d-none"><i
+                                                        class="feather-edit "></i></a>
+                                                <span class="bm-btn btn-hover ms-2 d-none" data-bs-toggle="modal"
                                                     title="Delete" data-bs-target="#deleteJobModal"><i
                                                         class="feather-trash-2"></i></span>
                                                 @isset($bid)
@@ -343,8 +348,8 @@
                             </div>
                             <div class="form-group pt-2">
                                 <label for="file">Image/PDF</label>
-                                <input type="file" class="form-control" name="file"  accept="image/*,.pdf" id="file"
-                                    value="{{ old('file') }}"
+                                <input type="file" class="form-control" name="file" accept="image/*,.pdf"
+                                    id="file" value="{{ old('file') }}"
                                     placeholder="Upload image or
                                 pdf">
                                 <div class="text-danger mt-2 text-sm file"></div>
