@@ -43,6 +43,7 @@
                             <h5 class="alert-info p-3 text-center mt-3"> The video is a premium one. To view the video, you must first purchase it.</h5>
                             @endif
 
+
                         </div>
 
                     </div>
