@@ -75,6 +75,7 @@
                             </div>
                         @endif
                     @endif
+                    @if ($playlist->isPaid($playlist->id) == true)
                     <!--Reviews-->
                     <div class="full-width mt-30">
                         <div class="event-card mt-4">
