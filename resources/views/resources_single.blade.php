@@ -132,14 +132,14 @@
 
                                         </div>
                                     </div>
-                                    <div class="action-btns-job job-center resmargin">
+                                    {{-- <div class="action-btns-job job-center resmargin">
                                         @if (!(auth()->id() == $data->user_id))
                                             <a href="#"
                                                 class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->resourcebid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addresourcebid">Bid Now</a>
                                         @endif
                                         <span class="apply_job_btn ">$ {{ $data->price }}</span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,8 @@
 
                         </div>
                     </div>
-                    @if (!$data->file == '')
+                    {{-- @if (!$data->file == '') --}}
+                    @if($data->isAccept($data->id) == true)
                         <!--file-->
                         <div class="event-card mt-4">
                             <div class="jobdt99">

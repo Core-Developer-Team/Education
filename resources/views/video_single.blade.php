@@ -29,12 +29,20 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="prdct_dt_view">
                         <div class="pdct-img">
+
                             <iframe width="560" height="315"
-                                src="https://www.youtube.com/embed/{{ $playlist_data['items'][0]->id->videoId }}"
+                                src="https://www.youtube.com/embed/{{ $playlist->isPaid($playlist->id) == true || $playlist->type == 0 ? $playlist_data['items'][0]->id->videoId : '' }}"
                                 title="YouTube video player" frameborder="0"
                                 class="ft-plus-square product-bg-w bg-cyan br-10 mr-0 mainvid"
                                 allow="accelerometer; autoplay; clipboard-write;  gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
+                                allowfullscreen>
+                            </iframe>
+                            @if ($playlist->isPaid($playlist->id) == true || $playlist->type == 0)
+                            @else
+                                <h5 class="alert-info p-3 text-center mt-3"> The video is a premium one. To view the
+                                    video, you must first purchase it.</h5>
+                            @endif
+
                         </div>
 
                     </div>
@@ -50,18 +58,22 @@
                         </div>
                     </div>
                     <!--file-->
+
                     @if (!$playlist->file == '')
-                        <div class="full-width mt-30">
-                            <div class="item-description">
-                                <div class="jobtxt47">
-                                    <h4>Download file from here</h4>
-                                    <hr>
-                                    <a href="{{ $playlist->file }}" download>download here</a>
+                        @if ($playlist->isPaid($playlist->id) == true)
+
+                            <div class="full-width mt-30">
+                                <div class="item-description">
+                                    <div class="jobtxt47">
+                                        <h4>Download file from here</h4>
+                                        <hr>
+                                        <a href="{{ $playlist->file }}" download>download here</a>
+
+                                    </div>
 
                                 </div>
-
                             </div>
-                        </div>
+                        @endif
                     @endif
                     <!--Reviews-->
                     <div class="full-width mt-30">
@@ -249,6 +261,7 @@
                         </div>
                     </div>
                     <!--end Review section-->
+                    @endif
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="event-card rmt-30">
@@ -261,10 +274,24 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="item_buttons">
-                                <div class="purchase_form_btn">
-                                    <button class="buy-btn btn-hover" type="submit">Buy Now</button>
-                                </div>
+                            <div class="item_buttons text-center">
+                                @if (auth()->id() != $playlist->user_id && $playlist->type != 0)
+                                    @if ($playlist->isPaid($playlist->id) != true)
+
+                                        <div class="purchase_form_btn">
+                                            <button class="buy-btn btn-hover payNow" type="submit"
+                                                data-id="{{ $playlist->id }}" data-amount="{{ $playlist->price }}"
+                                                data-resource="playlists">Buy Now</button>
+                                        </div>
+                                    @else
+                                        {{-- <form method="POST" class="pb-3" action="{{ route('messages') }}">
+                                    @csrf
+                                    <input type="hidden" name="reqid" class="" value="{{$playlist->id}}" />
+                                    <input type="hidden" name="to_id"  value="{{$playlist->user_id}}" />
+                                    <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                </form> --}}
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -381,7 +408,9 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" class="reqId" value="{{ $playlist->id }}" />
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<link rel="stylesheet" href="{{ asset('asset/css/paymentBkash.css') }}">
+<script src="{{ asset('asset/js/bkashpayment.js') }}"></script>

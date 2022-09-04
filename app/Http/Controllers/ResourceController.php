@@ -21,22 +21,22 @@ use Illuminate\Support\Facades\Session;
 
 class ResourceController extends Controller
 {
-  //get all resources
-  public function index()
-  {
-    $datas = Resource::orderBy('updated_at', 'DESC')->cursorPaginate(6);
-    $req_count = ModelsRequest::count();
-    $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
-    $feed_count = Feedback::count();
-    $mysol = ReqSolution::where('user_id', Auth()->id())->count();
-    $myques = ModelsRequest::where('user_id', Auth()->id())->count();
-    $res  = Resource::count();
-    $event = Event::count();
-    $offline = Offlinetopic::count();
-    $product = Product::count();
-    $prop   = Proposal::count();
-    $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
-    $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+    //get all resources
+    public function index()
+    {
+        $datas = Resource::orderBy('updated_at', 'DESC')->cursorPaginate(6);
+        $req_count = ModelsRequest::count();
+        $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
 
     $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
     $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
@@ -114,62 +114,62 @@ class ResourceController extends Controller
     return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
 
-  //insert data into database
-  public function store(Request $request)
-  {
-    $request->validate([
-      'name'         => ['required', 'string'],
-      'description'  => ['required', 'string'],
-      'price'        => ['required'],
-      'category'     => ['required', 'string'],
-    ]);
+  
+    //insert data into database
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'         => ['required', 'string'],
+            'description'  => ['required', 'string'],
+            'price'        => ['required'],
+            'category'     => ['required', 'string'],
+        ]);
 
-    if ($request->hasFile('file')) {
-      $request->validate([
-        'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
-      ]);
-      $filename = time() . '_' . $request->file->getClientOriginalName();
-      $imgPath = $request->file('file')->storeAs('ReqFile', $filename, 'public');
-      Resource::create(array_merge($request->only('name', 'price', 'category', 'description'), [
-        'user_id'    => auth()->id(),
-        'file_path'  => '/storage/' . $imgPath,
-        'file_name'  => $filename,
-      ]));
-    } else {
-      Resource::create(array_merge($request->only('name', 'price', 'category', 'description'), [
-        'user_id'    => auth()->id(),
-        'file_path'  => '',
-        'file_name'  => '',
-      ]));
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+            ]);
+            $filename = time() . '_' . $request->file->getClientOriginalName();
+            $imgPath = $request->file('file')->storeAs('ReqFile', $filename, 'public');
+            Resource::create(array_merge($request->only('name', 'price', 'category', 'description'), [
+                'user_id'    => auth()->id(),
+                'file_path'  => '/storage/' . $imgPath,
+                'file_name'  => $filename,
+            ]));
+        } else {
+            Resource::create(array_merge($request->only('name', 'price', 'category', 'description'), [
+                'user_id'    => auth()->id(),
+                'file_path'  => '',
+                'file_name'  => '',
+            ]));
+        }
+
+        return  back()->with('status', 'Your Resource Published Successfully:)');
     }
-
-    return  back()->with('status', 'Your Resource Published Successfully:)');
-  }
-  //show single resource
-  public function showresource($id)
-  {
-    $item = [];
-    $item["data"] = Resource::find($id);
-    $item["isPaid"] = PaymentLog::where('request_id', $id)->where('pay_by', auth()->id())->where('pay_for', 'resources')->first();
-    //increase view count
-    $res_key = 'res_' . $id;
-    if (!Session::has($res_key)) {
-      $item["data"]->increment('view_count');
-      Session::put($res_key, 1);
+    //show single resource
+    public function showresource($id)
+    {
+        $item = [];
+        $item["data"] = Resource::find($id);
+        $item["isPaid"] = PaymentLog::where('request_id', $id)->where('pay_by', auth()->id())->where('pay_for', 'resources')->first();
+        //increase view count
+        $res_key = 'res_' . $id;
+        if (!Session::has($res_key)) {
+            $item["data"]->increment('view_count');
+            Session::put($res_key, 1);
+        }
+        return view('resources_single', $item);
     }
-    return view('resources_single', $item);
-  }
-  public function search(Request $request)
-  {
+    public function search(Request $request)
+    {
 
-    $request->validate([
-      'search'  => ['required', 'string']
-    ]);
-    $search = $request->search;
-    $datas = Resource::query()
-      ->where('name', 'LIKE', "%{$search}%")
-      ->cursorPaginate(6);
-
+        $request->validate([
+            'search'  => ['required', 'string']
+        ]);
+        $search = $request->search;
+        $datas = Resource::query()
+            ->where('name', 'LIKE', "%{$search}%")
+            ->cursorPaginate(6);
     $req_count = ModelsRequest::count();
     $feed_count = Feedback::count();
     $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -216,4 +216,5 @@ class ResourceController extends Controller
     $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
     return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
+
 }
