@@ -29,12 +29,21 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="prdct_dt_view">
                         <div class="pdct-img">
+
                             <iframe width="560" height="315"
-                                src="https://www.youtube.com/embed/{{ $playlist_data['items'][0]->id->videoId }}"
+                                src="https://www.youtube.com/embed/{{ ($playlist->isPaid($playlist->id) == true || $playlist->type == 0)? $playlist_data['items'][0]->id->videoId :''}}"
                                 title="YouTube video player" frameborder="0"
                                 class="ft-plus-square product-bg-w bg-cyan br-10 mr-0 mainvid"
                                 allow="accelerometer; autoplay; clipboard-write;  gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
+                                allowfullscreen>
+                            </iframe>
+                            @if($playlist->isPaid($playlist->id) == true || $playlist->type == 0)
+
+                            @else
+                            <h5 class="alert-info p-3 text-center mt-3"> The video is a premium one. To view the video, you must first purchase it.</h5>
+                            @endif
+
+
                         </div>
 
                     </div>
