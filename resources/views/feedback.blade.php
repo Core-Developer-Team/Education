@@ -186,7 +186,7 @@
                                                         </div>
                                                         <!-- end hover-->
                                                     </div>
-                                                    <span class="evntcunt"
+                                                    <span class="evntcunt ms-2"
                                                         style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</span>
                                                 </div>
                                             </a>

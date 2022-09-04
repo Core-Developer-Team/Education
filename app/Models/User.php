@@ -146,4 +146,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Reqsolutionreport::class);
     }
+    public function propsolreport()
+    {
+        return $this->hasOne(Propsolreport::class);
+    }
 }

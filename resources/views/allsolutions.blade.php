@@ -51,199 +51,247 @@
                             </li>
                         </ul>
                     </div>
-                   
+
             </aside>
-                    <!--/side bar-->
-                    <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                        <div class="pl_item_search rrmt-30">
-                            <form action="{{ route('req.search') }}" method="post">
-                                @csrf
-                                @method('PATCH')
-                                <div class="row">
-                                    <div class="col-lg-10 col-md-8">
-                                        <div class="form_group">
-                                            <input class="form_input_1" type="text"
-                                                placeholder="Search within these results" name="search" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-4">
-                                        <button class="post-link-btn color btn-hover w-100 rmt-10"
-                                            type="submit">Search</button>
-                                    </div>
+            <!--/side bar-->
+            <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <div class="pl_item_search rrmt-30">
+                    <form action="{{ route('req.search') }}" method="post">
+                        @csrf
+                        @method('PATCH')
+                        <div class="row">
+                            <div class="col-lg-10 col-md-8">
+                                <div class="form_group">
+                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                        name="search" required>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="col-lg-2 col-md-4">
+                                <button class="post-link-btn color btn-hover w-100 rmt-10"
+                                    type="submit">Search</button>
+                            </div>
                         </div>
+                    </form>
+                </div>
 
-                        @if (session()->has('success'))
-                            <div class="alert alert-success mt-3">
-                                {{ session()->get('success') }}
-                            </div>
-                        @endif
-                        @if (session()->has('requpstatus'))
-                            <div class="alert alert-success mt-3">
-                                {{ session()->get('requpstatus') }}
-                            </div>
-                        @endif
-                        @if (session()->has('reqstatus'))
-                            <div class="alert alert-success mt-3">
-                                {{ session()->get('reqstatus') }}
-                            </div>
-                        @endif
-                        @forelse ($datas as $data)
-                            <div class="full-width mt-4">
-                                <div class="recent-items">
-                                    <div class="posts-list">
-                                        <div class="feed-shared-author-dt">
-                                            <div class="author-left userimg">
-                                                <a href="#"><img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                        src="/storage/{{ $data->user->image }}" alt=""></a>
-                                                <!--hover on image-->
-                                                <div class="box imagehov shadow"
-                                                    style="width: auto; height:auto;  position: absolute; z-index: 1;">
-                                                    <div class="full-width">
-                                                        <div class="recent-items">
-                                                            <div class="posts-list">
-                                                                <div class="feed-shared-author-dt">
-                                                                    <div class="author-left">
-                                                                        <a href="#"><img
-                                                                                class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                                                src="/storage/{{ $data->user->image }}"
-                                                                                alt=""></a>
-                                                                    </div>
-                                                                    <div class="author-dts">
-                                                                        <p class="notification-text font-username">
-                                                                            <a href="#"
-                                                                                class="text-danger">{{ $data->user->username }}
-                                                                            </a><img
-                                                                                src="{{ $data->user->badge->image }}"
-                                                                                alt="" style="width: 20px;"
-                                                                                title="{{ $data->user->badge->name }}">
-                                                                            <span class="job-loca"><i
-                                                                                    class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
-                                                                        </p>
+                @if (session()->has('success'))
+                    <div class="alert alert-success mt-3">
+                        {{ session()->get('success') }}
+                    </div>
+                @endif
+                @if (session()->has('requpstatus'))
+                    <div class="alert alert-success mt-3">
+                        {{ session()->get('requpstatus') }}
+                    </div>
+                @endif
+                @if (session()->has('reqstatus'))
+                    <div class="alert alert-success mt-3">
+                        {{ session()->get('reqstatus') }}
+                    </div>
+                @endif
+                @forelse ($datas as $data)
+                    <div class="full-width mt-4">
+                        <div class="recent-items">
+                            <div class="posts-list">
+                                <div class="feed-shared-author-dt">
+                                    <div class="author-left userimg">
+                                        <a href="#"><img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                src="/storage/{{ $data->user->image }}" alt=""></a>
+                                        <!--hover on image-->
+                                        <div class="box imagehov shadow"
+                                            style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                            <div class="full-width">
+                                                <div class="recent-items">
+                                                    <div class="posts-list">
+                                                        <div class="feed-shared-author-dt">
+                                                            <div class="author-left">
+                                                                <a href="#"><img
+                                                                        class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                        src="/storage/{{ $data->user->image }}"
+                                                                        alt=""></a>
+                                                            </div>
+                                                            <div class="author-dts">
+                                                                <p class="notification-text font-username">
+                                                                    <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
+                                                                        class="text-danger">{{ $data->user->username }}
+                                                                    </a><img src="{{ $data->user->badge->image }}"
+                                                                        alt="" style="width: 20px;"
+                                                                        title="{{ $data->user->badge->name }}">
+                                                                    <span class="job-loca"><i
+                                                                            class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                                                </p>
 
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Joined on
-                                                                                {{ $data->user->created_at }}</span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Total Solutions
-                                                                                {{ $data->user->solutions }}</span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span
-                                                                                class="time-dt">{{ $data->user->badge->name }}</span>
-                                                                        </p>
-                                                                    </div>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Joined on
+                                                                        {{ $data->user->created_at }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Total Solutions
+                                                                        {{ $data->user->solutions }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span
+                                                                        class="time-dt">{{ $data->user->badge->name }}</span>
+                                                                </p>
+                                                            </div>
 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end hover-->
+                                    </div>
+                                    <div class="iconreq">
+                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                            src="{{ $data->user->badge->image }}" style="width:30px; height:30px"
+                                            alt="">
+                                    </div>
+                                    <div class="author-dts">
+                                        <a href="job_detail_view.html"
+                                            class="problems_title">{{ $data->request->requestname }}</a>
+                                        <p class="notification-text font-username">
+                                        <div class="userimg">
+                                            <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" class="text-success">{{ $data->user->username }}
+                                                &nbsp;
+                                            </a>
+                                            <!--hover on image-->
+                                            <div class="box imagehov shadow"
+                                                style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                <div class="full-width">
+                                                    <div class="recent-items">
+                                                        <div class="posts-list">
+                                                            <div class="feed-shared-author-dt">
+                                                                <div class="author-left">
+                                                                    <a href="#"><img
+                                                                            class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                            src="/storage/{{ $data->user->image }}"
+                                                                            alt=""></a>
                                                                 </div>
+                                                                <div class="author-dts">
+                                                                    <p class="notification-text font-username">
+
+                                                                        <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
+                                                                            style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                                                        </a><img src="{{ $data->user->badge->image }}"
+                                                                            alt="" style="width: 20px;"
+                                                                            title="{{ $data->user->badge->name }}">
+                                                                        <span class="job-loca"><i
+                                                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                                                    </p>
+
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Joined on
+                                                                            {{ $data->user->created_at }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Total Solutions
+                                                                            {{ $data->user->solutions }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Rating
+                                                                            {{ $data->user->rating }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span
+                                                                            class="time-dt">{{ $data->user->badge->name }}</span>
+                                                                    </p>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- end hover-->
                                             </div>
-                                            <div class="iconreq">
-                                                <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                    src="{{ $data->user->badge->image }}"
-                                                    style="width:30px; height:30px" alt="">
-                                            </div>
-                                            <div class="author-dts">
-                                                <a href="job_detail_view.html"
-                                                    class="problems_title">{{ $data->request->requestname }}</a>
-                                                <p class="notification-text font-username">
-                                                    <a href="#" class="text-success">{{ $data->user->username }}
-                                                        &nbsp;
-                                                    </a><img src="images/badges/verified.svg" class="d-none"
-                                                        alt="Verified" style="width: 17px;" title="Verified">
-                                                    <span class="job-loca"><i
-                                                            class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
-                                                </p>
-                                                <span>{{ Str::limit($data->request->description, 150, $end = '.........') }}</span>
-                                                <p class="notification-text font-small-4 pt-1">
-                                                    <span
-                                                        class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
-                                                </p>
-                                                <div class="jbopdt142">
-                                                    <div class="jbbdges10">
-                                                        <span class="job-badge ffcolor">
-                                                            @if ($data->request->tag == 1)
-                                                                Offline
-                                                            @else
-                                                                Online
-                                                            @endif
-                                                        </span>
-                                                        <span class="job-badge ddcolor">৳ {{ $data->request->price }}
-                                                        </span>
-                                                        <span class="job-badge ttcolor">3 days left</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                                <a href=""
-                                                    class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
-                                                <a href=""
-                                                    class="label-dker post_department_top_right mr-10"><span>BBA</span></a>
-                                                <a href=""
-                                                    class="label-dker post_categories_top_right mr-20"><span>{{ $data->request->coursename }}</span></a>
+                                            <!-- end hover-->
+                                        </div>
+                                        <img src="images/badges/verified.svg" class="d-none" alt="Verified"
+                                            style="width: 17px;" title="Verified">
+                                        <span class="job-loca"><i
+                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                        </p>
+                                        <span>{{ Str::limit($data->request->description, 150, $end = '.........') }}</span>
+                                        <p class="notification-text font-small-4 pt-1">
+                                            <span class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
+                                        </p>
+                                        <div class="jbopdt142">
+                                            <div class="jbbdges10">
+                                                <span class="job-badge ffcolor">
+                                                    @if ($data->request->tag == 1)
+                                                        Offline
+                                                    @else
+                                                        Online
+                                                    @endif
+                                                </span>
+                                                <span class="job-badge ddcolor">৳ {{ $data->request->price }}
+                                                </span>
+                                                <span class="job-badge ttcolor">3 days left</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="post-meta">
-                                        <div class="job-actions">
-                                            <div class="aplcnts_15">
-                                                <i
-                                                    class="feather-users mr-2"></i><span>Applied</span><ins>{{ $data->request->reqbid->count() }}</ins>
-                                                <i
-                                                    class="feather-eye mr-2"></i><span>Views</span><ins>{{ $data->request->view_count }}</ins>
-                                            </div>
-                                            <div class="action-btns-job">
-                                                <a href="{{ route('req.showsingle', ['id' => $data->request->id]) }}"
-                                                    class="view-btn btn-hover">View Job</a>
-                                                @if ($data->request->reqbid()->where('request_id', $data->request->id)->pluck('status')->first() == 0)
-                                                    <a href="{{ route('req.show', ['id' => $data->request->id]) }}"
-                                                        title="Edit" class="bm-btn btn-hover"><i
-                                                            class="feather-edit"></i></a>
-                                                    <form
-                                                        action="{{ route('req.destroy', ['id' => $data->request->id]) }}"
-                                                        method="POST">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button type="submit" class="btn"><span
-                                                                class="bm-btn btn-hover ms-2"><i
-                                                                    class="feather-trash-2"></i></span>
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                                @isset($bid)
-                                                    @foreach ($bid as $item)
-                                                        @if ($item->request_id == $data->request->id && $item->status == 1)
-                                                            <a href="#" title="Solved"
-                                                                class="bm-btn bm-btn-hover-solve  ms-2 active"><i
-                                                                    class="fas fa-check"></i></a>
-                                                        @endif
-                                                    @endforeach
-                                                @endisset
-                                            </div>
-                                        </div>
+                                    <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
+                                        <a href=""
+                                            class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
+                                        <a href=""
+                                            class="label-dker post_department_top_right mr-10"><span>BBA</span></a>
+                                        <a href=""
+                                            class="label-dker post_categories_top_right mr-20"><span>{{ $data->request->coursename }}</span></a>
                                     </div>
                                 </div>
                             </div>
-                        @empty
-                            <div class="alert alert-success mt-3">
-                                Sorry! No data found
+                            <div class="post-meta">
+                                <div class="job-actions">
+                                    <div class="aplcnts_15">
+                                        <i
+                                            class="feather-users mr-2"></i><span>Applied</span><ins>{{ $data->request->reqbid->count() }}</ins>
+                                        <i
+                                            class="feather-eye mr-2"></i><span>Views</span><ins>{{ $data->request->view_count }}</ins>
+                                    </div>
+                                    <div class="action-btns-job">
+                                        <a href="{{ route('req.showsingle', ['id' => $data->request->id]) }}"
+                                            class="view-btn btn-hover">View Job</a>
+                                        @if ($data->request->reqbid()->where('request_id', $data->request->id)->pluck('status')->first() == 0)
+                                            <a href="{{ route('req.show', ['id' => $data->request->id]) }}"
+                                                title="Edit" class="bm-btn btn-hover"><i
+                                                    class="feather-edit"></i></a>
+                                            <form action="{{ route('req.destroy', ['id' => $data->request->id]) }}"
+                                                method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn"><span
+                                                        class="bm-btn btn-hover ms-2"><i
+                                                            class="feather-trash-2"></i></span>
+                                                </button>
+                                            </form>
+                                        @endif
+                                        @isset($bid)
+                                            @foreach ($bid as $item)
+                                                @if ($item->request_id == $data->request->id && $item->status == 1)
+                                                    <a href="#" title="Solved"
+                                                        class="bm-btn bm-btn-hover-solve  ms-2 active"><i
+                                                            class="fas fa-check"></i></a>
+                                                @endif
+                                            @endforeach
+                                        @endisset
+                                    </div>
+                                </div>
                             </div>
-
-                        @endforelse
-                        <div class="mt-3">
-                            {{ $datas->links() }}
                         </div>
-                    </main>
+                    </div>
+                @empty
+                    <div class="alert alert-success mt-3">
+                        Sorry! No data found
+                    </div>
 
+                @endforelse
+                <div class="mt-3">
+                    {{ $datas->links() }}
                 </div>
+            </main>
+
         </div>
     </div>
+</div>
 </div>
 
 <!--Request Model-->

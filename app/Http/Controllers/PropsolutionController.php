@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proposalbid;
+use App\Models\Propsolreport;
 use App\Models\Propsolution;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -39,5 +40,14 @@ class PropsolutionController extends Controller
         }
         $users->update();
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
+    }
+    public function solutionreport($uid, $rid, $sid)
+    {
+        Propsolreport::Create([
+            'user_id' => $uid,
+            'proposal_id'  => $rid,
+            'propsolution_id' => $sid,
+        ]);
+        return back();
     }
 }

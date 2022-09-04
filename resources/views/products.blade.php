@@ -17,10 +17,9 @@
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target=" @auth
-                        #addnew
+#addnew
 @else
-#loginlink
-                        @endauth ">Add
+#loginlink @endauth ">Add
                             New</a>
                     </div>
                     <div class="posted_1590">
@@ -144,8 +143,11 @@
                                                                     <a href="course_detail_view.html"
                                                                         class="job-heading pp-title">{{ $book->book_name }}</a>
                                                                     <p class="notification-text font-small-4">
-                                                                        by <a href="#"
-                                                                            class="cmpny-dt blk-clr">{{ $book->user->username }}</a>
+                                                                        by <a
+                                                                            href="{{ route('profile.show', ['id' => $book->user_id]) }}"
+                                                                            class="cmpny-dt blk-clr"
+                                                                            style="color: {{ $book->user->role->color->name }}">{{ $book->user->username }}</a>
+
                                                                     </p>
 
                                                                     <div class="ppdt-price-sales">
@@ -212,8 +214,11 @@
                                                                     <a href="course_detail_view.html"
                                                                         class="job-heading pp-title">{{ $product->name }}</a>
                                                                     <p class="notification-text font-small-4">
-                                                                        by <a href="#"
-                                                                            class="cmpny-dt blk-clr">{{ $product->user->username }}</a>
+                                                                        by <a
+                                                                            href="{{ route('profile.show', ['id' => $product->user_id]) }}"
+                                                                            class="cmpny-dt blk-clr"
+                                                                            style="color: {{ $product->user->role->color->name }}">{{ $product->user->username }}</a>
+
                                                                     </p>
 
                                                                     <div class="ppdt-price-sales">
@@ -268,8 +273,8 @@
             </div>
             <div class="modal-body p-3">
                 <div class="container bg-white rounded">
-                    <a href="{{route('books.index')}}" class="post-link-btn btn-hover mb-3">Book</a>
-                    <a href="{{route('product.index')}}" class="btn fltr-btn ">Product</a>
+                    <a href="{{ route('books.index') }}" class="post-link-btn btn-hover mb-3">Book</a>
+                    <a href="{{ route('product.index') }}" class="btn fltr-btn ">Product</a>
                 </div>
             </div>
 

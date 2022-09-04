@@ -318,8 +318,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4 style="color: {{ $playlist->user->role->color->name }}">
-                                    {{ $playlist->user->username }}</h4>
+                                <a href="{{ route('profile.show', ['id' => $playlist->user_id]) }}" class="h4" style="color: {{ $playlist->user->role->color->name }}">
+                                    {{ $playlist->user->username }}</a>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">

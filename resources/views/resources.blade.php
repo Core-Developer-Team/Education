@@ -32,10 +32,9 @@
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target=" 
                         @auth
-                        #addresource
+#addresource
 @else
-#loginlink
-                        @endauth">Add
+#loginlink @endauth">Add
                             Resource</a>
                     </div>
                     @include('layouts/sidebar')
@@ -140,8 +139,8 @@
                                                             </div>
                                                             <div class="author-dts">
                                                                 <p class="notification-text font-username">
-                                                                    <a href="#"
-                                                                    style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}
+                                                                    <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
+                                                                        style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
                                                                     </a><img src="{{ $data->user->badge->image }}"
                                                                         alt="" style="width: 20px;"
                                                                         title="{{ $data->user->badge->name }}">
@@ -183,13 +182,64 @@
                                         <a href="" class="problems_title">{{ $data->name }}
                                         </a>
                                         <p class="notification-text font-username">
-                                            <a href="#" style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}
-                                            </a><img
-                                                src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
-                                                class="@if ($data->user->badge_id == 5) d-block @else d-none @endif "
-                                                alt="Verified" style="width: 15px;" title="Verified">
-                                            <span class="job-loca"><i
-                                                    class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                        <div class="userimg">
+                                            <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
+                                                style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                            </a>
+                                            <!--hover on image-->
+                                            <div class="box imagehov shadow"
+                                                style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                <div class="full-width">
+                                                    <div class="recent-items">
+                                                        <div class="posts-list">
+                                                            <div class="feed-shared-author-dt">
+                                                                <div class="author-left">
+                                                                    <a href="#"><img
+                                                                            class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                            src="/storage/{{ $data->user->image }}"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="author-dts">
+                                                                    <p class="notification-text font-username">
+                                                                        <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
+                                                                            style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                                                        </a><img src="{{ $data->user->badge->image }}"
+                                                                            alt="" style="width: 20px;"
+                                                                            title="{{ $data->user->badge->name }}">
+                                                                        <span class="job-loca"><i
+                                                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                                                    </p>
+
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Joined on
+                                                                            {{ $data->user->created_at }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Total Solutions
+                                                                            {{ $data->user->solutions }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Rating
+                                                                            {{ $data->user->rating }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span
+                                                                            class="time-dt">{{ $data->user->badge->name }}</span>
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end hover-->
+                                        </div>
+                                        <img src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
+                                            class="@if ($data->user->badge_id == 5) d-block @else d-none @endif "
+                                            alt="Verified" style="width: 15px;" title="Verified">
+                                        <span class="job-loca"><i
+                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
                                         </p>
                                         <span>{{ Str::limit($data->description, 150, $end = '.........') }}</span>
                                         <p class="notification-text font-small-4 pt-1">

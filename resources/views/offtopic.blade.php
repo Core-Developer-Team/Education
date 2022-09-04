@@ -46,26 +46,6 @@
                                                             {{ $chat->user->username }}
                                                         @endif
                                                     </span>
-                                                    <div
-                                                        class="ellipsis-options dropdown dropdown-account  @if ($chat->user->id == Auth()->id()) d-none @endif">
-                                                        <a href="#" class="option-eps" role="button"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fas fa-ellipsis-h"></i></a>
-                                                        <ul class="dropdown-menu dropdown-ellipsis dropdown-menu-end"
-                                                            style="">
-                                                            <li class="media-list">
-                                                                @if (!($chat->offlinereport()->count() >= 1 && $chat->offlinereport->offlinetopic_id == $chat->id))
-                                                                    <a data-toggle="modal"
-                                                                        data-id="{{ $chat->user_id }}"
-                                                                        data-mid="{{ $chat->id }}"
-                                                                        title="Add this item" class="open-report btn"
-                                                                        href="#report">Report </a>
-                                                                @else
-                                                                    <span class="danger">Reported</span>
-                                                                @endif
-                                                            </li>
-                                                        </ul>
-                                                    </div>
                                                     <span class="chat-msg-item">
                                                         {{ $chat->group_chat_message }}
                                                     </span>
@@ -73,6 +53,16 @@
                                                         <time datetime="2021-01-24T18:18"
                                                             class="posted-date">{{ $chat->updated_at->diffForHumans() }}</time>
                                                     </span>
+                                                     @if (!($chat->user_id==Auth()->id()))
+                                            
+                                                    @if (!($chat->offlinereport()->count() >= 1 && $chat->offlinereport->offlinetopic_id == $chat->id))
+                                                        <a data-toggle="modal" data-id="{{ $chat->user_id }}"
+                                                            data-mid="{{ $chat->id }}" title="Add this item"
+                                                            class="open-report btn" href="#report">Report </a>
+                                                    @else
+                                                        <button class="text-danger btn">Reported</button>
+                                                    @endif
+                                                    @endif  
                                                 </div>
                                             </li>
                                         @endforeach
@@ -195,7 +185,7 @@
                 url: '{{ route('offlinetopic.get') }}',
                 data: $('#offchat').serialize(),
                 success: function() {
-                    alert('form was submitted');
+                    alert('text send sussessfully');
                 }
             });
 

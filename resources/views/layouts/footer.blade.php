@@ -417,9 +417,6 @@
                 if (errorResponse.name) {
                     $('.name').text(errorResponse.name[0]);
                 }
-                else(errorResponse.name==''){
-                    $('.name').text('');
-                }
                 if (errorResponse.location) {
                     $('.location').text(errorResponse.location[0]);
                 }

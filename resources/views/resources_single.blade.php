@@ -50,7 +50,7 @@
                                                                 </div>
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
-                                                                        <a href="#"
+                                                                        <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
                                                                             style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
                                                                         </a><img src="{{ $data->user->badge->image }}"
                                                                             alt="" style="width: 20px;"
@@ -92,7 +92,7 @@
                                         <div class="author-dts">
                                             <h4 class="job-view-heading job-center">{{ $data->name }}</h4>
                                             <p class="notification-text font-small-4 job-center">
-                                                <a href="#" style="color: {{ $data->user->role->color->name }}"
+                                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" style="color: {{ $data->user->role->color->name }}"
                                                     class="cmpny-dt">{{ $data->user->username }}</a>
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i><ins
                                                         class="state-name">{{ $data->user->uni_name }}</span>
@@ -166,7 +166,7 @@
 
                         </div>
                     </div>
-                    {{-- @if (!$data->file == '') --}}
+                   
                     @if($data->isAccept($data->id) == true)
                         <!--file-->
                         <div class="event-card mt-4">
@@ -192,8 +192,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
-                                </h4>
+                                <a class="h4" href="{{ route('profile.show', ['id' => $data->user_id]) }}" style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                </a>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">

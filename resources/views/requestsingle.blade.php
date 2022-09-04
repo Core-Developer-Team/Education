@@ -18,7 +18,6 @@
                                 <li class="breadcrumb-item"><a href="{{ route('req.index') }}">Requests</a></li>
                             </ol>
                         </nav>
-
                     </div>
                 </div>
             </div>
@@ -65,7 +64,7 @@
                                                                 </div>
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
-                                                                        <a href="#"
+                                                                        <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
                                                                             style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
                                                                         </a><img src="{{ $data->user->badge->image }}"
                                                                             alt="" style="width: 20px;"
@@ -107,7 +106,7 @@
                                         <div class="author-dts">
                                             <h4 class="job-view-heading job-center">{{ $data->requestname }}</h4>
                                             <p class="notification-text font-small-4 job-center">
-                                                <a href="#" class="cmpny-dt"
+                                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" class="cmpny-dt"
                                                     style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}</a>
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i><ins
                                                         class="state-name">{{ $data->user->uni_name }}</span>
@@ -238,8 +237,8 @@
                                                                         </div>
                                                                         <div class="author-dts">
                                                                             <p class="notification-text font-username">
-                                                                                <a href="#"
-                                                                                    style="color: {{ $data->user->role->color->name }}">{{ $bids->user->username }}
+                                                                                <a href="{{ route('profile.show', ['id' => $bids->user_id]) }}"
+                                                                                    style="color: {{ $bids->user->role->color->name }}">{{ $bids->user->username }}
                                                                                 </a><img
                                                                                     src="{{ $bids->user->badge->image }}"
                                                                                     alt=""
@@ -281,10 +280,10 @@
                                                 </div>
 
                                                 <div class="author-dts">
-                                                    <h4 class="job-view-heading job-center"
+                                                    <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" class="job-view-heading job-center"
                                                         style="color: {{ $data->user->role->color->name }}">
                                                         {{ $bids->user->username }}
-                                                    </h4>
+                                                    </a>
                                                     <p class="notification-text font-small-4 job-center">
                                                     <p>{{ $bids->description }}</p>
                                                     </p>
@@ -386,14 +385,14 @@
                                                                                 <p
                                                                                     class="notification-text font-username">
                                                                                     <a href="#"
-                                                                                        style="color: {{ $data->user->role->color->name }}">{{ $item->user->username }}
+                                                                                        style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
                                                                                     </a><img
                                                                                         src="{{ $item->user->badge->image }}"
                                                                                         alt=""
                                                                                         style="width: 20px;"
                                                                                         title="{{ $item->user->badge->name }}">
                                                                                     <span class="job-loca"><i
-                                                                                            class="fas fa-location-arrow"></i>{{ $bids->user->uni_name }}</span>
+                                                                                            class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
                                                                                 </p>
 
                                                                                 <p
@@ -427,9 +426,9 @@
                                                         <!-- end hover-->
                                                     </div>
                                                     <div class="ps-4 pt-0">
-                                                        <p class="h2"
-                                                            style="color: {{ $data->user->role->color->name }}">
-                                                            {{ $item->user->username }}</p>
+                                                        <a href="{{ route('profile.show', ['id' => $item->user_id]) }}" class="h2"
+                                                            style="color: {{ $item->user->role->color->name }}">
+                                                            {{ $item->user->username }}</a>
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
@@ -440,7 +439,7 @@
                                                         </div>
 
                                                         @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id)
-                                                            <span class="text-danger">Reported</span>
+                                                            <button class="text-danger btn">Reported</button>
                                                         @else
                                                             <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
                                                                 class="label-dker post_categories_reported mr-10"><span>Report</span></a>
@@ -511,7 +510,7 @@
                                                                             <div class="author-dts">
                                                                                 <p
                                                                                     class="notification-text font-username">
-                                                                                    <a href="#"
+                                                                                    <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
                                                                                         style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
                                                                                     </a><img
                                                                                         src="{{ $item->user->badge->image }}"
@@ -553,9 +552,9 @@
                                                         <!-- end hover-->
                                                     </div>
                                                     <div class="ps-4 pt-0">
-                                                        <p class="h2"
-                                                            style="color: {{ $data->user->role->color->name }}">
-                                                            {{ $item->user->username }}</p>
+                                                        <a href="{{ route('profile.show', ['id' => $item->user_id]) }}" class="h2"
+                                                            style="color: {{ $item->user->role->color->name }}">
+                                                            {{ $item->user->username }}</a>
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
@@ -576,7 +575,7 @@
                                                                     action="{{ route('req.report', ['uid' => $item->user_id, 'cid' => $item->id]) }}"
                                                                     method="post">
                                                                     @csrf
-                                                                    @if (!($item->commentreport()->count() && $item->commentreport->reqcomment_id == $item->id))
+                                                                    @if (!($item->commentreport()->count()>=1 && $item->commentreport->reqcomment_id == $item->id))
                                                                         <button type="submit"
                                                                             class="btn">Report</button>
                                                                     @else
@@ -635,8 +634,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
-                                </h4>
+                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" class="h4" style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                </a>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">

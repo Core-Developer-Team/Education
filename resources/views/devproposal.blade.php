@@ -208,7 +208,7 @@
                                     </div>
                                     <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                         <a href=""
-                                            class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
+                                        class="label-dker post_categories_reported mr-10 @if ($item->propsolreport()->count() > 0 && $item->propsolreport->proposal_id == $item->id) d-block @else d-none @endif"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
                                         <a href=""
                                             class="label-dker post_categories_top_right mr-20"><span>{{ $item->category }}</span></a>
                                     </div>
