@@ -51,7 +51,7 @@
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
                                                                         <a href="#"
-                                                                            class="text-danger">{{ $data->user->username }}
+                                                                        style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}
                                                                         </a><img src="{{ $data->user->badge->image }}"
                                                                             alt="" style="width: 20px;"
                                                                             title="{{ $data->user->badge->name }}">
@@ -66,6 +66,10 @@
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Total Solutions
                                                                             {{ $data->user->solutions }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Rating
+                                                                            {{ $data->user->rating }}</span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span
@@ -88,7 +92,7 @@
                                         <div class="author-dts">
                                             <h4 class="job-view-heading job-center">{{ $data->proposalname }}</h4>
                                             <p class="notification-text font-small-4 job-center">
-                                                <a href="#" class="cmpny-dt">{{ $data->user->username }}</a>
+                                                <a href="#" class="cmpny-dt" style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}</a>
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i><ins
                                                         class="state-name">{{ $data->user->uni_name }}</span>
                                             </p>
@@ -153,7 +157,8 @@
                                             <div
                                                 class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
                                                 <div class="">
-                                                    <div class="rounded-circle d-flex userimg">
+                                                    <div class="rounded-circle d-flex">
+                                                        <div class="userimg">
                                                         <img src="/storage/{{ $bids->user->image }}"
                                                             class="rounded-circle" style="width: 50px;height: 50px;"
                                                             alt="" srcset="">
@@ -174,7 +179,7 @@
                                                                                 <p
                                                                                     class="notification-text font-username">
                                                                                     <a href="#"
-                                                                                        class="text-danger">{{ $bids->user->username }}
+                                                                                    style="color: {{$bids->user->role->color->name}}">{{ $bids->user->username }}
                                                                                     </a><img
                                                                                         src="{{ $bids->user->badge->image }}"
                                                                                         alt=""
@@ -195,6 +200,10 @@
                                                                                         Solutions
                                                                                         {{ $bids->user->solutions }}</span>
                                                                                 </p>
+                                                                                <p class="notification-text font-small-4 pt-1">
+                                                                                    <span class="time-dt">Rating
+                                                                                        {{ $bids->user->rating }}</span>
+                                                                                </p>
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1">
                                                                                     <span
@@ -208,8 +217,9 @@
                                                             </div>
                                                         </div>
                                                         <!-- end hover-->
+                                                        </div>
                                                         <div class="ps-4 pt-3">
-                                                            <p class="h3">{{ $bids->user->username }}</p>
+                                                            <p class="h3" style="color: {{$bids->user->role->color->name}}">{{ $bids->user->username }}</p>
                                                             <p> <small>Bid on
                                                                     {{ $bids->created_at->diffForHumans() }}</small>
                                                             </p>
@@ -256,7 +266,8 @@
                                         @forelse ($data->propsolution()->orderBy('updated_at','DESC')->get() as $item)
                                             <div
                                                 class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
-                                                <div class="rounded-circle d-flex userimg">
+                                                <div class="rounded-circle d-flex ">
+                                                    <div class="userimg">
                                                     <img src="/storage/{{ $item->user->image }}"
                                                         class="rounded-circle" style="width: 50px;height: 50px;"
                                                         alt="" srcset="">
@@ -276,7 +287,7 @@
                                                                         <div class="author-dts">
                                                                             <p class="notification-text font-username">
                                                                                 <a href="#"
-                                                                                    class="text-danger">{{ $item->user->username }}
+                                                                                style="color: {{$item->user->role->color->name}}">{{ $item->user->username }}
                                                                                 </a><img
                                                                                     src="{{ $item->user->badge->image }}"
                                                                                     alt=""
@@ -296,6 +307,10 @@
                                                                                 <span class="time-dt">Total Solutions
                                                                                     {{ $item->user->solutions }}</span>
                                                                             </p>
+                                                                            <p class="notification-text font-small-4 pt-1">
+                                                                                <span class="time-dt">Rating
+                                                                                    {{ $item->user->rating }}</span>
+                                                                            </p>
                                                                             <p
                                                                                 class="notification-text font-small-4 pt-1">
                                                                                 <span
@@ -309,8 +324,9 @@
                                                         </div>
                                                     </div>
                                                     <!-- end hover-->
+                                                    </div>
                                                     <div class="ps-4 pt-0">
-                                                        <p class="h2">{{ $item->user->username }}</p>
+                                                        <p class="h2" style="color: {{$item->user->role->color->name}}">{{ $item->user->username }}</p>
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
@@ -373,10 +389,11 @@
                             <div class="username-dt dpbg-1">
                                 <div class="usr-pic">
                                     <img src="/storage/{{ $data->user->image }}" alt="">
+                                      
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4>{{ $data->user->username }}</h4>
+                                <h4 style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}</h4>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">

@@ -42,18 +42,22 @@ class RegisteredUserController extends Controller
             'uni_name'  => ['required','string'],
             'department'=> ['required'],
             'gender'    => ['required'],
+            'cover_img' => ['required'],
             'password'  => ['required', 'confirmed', Rules\Password::defaults()],
             'terms'     =>  ['accepted', 'required'],
         ]);
      
         $filename = time().'_'.$request['image']->getClientOriginalName();
         $imgPath = $request['image']->storeAs('profile-photos',$filename,'public');
+        $covername = time().'_'.$request['cover_img']->getClientOriginalName();
+        $coverimgPath = $request['cover_img']->storeAs('profile-photos',$covername,'public');
         
         $user = User::create([
             'username'   => $request->username,
             'email'      => $request->email,
             'mobile_no'  => $request->mobile_no,
             'image'      => $imgPath,
+            'cover_img'  => $coverimgPath,
             'uni_id'     => $request->uni_id,
             'gender'     => $request->gender,
             'uni_name'   => $request->uni_name,

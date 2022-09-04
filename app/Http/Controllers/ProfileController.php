@@ -47,6 +47,14 @@ class ProfileController extends Controller
             $imgPath = $request['image']->storeAs('profile-photos', $filename, 'public');
             $users->update(['image' => $imgPath]);
         }
+        if ($request->hasFile('cover_img')) {
+            $request->validate([
+                'cover_img' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            ]);
+            $coverimg = time() . '_' . $request['cover_img']->getClientOriginalName();
+            $coverPath = $request['cover_img']->storeAs('profile-photos', $coverimg, 'public');
+            $users->update(['cover_img' => $coverPath]);
+        }
         $users->update([
             'username'  => $request->username,
             'email'     => $request->email,
@@ -56,6 +64,10 @@ class ProfileController extends Controller
             'gender'    => $request->gender,
         ]);
         return back()->with('message', 'Profile Updated Susseffully:)');
+    }
+    public function updatecover(Request $request, $id)
+    {
+        dd($request->all());
     }
     public function password()
     {

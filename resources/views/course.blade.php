@@ -45,18 +45,38 @@
 
                     </ul>
                 </div>
-                <div class="full-width mt-4 dstp-bnr-dt">
-                    <div class="banner-item">
-                        <div class="banner-img">
-                            <img src="images/banners/banner-1.jpg" alt="">
-                            <div class="banner-overlay">
-                                <span>Learning Plateform</span>
-                                <h4>Keep learning in the moments that matter.</h4>
-                                <button class="main-btn color btn-hover"
-                                    onclick="window.location.href='{{route('course.index')}}'">See Courses</button>
-                            </div>
-                        </div>
+                <div class="full-width mt-5">
+
+                    <div class="manage-section mt-3">
+                        <span class="manage-title">Today's Activity</span>
                     </div>
+                    <ul class="info__sections">
+                        <li>
+                            <a href="my_courses.html" class="all-info__sections">
+                                <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
+                                <span class="all-info__right">{{$t_req_count}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="my_courses.html" class="all-info__sections">
+                                <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
+                                <span class="all-info__right">{{$t_prop_count}}</span>
+                            </a>
+                        </li>
+                
+                        <li>
+                            <a href="purchased_courses.html" class="all-info__sections">
+                                <span class="all-info__left"><i class="feather-download me-2"></i>Request Solution</span>
+                                <span class="all-info__right">{{$t_reqsolution_count}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="purchased_courses.html" class="all-info__sections">
+                                <span class="all-info__left"><i class="feather-download me-2"></i>Proposal Solution</span>
+                                <span class="all-info__right">{{$t_propsolution_count}}</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-12">
@@ -135,8 +155,8 @@
                                                                     Str::limit($item->snippet->title, 50, $end = '....')
                                                                     }}</a>
                                                                 <p class="notification-text font-small-4">
-                                                                    by <a href="#" class="cmpny-dt blk-clr">John
-                                                                        Doe</a>
+                                                                    by <a href="#"
+                                                                    class="cmpny-dt blk-clr" style="color: {{$items['color']}}">{{$items['user']}}</a>
                                                                 </p>
                                                                 <p
                                                                     class="notification-text font-small-4 pt-1 catey-group">
@@ -163,11 +183,7 @@
                                                             <div class="action-btns-job">
                                                                 <i class="feather-eye mr-2"></i>
                                                                 {{$items['view_count']}}
-                                                                <i class="feather-tag mr-2"></i>
-                                                                @if($items['type']==0) <span
-                                                                    class="font-small-4 text-danger">free</span>
-                                                                @elseif($items['type']==1) <span
-                                                                    class="font-small-4 text-danger">paid</span> @endif
+                                                              
                                                             </div>
                                                         </div>
                                                     </div>
@@ -227,8 +243,8 @@
                                                                     Str::limit($item->snippet->title, 50, $end = '....')
                                                                     }}</a>
                                                                 <p class="notification-text font-small-4">
-                                                                    by <a href="#" class="cmpny-dt blk-clr">John
-                                                                        Doe</a>
+                                                                    by <a href="#"
+                                                                    class="cmpny-dt blk-clr" style="color: {{$items['color']}}">{{$items['user']}}</a>
                                                                 </p>
                                                                 <p
                                                                     class="notification-text font-small-4 pt-1 catey-group">
@@ -255,11 +271,7 @@
                                                             <div class="action-btns-job">
                                                                 <i class="feather-eye mr-2"></i>
                                                                 {{$items['view_count']}}
-                                                                <i class="feather-tag mr-2"></i>
-                                                                @if($items['type']==0) <span
-                                                                    class="font-small-4 text-danger">free</span>
-                                                                @elseif($items['type']==1) <span
-                                                                    class="font-small-4 text-danger">paid</span> @endif
+                                                               
                                                             </div>
                                                         </div>
                                                     </div>

@@ -31,18 +31,17 @@
                         <div class="pdct-img">
 
                             <iframe width="560" height="315"
-                                src="https://www.youtube.com/embed/{{ ($playlist->isPaid($playlist->id) == true || $playlist->type == 0)? $playlist_data['items'][0]->id->videoId :''}}"
+                                src="https://www.youtube.com/embed/{{ $playlist->isPaid($playlist->id) == true || $playlist->type == 0 ? $playlist_data['items'][0]->id->videoId : '' }}"
                                 title="YouTube video player" frameborder="0"
                                 class="ft-plus-square product-bg-w bg-cyan br-10 mr-0 mainvid"
                                 allow="accelerometer; autoplay; clipboard-write;  gyroscope; picture-in-picture"
                                 allowfullscreen>
                             </iframe>
-                            @if($playlist->isPaid($playlist->id) == true || $playlist->type == 0)
-
+                            @if ($playlist->isPaid($playlist->id) == true || $playlist->type == 0)
                             @else
-                            <h5 class="alert-info p-3 text-center mt-3"> The video is a premium one. To view the video, you must first purchase it.</h5>
+                                <h5 class="alert-info p-3 text-center mt-3"> The video is a premium one. To view the
+                                    video, you must first purchase it.</h5>
                             @endif
-
 
                         </div>
 
@@ -59,19 +58,23 @@
                         </div>
                     </div>
                     <!--file-->
-                    @if ($playlist->isPaid($playlist->id) == true)
-                        <div class="full-width mt-30">
-                            <div class="item-description">
-                                <div class="jobtxt47">
-                                    <h4>Download file from here</h4>
-                                    <hr>
-                                    <a href="{{ $playlist->file }}" download>download here</a>
+
+                    @if (!$playlist->file == '')
+                        @if ($playlist->isPaid($playlist->id) == true)
+
+                            <div class="full-width mt-30">
+                                <div class="item-description">
+                                    <div class="jobtxt47">
+                                        <h4>Download file from here</h4>
+                                        <hr>
+                                        <a href="{{ $playlist->file }}" download>download here</a>
+
+                                    </div>
 
                                 </div>
-
                             </div>
-                        </div>
-
+                        @endif
+                    @endif
                     <!--Reviews-->
                     <div class="full-width mt-30">
                         <div class="event-card mt-4">
@@ -84,7 +87,7 @@
 
                                         <h3 class="mb-3">{{ $playlist->tutorialreview->count() }} Reviews
                                         </h3>
-                                        @foreach ($playlist->tutorialreview()->orderBy('updated_at', 'DESC')->get() as $item)
+                                        @foreach ($reviews as $item)
                                             <div class="review-card mt-4">
                                                 <div class="review-content">
                                                     <div class="review-head">
@@ -143,8 +146,8 @@
                                                                         src="/storage/{{ $item->user->image }}"
                                                                         alt="">
                                                                 </div>
-                                                                <span
-                                                                    class="evntcunt">{{ $item->user->username }}</span>
+                                                                <span class="evntcunt"
+                                                                    style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</span>
                                                             </div>
                                                         </a>
                                                     </div>
@@ -154,7 +157,10 @@
                                                 </div>
                                             </div>
                                         @endforeach
-
+                                        <div class="m-5">
+                                            {{ $reviews->links() }}
+                                        </div>
+                                        <hr>
                                         <!-- END review-list -->
 
                                         <!--review form-->
@@ -269,21 +275,22 @@
                                 </li>
                             </ul>
                             <div class="item_buttons text-center">
-                                @if(auth()->id() != $playlist->user_id && $playlist->type != 0)
-                                @if($playlist->isPaid($playlist->id) !=true)
+                                @if (auth()->id() != $playlist->user_id && $playlist->type != 0)
+                                    @if ($playlist->isPaid($playlist->id) != true)
 
-                                    <div class="purchase_form_btn">
-                                        <button class="buy-btn btn-hover payNow" type="submit" data-id="{{$playlist->id}}" data-amount="{{$playlist->price}}" data-resource="playlists" >Buy Now</button>
-                                    </div>
-
-                                @else
-                                {{-- <form method="POST" class="pb-3" action="{{ route('messages') }}">
+                                        <div class="purchase_form_btn">
+                                            <button class="buy-btn btn-hover payNow" type="submit"
+                                                data-id="{{ $playlist->id }}" data-amount="{{ $playlist->price }}"
+                                                data-resource="playlists">Buy Now</button>
+                                        </div>
+                                    @else
+                                        {{-- <form method="POST" class="pb-3" action="{{ route('messages') }}">
                                     @csrf
                                     <input type="hidden" name="reqid" class="" value="{{$playlist->id}}" />
                                     <input type="hidden" name="to_id"  value="{{$playlist->user_id}}" />
                                     <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
                                 </form> --}}
-                                @endif
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -305,7 +312,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4>{{ $playlist->user->username }}</h4>
+                                <h4 style="color: {{ $playlist->user->role->color->name }}">
+                                    {{ $playlist->user->username }}</h4>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">
@@ -339,20 +347,61 @@
                     </div>
                     <div class="full-width mt-30">
                         <div class="headtte14m">
-                            <h4>Item Rating</h4>
+                            <h4>Tutorial Rating</h4>
                         </div>
                         <div class="item-rating-stars-dts">
-                            <div class="item-rating-stars">
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star color-gray-medium"></i>
-                            </div>
-                            <p class="rating_text">4.50 average based on 7 ratings.</p>
+                            @if ($playlist->rating == 0)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif($playlist->rating >= 1 && $playlist->rating < 2)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating >= 2 && $playlist->rating < 3)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating >= 3 && $playlist->rating < 4)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating >= 4 && $playlist->rating < 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating == 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                </div>
+                            @endif
+                            <p class="rating_text">{{ $playlist->rating }} average based on 5 ratings.</p>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -363,5 +412,5 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
-<link rel="stylesheet" href="{{asset('asset/css/paymentBkash.css')}}">
-<script src="{{asset('asset/js/bkashpayment.js')}}"></script>
+<link rel="stylesheet" href="{{ asset('asset/css/paymentBkash.css') }}">
+<script src="{{ asset('asset/js/bkashpayment.js') }}"></script>

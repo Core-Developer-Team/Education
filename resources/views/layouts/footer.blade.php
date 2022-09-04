@@ -296,6 +296,9 @@
                 if (errorResponse.file) {
                     $('.file').text(errorResponse.file[0]);
                 }
+                if (errorResponse.category) {
+                    $('.category').text(errorResponse.category[0]);
+                } 
                 if (errorResponse.description) {
                     $('.description').text(errorResponse.description[0]);
                 }
@@ -367,6 +370,55 @@
                 const errorResponse = error.responseJSON.errors;
                 if (errorResponse.name) {
                     $('.name').text(errorResponse.name[0]);
+                }
+                if (errorResponse.location) {
+                    $('.location').text(errorResponse.location[0]);
+                }
+                if (errorResponse.event_date) {
+                    $('.event_date').text(errorResponse.event_date[0]);
+                }
+                if (errorResponse.start_time) {
+                    $('.start_time').text(errorResponse.start_time[0]);
+                }
+                if (errorResponse.end_time) {
+                    $('.end_time').text(errorResponse.end_time[0]);
+                }
+                if (errorResponse.image) {
+                    $('.image').text(errorResponse.image[0]);
+                }
+                if (errorResponse.description) {
+                    $('.description').text(errorResponse.description[0]);
+                }
+            }
+        })
+    })
+</script>
+<!--Contest model script-->
+<script>
+    const contestform = $('form#contest');
+    contestform.on('submit', (e) => {
+        e.preventDefault();
+        const formcontest = document.getElementById('contest');
+        const formData = new FormData(formcontest);
+        const action = $(e.currentTarget).attr('action');
+        formData.append('_token', '{{ csrf_token() }}');
+        $.ajax({
+            url: action,
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                location.href = location.href;
+            },
+            error: function(error) {
+                const errorResponse = error.responseJSON.errors;
+                if (errorResponse.name) {
+                    $('.name').text(errorResponse.name[0]);
+                }
+                else(errorResponse.name==''){
+                    $('.name').text('');
                 }
                 if (errorResponse.location) {
                     $('.location').text(errorResponse.location[0]);

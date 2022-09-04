@@ -28,9 +28,9 @@
             <div class="row">
                 <div class="col-lg-8 col-md-12">
                     @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                     @endif
                     <div class="prdct_dt_view">
                         <div class="pdct-img">
@@ -38,7 +38,7 @@
                                 alt="">
                         </div>
                         <div class="pdct-actions">
-                            <i class="feather-eye mr-2"></i> <span>Views</span> {{$data->view_count}}
+                            <i class="feather-eye mr-2"></i> <span>Views</span> {{ $data->view_count }}
                         </div>
                     </div>
                     <div class="full-width mt-30">
@@ -47,24 +47,24 @@
                                 <h4>Description</h4>
                             </div>
                             <div class="jobtxt47">
-                                {{$data->description}}
+                                {{ $data->description }}
                             </div>
                         </div>
                     </div>
 
-                           <!--Reviews-->
-                           <div class="full-width mt-30">
-                            <div class="event-card mt-4">
-                                <div class="jobdt99">
-                                    <div class="jbdes25">
-                                        <div class="jobtxt47">
-                                            <h4>Reviews</h4>
-                                            <hr>
-                                            <!--review Section-->
-    
-                                            <h3 class="mb-3">{{$data->productreview->count()}} Reviews
-                                            </h3>
-                                            @foreach ($data->productreview()->orderBy('updated_at','DESC')->get() as $item)
+                    <!--Reviews-->
+                    <div class="full-width mt-30">
+                        <div class="event-card mt-4">
+                            <div class="jobdt99">
+                                <div class="jbdes25">
+                                    <div class="jobtxt47">
+                                        <h4>Reviews</h4>
+                                        <hr>
+                                        <!--review Section-->
+
+                                        <h3 class="mb-3">{{ $data->productreview->count() }} Reviews
+                                        </h3>
+                                        @foreach ($reviews as $item)
                                             <div class="review-card mt-4">
                                                 <div class="review-content">
                                                     <div class="review-head">
@@ -112,7 +112,7 @@
                                                             @endif
                                                         </div>
                                                         <span class="rating-time-posting"><i
-                                                                class="feather-clock me-2"></i>{{$item->created_at->diffForHumans()}}</span>
+                                                                class="feather-clock me-2"></i>{{ $item->created_at->diffForHumans() }}</span>
                                                     </div>
                                                     <div class="rating-by">
                                                         by:
@@ -120,121 +120,125 @@
                                                             <div class="ttlcnt15 invtbyuser">
                                                                 <div class="invited_avtar_ee">
                                                                     <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
-                                                                        src="/storage/{{$item->user->image}}"
+                                                                        src="/storage/{{ $item->user->image }}"
                                                                         alt="">
                                                                 </div>
-                                                                <span class="evntcunt">{{$item->user->username}}</span>
+                                                                <span class="evntcunt"
+                                                                    style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</span>
                                                             </div>
                                                         </a>
                                                     </div>
                                                     <div class="rating_descp">
-                                                        <p>{{$item->description}}</p>
+                                                        <p>{{ $item->description }}</p>
                                                     </div>
                                                 </div>
-                                            </div>   
-                                            @endforeach
-                                          
-    
-                                            <!-- END review-list -->
-    
-                                            <!--review form-->
-                                            <form method="POST" action="{{ route('products.storereview') }}">
-                                                @if ($errors->any())
-                                                    @foreach ($errors->all() as $error)
-                                                        <div class="alert alert-danger mt-3">
-                                                            {{ $error }}
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $data->id }}">
-                                                <div class="mt-30">
-                                                    <div class="rating-container">
-                                                        <div class="rating-text">
-                                                            <p>How satisfied are you with US?</p>
-                                                        </div>
-                                                        <div class="rating">
-                                                            <div class="rating-form">
-                                                                <label for="super-sad" data-toggle="tooltip"
-                                                                    data-placement="bottom" title="Super Sad">
-                                                                    <input type="radio" name="rating" class="super-sad"
-                                                                        id="super-sad" value="1">
-                                                                    <svg viewBox="0 0 24 24">
-                                                                        <path
-                                                                            d="M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M16.18,7.76L15.12,8.82L14.06,7.76L13,8.82L14.06,9.88L13,10.94L14.06,12L15.12,10.94L16.18,12L17.24,10.94L16.18,9.88L17.24,8.82L16.18,7.76M7.82,12L8.88,10.94L9.94,12L11,10.94L9.94,9.88L11,8.82L9.94,7.76L8.88,8.82L7.82,7.76L6.76,8.82L7.82,9.88L6.76,10.94L7.82,12M12,14C9.67,14 7.69,15.46 6.89,17.5H17.11C16.31,15.46 14.33,14 12,14Z" />
-                                                                    </svg>
-                                                                </label>
-                                                                <label for="sad" data-toggle="tooltip"
-                                                                    data-placement="bottom" title="Sad">
-                                                                    <input type="radio" name="rating" class="sad"
-                                                                        id="sad" value="2">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        version="1.1" width="100%" height="100%"
-                                                                        viewBox="0 0 24 24">
-                                                                        <path
-                                                                            d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M15.5,8C16.3,8 17,8.7 17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M12,14C13.75,14 15.29,14.72 16.19,15.81L14.77,17.23C14.32,16.5 13.25,16 12,16C10.75,16 9.68,16.5 9.23,17.23L7.81,15.81C8.71,14.72 10.25,14 12,14Z" />
-                                                                    </svg>
-                                                                </label>
-                                                                <label for="neutral" data-toggle="tooltip"
-                                                                    data-placement="bottom" title="Neutral">
-                                                                    <input type="radio" name="rating" class="neutral"
-                                                                        id="neutral" value="3">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        version="1.1" width="100%" height="100%"
-                                                                        viewBox="0 0 24 24">
-                                                                        <path
-                                                                            d="M8.5,11A1.5,1.5 0 0,1 7,9.5A1.5,1.5 0 0,1 8.5,8A1.5,1.5 0 0,1 10,9.5A1.5,1.5 0 0,1 8.5,11M15.5,11A1.5,1.5 0 0,1 14,9.5A1.5,1.5 0 0,1 15.5,8A1.5,1.5 0 0,1 17,9.5A1.5,1.5 0 0,1 15.5,11M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M9,14H15A1,1 0 0,1 16,15A1,1 0 0,1 15,16H9A1,1 0 0,1 8,15A1,1 0 0,1 9,14Z" />
-                                                                    </svg>
-                                                                </label>
-                                                                <label for="happy" data-toggle="tooltip"
-                                                                    data-placement="bottom" title="Happy">
-                                                                    <input type="radio" name="rating" class="happy"
-                                                                        id="happy" value="4">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        version="1.1" width="100%" height="100%"
-                                                                        viewBox="0 0 24 24">
-                                                                        <path
-                                                                            d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5M12,17.23C10.25,17.23 8.71,16.5 7.81,15.42L9.23,14C9.68,14.72 10.75,15.23 12,15.23C13.25,15.23 14.32,14.72 14.77,14L16.19,15.42C15.29,16.5 13.75,17.23 12,17.23Z" />
-                                                                    </svg>
-                                                                </label>
-                                                                <label for="super-happy" data-toggle="tooltip"
-                                                                    data-placement="bottom" title="Super Happy">
-                                                                    <input type="radio" name="rating"
-                                                                        class="super-happy" id="super-happy"
-                                                                        value="5">
-                                                                    <svg viewBox="0 0 24 24">
-                                                                        <path
-                                                                            d="M12,17.5C14.33,17.5 16.3,16.04 17.11,14H6.89C7.69,16.04 9.67,17.5 12,17.5M8.5,11A1.5,1.5 0 0,0 10,9.5A1.5,1.5 0 0,0 8.5,8A1.5,1.5 0 0,0 7,9.5A1.5,1.5 0 0,0 8.5,11M15.5,11A1.5,1.5 0 0,0 17,9.5A1.5,1.5 0 0,0 15.5,8A1.5,1.5 0 0,0 14,9.5A1.5,1.5 0 0,0 15.5,11M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-                                                                    </svg>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form_group mt-30">
-                                                    <label class="label25">What do you like most?*</label>
-                                                    <textarea class="form_textarea_1 bg-light" name="description" placeholder=""></textarea>
-                                                </div>
-    
-                                                <div class="submit_btn">
-                                                    <button type="submit" class="main-btn color btn-hover"
-                                                        data-ripple="">Send
-                                                        Review</button>
-                                                </div>
-                                            </form>
-                                            <!--end review form-->
-    
-                                            <!--close comments section-->
+                                            </div>
+                                        @endforeach
+
+                                        <div class="m-5">
+                                            {{ $reviews->links() }}
                                         </div>
-    
+                                        <hr>
+                                        <!-- END review-list -->
+
+                                        <!--review form-->
+                                        <form method="POST" action="{{ route('products.storereview') }}">
+                                            @if ($errors->any())
+                                                @foreach ($errors->all() as $error)
+                                                    <div class="alert alert-danger mt-3">
+                                                        {{ $error }}
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $data->id }}">
+                                            <div class="mt-30">
+                                                <div class="rating-container">
+                                                    <div class="rating-text">
+                                                        <p>How satisfied are you with US?</p>
+                                                    </div>
+                                                    <div class="rating">
+                                                        <div class="rating-form">
+                                                            <label for="super-sad" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Super Sad">
+                                                                <input type="radio" name="rating" class="super-sad"
+                                                                    id="super-sad" value="1">
+                                                                <svg viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M16.18,7.76L15.12,8.82L14.06,7.76L13,8.82L14.06,9.88L13,10.94L14.06,12L15.12,10.94L16.18,12L17.24,10.94L16.18,9.88L17.24,8.82L16.18,7.76M7.82,12L8.88,10.94L9.94,12L11,10.94L9.94,9.88L11,8.82L9.94,7.76L8.88,8.82L7.82,7.76L6.76,8.82L7.82,9.88L6.76,10.94L7.82,12M12,14C9.67,14 7.69,15.46 6.89,17.5H17.11C16.31,15.46 14.33,14 12,14Z" />
+                                                                </svg>
+                                                            </label>
+                                                            <label for="sad" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Sad">
+                                                                <input type="radio" name="rating" class="sad"
+                                                                    id="sad" value="2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    version="1.1" width="100%" height="100%"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M15.5,8C16.3,8 17,8.7 17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M12,14C13.75,14 15.29,14.72 16.19,15.81L14.77,17.23C14.32,16.5 13.25,16 12,16C10.75,16 9.68,16.5 9.23,17.23L7.81,15.81C8.71,14.72 10.25,14 12,14Z" />
+                                                                </svg>
+                                                            </label>
+                                                            <label for="neutral" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Neutral">
+                                                                <input type="radio" name="rating" class="neutral"
+                                                                    id="neutral" value="3">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    version="1.1" width="100%" height="100%"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M8.5,11A1.5,1.5 0 0,1 7,9.5A1.5,1.5 0 0,1 8.5,8A1.5,1.5 0 0,1 10,9.5A1.5,1.5 0 0,1 8.5,11M15.5,11A1.5,1.5 0 0,1 14,9.5A1.5,1.5 0 0,1 15.5,8A1.5,1.5 0 0,1 17,9.5A1.5,1.5 0 0,1 15.5,11M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M9,14H15A1,1 0 0,1 16,15A1,1 0 0,1 15,16H9A1,1 0 0,1 8,15A1,1 0 0,1 9,14Z" />
+                                                                </svg>
+                                                            </label>
+                                                            <label for="happy" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Happy">
+                                                                <input type="radio" name="rating" class="happy"
+                                                                    id="happy" value="4">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    version="1.1" width="100%" height="100%"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5M12,17.23C10.25,17.23 8.71,16.5 7.81,15.42L9.23,14C9.68,14.72 10.75,15.23 12,15.23C13.25,15.23 14.32,14.72 14.77,14L16.19,15.42C15.29,16.5 13.75,17.23 12,17.23Z" />
+                                                                </svg>
+                                                            </label>
+                                                            <label for="super-happy" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Super Happy">
+                                                                <input type="radio" name="rating"
+                                                                    class="super-happy" id="super-happy"
+                                                                    value="5">
+                                                                <svg viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M12,17.5C14.33,17.5 16.3,16.04 17.11,14H6.89C7.69,16.04 9.67,17.5 12,17.5M8.5,11A1.5,1.5 0 0,0 10,9.5A1.5,1.5 0 0,0 8.5,8A1.5,1.5 0 0,0 7,9.5A1.5,1.5 0 0,0 8.5,11M15.5,11A1.5,1.5 0 0,0 17,9.5A1.5,1.5 0 0,0 15.5,8A1.5,1.5 0 0,0 14,9.5A1.5,1.5 0 0,0 15.5,11M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form_group mt-30">
+                                                <label class="label25">What do you like most?*</label>
+                                                <textarea class="form_textarea_1 bg-light" name="description" placeholder=""></textarea>
+                                            </div>
+
+                                            <div class="submit_btn">
+                                                <button type="submit" class="main-btn color btn-hover"
+                                                    data-ripple="">Send
+                                                    Review</button>
+                                            </div>
+                                        </form>
+                                        <!--end review form-->
+
+                                        <!--close comments section-->
                                     </div>
+
                                 </div>
                             </div>
                         </div>
-                        <!--end Review section-->
+                    </div>
+                    <!--end Review section-->
 
                 </div>
                 <div class="col-lg-4 col-md-12">
@@ -244,14 +248,14 @@
                                 <li>
                                     <div class="product_license_check">
                                         <div class="course-price">Regular Price</div>
-                                        <span class="item_price">$ {{$data->price}}</span>
+                                        <span class="item_price">$ {{ $data->price }}</span>
                                     </div>
                                 </li>
-                              
+
                             </ul>
-                           
+
                             <div class="item_buttons">
-                                <form action="{{ route('bookorder.store', ['bid'=>$data->id]) }}" method="post">
+                                <form action="{{ route('bookorder.store', ['bid' => $data->id]) }}" method="post">
                                     @csrf
                                     <div class="purchase_form_btn">
                                         <button class="add-cart-btn btn-hover" type="submit"><i
@@ -259,12 +263,12 @@
                                     </div>
                                 </form>
                                 <div class="purchase_form_btn">
-                                    <form action="{{ route('bookorder.index')}}" method="get">
+                                    <form action="{{ route('bookorder.index') }}" method="get">
                                         <button class="buy-btn btn-hover" type="submit">Buy Now</button>
                                     </form>
                                 </div>
                             </div>
-                          
+
                         </div>
                     </div>
 
@@ -276,7 +280,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4>{{ $data->user->username }}</h4>
+                                <h4 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                </h4>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">
@@ -310,14 +315,56 @@
                             <h4>Item Rating</h4>
                         </div>
                         <div class="item-rating-stars-dts">
-                            <div class="item-rating-stars">
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star color-gray-medium"></i>
-                            </div>
-                            <p class="rating_text">4.50 average based on 7 ratings.</p>
+                            @if ($data->rating == 0)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 1 && $data->rating < 2)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 2 && $data->rating < 3)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 3 && $data->rating < 4)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 4 && $data->rating < 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating == 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                </div>
+                            @endif
+                            <p class="rating_text">{{ $data->rating }} average based on 5 ratings.</p>
                         </div>
                     </div>
                 </div>
@@ -325,66 +372,66 @@
                     <div class="learning_all_items mt-35">
                         <div class="owl_title">
                             <h4>Related Products</h4>
-                            <a href="{{route('books.index')}}">View All</a>
+                            <a href="{{ route('books.index') }}">View All</a>
                         </div>
                         <div class="owl-carousel related_courses_slider owl-theme">
                             @foreach ($data->inRandomOrder()->limit(5)->get() as $item)
-                            <div class="item">
-                                <div class="full-width">
-                                    <div class="recent-items">
-                                        <div class="posts-list">
-                                            <div class="feed-shared-product-dt">
-                                                <div class="pdct-img crse-img-tt">
-                                                    <a href="course_detail_view.html">
-                                                        <img class="ft-plus-square product-bg-w bg-cyan mr-0"
-                                                            src="{{$item->cover_pic}}" alt="">
-                                                        <div class="overlay-item">
-                                                            <div class="badge-level trnd-clr">Trending</div>
-                                                            <div class="badge-timer">
-                                                                {{$item->created_at->diffForHumans()}}</div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="author-dts pp-20">
-                                                    <a href="course_detail_view.html"
-                                                        class="job-heading pp-title">{{$item->name}}</a>
-                                                    <p class="notification-text font-small-4">
-                                                        by <a href="#"
-                                                            class="cmpny-dt blk-clr">{{$item->user->username}}</a>
-                                                    </p>
-                                                    <p class="notification-text font-small-4 pt-1 catey-group">
-                                                        <a href="#" class="catey-dt">Web Development</a>
-                                                        <a href="#" class="catey-sub">Python</a>
-                                                    </p>
-                                                    <div class="ppdt-price-sales">
-                                                        <div class="ppdt-price">
-                                                            $ {{$item->price}}
-                                                        </div>
-                                                        <div class="ppdt-sales">
-                                                            72 Learners
+                                <div class="item">
+                                    <div class="full-width">
+                                        <div class="recent-items">
+                                            <div class="posts-list">
+                                                <div class="feed-shared-product-dt">
+                                                    <div class="pdct-img crse-img-tt">
+                                                        <a href="course_detail_view.html">
+                                                            <img class="ft-plus-square product-bg-w bg-cyan mr-0"
+                                                                src="{{ $item->cover_pic }}" alt="">
+                                                            <div class="overlay-item">
+                                                                <div class="badge-level trnd-clr">Trending</div>
+                                                                <div class="badge-timer">
+                                                                    {{ $item->created_at->diffForHumans() }}</div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="author-dts pp-20">
+                                                        <a href="course_detail_view.html"
+                                                            class="job-heading pp-title">{{ $item->name }}</a>
+                                                        <p class="notification-text font-small-4">
+                                                            by <a href="#" class="cmpny-dt blk-clr"
+                                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
+                                                        </p>
+                                                        <p class="notification-text font-small-4 pt-1 catey-group">
+                                                            <a href="#" class="catey-dt">Web Development</a>
+                                                            <a href="#" class="catey-sub">Python</a>
+                                                        </p>
+                                                        <div class="ppdt-price-sales">
+                                                            <div class="ppdt-price">
+                                                                $ {{ $item->price }}
+                                                            </div>
+                                                            <div class="ppdt-sales">
+                                                                72 Learners
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="post-meta">
-                                            <div class="job-actions">
-                                                <div class="aplcnts_15">
-                                                    <a href="{{ route('books.showbook', ['id' => $item->id]) }}"
-                                                        class="view-btn btn-hover">Detail
-                                                        View</a>
-                                                </div>
-                                                <div class="action-btns-job">
-                                                    <a href="#" class="crt-btn crt-btn-hover mr-2"><i
-                                                            class="feather-shopping-cart"></i></a>
-                                                    <a href="#" class="bm-btn bm-btn-hover active"><i
-                                                            class="feather-bookmark"></i></a>
+                                            <div class="post-meta">
+                                                <div class="job-actions">
+                                                    <div class="aplcnts_15">
+                                                        <a href="{{ route('books.showbook', ['id' => $item->id]) }}"
+                                                            class="view-btn btn-hover">Detail
+                                                            View</a>
+                                                    </div>
+                                                    <div class="action-btns-job">
+                                                        <a href="#" class="crt-btn crt-btn-hover mr-2"><i
+                                                                class="feather-shopping-cart"></i></a>
+                                                        <a href="#" class="bm-btn bm-btn-hover active"><i
+                                                                class="feather-bookmark"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -393,7 +440,6 @@
         </div>
     </div>
 </div>
-
 
 <!--footer-->
 @include('layouts.footer')

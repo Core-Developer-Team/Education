@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Book;
+use App\Models\Bookreview;
 use Carbon\Carbon;
 use Spatie\FlareClient\View;
 
@@ -24,13 +25,13 @@ class BookController extends Controller
         return view('books', compact('data'));
     }
 
-      //get latest request
-      public function trending()
-      {
-          $data = Book::where('view_count', '>=' ,20)->orderBy('updated_at', 'DESC')->cursorPaginate(15);
-          return view('books', compact('data'));
-      }
-  
+    //get latest request
+    public function trending()
+    {
+        $data = Book::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->cursorPaginate(15);
+        return view('books', compact('data'));
+    }
+
     //get week request
     public function week()
     {
@@ -47,7 +48,7 @@ class BookController extends Controller
             'description'  => 'required|string',
             'price'        => 'required',
         ]);
-     
+
         $filename = time() . '_' . $request->book->getClientOriginalName();
         $filepath = $request->file('book')->storeAs('uploads', $filename, 'public');
         $bookname = $request->book->getClientOriginalName();
@@ -55,7 +56,7 @@ class BookController extends Controller
         $imagename = time() . '_' . $request->cover_pic->getClientOriginalName();
         $imagepath = $request->file('cover_pic')->storeAs('Images', $imagename, 'public');
 
-        Book::create(array_merge($request->only('price','description', 'Category'), [
+        Book::create(array_merge($request->only('price', 'description', 'Category'), [
             'user_id'   => auth()->id(),
             'book'      => '/storage/' . $filepath,
             'cover_pic' => '/storage/' . $imagepath,
@@ -67,13 +68,14 @@ class BookController extends Controller
     public function showbook($id)
     {
         $data = Book::find($id);
+        $reviews = Bookreview::where('book_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(4);
         //increase view count
         $book_key = 'book_' . $id;
         if (!Session::has($book_key)) {
             $data->increment('view_count');
             Session::put($book_key, 1);
         }
-        return view('books_single', compact('data'));
+        return view('books_single', compact('data', 'reviews'));
     }
     //search 
     public function search(Request $request)

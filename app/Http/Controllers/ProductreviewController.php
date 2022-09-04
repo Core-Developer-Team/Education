@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Productreview;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,19 @@ class ProductreviewController extends Controller
             'user_id'   => auth()->id(),
             'product_id'   => $request->product_id,
         ]));
+        $avgrating = 0;
+        $reviews = Productreview::where('product_id', $request->product_id)->get();
+        $totalreview = $reviews->count();
+        foreach ($reviews as $review) {
+            $avgrating = $avgrating + $review->rating;
+        }
+        $totalrat = $avgrating / $totalreview;
+        $rating   = number_format((float)$totalrat, 2, '.', '');
+        $product =  Product::find($request->product_id);
+        if ($product) {
+            $product->rating = $rating;
+            $product->save();
+        }
         return back()->with('status', 'Thanks for your Review :)');
     }
 }

@@ -15,6 +15,7 @@ class Playlist extends Model
         'Category',
         'type',
         'file',
+        'rating',
         'view_count',
     ];
     public function user()

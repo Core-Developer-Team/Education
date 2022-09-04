@@ -51,7 +51,7 @@
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
                                                                         <a href="#"
-                                                                            class="text-danger">{{ $data->user->username }}
+                                                                            style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
                                                                         </a><img src="{{ $data->user->badge->image }}"
                                                                             alt="" style="width: 20px;"
                                                                             title="{{ $data->user->badge->name }}">
@@ -66,6 +66,10 @@
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Total Solutions
                                                                             {{ $data->user->solutions }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Rating
+                                                                            {{ $data->user->rating }}</span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span
@@ -88,7 +92,8 @@
                                         <div class="author-dts">
                                             <h4 class="job-view-heading job-center">{{ $data->name }}</h4>
                                             <p class="notification-text font-small-4 job-center">
-                                                <a href="#" class="cmpny-dt">{{ $data->user->username }}</a>
+                                                <a href="#" style="color: {{ $data->user->role->color->name }}"
+                                                    class="cmpny-dt">{{ $data->user->username }}</a>
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i><ins
                                                         class="state-name">{{ $data->user->uni_name }}</span>
                                             </p>
@@ -96,24 +101,32 @@
                                                 <span class="time-dt">{{ $data->updated_at->diffForHumans() }}</span>
                                             </p>
                                             <div class="jbopdt142">
-                                                @if($data->user_id != auth()->id())
-                                                @if ($data->isAccept($data->id) == false)
-                                                <div class="aplcnts_15 job-center applcntres ml-3">
-                                                    <span class="job-badge bg-success payNow" data-id="" data-amount="{{$data->price}}" data-resource="resources">
-                                                        Take this resource
-                                                    </span>
-                                                </div>
-                                                @else
-                                                <form method="POST"class="job-badge p-0" action="{{ route('messages') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="reqid"  value="{{$data->id}}" >
-                                                    <input type="hidden" name="to_id"  value="{{$data->user_id}}" >
-                                                    <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
-                                                </form>
+                                                @if ($data->user_id != auth()->id())
+                                                    @if ($data->isAccept($data->id) == false)
+                                                        <div class="aplcnts_15 job-center applcntres ml-3">
+                                                            <span class="job-badge bg-success payNow" data-id=""
+                                                                data-amount="{{ $data->price }}"
+                                                                data-resource="resources">
+                                                                Take this resource
+                                                            </span>
+                                                        </div>
+                                                    @else
+                                                        <form method="POST"class="job-badge p-0"
+                                                            action="{{ route('messages') }}">
+                                                            @csrf
+                                                            <input type="hidden" name="reqid"
+                                                                value="{{ $data->id }}">
+                                                            <input type="hidden" name="to_id"
+                                                                value="{{ $data->user_id }}">
+                                                            <button type="submit"
+                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat
+                                                                Now</button>
+                                                        </form>
+                                                    @endif
                                                 @endif
-                                                @endif
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
-                                                    <i class="feather-users ms-2"></i><span>Applicants</span><ins>0</ins>
+                                                    <i
+                                                        class="feather-users ms-2"></i><span>Applicants</span><ins>0</ins>
                                                 </div>
                                             </div>
 
@@ -179,7 +192,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4>{{ $data->user->username }}</h4>
+                                <h4 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                </h4>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">
@@ -250,19 +264,18 @@
     </div>
 </div>
 
-
-<input type="hidden" class="reqId" value="{{$data->id}}" />
+<input type="hidden" class="reqId" value="{{ $data->id }}" />
 
 <style>
-    #bKash_button{
+    #bKash_button {
         cursor: pointer;
     }
 </style>
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
-<script src="{{asset('asset/js/bkashpayment.js')}}"></script>
-<link rel="stylesheet" href="{{asset('asset/css/paymentBkash.css')}}">
+<script src="{{ asset('asset/js/bkashpayment.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('asset/css/paymentBkash.css') }}">
 <!--Resource Bid model script-->
 <script>
     const resbidform = $('form#resbid');

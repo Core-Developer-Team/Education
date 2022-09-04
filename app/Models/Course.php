@@ -15,6 +15,7 @@ class Course extends Model
         'type',
         'file',
         'price',
+        'rating',
         'view_count',
     ];
 

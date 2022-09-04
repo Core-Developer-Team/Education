@@ -7,9 +7,11 @@ use App\Models\Feedback;
 use App\Models\Offlinetopic;
 use App\Models\Product;
 use App\Models\Proposal;
+use App\Models\Propsolution;
 use App\Models\ReqSolution;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +31,14 @@ class FeedbackController extends Controller
         $prop   = Proposal::count();
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-        return view('feedback', compact('datas','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+       
+        $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+        $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+        $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+        $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+       
+
+        return view('feedback', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function store(Request $request)
     {

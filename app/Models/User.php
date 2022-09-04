@@ -21,6 +21,7 @@ class User extends Authenticatable
         'uni_name',
         'gender',
         'rating',
+        'cover_img',
         'department',
     ];
 

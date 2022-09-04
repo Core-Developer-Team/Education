@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('proposalname');
             $table->integer('price');
             $table->text('description');
+            $table->string('category');
             $table->integer('view_count')->default(0);
             $table->string('file')->nullable();
             $table->string('filename');

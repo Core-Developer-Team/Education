@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('cover_pic');
             $table->string('book');
             $table->string('Category');
+            $table->float('rating')->default('0');
             $table->integer('price');
             $table->text('description');
             $table->timestamps();

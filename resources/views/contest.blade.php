@@ -16,8 +16,8 @@
                 <div class="full-width">
 
                     <div class="posted_1590">
-                        <div class="count-ttl">{{ $eventcount }}</div>
-                        <div class="cate-post">Event</div>
+                        <div class="count-ttl">{{ $contestcount }}</div>
+                        <div class="cate-post">Contests</div>
                     </div>
                 </div>
                 <div class="full-width mt-30 dstp-bnr-dt">
@@ -41,7 +41,7 @@
                             <div class="col-md-12">
                                 <div class="my_connections_list mb-30">
                                     <div class="pp1_title">
-                                        <h4>Events</h4>
+                                        <h4>Contest</h4>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,12 @@
                                         <div class="Create_eicon">
                                             <i class="fas fa-calendar-check"></i>
                                         </div>
-                                        <h6>Create New Event</h6>
+                                        <h6>Create New Contest</h6>
+                                        @if (session('status'))
+                                        <div class="bg-primary p-4 rounded-lg mb-6 text-white text-center">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
                                         <a href="" class="create-ebtn btn-hover" data-bs-toggle="modal"
                                             data-bs-target=" @auth
                                         #addevent
@@ -83,8 +88,8 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
-                                                    <h4> Events</h4>
-                                                    <span class="event-count">{{$data->count()}} Events</span>
+                                                    <h4> Contests</h4>
+                                                    <span class="event-count">{{$data->count()}} Contests</span>
                                                 </div>
                                             </div>
                                             @foreach ($data as $item)
@@ -133,8 +138,8 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
-                                                    <h4> Events</h4>
-                                                    <span class="event-count">{{$upcoming->count()}} Events</span>
+                                                    <h4> Contest</h4>
+                                                    <span class="event-count">{{$upcoming->count()}} Contest</span>
                                                 </div>
                                             </div>
                                             @foreach ($upcoming as $next)
@@ -183,8 +188,8 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
-                                                    <h4> Events</h4>
-                                                    <span class="event-count">{{$expires->count()}} Events</span>
+                                                    <h4> Contest</h4>
+                                                    <span class="event-count">{{$expires->count()}} Contest</span>
                                                 </div>
                                             </div>
                                             @foreach ($expires as $expire)
@@ -243,20 +248,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Event</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Contest</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="container bg-white rounded">
                     <!--event Form-->
-                    @if (session('status'))
-                        <div class="bg-primary p-4 rounded-lg mb-6 text-white text-center">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                   
                     <!--event Form-->
-                    <form class="form" method="POST" id="event" enctype="multipart/form-data"
-                        action=" {{ route('event.store') }}">
+                    <form class="form" method="POST" id="contest" enctype="multipart/form-data"
+                        action="{{route('contest.store')}}">
                         @csrf
                         <div class="form-group">
                             <label for="name">Name</label>

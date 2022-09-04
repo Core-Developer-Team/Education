@@ -10,11 +10,18 @@
 
 <div class="wrapper pt-0">
     <div class="main-background-cover breadcrumb-pt">
-        <div class="banner-user" style="background-image:url({{ asset('images/banners/bg-2.jpg') }});">
+        <div class="banner-user" style="background-image:url(/storage/{{ $user->cover_img }});">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="banner-item-dts">
+                            <div class="cover-bg-btn">
+
+                                <input class="uploadBtn-main-input" name="cover_img" type="file"
+                                    accept="image/x-png, image/jpeg" id="cover__input--source">
+                                <label for="cover__input--source"><i
+                                        class="feather-camera"></i><span>Cover</span></label>
+                            </div>
 
                             <div class="banner-content">
                                 <div class="banner-media">

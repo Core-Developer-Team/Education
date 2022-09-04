@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('type', ['0', '1']);
             $table->integer('view_count')->default(0);
             $table->string('playlists_id');
+            $table->float('rating')->default('0');
             $table->timestamps();
         });
     }

@@ -16,6 +16,43 @@
                 <div class="full-width mt-10">
 
                     @include('layouts.sidebar')
+                    <div class="full-width mt-5">
+
+                        <div class="manage-section mt-3">
+                            <span class="manage-title">Today's Activity</span>
+                        </div>
+                        <ul class="info__sections">
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
+                                    <span class="all-info__right">{{ $t_req_count }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
+                                    <span class="all-info__right">{{ $t_prop_count }}</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Request
+                                        Solution</span>
+                                    <span class="all-info__right">{{ $t_reqsolution_count }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
+                                        Solution</span>
+                                    <span class="all-info__right">{{ $t_propsolution_count }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                   
+            </aside>
                     <!--/side bar-->
                     <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                         <div class="pl_item_search rrmt-30">

@@ -36,6 +36,12 @@
             <span class="all-info__right">{{ $event }}</span>
         </a>
     </li>
+    <li>
+        <a href="{{ route('contest.index') }}" class="all-info__sections">
+            <span class="all-info__left"><i class="feather-user me-2"></i>Contest</span>
+            <span class="all-info__right">{{ $event }}</span>
+        </a>
+    </li>
 
     <li>
         <a href="{{ route('req.prevyear') }}" class="all-info__sections">
@@ -80,18 +86,5 @@
     </li>
 </ul>
 </div>
-<div class="full-width mt-4 dstp-bnr-dt">
-    <div class="banner-item">
-        <div class="banner-img">
-            <img src="images/banners/banner-1.jpg" alt="">
-            <div class="banner-overlay">
-                <span>Learning Plateform</span>
-                <h4>Keep learning in the moments that matter.</h4>
-                <button class="main-btn color btn-hover"
-                    onclick="window.location.href='{{ route('course.index') }}'">See
-                    Courses</button>
-            </div>
-        </div>
-    </div>
-</div>
-</aside>
+
+
