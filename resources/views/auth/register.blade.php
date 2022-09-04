@@ -100,6 +100,16 @@
                                         </div>
                                         @enderror
                                     </div>
+                                    <div class="form_group mt-25">
+                                        <label class="label25">Cover_Image*</label>
+                                        <input class="form-control @error('cover_img') border-danger @enderror" name="cover_img"
+                                            type="file"   accept="image/*" placeholder="" value="{{old('cover_img')}}">
+                                        @error('cover_img')
+                                        <div class="text-danger text-sm">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
                                     <div class="form-group mt-25">
                                         <label class="label25" for="gender">Gender*</label>
                                         <select name="gender" id="gender" value="{{ old('gender') }}"

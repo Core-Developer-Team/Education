@@ -37,7 +37,41 @@
                             your problem</a>
                     </div>
                     @include('layouts.sidebar')
+                    <div class="full-width mt-5">
 
+                        <div class="manage-section mt-3">
+                            <span class="manage-title">Today's Activity</span>
+                        </div>
+                        <ul class="info__sections">
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
+                                    <span class="all-info__right">{{$t_req_count}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
+                                    <span class="all-info__right">{{$t_prop_count}}</span>
+                                </a>
+                            </li>
+                    
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Request Solution</span>
+                                    <span class="all-info__right">{{$t_reqsolution_count}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Proposal Solution</span>
+                                    <span class="all-info__right">{{$t_propsolution_count}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    </aside>
                     <!--/side bar-->
                     <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                         <div class="pl_item_search rrmt-30">
@@ -103,7 +137,7 @@
                                                                 </div>
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
-                                                                        <a href="#" class="text-danger">{{ $data->user->username }}
+                                                                        <a href="#" style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}
                                                                         </a><img src="{{ $data->user->badge->image }}" alt="" style="width: 20px;" title="{{ $data->user->badge->name }}">
                                                                         <span class="job-loca"><i class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
                                                                     </p>
@@ -117,6 +151,10 @@
                                                                             {{ $data->user->solutions }}</span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Rating
+                                                                            {{ $data->user->rating }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">{{ $data->user->badge->name }}</span>
                                                                     </p>
                                                                 </div>
@@ -126,7 +164,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <!-- end hover-->
                                         </div>
                                         <div class="iconreq">
@@ -135,7 +172,7 @@
                                         <div class="author-dts">
                                             <a href="{{ route('req.showsingle', ['id' => $data->id]) }}" class="problems_title">{{ $data->requestname }}</a>
                                             <p class="notification-text font-username">
-                                                <a href="#" class=" @if ($data->user->role_id == 1) text-danger @elseif($data->user->role_id == 2) text-warning @elseif($data->user->role_id == 3) text-info @endif ">{{ $data->user->username }}
+                                                <a href="#" style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}
                                                     &nbsp;
                                                 </a><img src="@if($data->user->badge_id == 5) {{$data->user->badge->image}} @endif" class="@if($data->user->badge_id == 5) d-block @else d-none @endif " alt="Verified" style="width: 17px;" title="Verified">
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>

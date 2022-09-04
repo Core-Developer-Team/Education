@@ -7,12 +7,14 @@ use App\Models\Feedback;
 use App\Models\Offlinetopic;
 use App\Models\Product;
 use App\Models\Proposal;
+use App\Models\Propsolution;
 use App\Models\Reqbid;
 use App\Models\ReqSolution;
 use App\Models\Reqsolutionreport;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,7 +71,13 @@ class ReqSolutionController extends Controller
         $prop   = Proposal::count();
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-        return view('mysolutions', compact('data', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+
+        $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+        $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+        $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+        $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+
+        return view('mysolutions', compact('data', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //all solutions 
@@ -88,15 +96,22 @@ class ReqSolutionController extends Controller
         $prop   = Proposal::count();
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-        return view('allsolutions', compact('datas', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+
+        $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+        $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+        $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+        $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+
+
+        return view('allsolutions', compact('datas', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
-    public function solutionreport($uid,$rid,$sid)
+    public function solutionreport($uid, $rid, $sid)
     {
-       Reqsolutionreport::Create([
-        'user_id' => $uid,
-        'request_id'  => $rid,
-         'reqsolution_id' => $sid,
-       ]);
-      return back();
+        Reqsolutionreport::Create([
+            'user_id' => $uid,
+            'request_id'  => $rid,
+            'reqsolution_id' => $sid,
+        ]);
+        return back();
     }
 }

@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <!--file-->
-                    @if (!$data->file == '')
+                    @if (!$playlist->file == '')
                         <div class="full-width mt-30">
                             <div class="item-description">
                                 <div class="jobtxt47">
@@ -75,7 +75,7 @@
 
                                         <h3 class="mb-3">{{ $playlist->tutorialreview->count() }} Reviews
                                         </h3>
-                                        @foreach ($playlist->tutorialreview()->orderBy('updated_at', 'DESC')->get() as $item)
+                                        @foreach ($reviews as $item)
                                             <div class="review-card mt-4">
                                                 <div class="review-content">
                                                     <div class="review-head">
@@ -134,8 +134,8 @@
                                                                         src="/storage/{{ $item->user->image }}"
                                                                         alt="">
                                                                 </div>
-                                                                <span
-                                                                    class="evntcunt">{{ $item->user->username }}</span>
+                                                                <span class="evntcunt"
+                                                                    style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</span>
                                                             </div>
                                                         </a>
                                                     </div>
@@ -145,7 +145,10 @@
                                                 </div>
                                             </div>
                                         @endforeach
-
+                                        <div class="m-5">
+                                            {{ $reviews->links() }}
+                                        </div>
+                                        <hr>
                                         <!-- END review-list -->
 
                                         <!--review form-->
@@ -282,7 +285,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4>{{ $playlist->user->username }}</h4>
+                                <h4 style="color: {{ $playlist->user->role->color->name }}">
+                                    {{ $playlist->user->username }}</h4>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">
@@ -316,20 +320,61 @@
                     </div>
                     <div class="full-width mt-30">
                         <div class="headtte14m">
-                            <h4>Item Rating</h4>
+                            <h4>Tutorial Rating</h4>
                         </div>
                         <div class="item-rating-stars-dts">
-                            <div class="item-rating-stars">
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star color-gray-medium"></i>
-                            </div>
-                            <p class="rating_text">4.50 average based on 7 ratings.</p>
+                            @if ($playlist->rating == 0)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif($playlist->rating >= 1 && $playlist->rating < 2)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating >= 2 && $playlist->rating < 3)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating >= 3 && $playlist->rating < 4)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating >= 4 && $playlist->rating < 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($playlist->rating == 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                </div>
+                            @endif
+                            <p class="rating_text">{{ $playlist->rating }} average based on 5 ratings.</p>
                         </div>
                     </div>
-
                 </div>
 
             </div>

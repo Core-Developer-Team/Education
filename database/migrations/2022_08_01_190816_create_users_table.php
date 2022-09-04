@@ -23,17 +23,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('mobile_no')->unique();
             $table->string('image');
+            $table->string('cover_img');
             $table->string('uni_id');
             $table->string('uni_name');
             $table->integer('solutions')->default('0');
             $table->float('rating')->default('0');
             $table->enum('gender', ['0', '1']);
-            $table->enum('department', ['0', '1','2']);
+            $table->enum('department', ['0', '1', '2']);
             $table->string('password');
             $table->timestamps();
         });
         User::updateOrCreate([
-            'username'    => 'Admin',
+            'username'   => 'Admin',
             'role_id'    => '1',
             'badge_id'   => '1',
             'mobile_no'  => '03405992225',
@@ -41,10 +42,11 @@ return new class extends Migration
             'uni_name'   => 'Bangladesh University',
             'gender'     => '0',
             'department' => '0',
-            'email'       => 'admin@gmail.com',
-            'password'    =>  Hash::make('12345678'),
-            'image'  => 'profile-photos/1659435528_IMG_20200805_202653.jpg',
-          ]);
+            'email'      => 'admin@gmail.com',
+            'password'   =>  Hash::make('12345678'),
+            'image'      => 'profile-photos/1659435528_IMG_20200805_202653.jpg',
+            'cover_img'  => 'profile-photos/1659435528_IMG_20200805_202653.jpg',
+        ]);
     }
 
     /**

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('file');
             $table->integer('view_count')->default(0);
             $table->enum('type', ['0', '1']);
+            $table->float('rating')->default('0');
             $table->string('playlists_id');
             $table->timestamps();
         });

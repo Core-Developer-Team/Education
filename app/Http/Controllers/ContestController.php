@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
+use App\Models\Contest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class EventController extends Controller
+class ContestController extends Controller
 {
     public function index()
     {
-        $data = Event::where('event_date','=', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $expires = Event::where('event_date','<', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $upcoming = Event::where('event_date','>', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $event = Event::all();
-        $eventcount = $event->count();
-        return view('event', compact('data','expires','eventcount','upcoming'));
+        $data = Contest::where('event_date','=', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $expires = Contest::where('event_date','<', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $upcoming = Contest::where('event_date','>', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $contest = Contest::all();
+        $contestcount = $contest->count();
+        return view('contest', compact('data','expires','upcoming','contestcount'));
     }
    
     public function store(Request $request)
@@ -32,7 +32,7 @@ class EventController extends Controller
         $imagename = time() . '_' . $request->image->getClientOriginalName();
         $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
-        Event::create(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
+        Contest::create(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
             'image' => '/storage/' . $imagepath,
         ]));
         return back()->with('status', 'Event

@@ -16,6 +16,7 @@ class Book extends Model
         'Category',
         'book',
         'price',
+        'rating',
     ];
 
     public function user()

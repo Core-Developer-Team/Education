@@ -79,78 +79,82 @@
                                         <hr>
                                         <!--review Section-->
 
-                                        <h3 class="mb-3">{{$data->bookreview->count()}} Reviews
+                                        <h3 class="mb-3">{{ $data->bookreview->count() }} Reviews
                                         </h3>
-                                        @foreach ($data->bookreview()->orderBy('updated_at','DESC')->get() as $item)
-                                        <div class="review-card mt-4">
-                                            <div class="review-content">
-                                                <div class="review-head">
-                                                    <div class="review-rating-stars">
-                                                        @if ($item->rating == 1)
-                                                            <div class="item-rating-stars">
-                                                                <i class="feather-star"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                            </div>
-                                                        @elseif ($item->rating == 2)
-                                                            <div class="item-rating-stars">
-                                                                <i class="feather-star"></i>
-                                                                <i class="feather-star "></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                            </div>
-                                                        @elseif ($item->rating == 3)
-                                                            <div class="item-rating-stars">
-                                                                <i class="feather-star"></i>
-                                                                <i class="feather-star "></i>
-                                                                <i class="feather-star"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                            </div>
-                                                        @elseif ($item->rating == 4)
-                                                            <div class="item-rating-stars">
-                                                                <i class="feather-star"></i>
-                                                                <i class="feather-star "></i>
-                                                                <i class="feather-star "></i>
-                                                                <i class="feather-star "></i>
-                                                                <i class="feather-star color-gray-medium"></i>
-                                                            </div>
-                                                        @elseif ($item->rating == 5)
-                                                            <div class="item-rating-stars">
-                                                                <i class="feather-star"></i>
-                                                                <i class="feather-star "></i>
-                                                                <i class="feather-star "></i>
-                                                                <i class="feather-star"></i>
-                                                                <i class="feather-star"></i>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <span class="rating-time-posting"><i
-                                                            class="feather-clock me-2"></i>{{$item->created_at->diffForHumans()}}</span>
-                                                </div>
-                                                <div class="rating-by">
-                                                    by:
-                                                    <a href="#" class="ms-2">
-                                                        <div class="ttlcnt15 invtbyuser">
-                                                            <div class="invited_avtar_ee">
-                                                                <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
-                                                                    src="/storage/{{$item->user->image}}"
-                                                                    alt="">
-                                                            </div>
-                                                            <span class="evntcunt">{{$item->user->username}}</span>
+                                        @foreach ($reviews as $item)
+                                            <div class="review-card mt-4">
+                                                <div class="review-content">
+                                                    <div class="review-head">
+                                                        <div class="review-rating-stars">
+                                                            @if ($item->rating == 1)
+                                                                <div class="item-rating-stars">
+                                                                    <i class="feather-star"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                </div>
+                                                            @elseif ($item->rating == 2)
+                                                                <div class="item-rating-stars">
+                                                                    <i class="feather-star"></i>
+                                                                    <i class="feather-star "></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                </div>
+                                                            @elseif ($item->rating == 3)
+                                                                <div class="item-rating-stars">
+                                                                    <i class="feather-star"></i>
+                                                                    <i class="feather-star "></i>
+                                                                    <i class="feather-star"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                </div>
+                                                            @elseif ($item->rating == 4)
+                                                                <div class="item-rating-stars">
+                                                                    <i class="feather-star"></i>
+                                                                    <i class="feather-star "></i>
+                                                                    <i class="feather-star "></i>
+                                                                    <i class="feather-star "></i>
+                                                                    <i class="feather-star color-gray-medium"></i>
+                                                                </div>
+                                                            @elseif ($item->rating == 5)
+                                                                <div class="item-rating-stars">
+                                                                    <i class="feather-star"></i>
+                                                                    <i class="feather-star "></i>
+                                                                    <i class="feather-star "></i>
+                                                                    <i class="feather-star"></i>
+                                                                    <i class="feather-star"></i>
+                                                                </div>
+                                                            @endif
                                                         </div>
-                                                    </a>
-                                                </div>
-                                                <div class="rating_descp">
-                                                    <p>{{$item->description}}</p>
+                                                        <span class="rating-time-posting"><i
+                                                                class="feather-clock me-2"></i>{{ $item->created_at->diffForHumans() }}</span>
+                                                    </div>
+                                                    <div class="rating-by">
+                                                        by:
+                                                        <a href="#" class="ms-2">
+                                                            <div class="ttlcnt15 invtbyuser">
+                                                                <div class="invited_avtar_ee">
+                                                                    <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
+                                                                        src="/storage/{{ $item->user->image }}"
+                                                                        alt="">
+                                                                </div>
+                                                                <span
+                                                                    class="evntcunt"  style="color: {{$item->user->role->color->name}}">{{ $item->user->username }}</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="rating_descp">
+                                                        <p>{{ $item->description }}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>   
                                         @endforeach
-                                      
+                                        <div class="m-5">
+                                            {{ $reviews->links() }}
+                                        </div>
+                                        <hr>
 
                                         <!-- END review-list -->
 
@@ -174,8 +178,8 @@
                                                         <div class="rating-form">
                                                             <label for="super-sad" data-toggle="tooltip"
                                                                 data-placement="bottom" title="Super Sad">
-                                                                <input type="radio" name="rating" class="super-sad"
-                                                                    id="super-sad" value="1">
+                                                                <input type="radio" name="rating"
+                                                                    class="super-sad" id="super-sad" value="1">
                                                                 <svg viewBox="0 0 24 24">
                                                                     <path
                                                                         d="M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M16.18,7.76L15.12,8.82L14.06,7.76L13,8.82L14.06,9.88L13,10.94L14.06,12L15.12,10.94L16.18,12L17.24,10.94L16.18,9.88L17.24,8.82L16.18,7.76M7.82,12L8.88,10.94L9.94,12L11,10.94L9.94,9.88L11,8.82L9.94,7.76L8.88,8.82L7.82,7.76L6.76,8.82L7.82,9.88L6.76,10.94L7.82,12M12,14C9.67,14 7.69,15.46 6.89,17.5H17.11C16.31,15.46 14.33,14 12,14Z" />
@@ -310,7 +314,7 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4>{{ $data->user->username }}</h4>
+                                <h4  style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}</h4>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">
@@ -344,14 +348,56 @@
                             <h4>Item Rating</h4>
                         </div>
                         <div class="item-rating-stars-dts">
-                            <div class="item-rating-stars">
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star"></i>
-                                <i class="feather-star color-gray-medium"></i>
-                            </div>
-                            <p class="rating_text">4.50 average based on 7 ratings.</p>
+                            @if ($data->rating == 0)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 1 && $data->rating < 2)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 2 && $data->rating < 3)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 3 && $data->rating < 4)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating >= 4 && $data->rating < 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star color-gray-medium"></i>
+                                </div>
+                            @elseif ($data->rating == 5)
+                                <div class="item-rating-stars">
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                    <i class="feather-star"></i>
+                                </div>
+                            @endif
+                            <p class="rating_text">{{ $data->rating }} average based on 5 ratings.</p>
                         </div>
                     </div>
 
@@ -386,7 +432,7 @@
                                                             class="job-heading pp-title">{{ $item->book_name }}</a>
                                                         <p class="notification-text font-small-4">
                                                             by <a href="#"
-                                                                class="cmpny-dt blk-clr">{{ $item->user->username }}</a>
+                                                                class="cmpny-dt blk-clr"  style="color: {{$item->user->role->color->name}}">{{ $item->user->username }}</a>
                                                         </p>
                                                         <p class="notification-text font-small-4 pt-1 catey-group">
                                                             <a href="#" class="catey-dt">Web Development</a>

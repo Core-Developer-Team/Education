@@ -125,10 +125,16 @@
                                                 <div class="author-dts pp-20">
                                                     <a href="product_detail_view.html" class="job-heading pp-title">{{
                                                         Str::limit($item->snippet->title, 50, $end = '....') }}</a>
-                                                    <p class="notification-text font-small-4">
-                                                        <i class="fas fa-tag"></i> {{$items['category']}}
-                                                    </p>
+                                                            <p
+                                                            class="notification-text font-small-4">
+                                                            by <a href="#"
+                                                            class="cmpny-dt blk-clr" style="color: {{$items['color']}}">{{$items['user']}}</a>
+                                                        </p>
+                                                        <p class="notification-text font-small-4">
+                                                            <i class="fas fa-tag"></i> {{$items['category']}}
+                                                        </p>
                                                     <div class="ppdt-price-sales">
+
                                                         <div class="ppdt-price">
                                                             $ {{$items['price']}}
                                                         </div>
@@ -148,11 +154,7 @@
                                                 </div>
                                                 <div class="action-btns-job">
                                                     <i class="feather-eye mr-2"></i> {{$items['view_count']}}
-                                                    <i class="feather-tag mr-2"></i>
-                                                    @if($items['type']==0) <span
-                                                        class="font-small-4 text-danger">free</span>
-                                                    @elseif($items['type']==1) <span
-                                                        class="font-small-4 text-danger">paid</span> @endif
+                                                 
                                                 </div>
                                             </div>
                                         </div>

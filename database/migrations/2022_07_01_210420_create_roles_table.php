@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Role;
+
 return new class extends Migration
 {
     /**
@@ -26,6 +27,10 @@ return new class extends Migration
         Role::updateOrCreate([
             'name' => 'User',
             'guard_name' => 'user',
+        ]);
+        Role::updateOrCreate([
+            'name' => 'Moderator',
+            'guard_name' => 'Moderator',
         ]);
     }
 

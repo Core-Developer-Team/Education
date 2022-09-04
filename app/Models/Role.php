@@ -17,4 +17,8 @@ class Role extends Model
     public function user(){
         return $this->hasOne(User::class);
     }
+    public function color()
+    {
+        return $this->hasOne(Color::class);
+    }
 }

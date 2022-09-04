@@ -14,6 +14,7 @@ class Proposal extends Model
         'description',
         'price',
         'file',
+        'category',
         'filename',
     ];
 

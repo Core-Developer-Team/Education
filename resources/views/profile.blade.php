@@ -41,21 +41,21 @@
                         <h4>Basic</h4>
                     </div>
                     @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="list-unstyled">
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                        <div class="alert alert-danger">
+                            <ul class="list-unstyled">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
-                    @if(session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session()->get('message') }}
-                    </div>
+                    @if (session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session()->get('message') }}
+                        </div>
                     @endif
 
-                    <form action="{{ route('profile.update', ['id'=>$user->id]) }}" method="post"
+                    <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="post"
                         enctype="multipart/form-data">
                         <div class="item-setting">
                             <div class="item-padding30 main-form">
@@ -67,10 +67,10 @@
                                         <div class="container">
                                             <div class="picture-container">
                                                 <div class="picture">
-                                                    <img src="/storage/{{$user->image}}" class="picture-src"
+                                                    <img src="/storage/{{ $user->image }}" class="picture-src"
                                                         id="wizardPicturePreview" title="">
-                                                    <input type="file" id="wizard-picture" name="image" class=""
-                                                        value="{{$user->image}}">
+                                                    <input type="file" id="wizard-picture" name="image"
+                                                        class="" value="{{ $user->image }}">
                                                 </div>
                                                 <h6 class="">Choose Picture</h6>
 
@@ -79,9 +79,16 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form_group mt-30">
+                                            <label class="label25">Cover_Image*</label>
+                                            <input class="form_input_1" name="cover_img" type="file" placeholder=""
+                                                value="{{ $user->cover_img }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form_group mt-30">
                                             <label class="label25">User Name*</label>
                                             <input class="form_input_1" name="username" type="text" placeholder=""
-                                                value="{{$user->username}}">
+                                                value="{{ $user->username }}">
                                         </div>
                                     </div>
 
@@ -89,7 +96,7 @@
                                         <div class="form_group mt-30">
                                             <label class="label25">Email*</label>
                                             <input class="form_input_1" name="email" type="text" placeholder=""
-                                                value="{{$user->email}}">
+                                                value="{{ $user->email }}">
                                         </div>
                                     </div>
 
@@ -97,14 +104,14 @@
                                         <div class="form_group mt-30">
                                             <label class="label25">Phone*</label>
                                             <input class="form_input_1" type="text" name="mobile_no" placeholder=""
-                                                value="{{$user->mobile_no}}">
+                                                value="{{ $user->mobile_no }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form_group mt-30">
                                             <label class="label25">uni_id*</label>
                                             <input class="form_input_1" type="text" name="uni_id" placeholder=""
-                                                value="{{$user->uni_id}}">
+                                                value="{{ $user->uni_id }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
@@ -114,11 +121,11 @@
                                                 class="form-control">
                                                 <option selected disabled>Select gender</option>
                                                 @if ($user->gender == 0)
-                                                <option value="0" selected>Male</option>
-                                                <option value="1">Female</option>
-                                                @elseif($user->gender==1)
-                                                <option value="0">Male</option>
-                                                <option value="1" selected>Female</option>
+                                                    <option value="0" selected>Male</option>
+                                                    <option value="1">Female</option>
+                                                @elseif($user->gender == 1)
+                                                    <option value="0">Male</option>
+                                                    <option value="1" selected>Female</option>
                                                 @endif
                                             </select>
                                         </div>
@@ -126,8 +133,8 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form_group mt-30">
                                             <label class="label25">uni_name*</label>
-                                            <input class="form_input_1" type="text" name="uni_name" placeholder=""
-                                                value="{{Auth()->user()->uni_name}}">
+                                            <input class="form_input_1" type="text" name="uni_name"
+                                                placeholder="" value="{{ Auth()->user()->uni_name }}">
                                         </div>
                                     </div>
                                 </div>
@@ -149,20 +156,21 @@
 @include('layouts.footer')
 <!---/footer-->
 <script>
-    $(document).ready(function(){
-// Prepare the preview for profile picture
-$("#wizard-picture").change(function(){
-readURL(this);
-});
-});
-function readURL(input) {
-if (input.files && input.files[0]) {
-var reader = new FileReader();
+    $(document).ready(function() {
+        // Prepare the preview for profile picture
+        $("#wizard-picture").change(function() {
+            readURL(this);
+        });
+    });
 
-reader.onload = function (e) {
-$('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
-}
-reader.readAsDataURL(input.files[0]);
-}
-}
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>

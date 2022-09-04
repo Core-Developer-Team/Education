@@ -12,114 +12,18 @@
     <div class="container">
         <div class="row">
             <div class="owl-carousel evtcate_slider">
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 1</h6>
+                @foreach ($categ as $cat)
+                    <div class="item text-center">
+                        <a href="{{ route('prop.searchcat', ['name' => $cat->category]) }}" class="event-cate-links">
+                            <div class="event-full-width">
+                                <div class="event-cate-items">
+                                    <h6>{{ $cat->category }}</h6>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Artificial Intelligence</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Web Programming</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Architecture</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 2</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Software Engineering</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Discrete Mathematics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Green Computing</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Networks</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electrical Circuits</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Theory of Computation</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electronics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endforeach
+
             </div>
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
@@ -135,235 +39,281 @@
                             your Proposal</a>
                     </div>
                     @include('layouts.sidebar')
-                    <!--/side bar-->
-                    <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                        <div class="pl_item_search rrmt-30">
-                            <form action="{{ route('proposal.search') }}" method="post">
-                                @csrf
-                                @method('PATCH')
-                                <div class="row">
-                                    <div class="col-lg-10 col-md-8">
-                                        <div class="form_group">
-                                            <input class="form_input_1" type="text"
-                                                placeholder="Search within these results" name="search">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-4">
-                                        <button class="post-link-btn color btn-hover w-100 rmt-10"
-                                            type="submit">Search</button>
-                                    </div>
-                                </div>
-                            </form>
+                    <div class="full-width mt-5">
+
+                        <div class="manage-section mt-3">
+                            <span class="manage-title">Today's Activity</span>
                         </div>
-                        <div class="filter_items">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="filter-section">
-                                        <div class="btn-4585">
-                                            <a href="{{ route('proposal.new') }}"
-                                                class="fltr-btn @if (request()->getpathinfo() == '/latest_proposal' || request()->getpathinfo() == '/proposals') fltr-active @endif">Newest</a>
-                                            <a href="{{ route('proposal.trending') }}"
-                                                class="fltr-btn @if (request()->getpathinfo() == '/trending_proposal') fltr-active @endif">Trending</a>
-                                            <a href="{{ route('proposal.week') }}"
-                                                class="fltr-btn @if (request()->getpathinfo() == '/weekly_proposal') fltr-active @endif">Weekly</a>
-                                        </div>
-                                        <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
-                                    </div>
+                        <ul class="info__sections">
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
+                                    <span class="all-info__right">{{ $t_req_count }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
+                                    <span class="all-info__right">{{ $t_prop_count }}</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Request
+                                        Solution</span>
+                                    <span class="all-info__right">{{ $t_reqsolution_count }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
+                                        Solution</span>
+                                    <span class="all-info__right">{{ $t_propsolution_count }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+            </aside>
+            <!--/side bar-->
+            <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <div class="pl_item_search rrmt-30">
+                    <form action="{{ route('proposal.search') }}" method="post">
+                        @csrf
+                        @method('PATCH')
+                        <div class="row">
+                            <div class="col-lg-10 col-md-8">
+                                <div class="form_group">
+                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                        name="search">
                                 </div>
                             </div>
-                        </div>
-                        @if (session('status'))
-                            <div class="bg-primary mt-3 p-4 rounded-lg mb-6 text-white text-center">
-                                {{ session('status') }}
+                            <div class="col-lg-2 col-md-4">
+                                <button class="post-link-btn color btn-hover w-100 rmt-10"
+                                    type="submit">Search</button>
                             </div>
-                        @endif
+                        </div>
+                    </form>
+                </div>
+                <div class="filter_items">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="filter-section">
+                                <div class="btn-4585">
+                                    <a href="{{ route('proposal.new') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/latest_proposal' || request()->getpathinfo() == '/proposals') fltr-active @endif">Newest</a>
+                                    <a href="{{ route('proposal.trending') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/trending_proposal') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('proposal.week') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/weekly_proposal') fltr-active @endif">Weekly</a>
+                                </div>
+                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (session('status'))
+                    <div class="bg-primary mt-3 p-4 rounded-lg mb-6 text-white text-center">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
-                        @forelse ($data as $item)
-                            <div class="full-width mt-4">
-                                <div class="recent-items">
-                                    <div class="posts-list">
-                                        <div class="feed-shared-author-dt">
-                                            <div class="author-left userimg">
-                                                <a href="#"><img
-                                                        class="ft-plus-square job-bg-circle  bg-cyan mr-0"
-                                                        src="/storage/{{ $item->user->image }}" alt=""></a>
-                                                <!--hover on image-->
-                                                <div class="box imagehov shadow"
-                                                    style="width: auto; height:auto;  position: absolute; z-index: 1;">
-                                                    <div class="full-width">
-                                                        <div class="recent-items">
-                                                            <div class="posts-list">
-                                                                <div class="feed-shared-author-dt">
-                                                                    <div class="author-left">
-                                                                        <a href="#"><img
-                                                                                class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                                                src="/storage/{{ $item->user->image }}"
-                                                                                alt=""></a>
-                                                                    </div>
-                                                                    <div class="author-dts">
-                                                                        <p class="notification-text font-username">
-                                                                            <a href="#"
-                                                                                class="text-danger">{{ $item->user->username }}
-                                                                            </a><img
-                                                                                src="{{ $item->user->badge->image }}"
-                                                                                alt="" style="width: 20px;"
-                                                                                title="{{ $item->user->badge->name }}">
-                                                                            <span class="job-loca"><i
-                                                                                    class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
-                                                                        </p>
-
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Joined on
-                                                                                {{ $item->user->created_at }}</span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Total Solutions
-                                                                                {{ $item->user->solutions }}</span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span
-                                                                                class="time-dt">{{ $item->user->badge->name }}</span>
-                                                                        </p>
-                                                                    </div>
-
-                                                                </div>
+                @forelse ($data as $item)
+                    <div class="full-width mt-4">
+                        <div class="recent-items">
+                            <div class="posts-list">
+                                <div class="feed-shared-author-dt">
+                                    <div class="author-left userimg">
+                                        <a href="#"><img class="ft-plus-square job-bg-circle  bg-cyan mr-0"
+                                                src="/storage/{{ $item->user->image }}" alt=""></a>
+                                        <!--hover on image-->
+                                        <div class="box imagehov shadow"
+                                            style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                            <div class="full-width">
+                                                <div class="recent-items">
+                                                    <div class="posts-list">
+                                                        <div class="feed-shared-author-dt">
+                                                            <div class="author-left">
+                                                                <a href="#"><img
+                                                                        class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                        src="/storage/{{ $item->user->image }}"
+                                                                        alt=""></a>
                                                             </div>
+                                                            <div class="author-dts">
+                                                                <p class="notification-text font-username">
+                                                                    <a href="#"
+                                                                        style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                                                    </a><img src="{{ $item->user->badge->image }}"
+                                                                        alt="" style="width: 20px;"
+                                                                        title="{{ $item->user->badge->name }}">
+                                                                    <span class="job-loca"><i
+                                                                            class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                </p>
+
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Joined on
+                                                                        {{ $item->user->created_at }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Total Solutions
+                                                                        {{ $item->user->solutions }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Rating
+                                                                        {{ $item->user->rating }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span
+                                                                        class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                </p>
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- end hover-->
                                             </div>
-                                            <div class="iconreq">
-                                                <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                    src="{{ $item->user->badge->image }}"
-                                                    style="width:30px; height:30px" alt="">
-                                            </div>
-                                            <div class="author-dts">
-                                                <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
-                                                    class="problems_title">{{ $item->proposalname }}
-                                                </a>
-                                                <p class="notification-text font-username">
-                                                    <a href="#" class="text-danger">{{ $item->user->username }}
-                                                    </a><img
-                                                        src="@if ($item->user->badge_id == 5) {{ $item->user->badge->image }} @endif"
-                                                        class="@if ($item->user->badge_id == 5) d-block @else d-none @endif "
-                                                        alt="Verified" style="width: 15px;" title="Verified">
-                                                    <span class="job-loca"><i
-                                                            class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
-                                                </p>
-                                                <span>{{ Str::limit($item->description, 80, $end = '.........') }}</span>
-                                                <p class="notification-text font-small-4 pt-1">
-                                                    <span
-                                                        class="time-dt">{{ $item->updated_at->diffForHumans() }}</span>
-                                                </p>
-                                                <div class="jbopdt142">
-                                                    <div class="jbbdges10">
-                                                        <span class="job-badge ffcolor">Online</span>
-                                                        <span class="job-badge ddcolor">৳ {{ $item->price }}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                                <a href=""
-                                                    class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
-
+                                        </div>
+                                        <!-- end hover-->
+                                    </div>
+                                    <div class="iconreq">
+                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                            src="{{ $item->user->badge->image }}" style="width:30px; height:30px"
+                                            alt="">
+                                    </div>
+                                    <div class="author-dts">
+                                        <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
+                                            class="problems_title">{{ $item->proposalname }}
+                                        </a>
+                                        <p class="notification-text font-username">
+                                            <a href="#"
+                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                            </a><img
+                                                src="@if ($item->user->badge_id == 5) {{ $item->user->badge->image }} @endif"
+                                                class="@if ($item->user->badge_id == 5) d-block @else d-none @endif "
+                                                alt="Verified" style="width: 15px;" title="Verified">
+                                            <span class="job-loca"><i
+                                                    class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                        </p>
+                                        <span>{{ Str::limit($item->description, 80, $end = '.........') }}</span>
+                                        <p class="notification-text font-small-4 pt-1">
+                                            <span class="time-dt">{{ $item->updated_at->diffForHumans() }}</span>
+                                        </p>
+                                        <div class="jbopdt142">
+                                            <div class="jbbdges10">
+                                                <span class="job-badge ffcolor">Online</span>
+                                                <span class="job-badge ddcolor">৳ {{ $item->price }}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="post-meta">
-                                        <div class="job-actions">
-                                            <div class="aplcnts_15">
-                                                <i
-                                                    class="feather-users mr-2"></i><span>Applied</span><ins>{{ $item->proposalbid()->count() }}</ins>
-                                                <i
-                                                    class="feather-eye mr-2"></i><span>Views</span><ins>{{ $item->view_count }}</ins>
-                                            </div>
-                                            <div class="action-btns-job">
-                                                <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
-                                                    class="view-btn btn-hover">Detail</a>
-                                                <a href="" title="Edit" class="bm-btn btn-hover d-none"><i
-                                                        class="feather-edit "></i></a>
-                                                <span class="bm-btn btn-hover ms-2 d-none" data-bs-toggle="modal"
-                                                    title="Delete" data-bs-target="#deleteJobModal"><i
-                                                        class="feather-trash-2"></i></span>
-                                                @isset($bid)
-                                                    @foreach ($bid as $bidd)
-                                                        @if ($bidd->proposal_id == $item->id && $bidd->status == 1)
-                                                            <a href="#" title="Solved"
-                                                                class="bm-btn bm-btn-hover-solve  ms-2 active"><i
-                                                                    class="fas fa-check"></i></a>
-                                                        @endif
-                                                    @endforeach
-                                                @endisset
-                                            </div>
-                                        </div>
+                                    <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
+                                        <a href=""
+                                            class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
+                                        <a href=""
+                                            class="label-dker post_categories_top_right mr-20"><span>{{ $item->category }}</span></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="post-meta">
+                                <div class="job-actions">
+                                    <div class="aplcnts_15">
+                                        <i
+                                            class="feather-users mr-2"></i><span>Applied</span><ins>{{ $item->proposalbid()->count() }}</ins>
+                                        <i
+                                            class="feather-eye mr-2"></i><span>Views</span><ins>{{ $item->view_count }}</ins>
+                                    </div>
+                                    <div class="action-btns-job">
+                                        <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
+                                            class="view-btn btn-hover">Detail</a>
+                                        <a href="" title="Edit" class="bm-btn btn-hover d-none"><i
+                                                class="feather-edit "></i></a>
+                                        <span class="bm-btn btn-hover ms-2 d-none" data-bs-toggle="modal"
+                                            title="Delete" data-bs-target="#deleteJobModal"><i
+                                                class="feather-trash-2"></i></span>
+                                        @isset($bid)
+                                            @foreach ($bid as $bidd)
+                                                @if ($bidd->proposal_id == $item->id && $bidd->status == 1)
+                                                    <a href="#" title="Solved"
+                                                        class="bm-btn bm-btn-hover-solve  ms-2 active"><i
+                                                            class="fas fa-check"></i></a>
+                                                @endif
+                                            @endforeach
+                                        @endisset
                                     </div>
                                 </div>
                             </div>
-                        @empty
-                            <div class="alert alert-success mt-3">
-                                Sorry! No data found
-                            </div>
-                        @endforelse
-                        <div class="mt-3">
-                            {{ $data->links() }}
                         </div>
-                    </main>
-                </div>
-        </div>
-    </div>
-
-    <!--Add Proposal Model-->
-    <div class="modal fade" id="addproposal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Proposal</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container bg-white rounded">
-                        <!--book Form-->
-                        <form class="form p-3" method="POST" id="proposal" enctype="multipart/form-data"
-                            action="{{ route('proposal.get') }}">
-                            @csrf
-
-                            <div class="form-group">
-                                <label for="proposalname">Project Name</label>
-                                <input type="text" class="form-control" name="proposalname" id="proposalname"
-                                    value="{{ old('proposalname') }}" placeholder="Proposal Name">
-                                <div class="text-danger mt-2 text-sm proposalname"></div>
-                            </div>
-                            <div class="form-group pt-2">
-                                <label for="price">Project Price</label>
-                                <input type="number" class="form-control" name="price" id="price"
-                                    value="{{ old('price') }}" placeholder="project price">
-                                <div class="text-danger mt-2 text-sm price"></div>
-                            </div>
-                            <div class="form-group pt-2">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
-                                <div class="text-danger mt-2 text-sm description"></div>
-                            </div>
-                            <div class="form-group pt-2">
-                                <label for="file">Image/PDF</label>
-                                <input type="file" class="form-control" name="file" accept="image/*,.pdf"
-                                    id="file" value="{{ old('file') }}"
-                                    placeholder="Upload image or
-                                pdf">
-                                <div class="text-danger mt-2 text-sm file"></div>
-                            </div>
-                            <hr>
-                            <input type="submit" class="btn" name="submit" value="Submit">
-                        </form>
                     </div>
+                @empty
+                    <div class="alert alert-success mt-3">
+                        Sorry! No data found
+                    </div>
+                @endforelse
+                <div class="mt-3">
+                    {{ $data->links() }}
                 </div>
-
-            </div>
+            </main>
         </div>
     </div>
+</div>
 
-    <!--footer-->
-    @include('layouts.footer')
-    <!---/footer-->
+<!--Add Proposal Model-->
+<div class="modal fade" id="addproposal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Proposal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container bg-white rounded">
+                    <!--book Form-->
+                    <form class="form p-3" method="POST" id="proposal" enctype="multipart/form-data"
+                        action="{{ route('proposal.get') }}">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="proposalname">Project Name</label>
+                            <input type="text" class="form-control" name="proposalname" id="proposalname"
+                                value="{{ old('proposalname') }}" placeholder="Proposal Name">
+                            <div class="text-danger mt-2 text-sm proposalname"></div>
+                        </div>
+                        <div class="form-group pt-2">
+                            <label for="price">Project Price</label>
+                            <input type="number" class="form-control" name="price" id="price"
+                                value="{{ old('price') }}" placeholder="project price">
+                            <div class="text-danger mt-2 text-sm price"></div>
+                        </div>
+                        <div class="form-group pt-2">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                            <div class="text-danger mt-2 text-sm description"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Project category</label>
+                            <input type="text" class="form-control" name="category" id="category"
+                                value="{{ old('category') }}" placeholder="Proposal category">
+                            <div class="text-danger mt-2 text-sm category"></div>
+                        </div>
+                        <div class="form-group pt-2">
+                            <label for="file">Image/PDF</label>
+                            <input type="file" class="form-control" name="file" accept="image/*,.pdf"
+                                id="file" value="{{ old('file') }}"
+                                placeholder="Upload image or
+                                pdf">
+                            <div class="text-danger mt-2 text-sm file"></div>
+                        </div>
+                        <hr>
+                        <input type="submit" class="btn" name="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+@include('layouts.footer')
+<!---/footer-->

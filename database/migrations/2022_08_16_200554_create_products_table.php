@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('cover_pic');
             $table->integer('price');
             $table->text('description');
+            $table->float('rating')->default('0');
             $table->timestamps();
         });
     }

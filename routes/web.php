@@ -36,6 +36,7 @@ use App\Http\Controllers\BadgesController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
 use App\Http\Controllers\CommentreportController;
+use App\Http\Controllers\ContestController;
 use App\Http\Controllers\CoursereviewController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MarketplaceController;
@@ -52,6 +53,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TermsandPrivacyController;
 use App\Http\Controllers\TutorialreviewController;
 use App\Models\Product;
+use App\Models\Proposal;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -173,9 +175,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/res_weekly', [ResourceController::class, 'week'])->name('res.week');
     // event page
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
-    Route::get('/event_upcomming', [EventController::class, 'upcomming'])->name('event.upcomming');
-    Route::get('/event_expires', [EventController::class, 'expires'])->name('event.expires');
+  
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
+        // Contest page
+        Route::get('/contest', [ContestController::class, 'index'])->name('contest.index');
+       Route::post('/contest', [ContestController::class, 'store'])->name('contest.store');
     //offline topic
     Route::get('/offlinetopic', [OfflinetopicController::class, ('show')])->name('offlinetopic.show');
     Route::post('/offlinetopic', [OfflinetopicController::class, ('get')])->name('offlinetopic.get');
@@ -200,6 +204,7 @@ Route::middleware('auth')->group(function () {
 
     //profile
     Route::get('/profile_dashboard/{id}', [ProfileController::class, ('show')])->name('profile.show');
+    Route::post('/profile_dashboard/{id}', [ProfileController::class, ('updatecover')])->name('profile.upcover');
     Route::get('/profile_myreqs/{id}', [ProfileController::class, ('myreqs')])->name('profile.myreqs');
     Route::get('/profile_products/{id}', [ProfileController::class, ('products')])->name('profile.products');
     Route::get('/profile_book/{id}', [ProfileController::class, ('Book')])->name('profile.book');
@@ -217,6 +222,7 @@ Route::get('ch/{name}', [RequestController::class, 'searchcat'])->name('req.sear
 //proposal
 Route::get('/proposals', [ProposalController::class, 'index'])->name('proposal.index');
 Route::patch('/proposals', [ProposalController::class, 'search'])->name('proposal.search');
+Route::get('prop/{name}', [ProposalController::class, 'searchcat'])->name('prop.searchcat');
 //Books home routes
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::patch('/books', [BookController::class, 'search'])->name('book.search');

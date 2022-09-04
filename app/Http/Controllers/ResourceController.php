@@ -8,6 +8,7 @@ use App\Models\Offlinetopic;
 use App\Models\PaymentLog;
 use App\Models\Product;
 use App\Models\Proposal;
+use App\Models\Propsolution;
 use App\Models\Reqbid;
 use App\Models\ReqSolution;
 use App\Models\Request as ModelsRequest;
@@ -37,7 +38,11 @@ class ResourceController extends Controller
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
 
-    return view('resources', compact('datas', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+    $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+    $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+    $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+    return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //get latest request
   public function latest()
@@ -56,7 +61,11 @@ class ResourceController extends Controller
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
 
-    return view('resources', compact('datas', 'categ', 'prev_count', 'sol_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+    $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+    $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+    $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+    return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //get trending request
   public function trending()
@@ -74,7 +83,12 @@ class ResourceController extends Controller
     $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    
+    $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+    $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+    $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+    $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+    return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //get week request
   public function week()
@@ -92,7 +106,12 @@ class ResourceController extends Controller
     $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+   
+    $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+    $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+    $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+    $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+    return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
 
   //insert data into database
@@ -163,7 +182,12 @@ class ResourceController extends Controller
     $categ = Resource::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'categ', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+   
+    $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+    $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+    $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+    $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+    return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
   //search cat
   public function searchcategory($name)
@@ -185,6 +209,11 @@ class ResourceController extends Controller
     $prop   = Proposal::count();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-    return view('resources', compact('datas', 'sol_count', 'prev_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+   
+    $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+    $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+    $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+    $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+    return view('resources', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'prev_count', 'sol_count', 'categ', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
   }
 }

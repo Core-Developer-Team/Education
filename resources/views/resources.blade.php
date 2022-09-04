@@ -14,7 +14,7 @@
             <div class="owl-carousel evtcate_slider">
                 @foreach ($categ as $cat)
                     <div class="item text-center">
-                        <a href="{{ route('resource.searchcat', ['cat'=>$cat->category ]) }}"  class="event-cate-links">
+                        <a href="{{ route('resource.searchcat', ['cat' => $cat->category]) }}" class="event-cate-links">
                             <div class="event-full-width">
                                 <div class="event-cate-items">
                                     <h6>{{ $cat->category }}</h6>
@@ -38,104 +38,42 @@
                         @endauth">Add
                             Resource</a>
                     </div>
-                    <ul class="info__sections">
-                        <li>
-                            <a href="{{ route('req.index') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-archive me-2"></i>All
-                                    Requests</span>
-                                <span class="all-info__right">{{ $req_count }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('feedback.store') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-user me-2"></i>Feedback</span>
-                                <span class="all-info__right">{{ $feed_count }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('profile.mysol') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-check-square me-2"></i>My
-                                    Solutions</span>
-                                <span class="all-info__right">{{ $mysol }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('req.myrequests') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-help-circle me-2"></i>My Questions</span>
-                                <span class="all-info__right">{{ $myques }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('resource.index') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-file-plus me-2"></i>Resources and
-                                    notes</span>
-                                <span class="all-info__right">{{ $res }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('event.index') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-user me-2"></i>events</span>
-                                <span class="all-info__right">{{ $event }}</span>
-                            </a>
-                        </li>
+                    @include('layouts/sidebar')
+                    <div class="full-width mt-4">
 
-                        <li>
-                            <a href="{{ route('req.prevyear') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-package me-2"></i>Previous Year Ques
-                                    Solutions</span>
-                                <span class="all-info__right">0</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('req.allsolution') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-check-circle me-2"></i>All Solved
-                                    Problems</span>
-                                <span class="all-info__right">0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-alert-triangle me-2"></i>Reported</span>
-                                <span class="all-info__right">0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('proposal.index') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-terminal me-2"></i>Developer
-                                    Proposals</span>
-                                <span class="all-info__right">{{ $prop }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('offlinetopic.show') }}" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-message-square me-2"></i>Community
-                                    Discussion</span>
-                                <span class="all-info__right">{{ $offline }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-bookmark me-2"></i>Trending</span>
-                                <span class="all-info__right">0</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="full-width mt-4 dstp-bnr-dt">
-                    <div class="banner-item">
-                        <div class="banner-img">
-                            <img src="images/banners/banner-1.jpg" alt="">
-                            <div class="banner-overlay">
-                                <span>Learning Plateform</span>
-                                <h4>Keep learning in the moments that matter.</h4>
-                                <button class="main-btn color btn-hover"
-                                    onclick="window.location.href='{{ route('course.index') }}'">See
-                                    Courses</button>
-                            </div>
+                        <div class="manage-section mt-3">
+                            <span class="manage-title">Today's Activity</span>
                         </div>
+                        <ul class="info__sections">
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
+                                    <span class="all-info__right">{{ $t_req_count }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="my_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
+                                    <span class="all-info__right">{{ $t_prop_count }}</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Request
+                                        Solution</span>
+                                    <span class="all-info__right">{{ $t_reqsolution_count }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="purchased_courses.html" class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
+                                        Solution</span>
+                                    <span class="all-info__right">{{ $t_propsolution_count }}</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
             </aside>
             <!--/side bar-->
             <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
@@ -162,9 +100,12 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{ route('res.latest') }}" class="fltr-btn @if(request()->getpathinfo() == '/res_latest' || request()->getpathinfo() == '/resource') fltr-active @endif">Newest</a>
-                                    <a href="{{ route('res.trending') }}" class="fltr-btn @if(request()->getpathinfo() == '/res_trending') fltr-active @endif">Trending</a>
-                                    <a href="{{ route('res.week') }}" class="fltr-btn @if(request()->getpathinfo() == '/res_weekly') fltr-active @endif">Weekly</a>
+                                    <a href="{{ route('res.latest') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/res_latest' || request()->getpathinfo() == '/resource') fltr-active @endif">Newest</a>
+                                    <a href="{{ route('res.trending') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/res_trending') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('res.week') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/res_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -200,7 +141,7 @@
                                                             <div class="author-dts">
                                                                 <p class="notification-text font-username">
                                                                     <a href="#"
-                                                                        class="text-danger">{{ $data->user->username }}
+                                                                    style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}
                                                                     </a><img src="{{ $data->user->badge->image }}"
                                                                         alt="" style="width: 20px;"
                                                                         title="{{ $data->user->badge->name }}">
@@ -215,6 +156,10 @@
                                                                 <p class="notification-text font-small-4 pt-1">
                                                                     <span class="time-dt">Total Solutions
                                                                         {{ $data->user->solutions }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Rating
+                                                                        {{ $data->user->rating }}</span>
                                                                 </p>
                                                                 <p class="notification-text font-small-4 pt-1">
                                                                     <span
@@ -238,7 +183,7 @@
                                         <a href="" class="problems_title">{{ $data->name }}
                                         </a>
                                         <p class="notification-text font-username">
-                                            <a href="#" class="text-danger">{{ $data->user->username }}
+                                            <a href="#" style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}
                                             </a><img
                                                 src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
                                                 class="@if ($data->user->badge_id == 5) d-block @else d-none @endif "

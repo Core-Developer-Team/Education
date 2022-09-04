@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Productreview;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -74,13 +75,14 @@ class ProductController extends Controller
      public function showproduct($id)
      {
         $data = Product::find($id);
+        $reviews = Productreview::where('product_id', $id)->orderBy('created_at','DESC')->cursorPaginate(4);
         //increase view count
         $product_key= 'product_'.$id;
         if(!Session::has($product_key)){
           $data->increment('view_count');
           Session::put($product_key, 1);
         }
-    return view('product_single',compact('data'));
+    return view('product_single',compact('data','reviews'));
      }
 
 }

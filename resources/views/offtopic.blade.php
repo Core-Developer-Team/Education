@@ -21,15 +21,16 @@
                                         <a href="#" target="_blank">Offline Topics</a>
                                     </div>
                                 </div>
-                                @if (session()->has('success'))
-                                    <div class="alert alert-success mt-3">
-                                        {{ session()->get('success') }}
-                                    </div>
-                                @endif
+
                             </div>
                             <div class="chat-container">
                                 <div class="chat-content">
                                     <ul class="chats-lists">
+                                        @if (session()->has('success'))
+                                            <div class="alert alert-success mt-3">
+                                                {{ session()->get('success') }}
+                                            </div>
+                                        @endif
                                         @foreach ($chats as $chat)
                                             <li class=" @if ($chat->user_id == Auth()->id()) you @else me @endif">
                                                 <div class="chat-thumb">
@@ -42,7 +43,7 @@
                                                         @if ($chat->user->id == Auth()->id())
                                                             You
                                                         @else
-                                                            {{ $chat->user->username }} 
+                                                            {{ $chat->user->username }}
                                                         @endif
                                                     </span>
                                                     <div
@@ -53,13 +54,15 @@
                                                         <ul class="dropdown-menu dropdown-ellipsis dropdown-menu-end"
                                                             style="">
                                                             <li class="media-list">
-                                                             @if (!($chat->offlinereport()->count()>=1 && $chat->offlinereport->offlinetopic_id==$chat->id) )
-                                                                <a data-toggle="modal" data-id="{{ $chat->user_id }}"
-                                                                    data-mid="{{ $chat->id }}" title="Add this item"
-                                                                    class="open-report btn" href="#report">Report </a>
-                                                                    @else
-                                                                      <span class="danger">Reported</span> 
-                                                                    @endif
+                                                                @if (!($chat->offlinereport()->count() >= 1 && $chat->offlinereport->offlinetopic_id == $chat->id))
+                                                                    <a data-toggle="modal"
+                                                                        data-id="{{ $chat->user_id }}"
+                                                                        data-mid="{{ $chat->id }}"
+                                                                        title="Add this item" class="open-report btn"
+                                                                        href="#report">Report </a>
+                                                                @else
+                                                                    <span class="danger">Reported</span>
+                                                                @endif
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -76,7 +79,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <form action="{{ route('offlinetopic.get') }}" method="POST" class="send_messages_form">
+                            <form id="offchat" class="send_messages_form">
                                 @csrf
                                 <div class="send_input_group">
                                     <div class="msg_write_combo">
@@ -177,5 +180,25 @@
         $(".modal-body #user_id").val(userId);
         $(".modal-body #chat_id").val(mesgId);
         $('#report').modal('show');
+    });
+</script>
+
+<script>
+    $(function() {
+
+        $('#offchat').on('submit', function(e) {
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('offlinetopic.get') }}',
+                data: $('#offchat').serialize(),
+                success: function() {
+                    alert('form was submitted');
+                }
+            });
+
+        });
     });
 </script>
