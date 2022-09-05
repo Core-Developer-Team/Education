@@ -1,3 +1,4 @@
+@section('title','Products')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -30,7 +31,7 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_portfolio.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My Products</span>
                                 <span
                                     class="all-info__right">{{ $data->where('user_id', Auth()->id())->count() }}</span>
@@ -38,7 +39,7 @@
                         </li>
 
                         <li>
-                            <a href="purchased_products.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Purchased</span>
                                 <span class="all-info__right">0</span>
                             </a>
@@ -111,7 +112,7 @@
                                             <div class="posts-list">
                                                 <div class="feed-shared-product-dt">
                                                     <div class="pdct-img">
-                                                        <a href="product_detail_view.html"><img
+                                                        <a><img
                                                                 class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
@@ -122,7 +123,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a href="product_detail_view.html"
+                                                        <a
                                                             class="job-heading pp-title">{{ $item->name }}</a>
                                                         <p class="notification-text font-small-4">
                                                             by <a
@@ -133,7 +134,7 @@
                                                         </p>
                                                         <div class="ppdt-price-sales">
                                                             <div class="ppdt-price">
-                                                                $ {{ $item->price }}
+                                                                ৳ {{ $item->price }}
                                                             </div>
                                                             <div class="ppdt-sales">
                                                                 0 Sales

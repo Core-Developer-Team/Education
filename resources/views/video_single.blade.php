@@ -1,3 +1,4 @@
+@section('title','Video_Single')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -162,7 +163,7 @@
                                         </div>
                                         <hr>
                                         <!-- END review-list -->
-
+                                        @if (auth()->id() != $playlist->user_id)
                                         <!--review form-->
                                         <form method="POST" action="{{ route('playlist.storereview') }}">
                                             @if ($errors->any())
@@ -252,7 +253,7 @@
                                             </div>
                                         </form>
                                         <!--end review form-->
-
+                                        @endif
                                         <!--close comments section-->
                                     </div>
 
@@ -270,7 +271,7 @@
                                 <li>
                                     <div class="product_license_check">
                                         <div class="course-price">Regular Price</div>
-                                        <span class="item_price">$ {{ $playlist->price }}</span>
+                                        <span class="item_price">৳ {{ $playlist->price }}</span>
                                     </div>
                                 </li>
                             </ul>

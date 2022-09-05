@@ -163,8 +163,9 @@
                                         <label class="label25">Create Password*</label>
                                         <div class="loc_group">
                                             <input class="reg_form_input_1 @error('password') border-danger @enderror"
-                                                name="password" type="password" placeholder="">
-                                            <span class="pass_show_dt cursor"><i class="feather-eye-off"></i></span>
+                                                name="password" type="password"  id="pass_log_id" placeholder="">
+                                                <span class="pass_show_dt cursor" toggle="#password-field"><i
+                                                    class="feather-eye toggle-password"></i></span>
                                             @error('password')
                                             <div class="text-danger text-sm">
                                                 {{ $message }}
@@ -176,9 +177,10 @@
                                     <div class="form_group mt-25">
                                         <label class="label25">Conform Password*</label>
                                         <div class="loc_group">
-                                            <input class="reg_form_input_1" name="password_confirmation" type="password"
+                                            <input class="reg_form_input_1" name="password_confirmation" id="confpass_log_id" type="password"
                                                 placeholder="">
-                                            <span class="pass_show_dt cursor"><i class="feather-eye-off"></i></span>
+                                                <span class="pass_show_dt cursor" toggle="#confpassword-field"><i
+                                                    class="feather-eye toggle-confpassword"></i></span>
                                         </div>
                                     </div>
                                     <div class="signup_check_checkbox mt-30">
@@ -256,11 +258,9 @@
                 <div class="register_footer mt-50">
                     © 2021 Micko owned by Gambolthemes. All rights reserved
                     <nav class="footer__links">
-                        <a href="#" class="footer__link" target="_blank">Terms of Use</a>
-                        <a href="#" class="footer__link" target="_blank">Privacy Policy</a>
-                        <a href="#" class="footer__link" target="_blank">Refund Policy</a>
-                        <a href="#" class="footer__link" target="_blank">About</a>
-                        <a href="#" class="footer__link" target="_blank">Contact Us</a>
+                        <a href="{{route('term.show')}}" class="footer__link" target="_blank">Terms of Use</a>
+                        <a href="{{route('privacy.show')}}" class="footer__link" target="_blank">Privacy Policy</a>
+                      
                     </nav>
                 </div>
             </div>
@@ -279,3 +279,27 @@
 <!-- Mirrored from www.gambolthemes.net/html-items/new-micko-html/disable-demo-link/sign_up.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 23:21:06 GMT -->
 
 </html>
+
+<script>
+    $("body").on('click','.toggle-password',function(){
+        $(this).toggleClass("feather-eye-off");
+
+    
+        if ($("#pass_log_id").attr("type") === "password") {
+            $("#pass_log_id").attr("type","text");
+        } else {
+            $("#pass_log_id").attr("type","password");
+        }
+    });
+    $("body").on('click','.toggle-confpassword',function(){
+        $(this).toggleClass("feather-eye-off");
+
+    
+        if ($("#confpass_log_id").attr("type") === "password") {
+            $("#confpass_log_id").attr("type","text");
+        } else {
+            $("#confpass_log_id").attr("type","password");
+        }
+    });
+    </script>
+   

@@ -1,3 +1,4 @@
+@section('title','Product')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -31,14 +32,14 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My books</span>
                                 <span
                                     class="all-info__right">{{ $books->where('user_id', Auth()->id())->count() }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My Products</span>
                                 <span
                                     class="all-info__right">{{ $products->where('user_id', Auth()->id())->count() }}</span>
@@ -46,7 +47,7 @@
                         </li>
 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Purchased</span>
                                 <span class="all-info__right">0</span>
                             </a>
@@ -61,27 +62,27 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
                                 <span class="all-info__right">{{ $t_req_count }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
                                 <span class="all-info__right">{{ $t_prop_count }}</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Request
                                     Solution</span>
                                 <span class="all-info__right">{{ $t_reqsolution_count }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
                                     Solution</span>
                                 <span class="all-info__right">{{ $t_propsolution_count }}</span>
@@ -129,7 +130,7 @@
                                                         <div class="posts-list">
                                                             <div class="feed-shared-product-dt">
                                                                 <div class="pdct-img crse-img-tt">
-                                                                    <a href="course_detail_view.html">
+                                                                    <a >
                                                                         <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                             src="{{ $book->cover_pic }}" alt="">
                                                                         <div class="overlay-item">
@@ -140,7 +141,7 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="author-dts pp-20">
-                                                                    <a href="course_detail_view.html"
+                                                                    <a 
                                                                         class="job-heading pp-title">{{ $book->book_name }}</a>
                                                                     <p class="notification-text font-small-4">
                                                                         by <a
@@ -199,7 +200,7 @@
                                                         <div class="posts-list">
                                                             <div class="feed-shared-product-dt">
                                                                 <div class="pdct-img crse-img-tt">
-                                                                    <a href="course_detail_view.html">
+                                                                    <a >
                                                                         <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                             src="{{ $product->cover_pic }}"
                                                                             alt="">
@@ -211,7 +212,7 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="author-dts pp-20">
-                                                                    <a href="course_detail_view.html"
+                                                                    <a 
                                                                         class="job-heading pp-title">{{ $product->name }}</a>
                                                                     <p class="notification-text font-small-4">
                                                                         by <a

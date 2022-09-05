@@ -16,10 +16,9 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('book_name',255);
+            $table->string('title',255);
             $table->integer('view_count')->default(0);
             $table->string('cover_pic');
-            $table->string('book');
             $table->string('Category');
             $table->float('rating')->default('0');
             $table->integer('price');

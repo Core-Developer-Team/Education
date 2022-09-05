@@ -42,13 +42,13 @@ class ReqSolutionController extends Controller
 
         $users = User::where('id', $request->user_id)->first();
 
-        if ($users->solutions >= 20) {
+        if ($users->solutions >= 20 && $users->solutions<=70) {
             $users->badge_id = 2;
-        } elseif ($users->solutions >= 70) {
+        } elseif ($users->solutions > 70 && $users->solutions <= 80 && $users->rating>=4.7 ) {
             $users->badge_id = 3;
-        } elseif ($users->solutions >= 80) {
+        } elseif ($users->solutions > 80 && $users->solutions <= 100 && $users->rating>=4.0) {
             $users->badge_id = 4;
-        } elseif ($users->solutions >= 100) {
+        } elseif ($users->solutions > 100 && $users->rating>=4.0) {
             $users->badge_id = 5;
         }
         $users->update();

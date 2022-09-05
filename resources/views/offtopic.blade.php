@@ -1,3 +1,4 @@
+@section('title','Discussion')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">

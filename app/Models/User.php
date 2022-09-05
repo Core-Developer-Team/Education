@@ -23,6 +23,7 @@ class User extends Authenticatable
         'rating',
         'cover_img',
         'department',
+        'last_seen',
     ];
 
     public function role()

@@ -3,13 +3,9 @@
         <div class="row">
             <div class="col-md-3 col-6">
                 <div class="footer-items">
-                    <ul class="footer-links">
-                        <li><a href="about_us.html">About Us</a></li>
-                        <li><a href="our_blog.html">Blog</a></li>
-                        <li><a href="contact_us.html">Contact Us</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Request Refund</a></li>
+                    <ul class="footer-links d-flex">
+                        <li><a href="{{route('term.show')}}">Terms of Use</a></li>
+                        <li class="ms-auto"><a href="{{route('privacy.show')}}">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
@@ -175,8 +171,8 @@
                 if (errorResponse.Category) {
                     $('.categoryerror').text(errorResponse.Category[0]);
                 }
-                if (errorResponse.book) {
-                    $('.bookError').text(errorResponse.book[0]);
+                if (errorResponse.title) {
+                    $('.title').text(errorResponse.title[0]);
                 }
                 if (errorResponse.description) {
                     $('.description').text(errorResponse.description[0]);
@@ -256,12 +252,9 @@
                     $('.fileError').text(errorResponse.file[0]);
                 }
                 if (errorResponse.type) {
-                    $('.typeError').text(errorResponse.type[0]);
+                    $('.type').text(errorResponse.type[0]);
                 }
-                if (errorResponse.price) {
-                    $('.priceError').text(errorResponse.price[0]);
-                }
-
+                
             }
         })
     })
@@ -340,9 +333,7 @@
                 if (errorResponse.file) {
                     $('.fileError').text(errorResponse.file[0]);
                 }
-                if (errorResponse.price) {
-                    $('.price').text(errorResponse.price[0]);
-                }
+            
             }
         })
     })

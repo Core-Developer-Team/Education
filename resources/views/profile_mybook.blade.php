@@ -1,3 +1,4 @@
+@section('title','my_Book')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -23,7 +24,7 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_portfolio.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My Books</span>
                                 <span class="all-info__right">{{$book->count()}}</span>
                             </a>
@@ -63,12 +64,12 @@
                                             @forelse ($book as $item)
                                             <div class="product-item">
                                                 <div class="product-left">
-                                                    <a href="my_product_detail_view.html"><img
+                                                    <a ><img
                                                             class="ft-plus-square product-bg-circle bg-cyan mr-0"
                                                             src="{{$item->cover_pic}}" alt=""></a>
                                                 </div>
                                                 <div class="product-body">
-                                                    <a href="my_product_detail_view.html"
+                                                    <a
                                                         class="job-heading pt-0">{{$item->name}}</a>
                                                     <p class="notification-text font-small-4">
                                                         <a href="#" class="cmpny-dt2">{{$item->user->username}}</a>

@@ -1,3 +1,4 @@
+@section('title','my_solution')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -22,27 +23,27 @@
                         </div>
                         <ul class="info__sections">
                             <li>
-                                <a href="my_courses.html" class="all-info__sections">
+                                <a  class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
                                     <span class="all-info__right">{{ $t_req_count }}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="my_courses.html" class="all-info__sections">
+                                <a  class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
                                     <span class="all-info__right">{{ $t_prop_count }}</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="purchased_courses.html" class="all-info__sections">
+                                <a  class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-download me-2"></i>Request
                                         Solution</span>
                                     <span class="all-info__right">{{ $t_reqsolution_count }}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="purchased_courses.html" class="all-info__sections">
+                                <a  class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
                                         Solution</span>
                                     <span class="all-info__right">{{ $t_propsolution_count }}</span>

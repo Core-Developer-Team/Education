@@ -1,3 +1,8 @@
+@if ($id==0)
+@section('title','Tutorial_Free')
+@elseif ($id==1)
+@section('title','Tutorial_Paid')
+@endif
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -30,7 +35,7 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My Tutorials</span>
                                 <span
                                     class="all-info__right">{{$playlist->where('user_id',Auth()->id())->count()}}</span>
@@ -38,7 +43,7 @@
                         </li>
 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Purchased</span>
                                 <span class="all-info__right">0</span>
                             </a>
@@ -112,7 +117,7 @@
                                         <div class="posts-list">
                                             <div class="feed-shared-product-dt">
                                                 <div class="pdct-img">
-                                                    <a href="product_detail_view.html"><img
+                                                    <a><img
                                                             class="ft-plus-square product-bg-w bg-cyan me-0"
                                                             src="{{ $item->snippet->thumbnails->medium->url }}"
                                                             alt=""></a>
@@ -123,7 +128,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="author-dts pp-20">
-                                                    <a href="product_detail_view.html" class="job-heading pp-title">{{
+                                                    <a  class="job-heading pp-title">{{
                                                         Str::limit($item->snippet->title, 50, $end = '....') }}</a>
                                                             <p
                                                             class="notification-text font-small-4">
@@ -136,7 +141,7 @@
                                                     <div class="ppdt-price-sales">
 
                                                         <div class="ppdt-price">
-                                                            $ {{$items['price']}}
+                                                            ৳ {{$items['price']}}
                                                         </div>
                                                         <div class="ppdt-sales">
                                                             0 Sales

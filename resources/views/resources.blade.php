@@ -1,3 +1,4 @@
+@section('title','Resource')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -45,27 +46,27 @@
                         </div>
                         <ul class="info__sections">
                             <li>
-                                <a href="my_courses.html" class="all-info__sections">
+                                <a  class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
                                     <span class="all-info__right">{{ $t_req_count }}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="my_courses.html" class="all-info__sections">
+                                <a  class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
                                     <span class="all-info__right">{{ $t_prop_count }}</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="purchased_courses.html" class="all-info__sections">
+                                <a  class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-download me-2"></i>Request
                                         Solution</span>
                                     <span class="all-info__right">{{ $t_reqsolution_count }}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="purchased_courses.html" class="all-info__sections">
+                                <a class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
                                         Solution</span>
                                     <span class="all-info__right">{{ $t_propsolution_count }}</span>
@@ -122,8 +123,10 @@
                             <div class="posts-list">
                                 <div class="feed-shared-author-dt">
                                     <div class="author-left userimg">
-                                        <a href="#"><img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                src="/storage/{{ $data->user->image }}" alt=""></a>
+                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                src="/storage/{{ $data->user->image }}" alt="">
+                                                <div class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                </div>
                                         <!--hover on image-->
                                         <div class="box imagehov shadow"
                                             style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -132,10 +135,12 @@
                                                     <div class="posts-list">
                                                         <div class="feed-shared-author-dt">
                                                             <div class="author-left">
-                                                                <a href="#"><img
+                                                                <img
                                                                         class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                                                         src="/storage/{{ $data->user->image }}"
-                                                                        alt=""></a>
+                                                                        alt="">
+                                                                        <div class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                        </div>
                                                             </div>
                                                             <div class="author-dts">
                                                                 <p class="notification-text font-username">
@@ -151,6 +156,11 @@
                                                                 <p class="notification-text font-small-4 pt-1">
                                                                     <span class="time-dt">Joined on
                                                                         {{ $data->user->created_at }}</span>
+                                                                </p>
+                                                                <p class="notification-text font-small-4 pt-1">
+                                                                    <span class="time-dt">Last Seen 
+                                                                        @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
+                                                                        </span>
                                                                 </p>
                                                                 <p class="notification-text font-small-4 pt-1">
                                                                     <span class="time-dt">Total Solutions
@@ -176,7 +186,7 @@
                                     <div class="iconreq">
                                         <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                             src="{{ $data->user->badge->image }}" style="width:30px; height:30px"
-                                            alt="">
+                                            title="{{ $data->user->badge->name }}">
                                     </div>
                                     <div class="author-dts">
                                         <a href="" class="problems_title">{{ $data->name }}
@@ -194,10 +204,12 @@
                                                         <div class="posts-list">
                                                             <div class="feed-shared-author-dt">
                                                                 <div class="author-left">
-                                                                    <a href="#"><img
+                                                                    <img
                                                                             class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                                                             src="/storage/{{ $data->user->image }}"
-                                                                            alt=""></a>
+                                                                            alt="">
+                                                                            <div class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                            </div>
                                                                 </div>
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
@@ -213,6 +225,11 @@
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Joined on
                                                                             {{ $data->user->created_at }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Last Seen 
+                                                                            @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
+                                                                            </span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Total Solutions

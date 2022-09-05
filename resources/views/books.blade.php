@@ -1,3 +1,4 @@
+@section('title','Books')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -111,7 +112,7 @@
                                             <div class="posts-list">
                                                 <div class="feed-shared-product-dt">
                                                     <div class="pdct-img">
-                                                        <a href="product_detail_view.html"><img
+                                                        <a><img
                                                                 class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
@@ -122,7 +123,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a href="product_detail_view.html"
+                                                        <a 
                                                             class="job-heading pp-title">{{ $item->book_name }}</a>
                                                         <p class="notification-text font-small-4">
                                                             by <a
@@ -133,7 +134,7 @@
                                                         </p>
                                                         <div class="ppdt-price-sales">
                                                             <div class="ppdt-price">
-                                                                $ {{ $item->price }}
+                                                                ৳ {{ $item->price }}
                                                             </div>
                                                             <div class="ppdt-sales">
                                                                 0 Sales
@@ -193,6 +194,13 @@
                     <form action="{{ route('books.store') }}" class="form p-3" id="bok" method="POST"
                         enctype="multipart/form-data">
                         @csrf
+                        <div class="form-group pt-2">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" class="form-control" name="title"
+                                value="{{ old('title') }}">
+                            <div class="text-danger mt-2 text-sm title">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="price">Book_Price</label>
                             <input type="number" id="price" class="form-control" name="price"
@@ -211,12 +219,6 @@
                             <input type="file" id="cover-pic" class="form-control" accept="image/*"
                                 name="cover_pic" value="{{ old('cover-pic') }}">
                             <div class="text-danger mt-2 text-sm cover_picError"></div>
-                        </div>
-                        <div class="form-group pt-2">
-                            <label for="book">Upload_Book</label>
-                            <input type="file" id="book" class="form-control" name="book"
-                                accept="image/*,.doc,.docx,.pdf,.pptx,.zip,.rar" value="{{ old('book') }}">
-                            <div class="text-danger mt-2 text-sm bookError"></div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="desc">Description</label>
