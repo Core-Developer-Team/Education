@@ -203,9 +203,13 @@
                                             <a href="#"
                                                 class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid Now</a>
+
                                             <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover @if ($data->propsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                                data-bs-toggle="modal" data-bs-target="#addsolution">Solution</a>
+                                                class="apply_job_btn ps-4 view-btn btn-hover @if ($data->proposalbid()->where('user_id', Auth()->id())->count() == false || $data->propsolution()->where('user_id', Auth()->id())->count() >= 1 ) d-none @endif"
+                                                data-bs-toggle="modal" data-bs-target="#addsolution">
+                                                Solution
+                                            </a>
+
                                         @endif
 
                                     </div>
@@ -318,13 +322,13 @@
                                                 </div>
                                                 <div class="d-flex">
                                                     <span class="job-badge ddcolor">${{ $bids->price }}</span>
-                                                    @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false)
-                                                        <span class="job-badge bg-success payNow"
-                                                            data-id="{{ $bids->id }}"
-                                                            data-amount="{{ $bids->price }}"
-                                                            data-resource="proposals">
-                                                            Take this offer
-                                                        </span>
+
+                                                    @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false )
+                                                    @if ($data->isAccept($data->id) != true)
+                                                    <span class="job-badge bg-success payNow" data-id="{{$bids->id}}" data-amount="{{$bids->price}}" data-resource="proposals">
+                                                        Take this offer
+                                                    </span>
+                                                    @endif
                                                     @else
                                                         <form method="POST"class="job-badge p-0"
                                                             action="{{ route('messages') }}">

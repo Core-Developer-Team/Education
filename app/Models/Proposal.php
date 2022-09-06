@@ -36,13 +36,22 @@ class Proposal extends Model
         return $this->hasOne(Propsolreport::class);
     }
 
-    public function isAccept($reqId, $bidId)
+    public function isAccept($reqId, $bidId = '')
     {
-        $data = PaymentLog::where("request_id", $reqId)->where('bid_id', $bidId)->where('pay_for', 'proposals')->first();
-        if ($data) {
-            return true;
+        if ($bidId) {
+            $data = PaymentLog::where("request_id", $reqId)->where('bid_id', $bidId)->where('pay_for', 'proposals')->first();
+            if ($data) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            $data = PaymentLog::where("request_id", $reqId)->where('pay_for', 'proposals')->first();
+            if ($data) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

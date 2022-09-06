@@ -89,7 +89,6 @@ class MessageController extends Controller
         $fromId = Auth()->id();
         $toId = $r->toId;
         $message = $r->message;
-
         Message::create([
             'from_user_id' => Auth()->id(),
             'to_user_id'  => $r->toId,

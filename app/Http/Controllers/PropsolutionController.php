@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
+use App\Models\Proposal;
 use App\Models\Proposalbid;
 use App\Models\Propsolreport;
 use App\Models\Propsolution;
@@ -38,6 +40,11 @@ class PropsolutionController extends Controller
         } elseif ($users->solutions >= 100) {
             $users->badge_id = 5;
         }
+
+        $findRequest = Proposal::find($request->proposal_id)->user_id;
+
+        $deleteMessage = Message::whereIn('from_user_id', [$findRequest, $request->user_id])->whereIn('to_user_id', [$findRequest, $request->user_id])->delete();
+
         $users->update();
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
     }
