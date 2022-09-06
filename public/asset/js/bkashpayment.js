@@ -12,6 +12,7 @@ $(document).ready(function () {
 
     $(document).on("click", ".dangerButton", function () {
         $("#paymentModal").modal("hide");
+        createToken();
     });
 
     const paymentAdditionalInfo = (bid_id, amount, resource, req_id) => {
@@ -28,19 +29,22 @@ $(document).ready(function () {
         });
     };
 
-    $.ajax({
-        url: bKasTokenUrl,
-        type: "POST",
-        contentType: "application/json",
-        success: function (data) {
-            console.log("got data from token  ..");
-            console.log(JSON.stringify(data));
-            accessToken = JSON.stringify(data);
-        },
-        error: function () {
-            console.log("error");
-        },
-    });
+    function createToken() {
+        $.ajax({
+            url: bKasTokenUrl,
+            type: "POST",
+            contentType: "application/json",
+            success: function (data) {
+                console.log("got data from token  ..");
+                console.log(JSON.stringify(data));
+                accessToken = JSON.stringify(data);
+            },
+            error: function () {
+                console.log("error");
+            },
+        });
+    }
+    createToken();
 
     var paymentConfig = {
         createCheckoutURL: bKashCreatePaymentUrl,
@@ -89,11 +93,15 @@ $(document).ready(function () {
                         paymentID = obj.paymentID;
                         bKash.create().onSuccess(obj);
                     } else {
+                        createToken();
+                        alert("Something Went Wront Please Try again later");
                         console.log("error");
                         bKash.create().onError();
                     }
                 },
                 error: function () {
+                    createToken();
+                    alert("Something Went Wront Please Try again later");
                     console.log("error");
                     bKash.create().onError();
                 },
@@ -115,16 +123,18 @@ $(document).ready(function () {
                             "Success!",
                             "!! Payment Success !!",
                             "success"
-                        ).then((result) => {
-                            location.reload();
-                            // window.location.href = location.reload();
-                        });
+                        );
+                        location.reload();
                         // alert('[SUCCESS] data : ' + JSON.stringify(data));
                     } else {
+                        createToken();
+                        alert("Something Went Wront Please Try again later");
                         bKash.execute().onError();
                     }
                 },
                 error: function () {
+                    createToken();
+                    alert("Something Went Wront Please Try again later");
                     bKash.execute().onError();
                 },
             });
