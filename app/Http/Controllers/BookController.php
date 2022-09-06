@@ -44,23 +44,18 @@ class BookController extends Controller
         $request->validate([
             'cover_pic'    => 'required|image|mimes:jpg,jpeg,png,svg',
             'Category'     => 'required|max:25',
-            'book'         => 'required|mimes:csv,txt,xlx,xls,pdf,docx,ppt,pptx,zip,rar|max:30000',
             'description'  => 'required|string',
             'price'        => 'required',
+            'title'        => 'required',
         ]);
 
-        $filename = time() . '_' . $request->book->getClientOriginalName();
-        $filepath = $request->file('book')->storeAs('uploads', $filename, 'public');
-        $bookname = $request->book->getClientOriginalName();
         // store cover image path
         $imagename = time() . '_' . $request->cover_pic->getClientOriginalName();
         $imagepath = $request->file('cover_pic')->storeAs('Images', $imagename, 'public');
 
-        Book::create(array_merge($request->only('price', 'description', 'Category'), [
+        Book::create(array_merge($request->only('price','title', 'description', 'Category'), [
             'user_id'   => auth()->id(),
-            'book'      => '/storage/' . $filepath,
             'cover_pic' => '/storage/' . $imagepath,
-            'book_name' => $bookname,
         ]));
         return back()->with('success', 'Book has been uploaded Successfully');
     }

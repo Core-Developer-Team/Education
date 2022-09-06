@@ -1,3 +1,5 @@
+@section('title', 'Tutorial')
+
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -16,10 +18,9 @@
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target=" @auth
-                        #addtutorial
+#addtutorial
                         @else
-                        #loginlink
-                        @endauth ">Add
+                        #loginlink @endauth ">Add
                             Tutorials</a>
                     </div>
 
@@ -40,7 +41,7 @@
                         </li>
 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Purchased</span>
                                 <span class="all-info__right">0</span>
                             </a>
@@ -56,28 +57,30 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
-                                <span class="all-info__right">{{$t_req_count}}</span>
+                                <span class="all-info__right">{{ $t_req_count }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
-                                <span class="all-info__right">{{$t_prop_count}}</span>
+                                <span class="all-info__right">{{ $t_prop_count }}</span>
                             </a>
                         </li>
-                
+
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-download me-2"></i>Request Solution</span>
-                                <span class="all-info__right">{{$t_reqsolution_count}}</span>
+                            <a class="all-info__sections">
+                                <span class="all-info__left"><i class="feather-download me-2"></i>Request
+                                    Solution</span>
+                                <span class="all-info__right">{{ $t_reqsolution_count }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
-                                <span class="all-info__left"><i class="feather-download me-2"></i>Proposal Solution</span>
-                                <span class="all-info__right">{{$t_propsolution_count}}</span>
+                            <a class="all-info__sections">
+                                <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
+                                    Solution</span>
+                                <span class="all-info__right">{{ $t_propsolution_count }}</span>
                             </a>
                         </li>
                     </ul>
@@ -107,9 +110,12 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{ route('tutorial.latest') }}" class="fltr-btn @if (request()->getpathinfo() == '/tutlatest' || request()->getpathinfo() == '/tutorial') fltr-active @endif">Newest</a>
-                                    <a href="{{route('tutorial.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/tuttrending') fltr-active @endif">Trending</a>
-                                    <a href="{{ route('tutorial.week') }}" class="fltr-btn @if (request()->getpathinfo() == '/tutorial_weekly') fltr-active @endif">Weekly</a>
+                                    <a href="{{ route('tutorial.latest') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/tutlatest' || request()->getpathinfo() == '/tutorial') fltr-active @endif">Newest</a>
+                                    <a href="{{ route('tutorial.trending') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/tuttrending') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('tutorial.week') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/tutorial_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -162,7 +168,8 @@
                                                                                 <p
                                                                                     class="notification-text font-small-4">
                                                                                     by <a href="#"
-                                                                                    class="cmpny-dt blk-clr" style="color: {{$items['color']}}">{{$items['user']}}</a>
+                                                                                        class="cmpny-dt blk-clr"
+                                                                                        style="color: {{ $items['color'] }}">{{ $items['user'] }}</a>
                                                                                 </p>
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1 catey-group">
@@ -172,7 +179,7 @@
                                                                                 </p>
                                                                                 <div class="ppdt-price-sales">
                                                                                     <div class="ppdt-price">
-                                                                                        $ {{ $items['price'] }}
+                                                                                        ৳ {{ $items['price'] }}
                                                                                     </div>
                                                                                     <div class="ppdt-sales">
                                                                                         0 Sales
@@ -191,7 +198,7 @@
                                                                             <div class="action-btns-job">
                                                                                 <i class="feather-eye mr-2"></i>
                                                                                 {{ $items['view_count'] }}
-                                                                                
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -231,7 +238,7 @@
                                                                     <div class="posts-list">
                                                                         <div class="feed-shared-product-dt">
                                                                             <div class="pdct-img crse-img-tt">
-                                                                                <a href="course_detail_view.html">
+                                                                                <a>
                                                                                     <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                                         src="{{ $item->snippet->thumbnails->medium->url }}"
                                                                                         alt="">
@@ -247,12 +254,13 @@
                                                                                 </a>
                                                                             </div>
                                                                             <div class="author-dts pp-20">
-                                                                                <a href="course_detail_view.html"
+                                                                                <a
                                                                                     class="job-heading pp-title">{{ Str::limit($item->snippet->title, 50, $end = '....') }}</a>
                                                                                 <p
                                                                                     class="notification-text font-small-4">
                                                                                     by <a href="#"
-                                                                                    class="cmpny-dt blk-clr" style="color: {{$items['color']}}">{{$items['user']}}</a>
+                                                                                        class="cmpny-dt blk-clr"
+                                                                                        style="color: {{ $items['color'] }}">{{ $items['user'] }}</a>
                                                                                 </p>
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1 catey-group">
@@ -262,7 +270,7 @@
                                                                                 </p>
                                                                                 <div class="ppdt-price-sales">
                                                                                     <div class="ppdt-price">
-                                                                                        $ {{ $items['price'] }}
+                                                                                        ৳ {{ $items['price'] }}
                                                                                     </div>
                                                                                     <div class="ppdt-sales">
                                                                                         0 Sales
@@ -281,7 +289,7 @@
                                                                             <div class="action-btns-job">
                                                                                 <i class="feather-eye mr-2"></i>
                                                                                 {{ $items['view_count'] }}
-                                                                                
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -354,12 +362,8 @@
                             </select>
                             <div class="text-danger mt-2 text-sm typeError"></div>
                         </div>
-                        <div class="form-group pt-2">
-                            <label for="price">Price</label>
-                            <input type="number" id="price" class="form-control" name="price"
-                                value="{{ old('price') }}">
-                            <div class="text-danger mt-2 text-sm price">
-                            </div>
+                        <div id="price">
+                           
                         </div>
                         <hr>
                         <button type="submit" name="submit" class="post-link-btn btn-hover">Upload</button>
@@ -374,3 +378,13 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<script>
+    $('#type').change(function() {
+        let value = `<div class="form-group pt-2"> <label for="price">Price</label><input type="number" required class="form-control" name="price"value="{{ old('price') }}"><div class="text-danger mt-2 text-sm price"></div></div>`;
+        if ($('#type').val() == '1') {
+            $('#price').append(value);
+        } else {
+            $('#price').empty();
+        }
+    });
+</script>

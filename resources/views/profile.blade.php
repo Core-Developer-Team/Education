@@ -1,3 +1,4 @@
+@section('title','Profile_Setting')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -69,7 +70,7 @@
                                                 <div class="picture">
                                                     <img src="/storage/{{ $user->image }}" class="picture-src"
                                                         id="wizardPicturePreview" title="">
-                                                    <input type="file" id="wizard-picture" name="image"
+                                                    <input type="file" id="wizard-picture" accept="image/*" name="image"
                                                         class="" value="{{ $user->image }}">
                                                 </div>
                                                 <h6 class="">Choose Picture</h6>
@@ -80,7 +81,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form_group mt-30">
                                             <label class="label25">Cover_Image*</label>
-                                            <input class="form_input_1" name="cover_img" type="file" placeholder=""
+                                            <input class="form_input_1" name="cover_img" type="file" accept="image/*" placeholder=""
                                                 value="{{ $user->cover_img }}">
                                         </div>
                                     </div>

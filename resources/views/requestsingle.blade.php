@@ -1,3 +1,4 @@
+@section('title','Request_single')
 @include('layouts.header')
 
 <header class="header clearfix">
@@ -18,7 +19,6 @@
                                 <li class="breadcrumb-item"><a href="{{ route('req.index') }}">Requests</a></li>
                             </ol>
                         </nav>
-
                     </div>
                 </div>
             </div>
@@ -47,9 +47,15 @@
                                 <div class="feed-job-dt">
                                     <div class="joblftdt5">
                                         <div class="author-left main_img_view userimg">
-                                            <a href="#"><img
+                                            
+                                                <img class="ft-plus-square job-bg-circle iconreq bg-cyan mr-0"
+                                                src="{{ $data->user->badge->image }}" style="width:30px; height:30px"
+                                                title="{{ $data->user->badge->name }}">
+                                                <img
                                                     class="ft-plus-square main-job-bg-circle bg-cyan me-0"
-                                                    src="/storage/{{ $data->user->image }}" alt=""></a>
+                                                    src="/storage/{{ $data->user->image }}" alt="">
+                                                    <div style="width: 20px; height:20px; margin-top:-30px; position:absolute"  class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                    </div>
                                             <!--hover-->
                                             <div class="box imagehov shadow"
                                                 style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -58,14 +64,16 @@
                                                         <div class="posts-list">
                                                             <div class="feed-shared-author-dt">
                                                                 <div class="author-left">
-                                                                    <a href="#"><img
+                                                                   <img
                                                                             class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                                                             src="/storage/{{ $data->user->image }}"
-                                                                            alt=""></a>
+                                                                            alt="">
+                                                                            <div class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                            </div>
                                                                 </div>
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
-                                                                        <a href="#"
+                                                                        <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
                                                                             style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
                                                                         </a><img src="{{ $data->user->badge->image }}"
                                                                             alt="" style="width: 20px;"
@@ -76,7 +84,12 @@
 
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Joined on
-                                                                            {{ $data->user->created_at }}</span>
+                                                                            {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Last Seen 
+                                                                            @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
+                                                                            </span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Total Solutions
@@ -99,15 +112,11 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <div class="iconreq">
-                                            <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                src="{{ $data->user->badge->image }}" style="width:30px; height:30px"
-                                                alt="">
-                                        </div>
+                                   
                                         <div class="author-dts">
                                             <h4 class="job-view-heading job-center">{{ $data->requestname }}</h4>
                                             <p class="notification-text font-small-4 job-center">
-                                                <a href="#" class="cmpny-dt"
+                                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" class="cmpny-dt"
                                                     style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}</a>
                                                 <span class="job-loca"><i class="fas fa-location-arrow"></i><ins
                                                         class="state-name">{{ $data->user->uni_name }}</span>
@@ -145,7 +154,7 @@
                                                             Online
                                                         @endif
                                                     </span>
-                                                    <span class="job-badge ddcolor">$ {{ $data->price }}</span>
+                                                    <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
                                                     <span class="job-badge ttcolor">
                                                         @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 1)
                                                             @if ($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60)
@@ -230,16 +239,18 @@
                                                                 <div class="posts-list">
                                                                     <div class="feed-shared-author-dt">
                                                                         <div class="author-left">
-                                                                            <a href="#"><img
+                                                                            <img
                                                                                     class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                                                                     src="/storage/{{ $bids->user->image }}"
-                                                                                    alt=""></a>
+                                                                                    alt="">
+                                                                                    <div class="@if(Cache::has('user-is-online-' . $bids->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                                    </div>
 
                                                                         </div>
                                                                         <div class="author-dts">
                                                                             <p class="notification-text font-username">
-                                                                                <a href="#"
-                                                                                    style="color: {{ $data->user->role->color->name }}">{{ $bids->user->username }}
+                                                                                <a href="{{ route('profile.show', ['id' => $bids->user_id]) }}"
+                                                                                    style="color: {{ $bids->user->role->color->name }}">{{ $bids->user->username }}
                                                                                 </a><img
                                                                                     src="{{ $bids->user->badge->image }}"
                                                                                     alt=""
@@ -252,7 +263,12 @@
                                                                             <p
                                                                                 class="notification-text font-small-4 pt-1">
                                                                                 <span class="time-dt">Joined on
-                                                                                    {{ $bids->user->created_at }}</span>
+                                                                                    {{ $bids->user->created_at->format('d:M:y g:i A') }}</span>
+                                                                            </p>
+                                                                            <p class="notification-text font-small-4 pt-1">
+                                                                                <span class="time-dt">Last Seen 
+                                                                                    @if(Cache::has('user-is-online-' . $bids->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($bids->user->last_seen)->diffForHumans() }} @endif
+                                                                                    </span>
                                                                             </p>
                                                                             <p
                                                                                 class="notification-text font-small-4 pt-1">
@@ -281,10 +297,10 @@
                                                 </div>
 
                                                 <div class="author-dts">
-                                                    <h4 class="job-view-heading job-center"
+                                                    <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" class="job-view-heading job-center"
                                                         style="color: {{ $data->user->role->color->name }}">
                                                         {{ $bids->user->username }}
-                                                    </h4>
+                                                    </a>
                                                     <p class="notification-text font-small-4 job-center">
                                                     <p>{{ $bids->description }}</p>
                                                     </p>
@@ -371,6 +387,8 @@
                                                         <img src="/storage/{{ $item->user->image }}"
                                                             class="rounded-circle" style="width: 50px;height: 50px;"
                                                             alt="" srcset="">
+                                                            <div class="@if(Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                            </div>
                                                         <!--hover-->
                                                         <div class="box imagehov shadow"
                                                             style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -388,20 +406,25 @@
                                                                                 <p
                                                                                     class="notification-text font-username">
                                                                                     <a href="#"
-                                                                                        style="color: {{ $data->user->role->color->name }}">{{ $item->user->username }}
+                                                                                        style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
                                                                                     </a><img
                                                                                         src="{{ $item->user->badge->image }}"
                                                                                         alt=""
                                                                                         style="width: 20px;"
                                                                                         title="{{ $item->user->badge->name }}">
                                                                                     <span class="job-loca"><i
-                                                                                            class="fas fa-location-arrow"></i>{{ $bids->user->uni_name }}</span>
+                                                                                            class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
                                                                                 </p>
 
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1">
                                                                                     <span class="time-dt">Joined on
-                                                                                        {{ $item->user->created_at }}</span>
+                                                                                        {{ $item->user->created_at->format('d:M:y g:i A') }}</span>
+                                                                                </p>
+                                                                                <p class="notification-text font-small-4 pt-1">
+                                                                                    <span class="time-dt">Last Seen 
+                                                                                        @if(Cache::has('user-is-online-' . $item->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($item->user->last_seen)->diffForHumans() }} @endif
+                                                                                        </span>
                                                                                 </p>
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1">
@@ -429,9 +452,9 @@
                                                         <!-- end hover-->
                                                     </div>
                                                     <div class="ps-4 pt-0">
-                                                        <p class="h2"
-                                                            style="color: {{ $data->user->role->color->name }}">
-                                                            {{ $item->user->username }}</p>
+                                                        <a href="{{ route('profile.show', ['id' => $item->user_id]) }}" class="h2"
+                                                            style="color: {{ $item->user->role->color->name }}">
+                                                            {{ $item->user->username }}</a>
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
@@ -447,6 +470,7 @@
                                                             <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
                                                                 class="label-dker post_categories_reported mr-10"><span>Report</span></a>
                                                         @endif
+                                                        
                                                         <a href=""
                                                             class="label-dker post_categories_top_right mr-20"
                                                             data-bs-toggle="modal"
@@ -491,12 +515,14 @@
                                         </h3>
                                         @forelse ($data->reqcomment()->orderBy('updated_at','DESC')->get() as $item)
                                             <div
-                                                class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
+                                                class="d-sm-flex align-items-center rounded w-full border-none mt-3 p-3 mb-4">
                                                 <div class="rounded-circle d-flex">
                                                     <div class="userimg">
                                                         <img src="/storage/{{ $item->user->image }}"
                                                             class="rounded-circle" style="width: 50px;height: 50px;"
                                                             alt="" srcset="">
+                                                            <div class="@if(Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                            </div>
                                                         <!--hover on image-->
                                                         <div class="box imagehov shadow"
                                                             style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -513,7 +539,7 @@
                                                                             <div class="author-dts">
                                                                                 <p
                                                                                     class="notification-text font-username">
-                                                                                    <a href="#"
+                                                                                    <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
                                                                                         style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
                                                                                     </a><img
                                                                                         src="{{ $item->user->badge->image }}"
@@ -527,7 +553,7 @@
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1">
                                                                                     <span class="time-dt">Joined on
-                                                                                        {{ $item->user->created_at }}</span>
+                                                                                        {{ $item->user->created_at->format('d:M:y g:i A') }}</span>
                                                                                 </p>
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1">
@@ -555,9 +581,9 @@
                                                         <!-- end hover-->
                                                     </div>
                                                     <div class="ps-4 pt-0">
-                                                        <p class="h2"
-                                                            style="color: {{ $data->user->role->color->name }}">
-                                                            {{ $item->user->username }}</p>
+                                                        <a href="{{ route('profile.show', ['id' => $item->user_id]) }}" class="h2"
+                                                            style="color: {{ $item->user->role->color->name }}">
+                                                            {{ $item->user->username }}</a>
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
@@ -566,7 +592,7 @@
                                                     </div>
 
                                                     <div
-                                                        class="ellipsis-options justify-self-end dropdown dropdown-account ms-5  @if ($item->user_id == Auth()->id()) d-none @endif">
+                                                        class="ellipsis-options dropdown dropdown-account ms-auto  @if ($item->user_id == Auth()->id()) d-none @endif">
                                                         <a href="#" class="option-eps" role="button"
                                                             data-bs-toggle="dropdown" aria-expanded="false"><i
                                                                 class="fas fa-ellipsis-h"></i></a>
@@ -578,11 +604,11 @@
                                                                     action="{{ route('req.report', ['uid' => $item->user_id, 'cid' => $item->id]) }}"
                                                                     method="post">
                                                                     @csrf
-                                                                    @if (!($item->commentreport()->count() && $item->commentreport->reqcomment_id == $item->id))
+                                                                    @if (!($item->commentreport()->count()>=1 && $item->commentreport->reqcomment_id == $item->id))
                                                                         <button type="submit"
                                                                             class="btn">Report</button>
                                                                     @else
-                                                                        <button class="text-danger btn">Reported</button>
+                                                                        <button class="text-danger ">Reported</button>
                                                                     @endif
                                                                 </form>
                                                             </li>
@@ -594,7 +620,6 @@
                                         @endforelse
 
                                         <!-- END comment-list -->
-
                                         <div class="comment-form-wrap pt-5">
                                             <h3 class="mb-5">Leave a comment</h3>
                                             <form method="POST" action="{{ route('reqcomment.store') }}"
@@ -633,12 +658,15 @@
                         <div class="user-profile">
                             <div class="username-dt dpbg-1">
                                 <div class="usr-pic">
+                                    <div style="margin-top: 10px; width:15px; height: 15px" class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                    </div>
                                     <img src="/storage/{{ $data->user->image }}" alt="">
+                               
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
-                                </h4>
+                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}" class="h4" style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                </a>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">
@@ -788,6 +816,7 @@
                             </ul>
                         </div>
                     @endif
+                  
                     <!--Review Form-->
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
@@ -870,6 +899,8 @@
                                 Review</button>
                         </div>
                     </form>
+                    <!--end reviewform-->  
+                   
                 </div>
             </div>
 

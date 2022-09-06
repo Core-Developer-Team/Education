@@ -10,11 +10,10 @@ class Book extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'book_name',
         'description',
         'cover_pic',
         'Category',
-        'book',
+        'title',
         'price',
         'rating',
     ];

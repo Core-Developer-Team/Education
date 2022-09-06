@@ -1,3 +1,4 @@
+@section('title','Courses')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -37,7 +38,7 @@
                         </li>
 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Purchased</span>
                                 <span class="all-info__right">0</span>
                             </a>
@@ -52,26 +53,26 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
                                 <span class="all-info__right">{{$t_req_count}}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
                                 <span class="all-info__right">{{$t_prop_count}}</span>
                             </a>
                         </li>
                 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Request Solution</span>
                                 <span class="all-info__right">{{$t_reqsolution_count}}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Proposal Solution</span>
                                 <span class="all-info__right">{{$t_propsolution_count}}</span>
                             </a>
@@ -136,7 +137,7 @@
                                                     <div class="posts-list">
                                                         <div class="feed-shared-product-dt">
                                                             <div class="pdct-img crse-img-tt">
-                                                                <a href="course_detail_view.html">
+                                                                <a >
                                                                     <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                         src="{{ $item->snippet->thumbnails->medium->url }}"
                                                                         alt="">
@@ -150,7 +151,7 @@
                                                                 </a>
                                                             </div>
                                                             <div class="author-dts pp-20">
-                                                                <a href="course_detail_view.html"
+                                                                <a 
                                                                     class="job-heading pp-title">{{
                                                                     Str::limit($item->snippet->title, 50, $end = '....')
                                                                     }}</a>
@@ -165,7 +166,7 @@
                                                                 </p>
                                                                 <div class="ppdt-price-sales">
                                                                     <div class="ppdt-price">
-                                                                        $ {{$items['price']}}
+                                                                        ৳ {{$items['price']}}
                                                                     </div>
                                                                     <div class="ppdt-sales">
                                                                         0 Sales
@@ -224,7 +225,7 @@
                                                     <div class="posts-list">
                                                         <div class="feed-shared-product-dt">
                                                             <div class="pdct-img crse-img-tt">
-                                                                <a href="course_detail_view.html">
+                                                                <a >
                                                                     <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                         src="{{ $item->snippet->thumbnails->medium->url }}"
                                                                         alt="">
@@ -238,7 +239,7 @@
                                                                 </a>
                                                             </div>
                                                             <div class="author-dts pp-20">
-                                                                <a href="course_detail_view.html"
+                                                                <a 
                                                                     class="job-heading pp-title">{{
                                                                     Str::limit($item->snippet->title, 50, $end = '....')
                                                                     }}</a>
@@ -253,7 +254,7 @@
                                                                 </p>
                                                                 <div class="ppdt-price-sales">
                                                                     <div class="ppdt-price">
-                                                                        $ {{$items['price']}}
+                                                                        ৳ {{$items['price']}}
                                                                     </div>
                                                                     <div class="ppdt-sales">
                                                                         0 Sales
@@ -343,13 +344,10 @@
                                 <option value="0">free</option>
                                 <option value="1">Paid</option>
                             </select>
-                            <div class="text-danger mt-2 text-sm typeError"></div>
+                            <div class="text-danger mt-2 text-sm type"></div>
                         </div>
-                        <div class="form-group pt-2">
-                            <label for="price">Course_Price</label>
-                            <input type="number" id="price" class="form-control" name="price"
-                                value="{{ old('price') }}">
-                            <div class="text-danger mt-2 text-sm priceError"></div>
+                        <div id="price">
+
                         </div>
 
                         <hr>
@@ -365,3 +363,13 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<script>
+    $('#type').change(function() {
+        let value = `<div class="form-group pt-2"> <label for="price">Price</label><input type="number" required class="form-control" name="price"value="{{ old('price') }}"><div class="text-danger mt-2 text-sm price"></div></div>`;
+        if ($('#type').val() == '1') {
+            $('#price').append(value);
+        } else {
+            $('#price').empty();
+        }
+    });
+</script>

@@ -1,3 +1,4 @@
+@section('title','my_Requests')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -22,7 +23,7 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_manage_jobs.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-briefcase me-2"></i>My Requests</span>
                                 <span class="all-info__right">{{$reqs->count()}}</span>
                             </a>
@@ -37,7 +38,7 @@
                     <a href="" class="afltr-btn afltr-active">My Requests</a>
                 </div>
                 @forelse ($reqs as $item)
-                <div class="full-width">
+                <div class="full-width mb-5">
                     <div class="recent-items">
                         <div class="posts-list">
                             <div class="feed-shared-author-dt">
@@ -60,13 +61,13 @@
                         </div>
                         <div class="post-meta">
                             <div class="job-actions">
-                                <a href="manage_candidates.html" class="aplcnts_15">
+                                <a class="aplcnts_15">
                                     <i
                                         class="feather-users mr-2"></i><span>Applicants</span><ins>{{$item->reqbid->count()}}</ins>
                                 </a>
                                 <div class="action-btns-job">
                                     <a href="{{ route('req.showsingle', ['id' => $item->id]) }}"
-                                        class="view-btn btn-hover">View Request</a>
+                                        class="view-btn btn-hover">View</a>
                                 </div>
                             </div>
                         </div>

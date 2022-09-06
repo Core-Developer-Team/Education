@@ -153,6 +153,12 @@
                             </a>
                         </li>
                         <li class="dropdown-menu-footer">
+                            <a href="{{ route('profile.index') }}" id="night-mode"
+                                class="dropdown-item-link text-link text-center">
+                                Setting
+                            </a>
+                        </li>
+                        <li class="dropdown-menu-footer">
                             <a href="{{ route('badge.show') }}" id="night-mode"
                                 class="dropdown-item-link text-link text-center">
                                 Badges

@@ -1,3 +1,4 @@
+@section('title','Courses')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -56,7 +57,7 @@
                                                             </a>
                                                         </div>
                                                         <div class="author-dts pp-20">
-                                                            <a href="course_detail_view.html"
+                                                            <a
                                                                 class="job-heading pp-title">{{ Str::limit($item->snippet->title, 20, $end = '....') }}</a>
                                                             <div class="dex d-none">
                                                                 {{ $item->snippet->description }}
@@ -183,7 +184,7 @@
                                         </div>
                                         <hr>
                                         <!-- END review-list -->
-
+                                        @if (auth()->id() != $playlist->user_id)
                                         <!--review form-->
                                         <form method="POST" action="{{ route('course.storereview') }}">
                                             @if ($errors->any())
@@ -273,7 +274,7 @@
                                             </div>
                                         </form>
                                         <!--end review form-->
-
+@endif
                                         <!--close comments section-->
                                     </div>
 
@@ -290,7 +291,7 @@
                                 <li>
                                     <div class="product_license_check">
                                         <div class="course-price">Regular Price</div>
-                                        <span class="item_price">$ {{ $playlist->price }}</span>
+                                        <span class="item_price">৳ {{ $playlist->price }}</span>
                                     </div>
                                 </li>
                             </ul>
@@ -318,8 +319,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4 style="color: {{ $playlist->user->role->color->name }}">
-                                    {{ $playlist->user->username }}</h4>
+                                <a href="{{ route('profile.show', ['id' => $playlist->user_id]) }}" class="h4" style="color: {{ $playlist->user->role->color->name }}">
+                                    {{ $playlist->user->username }}</a>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">

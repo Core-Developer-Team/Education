@@ -31,6 +31,10 @@ class Proposal extends Model
     {
         return $this->hasOne(Propsolution::class);
     }
+    public function propsolreport()
+    {
+        return $this->hasOne(Propsolreport::class);
+    }
 
     public function isAccept($reqId, $bidId = '')
     {

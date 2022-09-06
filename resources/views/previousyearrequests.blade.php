@@ -1,3 +1,4 @@
+@section('title','Previous_Year_Ques')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -135,7 +136,7 @@
                                                     style="width:30px; height:30px" alt="">
                                             </div>
                                             <div class="author-dts">
-                                                <a href="job_detail_view.html"
+                                                <a
                                                     class="problems_title">{{ $data->requestname }}</a>
                                                 <p class="notification-text font-username">
                                                     <a href="#"

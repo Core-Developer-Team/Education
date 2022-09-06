@@ -27,6 +27,7 @@ class TutorialController extends Controller
     //store tutorial data
     public function get(Request $request)
     {
+
         // if ($request->ajax()) :
         $request->validate([
             'playlists_id'  => [
@@ -39,31 +40,42 @@ class TutorialController extends Controller
                 },
             ],
             'Category'      => ['required', 'max:25'],
-            'price'         => ['required'],
             'type'          => ['required'],
         ]);
-
+        $video = Playlist::all();
         if ($request->has('file')) {
             $request->validate([
                 'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
             ]);
+            if ($request->price != '') {
+                $price = $request->price;
+            } else {
+                $price = 0;
+            }
             $url = $request->playlists_id;
             parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
 
             $filename = time() . '_' . $request->file->getClientOriginalName();
             $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
-            Playlist::create(array_merge($request->only('type', 'Category', 'price'), [
+            Playlist::create(array_merge($request->only('type', 'Category'), [
                 'user_id'      => auth()->id(),
+                'price'        => $price,
                 'playlists_id' => $my_array['v'],
                 'file'         => '/storage/' . $filepath,
             ]));
         } else {
+            if ($request->price != '') {
+                $price = $request->price;
+            } else {
+                $price = 0;
+            }
             $url = $request->playlists_id;
             parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
 
-            Playlist::create(array_merge($request->only('type', 'Category', 'price'), [
+            Playlist::create(array_merge($request->only('type', 'Category'), [
                 'user_id'      => auth()->id(),
                 'playlists_id' => $my_array['v'],
+                'price'        => $price,
                 'file'         => '',
             ]));
         }
@@ -98,7 +110,7 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid,'user'=>$user,'color'=>$color,  'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color,  'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
         }
 
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
@@ -130,7 +142,7 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid,'user'=>$user,'color'=>$color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
 
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
@@ -160,7 +172,7 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid,'user'=>$user,'color'=>$color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
@@ -191,7 +203,7 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid,'user'=>$user,'color'=>$color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
 
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
@@ -227,7 +239,7 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid,'user'=>$user,'color'=>$color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
         }
         // dd($playlist);
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
@@ -262,9 +274,9 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid,'user'=>$user,'color'=>$color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
-        return view('tutorialtype', compact('playlists_json', 'playlist'));
+        return view('tutorialtype', compact('playlists_json', 'id', 'playlist'));
     }
 
     //show single playlist

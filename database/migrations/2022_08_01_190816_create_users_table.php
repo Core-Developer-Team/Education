@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('solutions')->default('0');
             $table->float('rating')->default('0');
             $table->enum('gender', ['0', '1']);
+            $table->timestamp('last_seen')->nullable();
             $table->enum('department', ['0', '1', '2']);
             $table->string('password');
             $table->timestamps();

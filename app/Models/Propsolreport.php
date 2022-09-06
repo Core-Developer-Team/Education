@@ -5,25 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Propsolution extends Model
+class Propsolreport extends Model
 {
     use HasFactory;
     protected $fillable = [
         'user_id',
         'proposal_id',
-        'description',
-        'file',
+        'propsolution_id',
     ];
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+        $this->belongsTo(User::class);
     }
     public function proposal()
     {
-        return $this->belongsTo(Proposal::class);
+        $this->belongsTo(Proposal::class);
     }
-    public function propsolreport()
+    public function propsolution()
     {
-        return $this->hasOne(Propsolreport::class);
+        $this->belongsTo(Propsolution::class);
     }
 }
