@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Feedback;
+use App\Models\Message;
 use App\Models\Offlinetopic;
 use App\Models\Product;
 use App\Models\Proposal;
@@ -51,6 +52,11 @@ class ReqSolutionController extends Controller
         } elseif ($users->solutions >= 100) {
             $users->badge_id = 5;
         }
+
+        $findRequest = ModelsRequest::find($request->request_id)->user_id;
+
+        $deleteMessage = Message::whereIn('from_user_id', [$findRequest, $request->user_id])->whereIn('to_user_id', [$findRequest, $request->user_id])->delete();
+
         $users->update();
 
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
@@ -80,7 +86,7 @@ class ReqSolutionController extends Controller
         return view('mysolutions', compact('data', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
-    //all solutions 
+    //all solutions
     public function allsolution()
     {
         $datas = ReqSolution::orderBy('created_at', 'DESC')->cursorPaginate(6);

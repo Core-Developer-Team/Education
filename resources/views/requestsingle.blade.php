@@ -181,7 +181,7 @@
                                                     data-bs-toggle="modal" data-bs-target="#addbid">Bid Again</a>
                                             @endif
                                             <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover @if ($data->reqsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
+                                                class="apply_job_btn ps-4 view-btn btn-hover @if ($data->reqbid()->where('user_id', Auth()->id())->count() == false || $data->reqsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addsolution">Solution</a>
                                         @endif
                                     </div>
@@ -296,6 +296,7 @@
                                                         <div class="jbbdges10">
 
                                                             @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false)
+                                                            @if(($data->isAccept($data->id) != true))
                                                                 <div class="bkashPayDiv_{{ $bids->id }}">
                                                                     <span
                                                                         class="job-badge bg-success payNow bkashPayBtn"
@@ -308,6 +309,7 @@
                                                                     {{-- <input type="hidden" id="bKash_button"> --}}
                                                                 </div>
                                                                 {{-- id="bKash_button" --}}
+                                                            @endif
                                                             @else
                                                                 <form method="POST" class="job-badge p-0"
                                                                     action="{{ route('messages') }}">
@@ -315,7 +317,7 @@
                                                                     <input type="hidden" name="reqid"
                                                                         value="{{ $data->id }}">
                                                                     <input type="hidden" name="to_id"
-                                                                        value="{{ $data->user_id != auth()->id() ? $bids->user->id : $data->user_id }}">
+                                                                        value="{{ $data->user_id == auth()->id() ? $bids->user->id : $data->user_id }}">
                                                                     <button type="submit"
                                                                         class="apply_job_btn ps-4 view-btn btn-hover">Chat
                                                                         Now</button>
