@@ -107,6 +107,7 @@ $(document).ready(function () {
                 },
             });
         },
+
         executeRequestOnAuthorization: function () {
             console.log("=> executeRequestOnAuthorization");
             $.ajax({
