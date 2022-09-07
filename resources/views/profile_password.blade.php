@@ -1,3 +1,4 @@
+@section('title','Profile_Password')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">

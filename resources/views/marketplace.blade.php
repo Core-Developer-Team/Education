@@ -1,3 +1,4 @@
+@section('title','Products')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -16,10 +17,9 @@
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target=" @auth
-                        #addproduct
+#addproduct
 @else
-#loginlink
-                        @endauth ">Add
+#loginlink @endauth ">Add
                             New Product</a>
                     </div>
                     <div class="posted_1590">
@@ -31,14 +31,15 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_portfolio.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My Products</span>
-                                <span class="all-info__right">{{ $data->where('user_id', Auth()->id())->count() }}</span>
+                                <span
+                                    class="all-info__right">{{ $data->where('user_id', Auth()->id())->count() }}</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="purchased_products.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Purchased</span>
                                 <span class="all-info__right">0</span>
                             </a>
@@ -84,9 +85,12 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{ route('prod.latest') }}" class="fltr-btn  @if (request()->getpathinfo() == '/product_latest' || request()->getpathinfo() == '/product') fltr-active @endif">Newest</a>
-                                    <a href="{{route('prod.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/product_trending') fltr-active @endif">Trending</a>
-                                    <a href="{{ route('prod.week') }}" class="fltr-btn @if (request()->getpathinfo() == '/product_weekly') fltr-active @endif">Weekly</a>
+                                    <a href="{{ route('prod.latest') }}"
+                                        class="fltr-btn  @if (request()->getpathinfo() == '/product_latest' || request()->getpathinfo() == '/product') fltr-active @endif">Newest</a>
+                                    <a href="{{ route('prod.trending') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/product_trending') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('prod.week') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/product_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -108,7 +112,7 @@
                                             <div class="posts-list">
                                                 <div class="feed-shared-product-dt">
                                                     <div class="pdct-img">
-                                                        <a href="product_detail_view.html"><img
+                                                        <a><img
                                                                 class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
@@ -119,12 +123,18 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a href="product_detail_view.html"
+                                                        <a
                                                             class="job-heading pp-title">{{ $item->name }}</a>
+                                                        <p class="notification-text font-small-4">
+                                                            by <a
+                                                                href="{{ route('profile.show', ['id' => $item->user_id]) }}"
+                                                                class="cmpny-dt blk-clr"
+                                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
 
+                                                        </p>
                                                         <div class="ppdt-price-sales">
                                                             <div class="ppdt-price">
-                                                                $ {{ $item->price }}
+                                                                ৳ {{ $item->price }}
                                                             </div>
                                                             <div class="ppdt-sales">
                                                                 0 Sales
@@ -192,8 +202,8 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="cover-pic">Product_Image</label>
-                            <input type="file" id="cover-pic" class="form-control"  accept="image/*" name="cover_pic"
-                                value="{{ old('cover-pic') }}">
+                            <input type="file" id="cover-pic" class="form-control" accept="image/*"
+                                name="cover_pic" value="{{ old('cover-pic') }}">
                             <div class="text-danger mt-2 text-sm cover_picError"></div>
                         </div>
                         <div class="form-group pt-2">

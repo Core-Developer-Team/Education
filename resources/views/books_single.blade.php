@@ -1,3 +1,4 @@
+@section('title','Books_Single')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -140,8 +141,8 @@
                                                                         src="/storage/{{ $item->user->image }}"
                                                                         alt="">
                                                                 </div>
-                                                                <span
-                                                                    class="evntcunt"  style="color: {{$item->user->role->color->name}}">{{ $item->user->username }}</span>
+                                                                <span class="evntcunt"
+                                                                    style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</span>
                                                             </div>
                                                         </a>
                                                     </div>
@@ -157,7 +158,8 @@
                                         <hr>
 
                                         <!-- END review-list -->
-
+@if (Auth()->id() != $data->user_id)
+    
                                         <!--review form-->
                                         <form method="POST" action="{{ route('books.storereview') }}">
                                             @if ($errors->any())
@@ -248,6 +250,7 @@
                                         </form>
                                         <!--end review form-->
 
+                                        @endif
                                         <!--close comments section-->
                                     </div>
 
@@ -275,7 +278,7 @@
                                 <li>
                                     <div class="product_license_check">
                                         <div class="course-price">Regular Price</div>
-                                        <span class="item_price">$ {{ $data->price }}</span>
+                                        <span class="item_price">৳ {{ $data->price }}</span>
                                     </div>
                                 </li>
 
@@ -314,7 +317,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4  style="color: {{$data->user->role->color->name}}">{{ $data->user->username }}</h4>
+                                <h4 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                </h4>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">
@@ -417,7 +421,7 @@
                                             <div class="posts-list">
                                                 <div class="feed-shared-product-dt">
                                                     <div class="pdct-img crse-img-tt">
-                                                        <a href="course_detail_view.html">
+                                                        <a>
                                                             <img class="ft-plus-square product-bg-w bg-cyan mr-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
@@ -428,11 +432,11 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a href="course_detail_view.html"
+                                                        <a 
                                                             class="job-heading pp-title">{{ $item->book_name }}</a>
                                                         <p class="notification-text font-small-4">
-                                                            by <a href="#"
-                                                                class="cmpny-dt blk-clr"  style="color: {{$item->user->role->color->name}}">{{ $item->user->username }}</a>
+                                                            by <a href="#" class="cmpny-dt blk-clr"
+                                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
                                                         </p>
                                                         <p class="notification-text font-small-4 pt-1 catey-group">
                                                             <a href="#" class="catey-dt">Web Development</a>

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'rating',
         'cover_img',
         'department',
+        'last_seen',
     ];
 
     public function role()
@@ -145,5 +146,9 @@ class User extends Authenticatable
     public function reqsolutionreport()
     {
         return $this->hasOne(Reqsolutionreport::class);
+    }
+    public function propsolreport()
+    {
+        return $this->hasOne(Propsolreport::class);
     }
 }

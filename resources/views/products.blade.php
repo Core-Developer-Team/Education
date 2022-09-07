@@ -1,3 +1,4 @@
+@section('title','Product')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -17,10 +18,9 @@
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target=" @auth
-                        #addnew
+#addnew
 @else
-#loginlink
-                        @endauth ">Add
+#loginlink @endauth ">Add
                             New</a>
                     </div>
                     <div class="posted_1590">
@@ -32,14 +32,14 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My books</span>
                                 <span
                                     class="all-info__right">{{ $books->where('user_id', Auth()->id())->count() }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My Products</span>
                                 <span
                                     class="all-info__right">{{ $products->where('user_id', Auth()->id())->count() }}</span>
@@ -47,7 +47,7 @@
                         </li>
 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Purchased</span>
                                 <span class="all-info__right">0</span>
                             </a>
@@ -62,27 +62,27 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
                                 <span class="all-info__right">{{ $t_req_count }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="my_courses.html" class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
                                 <span class="all-info__right">{{ $t_prop_count }}</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Request
                                     Solution</span>
                                 <span class="all-info__right">{{ $t_reqsolution_count }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="purchased_courses.html" class="all-info__sections">
+                            <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
                                     Solution</span>
                                 <span class="all-info__right">{{ $t_propsolution_count }}</span>
@@ -130,7 +130,7 @@
                                                         <div class="posts-list">
                                                             <div class="feed-shared-product-dt">
                                                                 <div class="pdct-img crse-img-tt">
-                                                                    <a href="course_detail_view.html">
+                                                                    <a >
                                                                         <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                             src="{{ $book->cover_pic }}" alt="">
                                                                         <div class="overlay-item">
@@ -141,11 +141,14 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="author-dts pp-20">
-                                                                    <a href="course_detail_view.html"
+                                                                    <a 
                                                                         class="job-heading pp-title">{{ $book->book_name }}</a>
                                                                     <p class="notification-text font-small-4">
-                                                                        by <a href="#"
-                                                                            class="cmpny-dt blk-clr">{{ $book->user->username }}</a>
+                                                                        by <a
+                                                                            href="{{ route('profile.show', ['id' => $book->user_id]) }}"
+                                                                            class="cmpny-dt blk-clr"
+                                                                            style="color: {{ $book->user->role->color->name }}">{{ $book->user->username }}</a>
+
                                                                     </p>
 
                                                                     <div class="ppdt-price-sales">
@@ -197,7 +200,7 @@
                                                         <div class="posts-list">
                                                             <div class="feed-shared-product-dt">
                                                                 <div class="pdct-img crse-img-tt">
-                                                                    <a href="course_detail_view.html">
+                                                                    <a >
                                                                         <img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                             src="{{ $product->cover_pic }}"
                                                                             alt="">
@@ -209,11 +212,14 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="author-dts pp-20">
-                                                                    <a href="course_detail_view.html"
+                                                                    <a 
                                                                         class="job-heading pp-title">{{ $product->name }}</a>
                                                                     <p class="notification-text font-small-4">
-                                                                        by <a href="#"
-                                                                            class="cmpny-dt blk-clr">{{ $product->user->username }}</a>
+                                                                        by <a
+                                                                            href="{{ route('profile.show', ['id' => $product->user_id]) }}"
+                                                                            class="cmpny-dt blk-clr"
+                                                                            style="color: {{ $product->user->role->color->name }}">{{ $product->user->username }}</a>
+
                                                                     </p>
 
                                                                     <div class="ppdt-price-sales">
@@ -268,8 +274,8 @@
             </div>
             <div class="modal-body p-3">
                 <div class="container bg-white rounded">
-                    <a href="{{route('books.index')}}" class="post-link-btn btn-hover mb-3">Book</a>
-                    <a href="{{route('product.index')}}" class="btn fltr-btn ">Product</a>
+                    <a href="{{ route('books.index') }}" class="post-link-btn btn-hover mb-3">Book</a>
+                    <a href="{{ route('product.index') }}" class="btn fltr-btn ">Product</a>
                 </div>
             </div>
 

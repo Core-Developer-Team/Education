@@ -41,7 +41,7 @@
                                     <div class="its_your item-setting-top">
                                         <i class="fas fa-flag mr-3"></i>
                                         <span class="bagde-text">If you'd like to update your billing details,
-                                            please re-submit your <a href="setting_tax_information.html">tax
+                                            please re-submit your <a>tax
                                                 information</a>.</span>
                                     </div>
                                     <div class="billing-details">

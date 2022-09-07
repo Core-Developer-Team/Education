@@ -143,6 +143,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/proposal_single/{id}', [ProposalController::class, 'showproposal'])->name('proposal.showproposal');
     Route::post('/proposal_single', [ProposalbidController::class, 'store'])->name('proposalbid.store');
     Route::post('/proposal_sol', [PropsolutionController::class, 'store'])->name('prosolution.store');
+    Route::get('/proposalsol/{uid}/{rid}/{sid}', [PropsolutionController::class, ('solutionreport')])->name('proposal.reppropsol');
     Route::get('/latest_proposal', [ProposalController::class, 'latesttutorial'])->name('proposal.new');
     Route::get('/weekly_proposal', [ProposalController::class, 'week'])->name('proposal.week');
     Route::get('/trending_proposal', [ProposalController::class, 'trending'])->name('proposal.trending');

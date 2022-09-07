@@ -15618,12 +15618,12 @@ input[class="super-sad"]:focus+svg {
 /*Profile Pic End*/
 
 
-
 /*image */
 
-.author-left.userimg{
+.author-left.userimg {
     height: min-content;
 }
+
 
 /* image hover*/
 
@@ -15641,3 +15641,24 @@ input[class="super-sad"]:focus+svg {
 
 
 /*end imagehover*/
+
+.status-oncircle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: green;
+    border: 2px solid white;
+    margin-top: -20px;
+    justify-self: right;
+    position: absolute;
+}
+
+.status-ofcircle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: grey;
+    border: 2px solid white;
+    position: absolute;
+    margin-top: -20px;
+}

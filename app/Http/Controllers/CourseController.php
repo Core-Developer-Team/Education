@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 class CourseController extends Controller
 {
     //get all course
-    protected function index()
+    public function index()
     {
         $parts = 'snippet';
         $apikey = config('services.youtube.api_key');
@@ -44,8 +44,6 @@ class CourseController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
-
-
     public function latest()
     {
         $parts = 'snippet';
@@ -161,7 +159,7 @@ class CourseController extends Controller
             $playlist_data = (array)json_decode($response->body());
             $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
-        return view('coursetype', compact('playlists_json', 'playlist'));
+        return view('coursetype', compact('playlists_json', 'id', 'playlist'));
     }
 
 
@@ -202,7 +200,6 @@ class CourseController extends Controller
                 },
             ],
             'Category'      => ['required', 'max:25'],
-            'price'         => ['required'],
             'type'          => ['required'],
         ]);
 
@@ -210,20 +207,33 @@ class CourseController extends Controller
             $request->validate([
                 'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
             ]);
+            if ($request->price != '') {
+                $price = $request->price;
+            } else {
+                $price = 0;
+            }
             $url = $request->playlists_id;
             parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
             $filename = time() . '_' . $request->file->getClientOriginalName();
             $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
-            Course::create(array_merge($request->only('price', 'type', 'Category'), [
+            Course::create(array_merge($request->only( 'type', 'Category'), [
                 'user_id'      => auth()->id(),
+                'price'        => $price,
                 'playlists_id' => $my_array['list'],
-                'file'         => '/storage/' . $filepath,
+                'file'         => $filepath,
             ]));
         } else {
+
+            if ($request->price != '') {
+                $price = $request->price;
+            } else {
+                $price = 0;
+            }
             $url = $request->playlists_id;
             parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
-            Course::create(array_merge($request->only('price', 'type', 'Category'), [
+            Course::create(array_merge($request->only('type', 'Category'), [
                 'user_id'      => auth()->id(),
+                'price'        => $price,
                 'playlists_id' => $my_array['list'],
                 'file'         => '',
             ]));

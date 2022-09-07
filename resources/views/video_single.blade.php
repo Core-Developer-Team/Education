@@ -1,3 +1,4 @@
+@section('title','Video_Single')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -61,7 +62,6 @@
 
                     @if (!$playlist->file == '')
                         @if ($playlist->isPaid($playlist->id) == true)
-
                             <div class="full-width mt-30">
                                 <div class="item-description">
                                     <div class="jobtxt47">
@@ -163,7 +163,7 @@
                                         </div>
                                         <hr>
                                         <!-- END review-list -->
-
+                                        @if (auth()->id() != $playlist->user_id)
                                         <!--review form-->
                                         <form method="POST" action="{{ route('playlist.storereview') }}">
                                             @if ($errors->any())
@@ -253,7 +253,7 @@
                                             </div>
                                         </form>
                                         <!--end review form-->
-
+                                        @endif
                                         <!--close comments section-->
                                     </div>
 
@@ -262,7 +262,7 @@
                         </div>
                     </div>
                     <!--end Review section-->
-                    @endif
+
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="event-card rmt-30">
@@ -271,14 +271,13 @@
                                 <li>
                                     <div class="product_license_check">
                                         <div class="course-price">Regular Price</div>
-                                        <span class="item_price">$ {{ $playlist->price }}</span>
+                                        <span class="item_price">৳ {{ $playlist->price }}</span>
                                     </div>
                                 </li>
                             </ul>
                             <div class="item_buttons text-center">
                                 @if (auth()->id() != $playlist->user_id && $playlist->type != 0)
                                     @if ($playlist->isPaid($playlist->id) != true)
-
                                         <div class="purchase_form_btn">
                                             <button class="buy-btn btn-hover payNow" type="submit"
                                                 data-id="{{ $playlist->id }}" data-amount="{{ $playlist->price }}"
@@ -313,8 +312,8 @@
                                 </div>
                             </div>
                             <div class="username-main-dt">
-                                <h4 style="color: {{ $playlist->user->role->color->name }}">
-                                    {{ $playlist->user->username }}</h4>
+                                <a href="{{ route('profile.show', ['id' => $playlist->user_id]) }}" class="h4" style="color: {{ $playlist->user->role->color->name }}">
+                                    {{ $playlist->user->username }}</a>
                             </div>
                             <div class="user-info__sections">
                                 <ul class="info__sections">

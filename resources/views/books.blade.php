@@ -1,3 +1,4 @@
+@section('title','Books')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -16,10 +17,9 @@
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target=" @auth
-                        #addbook
+#addbook
 @else
-#loginlink
-                        @endauth ">Add
+#loginlink @endauth ">Add
                             New Book</a>
                     </div>
                     <div class="posted_1590">
@@ -85,9 +85,12 @@
                         <div class="col-lg-12">
                             <div class="filter-section">
                                 <div class="btn-4585">
-                                    <a href="{{ route('book.latest') }}" class="fltr-btn @if (request()->getpathinfo() == '/books_latest' || request()->getpathinfo() == '/books') fltr-active @endif">Newest</a>
-                                    <a href="{{route('book.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/books_trending') fltr-active @endif">Trending</a>
-                                    <a href="{{ route('book.week') }}" class="fltr-btn @if (request()->getpathinfo() == '/books_weekly') fltr-active @endif">Weekly</a>
+                                    <a href="{{ route('book.latest') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/books_latest' || request()->getpathinfo() == '/books') fltr-active @endif">Newest</a>
+                                    <a href="{{ route('book.trending') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/books_trending') fltr-active @endif">Trending</a>
+                                    <a href="{{ route('book.week') }}"
+                                        class="fltr-btn @if (request()->getpathinfo() == '/books_weekly') fltr-active @endif">Weekly</a>
                                 </div>
                                 <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
                             </div>
@@ -109,7 +112,7 @@
                                             <div class="posts-list">
                                                 <div class="feed-shared-product-dt">
                                                     <div class="pdct-img">
-                                                        <a href="product_detail_view.html"><img
+                                                        <a><img
                                                                 class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
@@ -120,15 +123,21 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a href="product_detail_view.html"
+                                                        <a 
                                                             class="job-heading pp-title">{{ $item->book_name }}</a>
+                                                        <p class="notification-text font-small-4">
+                                                            by <a
+                                                                href="{{ route('profile.show', ['id' => $item->user_id]) }}"
+                                                                class="cmpny-dt blk-clr"
+                                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
 
+                                                        </p>
                                                         <div class="ppdt-price-sales">
                                                             <div class="ppdt-price">
-                                                                $ {{ $item->price }}
+                                                                ৳ {{ $item->price }}
                                                             </div>
                                                             <div class="ppdt-sales">
-                                                                314 Sales
+                                                                0 Sales
                                                             </div>
                                                         </div>
                                                     </div>
@@ -142,7 +151,7 @@
                                                             View</a>
                                                     </div>
                                                     <div class="action-btns-job">
-                                                       <i class="fas fa-eye"></i> {{$item->view_count}}
+                                                        <i class="fas fa-eye"></i> {{ $item->view_count }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,7 +159,6 @@
                                     </div>
                                 </div>
                             @empty
-                          
                             @endforelse
                             <div class="mt-3">
                                 {{ $data->links() }}
@@ -174,18 +182,25 @@
             <div class="modal-body">
                 <div class="container bg-white rounded">
                     @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
                     <!--book Form-->
                     <form action="{{ route('books.store') }}" class="form p-3" id="bok" method="POST"
                         enctype="multipart/form-data">
                         @csrf
+                        <div class="form-group pt-2">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" class="form-control" name="title"
+                                value="{{ old('title') }}">
+                            <div class="text-danger mt-2 text-sm title">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="price">Book_Price</label>
                             <input type="number" id="price" class="form-control" name="price"
@@ -204,12 +219,6 @@
                             <input type="file" id="cover-pic" class="form-control" accept="image/*"
                                 name="cover_pic" value="{{ old('cover-pic') }}">
                             <div class="text-danger mt-2 text-sm cover_picError"></div>
-                        </div>
-                        <div class="form-group pt-2">
-                            <label for="book">Upload_Book</label>
-                            <input type="file" id="book" class="form-control" name="book"
-                                accept="image/*,.doc,.docx,.pdf,.pptx,.zip,.rar" value="{{ old('book') }}">
-                            <div class="text-danger mt-2 text-sm bookError"></div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="desc">Description</label>

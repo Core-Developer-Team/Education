@@ -1,3 +1,4 @@
+@section('title','Contests')
 @include('layouts.header')
 
 <header class="header clearfix">

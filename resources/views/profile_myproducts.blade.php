@@ -1,3 +1,4 @@
+@section('title','my_Products')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -53,20 +54,21 @@
                 <div class="all-items">
                     <div class="product-items-list">
                         <div class="row">
+                            @forelse ($product as $item)
                             <div class="col-lg-12">
                                 <div class="full-width mt-30">
                                     <div class="recent-items my_portfolio_list">
                                         <div class="jobs-list">
 
-                                            @forelse ($product as $item)
-                                            <div class="product-item">
+                                           
+                                            <div class="product-item ">
                                                 <div class="product-left">
-                                                    <a href="my_product_detail_view.html"><img
+                                                    <a ><img
                                                             class="ft-plus-square product-bg-circle bg-cyan mr-0"
                                                             src="{{$item->cover_pic}}" alt=""></a>
                                                 </div>
                                                 <div class="product-body">
-                                                    <a href="my_product_detail_view.html"
+                                                    <a 
                                                         class="job-heading pt-0">{{$item->name}}</a>
                                                     <p class="notification-text font-small-4">
                                                         <a href="#" class="cmpny-dt2">{{$item->user->username}}</a>
@@ -78,15 +80,16 @@
 
                                                 </div>
                                             </div>
-                                            @empty
-                                            
-                                            @endforelse
-                                            <div class="mt-35">
-                                                {{$product->links()}}
-                                            </div>
+                                       
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            @empty
+                                            
+                            @endforelse
+                            <div class="mt-35">
+                                {{$product->links()}}
                             </div>
                         </div>
                     </div>

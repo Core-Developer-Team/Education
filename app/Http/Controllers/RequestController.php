@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\File;
 
 class RequestController extends Controller
 {
-
     // All requests page
     public function index()
     {
@@ -286,7 +285,12 @@ class RequestController extends Controller
         $prop   = Proposal::count();
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-        return view('editrequest', compact('data', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+
+        $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+        $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+        $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+        $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+        return view('editrequest', compact('data',  't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //update request
     public function update(Request $request, $id)
@@ -302,7 +306,7 @@ class RequestController extends Controller
         $reqs = ModelsRequest::find($id);
         if ($request->hasFile('file')) {
             $request->validate([
-                'file' => ['required', 'mimes:jpg,jpeg,svg,pdf,png'],
+                'file' => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
             ]);
             $filename = time() . '_' . $request->file->getClientOriginalName();
             $imgPath = $request->file('file')->storeAs('ReqFile', $filename, 'public');

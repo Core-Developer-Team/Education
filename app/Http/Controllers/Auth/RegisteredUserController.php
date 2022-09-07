@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -68,6 +71,11 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        $request->session()->regenerate();
+        $announcements = Event::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();
+        
+        Session::flash('announcements', $announcements);
 
         Auth::login($user);
 
