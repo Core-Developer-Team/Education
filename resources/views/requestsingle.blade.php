@@ -170,11 +170,12 @@
                                         </div>
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
-
                                         @if (!(auth()->id() == $data->user_id))
-                                            <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                                data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
+                                                @if($data->reqsolution()->count() == 0)
+                                                    <a href="#"
+                                                        class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
+                                                        data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
+                                                @endif
                                             @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->request_id == $data->id)
                                                 <a href="#"
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 2) d-none @endif"
@@ -302,7 +303,8 @@
                                                                         class="job-badge bg-success payNow bkashPayBtn"
                                                                         data-id="{{ $bids->id }}"
                                                                         data-amount="{{ $bids->price }}"
-                                                                        data-resource="requests">
+                                                                        data-resource="requests"
+                                                                        >
 
                                                                         Take this offer
                                                                     </span>
@@ -357,7 +359,10 @@
                         </div>
                     </div>
                     <!--Solution-->
-                    @if (auth()->id() == $data->user_id)
+
+                    {{-- @if (auth()->id() == $data->user_id) --}}
+                    @if (isset($data->reqsolution()->orderBy('updated_at','DESC')->get()[0]->user_id))
+                    @if(auth()->id() != $data->reqsolution()->orderBy('updated_at','DESC')->get()[0]->user_id)
                         <div class="event-card mt-4">
                             <div class="jobdt99">
                                 <div class="jbdes25">
@@ -395,7 +400,7 @@
                                                                                         style="width: 20px;"
                                                                                         title="{{ $item->user->badge->name }}">
                                                                                     <span class="job-loca"><i
-                                                                                            class="fas fa-location-arrow"></i>{{ $bids->user->uni_name }}</span>
+                                                                                            class="fas fa-location-arrow"></i>{{ @$bids->user->uni_name }}</span>
                                                                                 </p>
 
                                                                                 <p
@@ -435,12 +440,20 @@
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
+                                                        <!-- Download solution from here -->
                                                         <p>{{ $item->description }}</p>
                                                         <div class="jobtxt47">
-                                                            <a href="{{ $item->file }}" download=>Download file from
-                                                                here</a>
+                                                            <a href=" {{ ($data->istTakeSolution($data->id))? $item->file : "javascript:void(0)"}} " download title="{!!
+                                                                $data->istTakeSolution($data->id)?"Download":"Please pay first to download the solution"
+                                                                !!}"
+                                                                data-id="{{ $data->paymentLog($data->id)->request_id }}"
+                                                                data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                data-resource="requests"
+                                                                class="payNow"
+                                                                >
+                                                                Download file from here {!! $data->istTakeSolution($data->id) == false?' <i class="fas fa-lock"></i>':'' !!}  </a>
                                                         </div>
-
+                                                        <!-- Download solution from here -->
                                                         @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id)
                                                             <span class="text-danger">Reported</span>
                                                         @else
@@ -461,6 +474,7 @@
                                 </div>
                             </div>
                         </div>
+                    @endif
                     @endif
                     <!--file-->
                     @if (!$data->file == '')

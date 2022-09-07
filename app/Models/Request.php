@@ -64,4 +64,19 @@ class Request extends Model
             }
         }
     }
+
+    public function istTakeSolution($reqid)
+    {
+        $data = PaymentLog::where("request_id", $reqid)->where('pay_for', 'requests')->where('pay_by', auth()->id())->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function paymentLog($reqid)
+    {
+        $data = PaymentLog::where("request_id", $reqid)->where('pay_for', 'requests')->first();
+        return $data;
+    }
 }

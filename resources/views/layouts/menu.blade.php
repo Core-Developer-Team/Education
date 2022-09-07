@@ -147,6 +147,9 @@
                             </div>
                         </li>
                         <li class="dropdown-menu-footer">
+                            <a href="#" class="dropdown-item-link text-link text-center">{{ auth()->user()->username}}</a>
+                        </li>
+                        <li class="dropdown-menu-footer">
                             <a href="{{ route('profile.show', ['id'=>Auth()->id()]) }}" id="night-mode"
                                 class="dropdown-item-link text-link text-center">
                                 Profile

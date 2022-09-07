@@ -47,8 +47,8 @@
                                     <th>Buyer</th>
                                     <th>Price</th>
                                     <th title="Seller Phone">Phone</th>
-                                    <th >Agent({{env('RATE_FOR_AGENT')}})%</th>
-                                    <th >Seller({{100 - env('RATE_FOR_AGENT')}})%</th>
+                                    <th >Agent</th>
+                                    <th >Seller</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -62,10 +62,11 @@
                                     <td>{{$item->amount}}</td>
                                     <td title="Seller Phone">{{$model->findSeller($item->id)->user->mobile_no}}</td>
                                     <td>
-                                        {{ $item->amount * env("RATE_FOR_AGENT") / 100 }}
+                                        {{ ($item->first_sale == true)? ($item->amount * env("RATE_FOR_AGENT") / 100):($item->amount * (100 - env("RATE_FOR_AGENT")) / 100) }}
                                     </td>
                                     <td>
-                                        {{ $item->amount * (100 - env("RATE_FOR_AGENT")) / 100 }}
+                                        {{ ($item->first_sale == false)? ($item->amount * env("RATE_FOR_AGENT") / 100):($item->amount * (100 - env("RATE_FOR_AGENT")) / 100) }}
+                                        {{-- {{ $item->amount * (100 - env("RATE_FOR_AGENT")) / 100 }} --}}
                                     </td>
                                     <td>
                                         @if ($item->status !=true)
