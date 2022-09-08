@@ -200,10 +200,11 @@
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
                                         @if (!(auth()->id() == $data->user_id))
-                                            <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                                data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid Now</a>
-
+                                            @if($data->propsolution()->count() == 0)
+                                                <a href="#"
+                                                    class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
+                                                    data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid Now</a>
+                                            @endif
                                             <a href="#"
                                                 class="apply_job_btn ps-4 view-btn btn-hover @if ($data->proposalbid()->where('user_id', Auth()->id())->count() == false || $data->propsolution()->where('user_id', Auth()->id())->count() >= 1 ) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addsolution">
@@ -358,7 +359,9 @@
                         </div>
                     @endif
                     <!--Solution-->
-                    @if (auth()->id() == $data->user_id)
+                    {{-- @if (auth()->id() == $data->user_id) --}}
+                    @if (isset($data->propsolution()->orderBy('updated_at','DESC')->get()[0]->user_id))
+                    @if(auth()->id() != $data->propsolution()->orderBy('updated_at','DESC')->get()[0]->user_id)
                         <div class="event-card mt-4">
                             <div class="jobdt99">
                                 <div class="jbdes25">
@@ -441,9 +444,15 @@
                                                         </p>
                                                         <p>{{ $item->description }}</p>
                                                         <div class="jobtxt47">
-
-                                                            <a href="{{ $item->file }}" download>Download File from
-                                                                here</a>
+                                                            <a href="{{ ($data->istTakeSolution($data->id))? $item->file : "javascript:void(0)"}}" download
+                                                                title="{!!
+                                                                    $data->istTakeSolution($data->id)?"Download":"Please pay first to download the solution"
+                                                                    !!}"
+                                                                    data-id="{{ $data->paymentLog($data->id)->request_id }}"
+                                                                    data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                    data-resource="proposals"
+                                                                    class="payNow"
+                                                                >Download File from here {!! $data->istTakeSolution($data->id) == false?' <i class="fas fa-lock"></i>':'' !!}</a>
                                                         </div>
                                                         @if ($data->propsolreport()->count() > 0 && $data->propsolreport->propsolution_id == $item->id)
                                                             <span class="text-danger">Reported</span>
@@ -465,6 +474,7 @@
                                 </div>
                             </div>
                         </div>
+                    @endif
                     @endif
                     <!--description-->
                     <div class="event-card mt-4">

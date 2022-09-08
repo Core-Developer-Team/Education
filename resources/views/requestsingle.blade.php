@@ -47,7 +47,7 @@
                                 <div class="feed-job-dt">
                                     <div class="joblftdt5">
                                         <div class="author-left main_img_view userimg">
-                                            
+
                                                 <img class="ft-plus-square job-bg-circle iconreq bg-cyan mr-0"
                                                 src="{{ $data->user->badge->image }}" style="width:30px; height:30px"
                                                 title="{{ $data->user->badge->name }}">
@@ -87,7 +87,7 @@
                                                                             {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
-                                                                        <span class="time-dt">Last Seen 
+                                                                        <span class="time-dt">Last Seen
                                                                             @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
                                                                             </span>
                                                                     </p>
@@ -112,7 +112,7 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                   
+
                                         <div class="author-dts">
                                             <h4 class="job-view-heading job-center">{{ $data->requestname }}</h4>
                                             <p class="notification-text font-small-4 job-center">
@@ -179,11 +179,12 @@
                                         </div>
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
-
                                         @if (!(auth()->id() == $data->user_id))
-                                            <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                                data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
+                                                @if($data->reqsolution()->count() == 0)
+                                                    <a href="#"
+                                                        class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
+                                                        data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
+                                                @endif
                                             @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->request_id == $data->id)
                                                 <a href="#"
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 2) d-none @endif"
@@ -266,7 +267,7 @@
                                                                                     {{ $bids->user->created_at->format('d:M:y g:i A') }}</span>
                                                                             </p>
                                                                             <p class="notification-text font-small-4 pt-1">
-                                                                                <span class="time-dt">Last Seen 
+                                                                                <span class="time-dt">Last Seen
                                                                                     @if(Cache::has('user-is-online-' . $bids->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($bids->user->last_seen)->diffForHumans() }} @endif
                                                                                     </span>
                                                                             </p>
@@ -318,7 +319,8 @@
                                                                         class="job-badge bg-success payNow bkashPayBtn"
                                                                         data-id="{{ $bids->id }}"
                                                                         data-amount="{{ $bids->price }}"
-                                                                        data-resource="requests">
+                                                                        data-resource="requests"
+                                                                        >
 
                                                                         Take this offer
                                                                     </span>
@@ -373,7 +375,10 @@
                         </div>
                     </div>
                     <!--Solution-->
-                    @if (auth()->id() == $data->user_id)
+
+                    {{-- @if (auth()->id() == $data->user_id) --}}
+                    @if (isset($data->reqsolution()->orderBy('updated_at','DESC')->get()[0]->user_id))
+                    @if(auth()->id() != $data->reqsolution()->orderBy('updated_at','DESC')->get()[0]->user_id)
                         <div class="event-card mt-4">
                             <div class="jobdt99">
                                 <div class="jbdes25">
@@ -422,7 +427,7 @@
                                                                                         {{ $item->user->created_at->format('d:M:y g:i A') }}</span>
                                                                                 </p>
                                                                                 <p class="notification-text font-small-4 pt-1">
-                                                                                    <span class="time-dt">Last Seen 
+                                                                                    <span class="time-dt">Last Seen
                                                                                         @if(Cache::has('user-is-online-' . $item->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($item->user->last_seen)->diffForHumans() }} @endif
                                                                                         </span>
                                                                                 </p>
@@ -458,19 +463,27 @@
                                                         <p> <small>Created on
                                                                 {{ $item->created_at->diffForHumans() }}</small>
                                                         </p>
+                                                        <!-- Download solution from here -->
                                                         <p>{{ $item->description }}</p>
                                                         <div class="jobtxt47">
-                                                            <a href="{{ $item->file }}" download=>Download file from
-                                                                here</a>
+                                                            <a href=" {{ ($data->istTakeSolution($data->id))? $item->file : "javascript:void(0)"}} " download title="{!!
+                                                                $data->istTakeSolution($data->id)?"Download":"Please pay first to download the solution"
+                                                                !!}"
+                                                                data-id="{{ $data->paymentLog($data->id)->request_id }}"
+                                                                data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                data-resource="requests"
+                                                                class="payNow"
+                                                                >
+                                                                Download file from here {!! $data->istTakeSolution($data->id) == false?' <i class="fas fa-lock"></i>':'' !!}  </a>
                                                         </div>
-
+                                                        <!-- Download solution from here -->
                                                         @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id)
                                                             <span class="text-danger">Reported</span>
                                                         @else
                                                             <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
                                                                 class="label-dker post_categories_reported mr-10"><span>Report</span></a>
                                                         @endif
-                                                        
+
                                                         <a href=""
                                                             class="label-dker post_categories_top_right mr-20"
                                                             data-bs-toggle="modal"
@@ -485,6 +498,7 @@
                                 </div>
                             </div>
                         </div>
+                    @endif
                     @endif
                     <!--file-->
                     @if (!$data->file == '')
@@ -661,7 +675,7 @@
                                     <div style="margin-top: 10px; width:15px; height: 15px" class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
                                     </div>
                                     <img src="/storage/{{ $data->user->image }}" alt="">
-                               
+
                                 </div>
                             </div>
                             <div class="username-main-dt">
@@ -816,7 +830,7 @@
                             </ul>
                         </div>
                     @endif
-                  
+
                     <!--Review Form-->
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
@@ -899,8 +913,8 @@
                                 Review</button>
                         </div>
                     </form>
-                    <!--end reviewform-->  
-                   
+                    <!--end reviewform-->
+
                 </div>
             </div>
 
