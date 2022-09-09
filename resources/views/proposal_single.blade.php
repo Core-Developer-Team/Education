@@ -205,12 +205,17 @@
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                     data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid Now</a>
                                             @endif
+                                            @if(@$data->isBided()->first()->id != @$data->paymentLog($data->id)->bid_id)
+                                            <a href="#"
+                                                class="job-badge btn-success text-light"
+                                                data-bs-toggle="" data-bs-target="" title="Waiting for buyer response"><i class="fa-solid fa-check"></i> Bided</a>
+                                            @else
                                             <a href="#"
                                                 class="apply_job_btn ps-4 view-btn btn-hover @if ($data->proposalbid()->where('user_id', Auth()->id())->count() == false || $data->propsolution()->where('user_id', Auth()->id())->count() >= 1 ) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addsolution">
                                                 Solution
                                             </a>
-
+                                            @endif
                                         @endif
 
                                     </div>
