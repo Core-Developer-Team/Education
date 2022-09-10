@@ -70,4 +70,9 @@ class Proposal extends Model
             return false;
         }
     }
+
+    public function isBided()
+    {
+        return $this->hasOne(Proposalbid::class, 'proposal_id', 'id')->where('user_id', auth()->id());
+    }
 }
