@@ -46,6 +46,7 @@ class Request extends Model
     {
         return $this->hasOne(Reqsolutionreport::class);
     }
+
     public function isAccept($reqId, $bidId = '')
     {
         if ($bidId) {
@@ -63,5 +64,26 @@ class Request extends Model
                 return false;
             }
         }
+    }
+
+    public function istTakeSolution($reqid)
+    {
+        $data = PaymentLog::where("request_id", $reqid)->where('pay_for', 'requests')->where('pay_by', auth()->id())->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function paymentLog($reqid)
+    {
+        $data = PaymentLog::where("request_id", $reqid)->where('pay_for', 'requests')->first();
+        return $data;
+    }
+
+    public function isBided()
+    {
+        return $this->hasOne(Reqbid::class, 'request_id', 'id')->where('user_id', auth()->id());
     }
 }

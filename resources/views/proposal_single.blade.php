@@ -206,17 +206,25 @@
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
                                         @if (!(auth()->id() == $data->user_id))
-                                            <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                                data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid Now</a>
-
-                                            <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover @if ($data->proposalbid()->where('user_id', Auth()->id())->count() == false ||
-                                                    $data->propsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                                data-bs-toggle="modal" data-bs-target="#addsolution">
-                                                Solution
-                                            </a>
-                                        @endif
+                                            @if ($data->propsolution()->count() == 0)
+                                                <a href="#"
+                                                    class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
+                                                    data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
+                                                    Now</a>
+                                            @endif
+                                            @if (@$data->isBided()->first()->id != @$data->paymentLog($data->id)->bid_id)
+                                                <a href="#" class="job-badge btn-success text-light"
+                                                    data-bs-toggle="" data-bs-target=""
+                                                    title="Waiting for buyer response"><i
+                                                        class="fa-solid fa-check"></i> Bided</a>
+                                            @else
+                                                <a href="#"
+                                                    class="apply_job_btn ps-4 view-btn btn-hover @if ($data->proposalbid()->where('user_id', Auth()->id())->count() == false ||
+                                                        $data->propsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
+                                                    data-bs-toggle="modal" data-bs-target="#addsolution">
+                                                    Solution
+                                                </a>
+                                            @endif
 
                                     </div>
                                 </div>
@@ -379,125 +387,134 @@
                         </div>
                     @endif
                     <!--Solution-->
-                    @if (auth()->id() == $data->user_id)
-                        <div class="event-card mt-4">
-                            <div class="jobdt99">
-                                <div class="jbdes25">
-                                    <div class="jobtxt47">
-                                        <h4>Solution</h4>
-                                        @forelse ($data->propsolution()->orderBy('updated_at','DESC')->get() as $item)
-                                            <div
-                                                class="d-sm-flex align-items-center rounded border-none mt-3 p-3  mb-4">
-                                                <div class="rounded-circle d-flex ">
-                                                    <div class="userimg">
-                                                        <img src="/storage/{{ $item->user->image }}"
-                                                            class="rounded-circle" style="width: 50px;height: 50px;"
-                                                            alt="" srcset="">
-                                                        <div
-                                                            class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
-                                                        </div>
-                                                        <!--hover on image-->
-                                                        <div class="box imagehov shadow"
-                                                            style="width: auto; height:auto;  position: absolute; z-index: 1;">
-                                                            <div class="full-width">
-                                                                <div class="recent-items">
-                                                                    <div class="posts-list">
-                                                                        <div class="feed-shared-author-dt">
-                                                                            <div class="author-left">
-                                                                                <a href="#"><img
-                                                                                        class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                                                        src="/storage/{{ $item->user->image }}"
-                                                                                        alt="">
-                                                                                    <div
-                                                                                        class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
-                                                                                    </div>
-                                                                                </a>
-                                                                            </div>
-                                                                            <div class="author-dts">
-                                                                                <p
-                                                                                    class="notification-text font-username">
-                                                                                    <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
-                                                                                        style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
-                                                                                    </a><img
-                                                                                        src="{{ $item->user->badge->image }}"
-                                                                                        alt=""
-                                                                                        style="width: 20px;"
-                                                                                        title="{{ $item->user->badge->name }}">
-                                                                                    <span class="job-loca"><i
-                                                                                            class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
-                                                                                </p>
+                    {{-- @if (auth()->id() == $data->user_id) --}}
+                    @if (isset(
+                        $data->propsolution()->orderBy('updated_at', 'DESC')->get()[0]->user_id))
+                        @if (auth()->id() !=
+                            $data->propsolution()->orderBy('updated_at', 'DESC')->get()[0]->user_id)
+                            <div class="event-card mt-4">
+                                <div class="jobdt99">
+                                    <div class="jbdes25">
+                                        <div class="jobtxt47">
+                                            <h4>Solution</h4>
+                                            @forelse ($data->propsolution()->orderBy('updated_at','DESC')->get() as $item)
+                                                <div
+                                                    class="d-sm-flex align-items-center rounded border-none mt-3 p-3  mb-4">
+                                                    <div class="rounded-circle d-flex ">
+                                                        <div class="userimg">
+                                                            <img src="/storage/{{ $item->user->image }}"
+                                                                class="rounded-circle"
+                                                                style="width: 50px;height: 50px;" alt=""
+                                                                srcset="">
+                                                            <div
+                                                                class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                            </div>
+                                                            <!--hover on image-->
+                                                            <div class="box imagehov shadow"
+                                                                style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                                <div class="full-width">
+                                                                    <div class="recent-items">
+                                                                        <div class="posts-list">
+                                                                            <div class="feed-shared-author-dt">
+                                                                                <div class="author-left">
+                                                                                    <a href="#"><img
+                                                                                            class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                                            src="/storage/{{ $item->user->image }}"
+                                                                                            alt="">
+                                                                                        <div
+                                                                                            class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                                        </div>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="author-dts">
+                                                                                    <p
+                                                                                        class="notification-text font-username">
+                                                                                        <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
+                                                                                            style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                                                                        </a><img
+                                                                                            src="{{ $item->user->badge->image }}"
+                                                                                            alt=""
+                                                                                            style="width: 20px;"
+                                                                                            title="{{ $item->user->badge->name }}">
+                                                                                        <span class="job-loca"><i
+                                                                                                class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                                    </p>
 
-                                                                                <p
-                                                                                    class="notification-text font-small-4 pt-1">
-                                                                                    <span class="time-dt">Joined on
-                                                                                        {{ $item->user->created_at->format('d:M:y g:i A') }}</span>
-                                                                                </p>
-                                                                                <span class="time-dt">Last Seen
-                                                                                    @if (Cache::has('user-is-online-' . $item->user->id))
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span class="time-dt">Joined on
+                                                                                            {{ $item->user->created_at->format('d:M:y g:i A') }}</span>
+                                                                                    </p>
+                                                                                    <span class="time-dt">Last Seen
+                                                                                        @if (Cache::has('user-is-online-' . $item->user->id))
+                                                                                            <span
+                                                                                                class="text-success">Online</span>
+                                                                                        @else
+                                                                                            {{ Carbon\Carbon::parse($item->user->last_seen)->diffForHumans() }}
+                                                                                        @endif
+                                                                                    </span>
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span class="time-dt">Total
+                                                                                            Solutions
+                                                                                            {{ $item->user->solutions }}</span>
+                                                                                    </p>
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span class="time-dt">Rating
+                                                                                            {{ $item->user->rating }}</span>
+                                                                                    </p>
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
                                                                                         <span
-                                                                                            class="text-success">Online</span>
-                                                                                    @else
-                                                                                        {{ Carbon\Carbon::parse($item->user->last_seen)->diffForHumans() }}
-                                                                                    @endif
-                                                                                </span>
-                                                                                <p
-                                                                                    class="notification-text font-small-4 pt-1">
-                                                                                    <span class="time-dt">Total
-                                                                                        Solutions
-                                                                                        {{ $item->user->solutions }}</span>
-                                                                                </p>
-                                                                                <p
-                                                                                    class="notification-text font-small-4 pt-1">
-                                                                                    <span class="time-dt">Rating
-                                                                                        {{ $item->user->rating }}</span>
-                                                                                </p>
-                                                                                <p
-                                                                                    class="notification-text font-small-4 pt-1">
-                                                                                    <span
-                                                                                        class="time-dt">{{ $item->user->badge->name }}</span>
-                                                                                </p>
-                                                                            </div>
+                                                                                            class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                                    </p>
+                                                                                </div>
 
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <!-- end hover-->
                                                         </div>
-                                                        <!-- end hover-->
-                                                    </div>
-                                                    <div class="ps-4 pt-0">
-                                                        <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
-                                                            class="h2"
-                                                            style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
-                                                        <p> <small>Created on
-                                                                {{ $item->created_at->diffForHumans() }}</small>
-                                                        </p>
-                                                        <p>{{ $item->description }}</p>
-                                                        <div class="jobtxt47">
-
-                                                            <a href="{{ $item->file }}" download>Download File from
-                                                                here</a>
+                                                        <div class="ps-4 pt-0">
+                                                            <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
+                                                                class="h2"
+                                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
+                                                            <p> <small>Created on
+                                                                    {{ $item->created_at->diffForHumans() }}</small>
+                                                            </p>
+                                                            <p>{{ $item->description }}</p>
+                                                            <div class="jobtxt47">
+                                                                <a href="{{ $data->istTakeSolution($data->id) ? $item->file : 'javascript:void(0)' }}"
+                                                                    download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
+                                                                    data-id="{{ $data->paymentLog($data->id)->request_id }}"
+                                                                    data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                    data-resource="proposals" class="payNow">Download
+                                                                    File from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!}</a>
+                                                            </div>
+                                                            @if ($data->propsolreport()->count() > 0 && $data->propsolreport->propsolution_id == $item->id)
+                                                                <span class="text-danger">Reported</span>
+                                                            @else
+                                                                <a href="{{ route('proposal.reppropsol', ['uid' => $item->user_id, 'rid' => $item->proposal_id, 'sid' => $item->id]) }}"
+                                                                    class="label-dker post_categories_reported mr-10"><span>Report</span></a>
+                                                            @endif
+                                                            <a href=""
+                                                                class="label-dker post_categories_top_right mr-20"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#review"><span>Review</span></a>
                                                         </div>
-                                                        @if ($data->propsolreport()->count() > 0 && $data->propsolreport->propsolution_id == $item->id)
-                                                            <span class="text-danger">Reported</span>
-                                                        @else
-                                                            <a href="{{ route('proposal.reppropsol', ['uid' => $item->user_id, 'rid' => $item->proposal_id, 'sid' => $item->id]) }}"
-                                                                class="label-dker post_categories_reported mr-10"><span>Report</span></a>
-                                                        @endif
-                                                        <a href=""
-                                                            class="label-dker post_categories_top_right mr-20"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#review"><span>Review</span></a>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @empty
-                                        @endforelse
-                                    </div>
+                                            @empty
+                                            @endforelse
+                                        </div>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
                     <!--description-->
                     <div class="event-card mt-4">

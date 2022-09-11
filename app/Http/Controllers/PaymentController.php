@@ -141,17 +141,21 @@ class PaymentController extends Controller
                 DB::beginTransaction();
                 // dd($resultdatax);
                 // MyRequest::find($rId)->update(['payment_status' => 1]);
-                if (
-                    PaymentLog::create([
-                        'request_id' => $additionalData["req_id"],
-                        'amount' => $resultdatax->amount,
-                        'payment_method' => "Bkash",
-                        'payment_details' => json_encode($resultdatax),
-                        'pay_by' => Auth()->id(),
-                        'pay_for' => $additionalData["resource"],
-                        'bid_id' => $additionalData["bid_id"]
-                    ])
-                ) {
+                // if ($additionalData["resource"] == "resources") {
+                $findIfAny = PaymentLog::where('request_id', $additionalData["req_id"])->where('pay_for', $additionalData["resource"])->get();
+                // }
+
+                $insertIntoPayment =  PaymentLog::create([
+                    'request_id' => $additionalData["req_id"],
+                    'amount' => $resultdatax->amount,
+                    'payment_method' => "Bkash",
+                    'payment_details' => json_encode($resultdatax),
+                    'pay_by' => Auth()->id(),
+                    'pay_for' => $additionalData["resource"],
+                    'bid_id' => $additionalData["bid_id"],
+                    'first_sale' => (count($findIfAny) > 0) ? 0 : 1
+                ]);
+                if ($insertIntoPayment->id) {
                     if ($this->resource == 'requests') :
                         MyRequest::find($this->rId)->update(['payment_status' => 1]);
                     endif;

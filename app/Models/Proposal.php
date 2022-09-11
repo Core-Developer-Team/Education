@@ -54,4 +54,25 @@ class Proposal extends Model
             }
         }
     }
+
+    public function paymentLog($reqid)
+    {
+        $data = PaymentLog::where("request_id", $reqid)->where('pay_for', 'proposals')->first();
+        return $data;
+    }
+
+    public function istTakeSolution($reqid)
+    {
+        $data = PaymentLog::where("request_id", $reqid)->where('pay_for', 'proposals')->where('pay_by', auth()->id())->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isBided()
+    {
+        return $this->hasOne(Proposalbid::class, 'proposal_id', 'id')->where('user_id', auth()->id());
+    }
 }
