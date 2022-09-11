@@ -334,14 +334,14 @@
                         @csrf
                         <div class="form-group pt-2">
                             <label for="playlists_id">Video_URL</label>
-                            <input type="text" id="playlists_id" class="form-control" name="playlists_id"
+                            <input type="text" id="playlists_id" placeholder="Paste video URL" class="form-control" name="playlists_id"
                                 value="{{ old('playlists_id') }}">
                             <div class="text-danger mt-2 text-sm playlistserror">
                             </div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="category">Category</label>
-                            <input type="text" id="category" class="form-control" name="Category"
+                            <input type="text" id="category" placeholder="Category" class="form-control" name="Category"
                                 value="{{ old('Category') }}">
                             <div class="text-danger mt-2 text-sm categoryerror">
                             </div>

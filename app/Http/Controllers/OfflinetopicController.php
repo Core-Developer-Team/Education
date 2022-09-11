@@ -11,7 +11,7 @@ class OfflinetopicController extends Controller
   //show offline topic page
   public function show()
   {
-    $chats = Offlinetopic::orderBy('updated_at', 'ASC')->get();
+    $chats = Offlinetopic::orderBy('updated_at', 'DESC')->get();
     $reports = Offlinereports::all();
     return view('offtopic', compact('chats','reports'));
   }

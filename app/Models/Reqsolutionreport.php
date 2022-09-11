@@ -16,14 +16,14 @@ class Reqsolutionreport extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+       return $this->belongsTo(User::class);
     }
     public function request()
     {
-        $this->belongsTo(Request::class);
+       return $this->belongsTo(Request::class);
     }
-    public function req_solution()
+    public function reqsolution()
     {
-        $this->belongsTo(ReqSolution::class);
+       return $this->belongsTo(ReqSolution::class);
     }
 }

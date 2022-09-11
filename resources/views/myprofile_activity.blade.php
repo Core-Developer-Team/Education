@@ -1,4 +1,4 @@
-@section('title','Activity')
+@section('title', 'Activity')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -11,7 +11,7 @@
 
 <div class="wrapper pt-0">
     <div class="main-background-cover breadcrumb-pt">
-        <div class="banner-user" style="background-image:url({{ asset('images/banners/bg-2.jpg') }});">
+        <div class="banner-user" style="background-image:url(/storage/{{ $user->cover_img }});">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -20,24 +20,69 @@
                             <div class="banner-content">
                                 <div class="banner-media">
                                     <div class="item-profile-img">
+                                        <div style="margin-top: 10px; width:15px; height:15px;"
+                                            class="@if (Cache::has('user-is-online-' . $user->id)) status-oncircle @else status-ofcircle @endif">
+                                        </div>
                                         <img src="/storage/{{ $user->image }}" alt="User-Avatar"
                                             style="width: 100px; height:100px">
 
                                     </div>
+
                                     <div class="banner-media-body">
                                         <h3 class="item-user-title">{{ $user->username }}</h3>
-                                        <div class="item-username">{{ $user->email }}</div>
                                         <div class="profile-rating-section">
                                             <div class="profile-rating">
                                                 <p>Rating :</p>
-                                                <div class="profile-stars">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star color-gray-medium"></i>
-                                                </div>
-                                                <span>(39 ratings)</span>
+                                                @if ($user->rating == 0)
+                                                    <div class="profile-stars">
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($user->rating >= 1 && $user->rating < 2)
+                                                    <div class="profile-stars">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-starr color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($user->rating >= 2 && $user->rating < 3)
+                                                    <div class="profile-stars">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($user->rating >= 3 && $user->rating < 4)
+                                                    <div class="profile-stars">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($user->rating >= 4 && $user->rating < 5)
+                                                    <div class="profile-stars">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
+                                                    </div>
+                                                @elseif ($user->rating == 5)
+                                                    <div class="profile-stars">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                    </div>
+                                                @endif
+                                                <span>({{ $user->rating }} average based on 5 ratings.)</span>
                                             </div>
                                         </div>
                                         <div class="item-total-link-group">
@@ -171,7 +216,7 @@
                                                     <div>
                                                         <span class="user-popover"><a
                                                                 href="#">{{ $item->user->username }}</a></span>
-                                                        added comment on {{ $_GET['id'] }}
+                                                        added comment on
                                                         <a href="#"
                                                             class="second-user-link">{{ $item->request->requestname }}</a>
                                                         Request
@@ -243,60 +288,60 @@
                             @endforeach
 
                             @foreach ($reqbid as $item)
-                            <div class="full-width mb-30">
-                                <div class="recent-items">
-                                    <div class="activities-noti-acts">
-                                        <div class="activities-noti-list">
-                                            <div class="comet-avatar pull-left">
-                                                <a href="#"><img src="/storage/{{ $item->user->image }}"
-                                                        alt=""></a>
-                                            </div>
-                                            <div class="activities-noti_text-sidebar">
-                                                <div>
-                                                    <span class="user-popover"><a
-                                                            href="#">{{ $item->user->username }}</a></span>
-                                                    Bid on
-                                                    <a href="#"
-                                                        class="second-user-link">{{ $item->request->requestname }}</a>
-                                                    Request
-                                                    <p class="activity-noti-time">
-                                                        <span>{{ $item->created_at->diffForHumans() }}</span>
-                                                    </p>
+                                <div class="full-width mb-30">
+                                    <div class="recent-items">
+                                        <div class="activities-noti-acts">
+                                            <div class="activities-noti-list">
+                                                <div class="comet-avatar pull-left">
+                                                    <a href="#"><img src="/storage/{{ $item->user->image }}"
+                                                            alt=""></a>
+                                                </div>
+                                                <div class="activities-noti_text-sidebar">
+                                                    <div>
+                                                        <span class="user-popover"><a
+                                                                href="#">{{ $item->user->username }}</a></span>
+                                                        Bid on
+                                                        <a href="#"
+                                                            class="second-user-link">{{ $item->request->requestname }}</a>
+                                                        Request
+                                                        <p class="activity-noti-time">
+                                                            <span>{{ $item->created_at->diffForHumans() }}</span>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
 
-                        @foreach ($reqsol as $item)
-                            <div class="full-width mb-30">
-                                <div class="recent-items">
-                                    <div class="activities-noti-acts">
-                                        <div class="activities-noti-list">
-                                            <div class="comet-avatar pull-left">
-                                                <a href="#"><img src="/storage/{{ $item->user->image }}"
-                                                        alt=""></a>
-                                            </div>
-                                            <div class="activities-noti_text-sidebar">
-                                                <div>
-                                                    <span class="user-popover"><a
-                                                            href="#">{{ $item->user->username }}</a></span>
-                                                    Gave solution on
-                                                    <a href="#"
-                                                        class="second-user-link">{{ $item->request->requestname }}</a>
-                                                    Request
-                                                    <p class="activity-noti-time">
-                                                        <span>{{ $item->created_at->diffForHumans() }}</span>
-                                                    </p>
+                            @foreach ($reqsol as $item)
+                                <div class="full-width mb-30">
+                                    <div class="recent-items">
+                                        <div class="activities-noti-acts">
+                                            <div class="activities-noti-list">
+                                                <div class="comet-avatar pull-left">
+                                                    <a href="#"><img src="/storage/{{ $item->user->image }}"
+                                                            alt=""></a>
+                                                </div>
+                                                <div class="activities-noti_text-sidebar">
+                                                    <div>
+                                                        <span class="user-popover"><a
+                                                                href="#">{{ $item->user->username }}</a></span>
+                                                        Gave solution on
+                                                        <a href="#"
+                                                            class="second-user-link">{{ $item->request->requestname }}</a>
+                                                        Request
+                                                        <p class="activity-noti-time">
+                                                            <span>{{ $item->created_at->diffForHumans() }}</span>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
 
                         </div>
                     </div>

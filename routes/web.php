@@ -135,7 +135,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/latestreq', [RequestController::class, 'latest'])->name('request.latest');
     Route::get('/trendingreq', [RequestController::class, 'trending'])->name('request.trending');
     Route::get('/week', [RequestController::class, 'weekly'])->name('req.weekly');
-    Route::delete('/delete/{id}', [RequestController::class, 'destroy'])->name('req.destroy');
+    Route::post('/delete', [RequestController::class, 'destroy'])->name('req.destroy');
     Route::get('/myrequests', [RequestController::class, ('getuserrequests')])->name('req.myrequests');
     Route::post('/report/{uid}/{cid}', [CommentreportController::class, 'get'])->name('req.report');
     //proposal routes
@@ -179,14 +179,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
   
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
-        // Contest page
-        Route::get('/contest', [ContestController::class, 'index'])->name('contest.index');
-       Route::post('/contest', [ContestController::class, 'store'])->name('contest.store');
+    // Contest page
+    Route::get('/contest', [ContestController::class, 'index'])->name('contest.index');
+    Route::post('/contest', [ContestController::class, 'store'])->name('contest.store');
     //offline topic
     Route::get('/offlinetopic', [OfflinetopicController::class, ('show')])->name('offlinetopic.show');
     Route::post('/offlinetopic', [OfflinetopicController::class, ('get')])->name('offlinetopic.get');
     Route::post('/offlinetopic/report', [OfflinereportsController::class, ('store')])->name('offlinetopic.report');
-
+    // Reported page
+    Route::get('/reported',[ReqSolutionController::class,('Allrepsolution')])->name('reported.ind');
     //req solution
     Route::get('/mysolution', [ReqSolutionController::class, ('mysol')])->name('profile.mysol');
     Route::get('/mysolution/{uid}/{rid}/{sid}', [ReqSolutionController::class, ('solutionreport')])->name('profile.repsol');
@@ -297,3 +298,5 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     Route::get('/payment-log', [PaymentLogController::class, 'index'])->name('payment-log');
     Route::get('/pay-to-seller/{id}', [PaymentLogController::class, 'payToSeller'])->name('pay-to-seller');
 });
+
+Route::get('/request/action', [RequestController::class, 'action'])->name('live_search.action');

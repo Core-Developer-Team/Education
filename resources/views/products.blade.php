@@ -153,7 +153,7 @@
 
                                                                     <div class="ppdt-price-sales">
                                                                         <div class="ppdt-price">
-                                                                            $ {{ $book->price }}
+                                                                            ৳ {{ $book->price }}
                                                                         </div>
                                                                         <div class="ppdt-sales">
                                                                             0 Sales
@@ -224,7 +224,7 @@
 
                                                                     <div class="ppdt-price-sales">
                                                                         <div class="ppdt-price">
-                                                                            $ {{ $product->price }}
+                                                                            ৳ {{ $product->price }}
                                                                         </div>
                                                                         <div class="ppdt-sales">
                                                                             0 Sales
@@ -264,7 +264,6 @@
 </div>
 
 <!-- Add new Modal -->
-<!--Request Model-->
 <div class="modal fade" id="addnew" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

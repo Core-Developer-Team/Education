@@ -59,7 +59,7 @@
         </a>
     </li>
     <li>
-        <a href="" class="all-info__sections">
+        <a href="{{route('reported.ind')}}" class="all-info__sections">
             <span class="all-info__left"><i class="feather-alert-triangle me-2"></i>Reported</span>
             <span class="all-info__right">0</span>
         </a>

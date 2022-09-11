@@ -4,8 +4,8 @@
             <div class="col-md-3 col-6">
                 <div class="footer-items">
                     <ul class="footer-links d-flex">
-                        <li><a href="{{route('term.show')}}">Terms of Use</a></li>
-                        <li class="ms-auto"><a href="{{route('privacy.show')}}">Privacy Policy</a></li>
+                        <li><a href="{{ route('term.show') }}">Terms of Use</a></li>
+                        <li class="ms-auto"><a href="{{ route('privacy.show') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0)" >
+                            <a href="javascript:void(0)">
                                 <img class="img-container img-fluied bkashImg" src="{{ asset('images/bkash.png') }}"
                                     alt="Pay with bKash" id="bKash_button">
                             </a>
@@ -83,9 +83,10 @@
 <script src="{{ asset('js/offset_overlay.js') }}"></script>
 <script src="{{ asset('js/video.js') }}"></script>
 <script src="{{ asset('js/imagehover.js') }}"></script>
+
 @if (@env('BKASH_STATUS') == 'sandbox')
     <script id="myScript" src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js">
-</script>
+    </script>
 @else
     <script id="myScript" src="https://scripts.pay.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout.js"></script>
 @endif
@@ -95,6 +96,15 @@
     const requestForm = $('form#req');
     requestForm.on('submit', (e) => {
         e.preventDefault();
+
+        $('.requestnameError').text('');
+        $('.priceError').text('');
+        $('.dayError').text('');
+        $('.coursenameError').text('');
+        $('.descriptionError').text('');
+        $('.fileError').text('');
+        $('.tagError').text('');
+
         const form = document.getElementById('req');
         const formData = new FormData(form);
         const action = $(e.currentTarget).attr('action');
@@ -146,6 +156,13 @@
     const bookForm = $('form#bok');
     bookForm.on('submit', (e) => {
         e.preventDefault();
+
+        $('.priceerror').text('');
+        $('.cover_picError').text('');
+        $('.categoryerror').text('');
+        $('.title').text('');
+        $('.description').text('');
+
         const formbook = document.getElementById('bok');
         const formData = new FormData(formbook);
         const action = $(e.currentTarget).attr('action');
@@ -186,6 +203,13 @@
     const productForm = $('form#product');
     productForm.on('submit', (e) => {
         e.preventDefault();
+
+        $('.nameerror').text('');
+        $('.priceerror').text('');
+        $('.categoryerror').text('');
+        $('.cover_picError').text('');
+        $('.description').text('');
+
         const formproduct = document.getElementById('product');
         const formData = new FormData(formproduct);
         const action = $(e.currentTarget).attr('action');
@@ -226,6 +250,12 @@
     const courseForm = $('form#corse');
     courseForm.on('submit', (e) => {
         e.preventDefault();
+
+        $('.playlistserror').text('');
+        $('.categoryerror').text('');
+        $('.fileError').text('');
+        $('.type').text('');
+
         const formcourse = document.getElementById('corse');
         const formData = new FormData(formcourse);
         const action = $(e.currentTarget).attr('action');
@@ -254,7 +284,7 @@
                 if (errorResponse.type) {
                     $('.type').text(errorResponse.type[0]);
                 }
-                
+
             }
         })
     })
@@ -264,6 +294,13 @@
     const proposalForm = $('form#proposal');
     proposalForm.on('submit', (e) => {
         e.preventDefault();
+
+        $('.proposalname').text('');
+        $('.price').text('');
+        $('.file').text('');
+        $('.category').text('');
+        $('.description').text('');
+
         const formprop = document.getElementById('proposal');
         const formData = new FormData(formprop);
         const action = $(e.currentTarget).attr('action');
@@ -291,7 +328,7 @@
                 }
                 if (errorResponse.category) {
                     $('.category').text(errorResponse.category[0]);
-                } 
+                }
                 if (errorResponse.description) {
                     $('.description').text(errorResponse.description[0]);
                 }
@@ -305,6 +342,12 @@
     const tutoForm = $('form#tuto');
     tutoForm.on('submit', (e) => {
         e.preventDefault();
+
+        $('.playlistserror').text('');
+        $('.categoryerror').text('');
+        $('.typeError').text('');
+        $('.fileError').text('');
+
         const formtuto = document.getElementById('tuto');
         const formData = new FormData(formtuto);
         const action = $(e.currentTarget).attr('action');
@@ -333,7 +376,7 @@
                 if (errorResponse.file) {
                     $('.fileError').text(errorResponse.file[0]);
                 }
-            
+
             }
         })
     })
@@ -343,6 +386,14 @@
     const eventForm = $('form#event');
     eventForm.on('submit', (e) => {
         e.preventDefault();
+
+        $('.name').text('');
+        $('.location').text('');
+        $('.event_date').text('');
+        $('.start_time').text('');
+        $('.end_time').text('');
+        $('.image').text('');
+        $('.description').text('');
         const formevent = document.getElementById('event');
         const formData = new FormData(formevent);
         const action = $(e.currentTarget).attr('action');
@@ -389,6 +440,15 @@
     const contestform = $('form#contest');
     contestform.on('submit', (e) => {
         e.preventDefault();
+
+        $('.name').text('');
+        $('.location').text('');
+        $('.event_date').text('');
+        $('.start_time').text('');
+        $('.end_time').text('');
+        $('.image').text('');
+        $('.description').text('');
+
         const formcontest = document.getElementById('contest');
         const formData = new FormData(formcontest);
         const action = $(e.currentTarget).attr('action');

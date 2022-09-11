@@ -28,7 +28,7 @@
     <link href="{{asset('vendor/OwlCarousel/assets/owl.theme.default.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/bootstrap-select/css/bootstrap-select.min.css')}}" rel="stylesheet">
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 const bKasTokenUrl = "{!! route('token') !!}";
 const bKashCreatePaymentUrl =  "{!! route('createpayment') !!}";

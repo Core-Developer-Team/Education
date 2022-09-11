@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('req_solutions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('request_id')->constrained();
+            $table->foreignId('request_id')->constrained()->onDelete('cascade');
             $table->text('description');
             $table->string('file');
             $table->timestamps();

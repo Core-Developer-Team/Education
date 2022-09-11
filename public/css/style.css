@@ -15620,8 +15620,9 @@ input[class="super-sad"]:focus+svg {
 
 /*image */
 
-.author-left.userimg {
+.userimg {
     height: min-content;
+    display: inline;
 }
 
 

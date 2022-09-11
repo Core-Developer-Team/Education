@@ -1,4 +1,4 @@
-@section('title','home')
+@section('title', 'home')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -45,27 +45,27 @@
                         </div>
                         <ul class="info__sections">
                             <li>
-                                <a  class="all-info__sections">
+                                <a class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
                                     <span class="all-info__right">{{ $t_req_count }}</span>
                                 </a>
                             </li>
                             <li>
-                                <a  class="all-info__sections">
+                                <a class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-grid me-2"></i>Proposal</span>
                                     <span class="all-info__right">{{ $t_prop_count }}</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a  class="all-info__sections">
+                                <a class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-download me-2"></i>Request
                                         Solution</span>
                                     <span class="all-info__right">{{ $t_reqsolution_count }}</span>
                                 </a>
                             </li>
                             <li>
-                                <a  class="all-info__sections">
+                                <a class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-download me-2"></i>Proposal
                                         Solution</span>
                                     <span class="all-info__right">{{ $t_propsolution_count }}</span>
@@ -75,6 +75,7 @@
                     </div>
 
             </aside>
+
             <!--/side bar-->
             <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                 <div class="pl_item_search rrmt-30">
@@ -84,8 +85,8 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-8">
                                 <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
-                                        name="search" required>
+                                    <input class="form_input_1" type="text" id="search"
+                                        placeholder="Search within these results" name="search" required>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
@@ -134,9 +135,10 @@
                                 <div class="feed-shared-author-dt">
                                     <div class="author-left userimg">
                                         <img class="ft-plus-square job-bg-circle  bg-cyan mr-0"
-                                                src="/storage/{{ $data->user->image }}" alt="">
-                                                <div class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
-                                                </div>
+                                            src="/storage/{{ $data->user->image }}" alt="">
+                                        <div
+                                            class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                        </div>
                                         <!--hover on image-->
                                         <div class="box imagehov shadow"
                                             style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -146,12 +148,13 @@
                                                         <div class="feed-shared-author-dt">
                                                             <div class="author-left">
                                                                 <img class="ft-plus-square job-bg-circle bg-cyan"
-                                                                        src="/storage/{{ $data->user->image }}"
-                                                                        alt="">
-                                                                        <div class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
-                                                                        </div>
+                                                                    src="/storage/{{ $data->user->image }}"
+                                                                    alt="">
+                                                                <div
+                                                                    class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                </div>
                                                             </div>
-                                                           
+
                                                             <div class="author-dts">
                                                                 <p class="notification-text font-username">
                                                                     <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
@@ -165,12 +168,16 @@
 
                                                                 <p class="notification-text font-small-4 pt-1">
                                                                     <span class="time-dt">Joined on
-                                                                        {{ $data->user->created_at }}</span>
+                                                                        {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
                                                                 </p>
                                                                 <p class="notification-text font-small-4 pt-1">
-                                                                    <span class="time-dt">Last Seen 
-                                                                        @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
-                                                                        </span>
+                                                                    <span class="time-dt">Last Seen
+                                                                        @if (Cache::has('user-is-online-' . $data->user->id))
+                                                                            <span class="text-success">Online</span>
+                                                                        @else
+                                                                            {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }}
+                                                                        @endif
+                                                                    </span>
                                                                 </p>
                                                                 <p class="notification-text font-small-4 pt-1">
                                                                     <span class="time-dt">Total Solutions
@@ -202,7 +209,7 @@
                                         <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
                                             class="problems_title">{{ $data->requestname }}</a>
                                         <p class="notification-text font-username">
-                                        <div class="userimg">
+                                            <div class="userimg">
                                             <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
                                                 class=""
                                                 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
@@ -216,12 +223,12 @@
                                                         <div class="posts-list">
                                                             <div class="feed-shared-author-dt">
                                                                 <div class="author-left">
-                                                                    <img
-                                                                            class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                                            src="/storage/{{ $data->user->image }}"
-                                                                            alt="">
-                                                                            <div class="@if(Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
-                                                                            </div>
+                                                                    <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                        src="/storage/{{ $data->user->image }}"
+                                                                        alt="">
+                                                                    <div
+                                                                        class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                    </div>
                                                                 </div>
                                                                 <div class="author-dts">
                                                                     <p class="notification-text font-username">
@@ -236,12 +243,17 @@
 
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Joined on
-                                                                            {{ $data->user->created_at }}</span>
+                                                                            {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
-                                                                        <span class="time-dt">Last Seen 
-                                                                            @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
-                                                                            </span>
+                                                                        <span class="time-dt">Last Seen
+                                                                            @if (Cache::has('user-is-online-' . $data->user->id))
+                                                                                <span
+                                                                                    class="text-success">Online</span>
+                                                                            @else
+                                                                                {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }}
+                                                                            @endif
+                                                                        </span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Total Solutions
@@ -263,9 +275,9 @@
                                                 </div>
                                             </div>
                                             <!-- end hover-->
-                                        </div>
+                                            </div>
                                         <img src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
-                                            class="@if($data->user->badge_id == 5)@else d-none @endif "
+                                            class="@if ($data->user->badge_id == 5) @else d-none @endif "
                                             alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
@@ -286,9 +298,16 @@
                                                 <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                                 <span class="job-badge ttcolor">
                                                     @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 1)
-                                                        @if ($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60)
+                                                        @if ($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60 &&
+                                                            $data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) >= 1)
                                                             {{ $data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) }}
                                                             Minutes left
+                                                        @elseif($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 0)
+                                                            @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
+                                                                Closed
+                                                            @else
+                                                                Unsolved
+                                                            @endif
                                                         @else
                                                             {{ $data->days * 24 - $data->created_at->diffInHours(\Carbon\Carbon::now()) }}
                                                             Hours left
@@ -325,27 +344,25 @@
                                     <div class="aplcnts_15">
                                         <i
                                             class="feather-users mr-2"></i><span>Applied</span><ins>{{ $data->reqbid->count() }}</ins>
-                                        <i
-                                            class="feather-eye mr-2"></i><span>Views</span><ins>{{ $data->view_count }}</ins>
+                                        <i class="feather-eye mr-2"></i><span>Views</span><ins>{{ $data->view_count }}
+                                        </ins>
                                     </div>
                                     <div class="action-btns-job d-flex justify-content-space">
                                         <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
                                             class="view-btn btn-hover">View Job</a>
                                         @if ($data->user_id == Auth()->id())
-                                            <a href="{{ route('req.show', ['id' => $data->id]) }}" title="Edit"
-                                                class="px-3">
-                                                <button type="button" class="bm-btn btn-hover">
-                                                    <i class="feather-edit"></i>
+                                            <div class="@if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id) d-none @endif">
+                                                <a href="{{ route('req.show', ['id' => $data->id]) }}" title="Edit"
+                                                    class="px-3">
+                                                    <button type="button" class="bm-btn btn-hover">
+                                                        <i class="feather-edit"></i>
+                                                    </button>
+                                                </a>
+                                                <button class="bm-btn btn-hover delete-confirm" data-bs-toggle="modal"
+                                                data-bs-target="#delreq" data-id="{{$data->id}}"><i class="fa-solid fa-trash-can"></i>
                                                 </button>
-                                            </a>
-                                            <form action="{{ route('req.destroy', ['id' => $data->id]) }}"
-                                                method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="bm-btn btn-hover">
-                                                    <span class=""><i class="fa-solid fa-trash-can"></i></span>
-                                                </button>
-                                            </form>
+                                               
+                                            </div>
                                         @endif
 
                                         @isset($bid)
@@ -446,11 +463,6 @@
             </div>
             <div class="modal-body p-3">
                 <div class="container bg-white rounded">
-                    @if ($errors->any())
-                        @foreach ($errors->all() as $error)
-                            <div>{{ $error }}</div>
-                        @endforeach
-                    @endif
                     <!--Request Form-->
                     <form class="form form-prevent" method="POST" id="req" enctype="multipart/form-data"
                         action="{{ route('req.insert') }}">
@@ -463,8 +475,8 @@
                         </div>
                         <div class="form-group">
                             <label for="price">Request Price</label>
-                            <input type="number" class="form-control " name="price" id="price"
-                                value="{{ old('price') }}" placeholder="Price">
+                            <input type="number" class="form-control" name="price" id="price"
+                                value="{{ old('price') }}" placeholder="৳">
                             <div class="text-danger mt-2 text-sm priceError"></div>
                         </div>
                         <div class="form-group">
@@ -513,6 +525,29 @@
         </div>
     </div>
 </div>
+<!--delete Model-->
+<div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-3">
+                <p>Do you really want to delete these Request? </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{route('req.destroy')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="req_id" value="" id="req_id">
+				<button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+			</div>
+        </div>
+    </div>
+</div>
+
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
@@ -524,5 +559,14 @@
         $('#annclose').onclick = function() {
             $('#announcement').modal('hide');
         }
+    });
+</script>
+
+
+<script>
+    $(document).on("click", ".delete-confirm", function() {
+        var reqId = $(this).data('id');
+        $(".modal-footer #req_id").val(reqId);
+        $('#delreq').modal('show');
     });
 </script>

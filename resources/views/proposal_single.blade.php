@@ -73,7 +73,7 @@
 
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Joined on
-                                                                            {{ $data->user->created_at }}</span>
+                                                                            {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
                                                                         <span class="time-dt">Last Seen
@@ -144,7 +144,7 @@
 
                                                                         <p class="notification-text font-small-4 pt-1">
                                                                             <span class="time-dt">Joined on
-                                                                                {{ $data->user->created_at }}</span>
+                                                                                {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
                                                                         </p>
                                                                         <span class="time-dt">Last Seen
                                                                             @if (Cache::has('user-is-online-' . $data->user->id))
@@ -192,9 +192,15 @@
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
                                                 </div>
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
-                                                    <i
-                                                        class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->proposalbid()->count() }}</ins>
+                                                    @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1)
+                                                        <i class="feather-users ms-2"></i><span
+                                                            class="text-info">Applied</span><ins></ins>
+                                                    @else
+                                                        <i
+                                                            class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->proposalbid()->count() }}</ins>
+                                                    @endif
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -205,11 +211,11 @@
                                                 data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid Now</a>
 
                                             <a href="#"
-                                                class="apply_job_btn ps-4 view-btn btn-hover @if ($data->proposalbid()->where('user_id', Auth()->id())->count() == false || $data->propsolution()->where('user_id', Auth()->id())->count() >= 1 ) d-none @endif"
+                                                class="apply_job_btn ps-4 view-btn btn-hover @if ($data->proposalbid()->where('user_id', Auth()->id())->count() == false ||
+                                                    $data->propsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                 data-bs-toggle="modal" data-bs-target="#addsolution">
                                                 Solution
                                             </a>
-
                                         @endif
 
                                     </div>
@@ -262,7 +268,11 @@
                                                                                     <a href="#"><img
                                                                                             class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                                                                             src="/storage/{{ $bids->user->image }}"
-                                                                                            alt=""></a>
+                                                                                            alt="">
+                                                                                        <div
+                                                                                            class="@if (Cache::has('user-is-online-' . $bids->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                                        </div>
+                                                                                    </a>
                                                                                 </div>
                                                                                 <div class="author-dts">
                                                                                     <p
@@ -281,8 +291,16 @@
                                                                                     <p
                                                                                         class="notification-text font-small-4 pt-1">
                                                                                         <span class="time-dt">Joined on
-                                                                                            {{ $bids->user->created_at }}</span>
+                                                                                            {{ $bids->user->created_at->format('d:M:y g:i A') }}</span>
                                                                                     </p>
+                                                                                    <span class="time-dt">Last Seen
+                                                                                        @if (Cache::has('user-is-online-' . $bids->user->id))
+                                                                                            <span
+                                                                                                class="text-success">Online</span>
+                                                                                        @else
+                                                                                            {{ Carbon\Carbon::parse($bids->user->last_seen)->diffForHumans() }}
+                                                                                        @endif
+                                                                                    </span>
                                                                                     <p
                                                                                         class="notification-text font-small-4 pt-1">
                                                                                         <span class="time-dt">Total
@@ -321,14 +339,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <span class="job-badge ddcolor">${{ $bids->price }}</span>
+                                                    <span class="job-badge ddcolor">৳ {{ $bids->price }}</span>
 
-                                                    @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false )
-                                                    @if ($data->isAccept($data->id) != true)
-                                                    <span class="job-badge bg-success payNow" data-id="{{$bids->id}}" data-amount="{{$bids->price}}" data-resource="proposals">
-                                                        Take this offer
-                                                    </span>
-                                                    @endif
+                                                    @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false)
+                                                        @if ($data->isAccept($data->id) != true)
+                                                            <span class="job-badge bg-success payNow"
+                                                                data-id="{{ $bids->id }}"
+                                                                data-amount="{{ $bids->price }}"
+                                                                data-resource="proposals">
+                                                                Take this offer
+                                                            </span>
+                                                        @endif
                                                     @else
                                                         <form method="POST"class="job-badge p-0"
                                                             action="{{ route('messages') }}">
@@ -386,7 +407,11 @@
                                                                                 <a href="#"><img
                                                                                         class="ft-plus-square job-bg-circle bg-cyan mr-0"
                                                                                         src="/storage/{{ $item->user->image }}"
-                                                                                        alt=""></a>
+                                                                                        alt="">
+                                                                                    <div
+                                                                                        class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                                    </div>
+                                                                                </a>
                                                                             </div>
                                                                             <div class="author-dts">
                                                                                 <p
@@ -405,8 +430,16 @@
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1">
                                                                                     <span class="time-dt">Joined on
-                                                                                        {{ $item->user->created_at }}</span>
+                                                                                        {{ $item->user->created_at->format('d:M:y g:i A') }}</span>
                                                                                 </p>
+                                                                                <span class="time-dt">Last Seen
+                                                                                    @if (Cache::has('user-is-online-' . $item->user->id))
+                                                                                        <span
+                                                                                            class="text-success">Online</span>
+                                                                                    @else
+                                                                                        {{ Carbon\Carbon::parse($item->user->last_seen)->diffForHumans() }}
+                                                                                    @endif
+                                                                                </span>
                                                                                 <p
                                                                                     class="notification-text font-small-4 pt-1">
                                                                                     <span class="time-dt">Total
@@ -562,14 +595,14 @@
                         <input type="hidden" name="proposal_id" value="{{ $data->id }}">
                         <div class="form-group">
                             <label for="price">Enter Your Amount</label>
-                            <input type="number" class="form-control" name="price" id="price" placeholder=""
-                                value="{{ old('price') }}">
+                            <input type="number" class="form-control" name="price" id="price"
+                                placeholder="৳" value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceError"></div>
                         </div>
                         <div class="form-group pt-2 pb-2">
                             <label for="days">In how much days you'll done it</label>
-                            <input type="number" class="form-control" name="days" id="days" placeholder=""
-                                value="{{ old('days') }}">
+                            <input type="number" class="form-control" name="days" id="days"
+                                placeholder="No of days" value="{{ old('days') }}">
                             <div class="text-danger mt-2 text-sm daysError"></div>
                         </div>
                         <div class="form-group pt-2">
@@ -753,6 +786,11 @@
     const probidform = $('form#probid');
     probidform.on('submit', (e) => {
         e.preventDefault();
+
+        $('.priceError').text('');
+        $('.daysError').text('');
+        $('.descriptionError').text('');
+
         const formprobid = document.getElementById('probid');
         const formData = new FormData(formprobid);
         const action = $(e.currentTarget).attr('action');
@@ -788,6 +826,10 @@
     const propsolform = $('form#propsol');
     propsolform.on('submit', (e) => {
         e.preventDefault();
+
+        $('.fileeror').text('');
+        $('.descriptioneror').text('');
+
         const formprosolbid = document.getElementById('propsol');
         const formData = new FormData(formprosolbid);
         const action = $(e.currentTarget).attr('action');
@@ -820,6 +862,10 @@
     const reviewform = $('form#rev');
     reviewform.on('submit', (e) => {
         e.preventDefault();
+
+        $('.ratingerror').text('');
+        $('.revdescription').text('');
+
         const formrev = document.getElementById('rev');
         const formData = new FormData(formrev);
         const action = $(e.currentTarget).attr('action');

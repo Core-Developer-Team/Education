@@ -269,28 +269,28 @@
                         <div class="form-group">
                             <label for="location">Location</label>
                             <input type="text" class="form-control" name="location" id="location"
-                                placeholder="location" value="{{ old('location') }} ">
+                                placeholder="location of event" value="{{ old('location') }} ">
                             <div class="text-danger mt-2 text-sm location">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="date">Event_Date</label>
                             <input type="date" class="form-control" name="event_date" id="date"
-                                placeholder="date" value={{ old('event_date') }}>
+                                placeholder="Event date" value={{ old('event_date') }}>
                             <div class="text-danger mt-2 text-sm event_date">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="time">Start_Time</label>
                             <input type="time" class="form-control" name="start_time" id="time"
-                                placeholder="time" value={{ old('start_time') }}>
+                                placeholder="Event start time" value={{ old('start_time') }}>
                             <div class="text-danger mt-2 text-sm start_time">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="time">Event End_Time</label>
                             <input type="time" class="form-control" name="end_time" id="time"
-                                placeholder="time" value={{ old('end_time') }}>
+                                placeholder="Event End time" value={{ old('end_time') }}>
                             <div class="text-danger mt-2 text-sm end_time">
                             </div>
                         </div>

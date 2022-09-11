@@ -190,13 +190,13 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">Product_name</label>
-                            <input type="text" id="name" class="form-control" name="name"
+                            <input type="text" id="name" class="form-control" placeholder="Product Name" name="name"
                                 value="{{ old('name') }}">
                             <div class="text-danger mt-2 text-sm nameerror"></div>
                         </div>
                         <div class="form-group">
                             <label for="price">Product_Price</label>
-                            <input type="number" id="price" class="form-control" name="price"
+                            <input type="number" id="price" class="form-control" placeholder="৳" name="price"
                                 value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceerror"></div>
                         </div>
@@ -208,7 +208,7 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="category">Category</label>
-                            <input type="text" id="category" class="form-control" name="Category"
+                            <input type="text" id="category" class="form-control" placeholder="Category" name="Category"
                                 value="{{ old('Category') }}">
                             <div class="text-danger mt-2 text-sm categoryerror">
                             </div>

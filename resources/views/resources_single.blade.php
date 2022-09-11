@@ -321,7 +321,7 @@
                         <div class="form-group">
                             <label for="price">Enter Your Amount</label>
                             <input type="number" class="form-control" name="price" id="price"
-                                placeholder="$" value="{{ old('price') }}">
+                                placeholder="৳" value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceerr"></div>
                         </div>
 
@@ -356,6 +356,10 @@
     const resbidform = $('form#resbid');
     resbidform.on('submit', (e) => {
         e.preventDefault();
+
+        $('.priceerr').text('');
+        $('.descriptionerr').text('');
+
         const formresbid = document.getElementById('resbid');
         const formData = new FormData(formresbid);
         const action = $(e.currentTarget).attr('action');

@@ -327,19 +327,19 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">Resource Name</label>
-                            <input type="text" name="name" class="form-control" id="name">
+                            <input type="text" name="name" placeholder="Resource Name" class="form-control" id="name">
                             <div class="text-danger mt-2 text-sm name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="price">Resource Price</label>
-                            <input type="number" name="price" class="form-control" id="price">
+                            <input type="number" name="price" class="form-control" placeholder="৳" id="price">
                             <div class="text-danger mt-2 text-sm price">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="category">Resource Category</label>
-                            <input type="text" name="category" class="form-control" id="category">
+                            <input type="text" name="category" class="form-control" placeholder="Category" id="category">
                             <div class="text-danger mt-2 text-sm category">
                             </div>
                         </div>

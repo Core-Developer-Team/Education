@@ -444,7 +444,7 @@
                                                         </p>
                                                         <div class="ppdt-price-sales">
                                                             <div class="ppdt-price">
-                                                                $ {{ $item->price }}
+                                                                ৳ {{ $item->price }}
                                                             </div>
                                                             <div class="ppdt-sales">
                                                                 72 Learners

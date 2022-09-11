@@ -74,7 +74,7 @@
                                                         <a href="#" class="cmpny-dt2">{{$item->user->username}}</a>
                                                     </p>
                                                     <div class="item-price524">
-                                                        <span class="product-portfolio-price">$ {{$item->price}}<ins
+                                                        <span class="product-portfolio-price">৳ {{$item->price}}<ins
                                                                 class="ppdtotal-sales">0 Sales</ins></span>
                                                     </div>
 

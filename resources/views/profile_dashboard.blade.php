@@ -1,4 +1,4 @@
-@section('title','Profile_dashboard')
+@section('title', 'Profile_dashboard')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -20,11 +20,12 @@
                             <div class="banner-content">
                                 <div class="banner-media">
                                     <div class="item-profile-img">
-                                        <div style="margin-top: 10px; width:15px; height:15px;" class="@if(Cache::has('user-is-online-' . $user->id)) status-oncircle @else status-ofcircle @endif">
+                                        <div style="margin-top: 10px; width:15px; height:15px;"
+                                            class="@if (Cache::has('user-is-online-' . $user->id)) status-oncircle @else status-ofcircle @endif">
                                         </div>
                                         <img src="/storage/{{ $user->image }}" alt="User-Avatar"
                                             style="width: 100px; height:100px">
-                                          
+
                                     </div>
 
                                     <div class="banner-media-body">

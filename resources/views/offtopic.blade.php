@@ -1,4 +1,4 @@
-@section('title','Discussion')
+@section('title', 'Discussion')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -26,7 +26,7 @@
                             </div>
                             <div class="chat-container">
                                 <div class="chat-content">
-                                    <ul class="chats-lists">
+                                    <ul class="chats-lists" id="text">
                                         @if (session()->has('success'))
                                             <div class="alert alert-success mt-3">
                                                 {{ session()->get('success') }}
@@ -40,13 +40,17 @@
                                                 </div>
                                                 <div class="notifi-event">
                                                     <span
-                                                        class=" @if ($chat->user->id == Auth()->id()) text-warning @else text-secondary @endif">
+                                                        style="position: relative" class=" @if ($chat->user->id == Auth()->id()) text-warning @else text-secondary @endif">
+                                                        
                                                         @if ($chat->user->id == Auth()->id())
                                                             You
                                                         @else
                                                             {{ $chat->user->username }}
                                                         @endif
+                                                        <div style="width: 12px; height:12px; position: absolute;margin-left: -18px;" class="@if(Cache::has('user-is-online-' . $chat->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                        </div>
                                                     </span>
+                                                    
                                                     <span class="chat-msg-item">
                                                         {{ $chat->group_chat_message }}
                                                     </span>
@@ -54,16 +58,18 @@
                                                         <time datetime="2021-01-24T18:18"
                                                             class="posted-date">{{ $chat->updated_at->diffForHumans() }}</time>
                                                     </span>
-                                                     @if (!($chat->user_id==Auth()->id()))
-                                            
-                                                    @if (!($chat->offlinereport()->count() >= 1 && $chat->offlinereport->offlinetopic_id == $chat->id))
-                                                        <a data-toggle="modal" data-id="{{ $chat->user_id }}"
-                                                            data-mid="{{ $chat->id }}" title="Add this item"
-                                                            class="open-report btn" href="#report">Report </a>
-                                                    @else
-                                                        <button class="text-danger btn">Reported</button>
+                                                    <span style="font-size: 11px;" class="time-dt">
+                                                        @if(Cache::has('user-is-online-' . $chat->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($chat->user->last_seen)->diffForHumans() }} @endif
+                                                        </span>
+                                                    @if (!($chat->user_id == Auth()->id()))
+                                                        @if (!($chat->offlinereport()->count() >= 1 && $chat->offlinereport->offlinetopic_id == $chat->id))
+                                                            <a data-toggle="modal" data-id="{{ $chat->user_id }}"
+                                                                data-mid="{{ $chat->id }}" title="Add this item"
+                                                                class="open-report btn" href="#report">Report </a>
+                                                        @else
+                                                            <button class="text-danger btn">Reported</button>
+                                                        @endif
                                                     @endif
-                                                    @endif  
                                                 </div>
                                             </li>
                                         @endforeach
@@ -175,21 +181,25 @@
 </script>
 
 <script>
+     
     $(function() {
 
         $('#offchat').on('submit', function(e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            $.ajax({
-                type: 'post',
-                url: '{{ route('offlinetopic.get') }}',
-                data: $('#offchat').serialize(),
-                success: function() {
-                    alert('text send sussessfully');
-                }
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('offlinetopic.get') }}',
+                    data: $('#offchat').serialize(),
+                    success: function() {
+                        alert('text send sussessfully');
+                    }
+                });
+
             });
 
-        });
+       
+
     });
 </script>
