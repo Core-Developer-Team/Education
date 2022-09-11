@@ -58,15 +58,16 @@
                     <div class="jobdt99">
                         <div class="jbdes25">
                             <div class="jobtxt47">
-                                <h4>My Solution</h4>
+                                <h4>Reported Solution</h4>
 
-                                @forelse ($data as $item)
+                                @forelse ($datas as $item)
                                     <div
                                         class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
-                                        <div class="rounded-circle d-flex ">
+                                        <div class="rounded-circle d-flex">
                                             <div class="userimg">
-                                                <img src="/storage/{{ $item->user->image }}" class="rounded-circle"
-                                                    style="width: 50px;height: 50px;" alt="" srcset="">
+                                                <img src="/storage/{{ $item->reqsolution->user->image }}"
+                                                    class="rounded-circle" style="width: 50px;height: 50px;"
+                                                    alt="" srcset="">
                                                 <!--hover on image-->
                                                 <div class="box imagehov shadow"
                                                     style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -77,37 +78,37 @@
                                                                     <div class="author-left">
                                                                         <a href="#"><img
                                                                                 class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                                                src="/storage/{{ $item->user->image }}"
+                                                                                src="/storage/{{ $item->reqsolution->user->image }}"
                                                                                 alt=""></a>
                                                                     </div>
                                                                     <div class="author-dts">
                                                                         <p class="notification-text font-username">
                                                                             <a href="#"
-                                                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                                                                style="color: {{ $item->reqsolution->user->role->color->name }}">{{ $item->reqsolution->user->username }}
                                                                             </a><img
-                                                                                src="{{ $item->user->badge->image }}"
+                                                                                src="{{ $item->reqsolution->user->badge->image }}"
                                                                                 alt="" style="width: 20px;"
-                                                                                title="{{ $item->user->badge->name }}">
+                                                                                title="{{ $item->reqsolution->user->badge->name }}">
                                                                             <span class="job-loca"><i
-                                                                                    class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                                    class="fas fa-location-arrow"></i>{{ $item->reqsolution->user->uni_name }}</span>
                                                                         </p>
 
                                                                         <p class="notification-text font-small-4 pt-1">
                                                                             <span class="time-dt">Joined on
-                                                                                {{ $item->user->created_at }}</span>
+                                                                                {{ $item->reqsolution->user->created_at }}</span>
                                                                         </p>
                                                                         <p class="notification-text font-small-4 pt-1">
                                                                             <span class="time-dt">Total
                                                                                 Solutions
-                                                                                {{ $item->user->solutions }}</span>
+                                                                                {{ $item->reqsolution->user->solutions }}</span>
                                                                         </p>
                                                                         <p class="notification-text font-small-4 pt-1">
                                                                             <span class="time-dt">Rating
-                                                                                {{ $item->user->rating }}</span>
+                                                                                {{ $item->reqsolution->user->rating }}</span>
                                                                         </p>
                                                                         <p class="notification-text font-small-4 pt-1">
                                                                             <span
-                                                                                class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                                class="time-dt">{{ $item->reqsolution->user->badge->name }}</span>
                                                                         </p>
                                                                     </div>
 
@@ -121,8 +122,8 @@
                                             <div class="ps-4 pt-0">
                                                 <div class="userimg">
                                                     <p class="h2"
-                                                        style="color: {{ $item->user->role->color->name }}">
-                                                        {{ $item->user->username }}</p>
+                                                        style="color: {{ $item->reqsolution->user->role->color->name }}">
+                                                        {{ $item->reqsolution->user->username }}</p>
                                                     <!--hover on image-->
                                                     <div class="box imagehov shadow"
                                                         style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -133,41 +134,41 @@
                                                                         <div class="author-left">
                                                                             <a href="#"><img
                                                                                     class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                                                    src="/storage/{{ $item->user->image }}"
+                                                                                    src="/storage/{{ $item->reqsolution->user->image }}"
                                                                                     alt=""></a>
                                                                         </div>
                                                                         <div class="author-dts">
                                                                             <p class="notification-text font-username">
                                                                                 <a href="#"
-                                                                                    style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                                                                    style="color: {{ $item->reqsolution->user->role->color->name }}">{{ $item->reqsolution->user->username }}
                                                                                 </a><img
-                                                                                    src="{{ $item->user->badge->image }}"
+                                                                                    src="{{ $item->reqsolution->user->badge->image }}"
                                                                                     alt="" style="width: 20px;"
-                                                                                    title="{{ $item->user->badge->name }}">
+                                                                                    title="{{ $item->reqsolution->user->badge->name }}">
                                                                                 <span class="job-loca"><i
-                                                                                        class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                                        class="fas fa-location-arrow"></i>{{ $item->reqsolution->user->uni_name }}</span>
                                                                             </p>
 
                                                                             <p
                                                                                 class="notification-text font-small-4 pt-1">
                                                                                 <span class="time-dt">Joined on
-                                                                                    {{ $item->user->created_at }}</span>
+                                                                                    {{ $item->reqsolution->user->created_at }}</span>
                                                                             </p>
                                                                             <p
                                                                                 class="notification-text font-small-4 pt-1">
                                                                                 <span class="time-dt">Total
                                                                                     Solutions
-                                                                                    {{ $item->user->solutions }}</span>
+                                                                                    {{ $item->reqsolution->user->solutions }}</span>
                                                                             </p>
                                                                             <p
                                                                                 class="notification-text font-small-4 pt-1">
                                                                                 <span class="time-dt">Rating
-                                                                                    {{ $item->user->rating }}</span>
+                                                                                    {{ $item->reqsolution->user->rating }}</span>
                                                                             </p>
                                                                             <p
                                                                                 class="notification-text font-small-4 pt-1">
                                                                                 <span
-                                                                                    class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                                    class="time-dt">{{ $item->reqsolution->user->badge->name }}</span>
                                                                             </p>
                                                                         </div>
 
@@ -181,20 +182,20 @@
                                                 <p> <small>Created on
                                                         {{ $item->created_at->diffForHumans() }}</small>
                                                 </p>
-                                                <p>{{ $item->description }}</p>
+                                                <p>{{ $item->reqsolution->description }}</p>
                                                 <div class="jobtxt47">
                                                     <hr>
                                                     <h4>Download file from here</h4>
 
-                                                    <a href="{{ $item->file }}"
-                                                        download="{{ $item->file }}">{{ $item->file }}</a>
+                                                    <a href="{{ $item->reqsolution->file }}" download>download file
+                                                        from here</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @empty
                                     <div class="alert alert-success mt-3">
-                                        No solutions Yet
+                                        Sorry! No data found
                                     </div>
                                 @endforelse
                             </div>

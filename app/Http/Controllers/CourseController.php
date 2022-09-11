@@ -200,7 +200,7 @@ class CourseController extends Controller
                 },
             ],
             'Category'      => ['required', 'max:25'],
-            'type'          => ['required'],
+            'type'          => ['required','regex:/^(0|1)$/'],
         ]);
 
         if ($request->hasFile('file')) {

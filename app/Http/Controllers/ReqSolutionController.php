@@ -120,4 +120,29 @@ class ReqSolutionController extends Controller
         ]);
         return back();
     }
+    //All Reported Solution
+    public function Allrepsolution()
+    {
+        $datas = Reqsolutionreport::all();
+        $bid = Reqbid::all();
+        $req_count = ModelsRequest::count();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+
+        $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+        $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+        $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+        $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+
+        return view('reportedsolutions',compact('datas', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    }
+
 }

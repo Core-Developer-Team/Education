@@ -186,7 +186,7 @@
                                                                         type="button" data-bs-toggle="collapse"
                                                                         data-bs-target="#CollapseOrder1">Your
                                                                         Orders</button>
-                                                                    <div class="total-price font-weight-bold">$40.56
+                                                                    <div class="total-price font-weight-bold">৳40.56
                                                                     </div>
                                                                 </div>
                                                                 <div class="collapse" id="CollapseOrder1">
@@ -203,7 +203,7 @@
                                                                                         License</span>
                                                                                 </div>
                                                                                 <div class="summary-quote-entry__price">
-                                                                                    <span>$18.00</span>
+                                                                                    <span>৳18.00</span>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="summary-quote-entry">
@@ -214,7 +214,7 @@
                                                                                         Python 3</span>
                                                                                 </div>
                                                                                 <div class="summary-quote-entry__price">
-                                                                                    <span>$18.00</span>
+                                                                                    <span>৳18.00</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -229,7 +229,7 @@
                                                                         <span>Handling Fee :</span>
                                                                     </div>
                                                                     <div class="summary-quote-entry__price">
-                                                                        <span>$0.00</span>
+                                                                        <span>৳0.00</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="summary-quote-entry">
@@ -237,7 +237,7 @@
                                                                         <span>GST :</span>
                                                                     </div>
                                                                     <div class="summary-quote-entry__price">
-                                                                        <span>$4.56</span>
+                                                                        <span>৳4.56</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -249,7 +249,7 @@
                                                                 </div>
                                                                 <div class="summary-quote__total-price">
                                                                     <h4 class="total-heading mb-0">
-                                                                        <b class="total-currency">$40.56</b>
+                                                                        <b class="total-currency">৳40.56</b>
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -308,7 +308,7 @@
                                                                         type="button" data-bs-toggle="collapse"
                                                                         data-bs-target="#CollapseOrder2">Your
                                                                         Orders</button>
-                                                                    <div class="total-price font-weight-bold">$40.56
+                                                                    <div class="total-price font-weight-bold">৳40.56
                                                                     </div>
                                                                 </div>
                                                                 <div class="collapse" id="CollapseOrder2">
@@ -325,7 +325,7 @@
                                                                                         License</span>
                                                                                 </div>
                                                                                 <div class="summary-quote-entry__price">
-                                                                                    <span>$18.00</span>
+                                                                                    <span>৳18.00</span>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="summary-quote-entry">
@@ -336,7 +336,7 @@
                                                                                         Python 3</span>
                                                                                 </div>
                                                                                 <div class="summary-quote-entry__price">
-                                                                                    <span>$18.00</span>
+                                                                                    <span>৳18.00</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -351,7 +351,7 @@
                                                                         <span>Handling Fee :</span>
                                                                     </div>
                                                                     <div class="summary-quote-entry__price">
-                                                                        <span>$0.00</span>
+                                                                        <span>৳0.00</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="summary-quote-entry">
@@ -359,7 +359,7 @@
                                                                         <span>GST :</span>
                                                                     </div>
                                                                     <div class="summary-quote-entry__price">
-                                                                        <span>$4.56</span>
+                                                                        <span>৳4.56</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -371,7 +371,7 @@
                                                                 </div>
                                                                 <div class="summary-quote__total-price">
                                                                     <h4 class="total-heading mb-0">
-                                                                        <b class="total-currency">$40.56</b>
+                                                                        <b class="total-currency">৳40.56</b>
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -431,7 +431,7 @@
                                                                                         Python 3</span>
                                                                                 </div>
                                                                                 <div class="summary-quote-entry__price">
-                                                                                    <span>$18.00</span>
+                                                                                    <span>৳18.00</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -446,7 +446,7 @@
                                                                         <span>Handling Fee :</span>
                                                                     </div>
                                                                     <div class="summary-quote-entry__price">
-                                                                        <span>$0.00</span>
+                                                                        <span>৳0.00</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="summary-quote-entry">
@@ -454,7 +454,7 @@
                                                                         <span>GST :</span>
                                                                     </div>
                                                                     <div class="summary-quote-entry__price">
-                                                                        <span>$4.56</span>
+                                                                        <span>৳4.56</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -466,7 +466,7 @@
                                                                 </div>
                                                                 <div class="summary-quote__total-price">
                                                                     <h4 class="total-heading mb-0">
-                                                                        <b class="total-currency">$40.56</b>
+                                                                        <b class="total-currency">৳40.56</b>
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -496,7 +496,7 @@
                                     Cursus - LMS & Online Courses Marketplace HTML Template
                                 </div>
                                 <div class="order-summary-entry__price">
-                                    <span>$18.00</span>
+                                    <span>৳ 18.00</span>
                                 </div>
                             </div>
                             <div class="order-summary__entry">
@@ -504,20 +504,20 @@
                                     Complete Python Bootcamp: Go from zero to hero in Python 3
                                 </div>
                                 <div class="order-summary__price">
-                                    <span>$18.00</span>
+                                    <span>৳ 18.00</span>
                                 </div>
                             </div>
                             <div class="order-summary__list">
                                 <div class="order-summary__entry">
                                     <div class="order-summary__description text-hidden">Handling Fee:</div>
-                                    <div class="order-summary__price">$0.00</div>
+                                    <div class="order-summary__price">৳ 0.00</div>
                                 </div>
                                 <div class="order-summary__entry">
                                     <div class="order-summary__description text-hidden">
                                         GST:
                                         <a href="#">Learn more</a>
                                     </div>
-                                    <div class="order-summary__price">$4.56</div>
+                                    <div class="order-summary__price">৳ 4.56</div>
                                 </div>
                             </div>
                             <div class="order-summary-list__total">
@@ -527,7 +527,7 @@
                                     </div>
                                     <div class="order-summary__price">
                                         <h4 class="total-heading mb-0">
-                                            <b class="total-currency">$40.56</b>
+                                            <b class="total-currency">৳ 40.56</b>
                                         </h4>
                                     </div>
                                 </div>

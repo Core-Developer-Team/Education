@@ -35,10 +35,15 @@
                                             <a href="#">
                                                 <img class="ft-plus-square iconreq job-bg-circle bg-cyan mr-0"
                                                     src="{{ $data->user->badge->image }}"
-                                                    style="width:30px; height:30px"
+                                                    style="width:25px; height:25px; margin-top:5px"
                                                     title="{{ $data->user->badge->name }}">
                                                 <img class="ft-plus-square main-job-bg-circle bg-cyan me-0"
-                                                    src="/storage/{{ $data->user->image }}" alt=""></a>
+                                                    src="/storage/{{ $data->user->image }}" alt="">
+                                                <div style="width: 17px; height:17px;margin-top: 80px; position:absolute;display: inline-block;margin-left: -30px;"
+                                                    class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                </div>
+                                            </a>
+
                                             <!--hover on image-->
                                             <div class="box imagehov shadow"
                                                 style="width: auto; height:auto;  position: absolute; z-index: 1;">
@@ -321,7 +326,7 @@
                         <div class="form-group">
                             <label for="price">Enter Your Amount</label>
                             <input type="number" class="form-control" name="price" id="price"
-                                placeholder="$" value="{{ old('price') }}">
+                                placeholder="৳" value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceerr"></div>
                         </div>
 
@@ -356,6 +361,10 @@
     const resbidform = $('form#resbid');
     resbidform.on('submit', (e) => {
         e.preventDefault();
+
+        $('.priceerr').text('');
+        $('.descriptionerr').text('');
+
         const formresbid = document.getElementById('resbid');
         const formData = new FormData(formresbid);
         const action = $(e.currentTarget).attr('action');

@@ -57,7 +57,7 @@
                                 <span>Learning Plateform</span>
                                 <h4>Keep learning in the moments that matter.</h4>
                                 <button class="main-btn color btn-hover"
-                                    onclick="window.location.href='{{ route('course.index') }}'">See Courses</button>
+                                    onclick="window.location.href='{{route('course.index')}}'">See Courses</button>
                             </div>
                         </div>
                     </div>
@@ -153,7 +153,7 @@
                                                                                 </p>
                                                                                 <div class="ppdt-price-sales">
                                                                                     <div class="ppdt-price">
-                                                                                        $ {{ $items['price'] }}
+                                                                                    ৳ {{ $items['price'] }}
                                                                                     </div>
                                                                                     <div class="ppdt-sales">
                                                                                         0 Sales
@@ -251,7 +251,7 @@
                                                                                 </p>
                                                                                 <div class="ppdt-price-sales">
                                                                                     <div class="ppdt-price">
-                                                                                        $ {{ $items['price'] }}
+                                                                                    ৳ {{ $items['price'] }}
                                                                                     </div>
                                                                                     <div class="ppdt-sales">
                                                                                         0 Sales

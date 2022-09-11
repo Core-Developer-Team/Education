@@ -70,7 +70,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count', 'prev_count', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('previousyearrequests', compact('datas', 'sol_count', 'prev_count', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //get latest request
     public function latest()
@@ -324,9 +324,10 @@ class RequestController extends Controller
         return redirect('/')->with('requpstatus', 'Your Request updated Successfully:)');
     }
     // Delete
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $data = ModelsRequest::find($id);
+       
+        $data = ModelsRequest::find($request->req_id);
         $file_path = public_path() . $data->file;
         if (File::exists($file_path)) {
             File::delete($file_path);
@@ -334,4 +335,29 @@ class RequestController extends Controller
         $data->delete();
         return back()->with('success', 'Request has deleted Successfully');
     }
+
+    function action(Request $request)
+    {
+        if($request->ajax())
+        {
+            $query = $request->get('query');
+            if($query != '')
+            {
+                $datas = ModelsRequest::query()
+                ->where('requestname', 'LIKE', "%{$query}%")
+                ->orWhere('coursename', 'LIKE', "%{$query}%")
+                ->cursorPaginate(6);
+                return $datas;
+                //return response()->json(['datas' => $datas]);
+            }
+            else
+            {
+                $datas = ModelsRequest::orderBy('created_at', 'DESC')->cursorPaginate(6);
+                return $datas;
+               // return response()->json(['datas' => $datas]);
+            }
+           
+        }
+    }
+
 }

@@ -124,7 +124,7 @@
                                                     </div>
                                                     <div class="author-dts pp-20">
                                                         <a 
-                                                            class="job-heading pp-title">{{ $item->book_name }}</a>
+                                                            class="job-heading pp-title">{{ $item->title }}</a>
                                                         <p class="notification-text font-small-4">
                                                             by <a
                                                                 href="{{ route('profile.show', ['id' => $item->user_id]) }}"
