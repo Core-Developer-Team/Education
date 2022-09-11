@@ -1,4 +1,4 @@
-@section('title','Product')
+@section('title','Marketplace')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">

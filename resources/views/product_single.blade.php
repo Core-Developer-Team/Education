@@ -389,7 +389,6 @@
                                                             <img class="ft-plus-square product-bg-w bg-cyan mr-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
-                                                                <div class="badge-level trnd-clr">Trending</div>
                                                                 <div class="badge-timer">
                                                                     {{ $item->created_at->diffForHumans() }}</div>
                                                             </div>
@@ -403,15 +402,15 @@
                                                                 style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
                                                         </p>
                                                         <p class="notification-text font-small-4 pt-1 catey-group">
-                                                            <a href="#" class="catey-dt">Web Development</a>
-                                                            <a href="#" class="catey-sub">Python</a>
+                                                            
+                                                            <a href="#" class="catey-sub">{{$item->Category}}</a>
                                                         </p>
                                                         <div class="ppdt-price-sales">
                                                             <div class="ppdt-price">
                                                                 ৳ {{ $item->price }}
                                                             </div>
                                                             <div class="ppdt-sales">
-                                                                72 Learners
+                                                               0 sales
                                                             </div>
                                                         </div>
                                                     </div>
@@ -425,10 +424,8 @@
                                                             View</a>
                                                     </div>
                                                     <div class="action-btns-job">
-                                                        <a href="#" class="crt-btn crt-btn-hover mr-2"><i
-                                                                class="feather-shopping-cart"></i></a>
-                                                        <a href="#" class="bm-btn bm-btn-hover active"><i
-                                                                class="feather-bookmark"></i></a>
+                                                        <i class="fa fa-eye"></i>
+                                                        {{ $item->view_count }}
                                                     </div>
                                                 </div>
                                             </div>

@@ -192,7 +192,7 @@
                                     </div>
                                     <div class="iconreq">
                                         <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                            src="{{ $item->user->badge->image }}" style="width:30px; height:30px"
+                                            src="{{ $item->user->badge->image }}" style="width:20px; height:20px"
                                             title="{{ $item->user->badge->name }}">
                                     </div>
                                     <div class="author-dts">

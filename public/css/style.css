@@ -15644,8 +15644,8 @@ input[class="super-sad"]:focus+svg {
 /*end imagehover*/
 
 .status-oncircle {
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     background-color: green;
     border: 2px solid white;
@@ -15655,11 +15655,13 @@ input[class="super-sad"]:focus+svg {
 }
 
 .status-ofcircle {
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     background-color: grey;
     border: 2px solid white;
     position: absolute;
-    margin-top: -20px;
+    margin-top: 0px;
+    display: inline;
+    margin-left: -20px;
 }

@@ -136,7 +136,7 @@
                                     <div class="author-left userimg">
                                         <img class="ft-plus-square job-bg-circle  bg-cyan mr-0"
                                             src="/storage/{{ $data->user->image }}" alt="">
-                                        <div
+                                        <div 
                                             class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
                                         </div>
                                         <!--hover on image-->
@@ -202,7 +202,7 @@
                                     </div>
                                     <div class="iconreq">
                                         <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                            src="{{ $data->user->badge->image }}" style="width:30px; height:30px"
+                                            src="{{ $data->user->badge->image }}" style="width:20px; height:20px"
                                             title="{{ $data->user->badge->name }}">
                                     </div>
                                     <div class="author-dts">

@@ -35,11 +35,11 @@
                                             <a href="#">
                                                 <img class="ft-plus-square iconreq job-bg-circle bg-cyan mr-0"
                                                     src="{{ $data->user->badge->image }}"
-                                                    style="width:30px; height:30px; position: absolute;"
+                                                    style="width:25px; height:25px; ; margin-top:5px; position: absolute;"
                                                     title="{{ $data->user->badge->name }}">
                                                 <img class="ft-plus-square main-job-bg-circle bg-cyan me-0"
                                                     src="/storage/{{ $data->user->image }}" alt="">
-                                                <div style="width: 20px; height:20px; margin-top:-30px; position:absolute"
+                                                <div style="width: 15px; height:15px;margin-top: 80px; position:absolute;display: inline-block;margin-left: -30px;"
                                                     class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
                                                 </div>
                                             </a>
@@ -225,7 +225,7 @@
                                                     Solution
                                                 </a>
                                             @endif
-
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -258,11 +258,15 @@
                                                 <div class="">
                                                     <div class="rounded-circle d-flex">
                                                         <div class="userimg">
+                                                            <img class="ft-plus-square job-bg-circle iconreq bg-cyan mr-0"
+                                                                src="{{ $bids->user->badge->image }}"
+                                                                style="width:20px; height:20px"
+                                                                title="{{ $bids->user->badge->name }}">
                                                             <img src="/storage/{{ $bids->user->image }}"
                                                                 class="rounded-circle"
                                                                 style="width: 50px;height: 50px;" alt=""
                                                                 srcset="">
-                                                            <div
+                                                            <div style="margin-top: 38px; position:absolute;display: inline-block;margin-left: -18px;"
                                                                 class="@if (Cache::has('user-is-online-' . $bids->user->id)) status-oncircle @else status-ofcircle @endif">
                                                             </div>
                                                             <!--hover on image-->
@@ -402,11 +406,15 @@
                                                     class="d-sm-flex align-items-center rounded border-none mt-3 p-3  mb-4">
                                                     <div class="rounded-circle d-flex ">
                                                         <div class="userimg">
+                                                            <img class="ft-plus-square job-bg-circle iconreq bg-cyan mr-0"
+                                                                src="{{ $item->user->badge->image }}"
+                                                                style="width:20px; height:20px"
+                                                                title="{{ $item->user->badge->name }}">
                                                             <img src="/storage/{{ $item->user->image }}"
                                                                 class="rounded-circle"
                                                                 style="width: 50px;height: 50px;" alt=""
                                                                 srcset="">
-                                                            <div
+                                                            <div style="margin-top: 38px; position:absolute;display: inline-block;margin-left: -18px;"
                                                                 class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
                                                             </div>
                                                             <!--hover on image-->
