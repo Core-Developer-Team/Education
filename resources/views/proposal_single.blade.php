@@ -617,6 +617,7 @@
                     <!--bid Form-->
                     <form class="form p-3" method="POST" id="probid" action="{{ route('proposalbid.store') }}">
                         @csrf
+                        <input type="hidden" name="proposal_user" value="{{ $data->user_id }}">
                         <input type="hidden" name="proposal_id" value="{{ $data->id }}">
                         <div class="form-group">
                             <label for="price">Enter Your Amount</label>
@@ -666,6 +667,7 @@
                     <form class="form p-3 form-prevent-mul" method="POST" id="propsol"
                         action="{{ route('prosolution.store') }}" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="proposal_user" value="{{ $data->user_id }}">
                         <input type="hidden" name="proposal_id" value="{{ $data->id }}">
                         <input type="hidden" name="user_id" value="{{ Auth()->id() }}" required>
                         <div class="form-group">

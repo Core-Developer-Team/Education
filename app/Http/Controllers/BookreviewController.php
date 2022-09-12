@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Bookreview;
+use App\Models\User;
+use App\Notifications\BookrevNotification;
 use Illuminate\Http\Request;
 
 class BookreviewController extends Controller
@@ -32,6 +34,13 @@ class BookreviewController extends Controller
             $book->rating = $rating;
             $book->save();
         }
+
+        if (auth()->user()) {
+            $user = User::find(auth()->user()->id);
+            $data = User::find($request->book_user);
+            $data->notify(new BookrevNotification($user));
+        }
+
         return back()->with('status', 'Thanks for your Review :)');
     }
 }

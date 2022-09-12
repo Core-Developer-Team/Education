@@ -734,6 +734,7 @@
                                                             </p>
                                                             <!-- Download solution from here -->
                                                             <p>{{ $item->description }}</p>
+                                                            
                                                             <div class="jobtxt47">
                                                                 <a href=" {{ $data->istTakeSolution($data->id) ? $item->file : 'javascript:void(0)' }} "
                                                                     download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
@@ -831,7 +832,7 @@
                                                                                         style="width: 20px;"
                                                                                         title="{{ $item->user->badge->name }}">
                                                                                     <span class="job-loca"><i
-                                                                                            class="fas fa-location-arrow"></i>{{ $bids->user->uni_name }}</span>
+                                                                                            class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
                                                                                 </p>
 
                                                                                 <p
@@ -921,6 +922,8 @@
                                             <form method="POST" action="{{ route('reqcomment.store') }}"
                                                 class="p-5 bg-light">
                                                 @csrf
+                                                <input type="hidden" name="request_user"
+                                                    value="{{ $data->user_id }}">
                                                 <input type="hidden" name="request_id"
                                                     value="{{ $data->id }}">
                                                 <div class="form-group">
@@ -1016,6 +1019,7 @@
                     <!--bid Form-->
                     <form class="form p-3" method="POST" id="reqbid" action="{{ route('reqbid.store') }}">
                         @csrf
+                        <input type="hidden" name="request_user" value="{{ $data->user_id }}">
                         <input type="hidden" name="request_id" value="{{ $data->id }}">
                         <input type="hidden" name="user_id" value="{{ Auth()->id() }}" required>
                         <div class="form-group pt-2 pb-2">
@@ -1070,6 +1074,7 @@
                     <form class="form p-3 form-prevent-mul" method="POST" id="reqsol"
                         action="{{ route('reqsol.store') }}" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="request_user" value="{{ $data->user_id }}">
                         <input type="hidden" name="request_id" value="{{ $data->id }}">
                         <input type="hidden" name="user_id" value="{{ Auth()->id() }}" required>
                         <div class="form-group">
@@ -1213,7 +1218,6 @@
 <script src="{{ asset('asset/js/bkashpayment.js') }}"></script>
 <!---/footer-->
 <!--req Bid model script-->
-
 <script>
     const reqbidform = $('form#reqbid');
     reqbidform.on('submit', (e) => {

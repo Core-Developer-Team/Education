@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Playlist;
 use App\Models\Tutorialreview;
+use App\Models\User;
+use App\Notifications\TutorialNotification;
 use Illuminate\Http\Request;
 
 class TutorialreviewController extends Controller
@@ -32,6 +34,9 @@ class TutorialreviewController extends Controller
             $tutorial->rating = $rating;
             $tutorial->save();
         }
+
+       
+
         return back()->with('status', 'Thanks for your Review :)');
     }
 }

@@ -136,7 +136,7 @@
                                     <div class="author-left userimg">
                                         <img class="ft-plus-square job-bg-circle  bg-cyan mr-0"
                                             src="/storage/{{ $data->user->image }}" alt="">
-                                        <div 
+                                        <div
                                             class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
                                         </div>
                                         <!--hover on image-->
@@ -209,7 +209,7 @@
                                         <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
                                             class="problems_title">{{ $data->requestname }}</a>
                                         <p class="notification-text font-username">
-                                            <div class="userimg">
+                                        <div class="userimg">
                                             <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
                                                 class=""
                                                 style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
@@ -275,7 +275,7 @@
                                                 </div>
                                             </div>
                                             <!-- end hover-->
-                                            </div>
+                                        </div>
                                         <img src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
                                             class="@if ($data->user->badge_id == 5) @else d-none @endif "
                                             alt="Verified" style="width: 17px;" title="Verified">
@@ -359,9 +359,10 @@
                                                     </button>
                                                 </a>
                                                 <button class="bm-btn btn-hover delete-confirm" data-bs-toggle="modal"
-                                                data-bs-target="#delreq" data-id="{{$data->id}}"><i class="fa-solid fa-trash-can"></i>
+                                                    data-bs-target="#delreq" data-id="{{ $data->id }}"><i
+                                                        class="fa-solid fa-trash-can"></i>
                                                 </button>
-                                               
+
                                             </div>
                                         @endif
 
@@ -537,13 +538,13 @@
                 <p>Do you really want to delete these Request? </p>
             </div>
             <div class="modal-footer justify-content-center">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="{{route('req.destroy')}}" method="post">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('req.destroy') }}" method="post">
                     @csrf
                     <input type="hidden" name="req_id" value="" id="req_id">
-				<button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-			</div>
+            </div>
         </div>
     </div>
 </div>
@@ -561,7 +562,6 @@
         }
     });
 </script>
-
 
 <script>
     $(document).on("click", ".delete-confirm", function() {

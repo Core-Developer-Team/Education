@@ -152,6 +152,7 @@
                                                     @endforeach
                                                 @endif
                                                 @csrf
+                                                <input type="hidden" name="product_user" value="{{ $data->user_id }}">
                                                 <input type="hidden" name="product_id" value="{{ $data->id }}">
                                                 <div class="mt-30">
                                                     <div class="rating-container">

@@ -195,6 +195,7 @@
                                                 @endforeach
                                             @endif
                                             @csrf
+                                            <input type="hidden" name="course_user" value="{{ $playlist->user_id }}">
                                             <input type="hidden" name="course_id" value="{{ $playlist->id }}">
                                             <div class="mt-30">
                                                 <div class="rating-container">

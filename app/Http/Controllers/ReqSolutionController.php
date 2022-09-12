@@ -15,6 +15,7 @@ use App\Models\Reqsolutionreport;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\User;
+use App\Notifications\SolNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,12 @@ class ReqSolutionController extends Controller
         $deleteMessage = Message::whereIn('from_user_id', [$findRequest, $request->user_id])->whereIn('to_user_id', [$findRequest, $request->user_id])->delete();
 
         $users->update();
+
+        if(auth()->user()){
+            $user = User::find(auth()->user()->id);
+            $data = User::find($request->request_user);
+            $data->notify(new SolNotification($user));
+            }
 
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
     }

@@ -17,13 +17,15 @@ use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\Review;
 use App\Models\User;
+use App\Notifications\CommentNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Notifications\Notifiable;
 class RequestController extends Controller
-{
+{  
+    
     // All requests page
     public function index()
     {

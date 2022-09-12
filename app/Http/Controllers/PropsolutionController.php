@@ -8,6 +8,7 @@ use App\Models\Proposalbid;
 use App\Models\Propsolreport;
 use App\Models\Propsolution;
 use App\Models\User;
+use App\Notifications\PsolNotification;
 use Illuminate\Http\Request;
 
 class PropsolutionController extends Controller
@@ -31,13 +32,13 @@ class PropsolutionController extends Controller
 
         $users = User::where('id', $request->user_id)->first();
 
-        if ($users->solutions >= 20) {
+        if ($users->solutions >= 20 && $users->solutions<=70) {
             $users->badge_id = 2;
-        } elseif ($users->solutions >= 70) {
+        } elseif ($users->solutions > 70 && $users->solutions <= 80 && $users->rating>=4.7 ) {
             $users->badge_id = 3;
-        } elseif ($users->solutions >= 80) {
+        } elseif ($users->solutions > 80 && $users->solutions <= 100 && $users->rating>=4.0) {
             $users->badge_id = 4;
-        } elseif ($users->solutions >= 100) {
+        } elseif ($users->solutions > 100 && $users->rating>=4.0) {
             $users->badge_id = 5;
         }
 
@@ -46,6 +47,13 @@ class PropsolutionController extends Controller
         $deleteMessage = Message::whereIn('from_user_id', [$findRequest, $request->user_id])->whereIn('to_user_id', [$findRequest, $request->user_id])->delete();
 
         $users->update();
+
+        if (auth()->user()) {
+            $user = User::find(auth()->user()->id);
+            $data = User::find($request->proposal_user);
+            $data->notify(new PsolNotification($user));
+        }
+
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
     }
     public function solutionreport($uid, $rid, $sid)

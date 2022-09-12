@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Productreview;
+use App\Models\User;
+use App\Notifications\ProductrevNotification;
 use Illuminate\Http\Request;
 
 class ProductreviewController extends Controller
@@ -32,6 +34,13 @@ class ProductreviewController extends Controller
             $product->rating = $rating;
             $product->save();
         }
+
+        if (auth()->user()) {
+            $user = User::find(auth()->user()->id);
+            $data = User::find($request->product_user);
+            $data->notify(new ProductrevNotification($user));
+        }
+
         return back()->with('status', 'Thanks for your Review :)');
     }
 }
