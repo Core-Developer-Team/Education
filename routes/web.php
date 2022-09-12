@@ -42,6 +42,7 @@ use App\Http\Controllers\CoursereviewController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OfflinereportsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -55,6 +56,7 @@ use App\Http\Controllers\TermsandPrivacyController;
 use App\Http\Controllers\TutorialreviewController;
 use App\Models\Product;
 use App\Models\Proposal;
+use App\Models\Request;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -131,6 +133,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/request_bid', [ReqbidController::class, 'store'])->name('reqbid.store');
     Route::post('/request_sol', [ReqSolutionController::class, 'store'])->name('reqsol.store');
     Route::post('/request_comment', [ReqcommentController::class, 'store'])->name('reqcomment.store');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.index');
+
     Route::post('/request_review', [ReviewController::class, 'store'])->name('reqreview.store');
     Route::get('/latestreq', [RequestController::class, 'latest'])->name('request.latest');
     Route::get('/trendingreq', [RequestController::class, 'trending'])->name('request.trending');

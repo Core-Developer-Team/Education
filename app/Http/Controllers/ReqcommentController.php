@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reqcomment;
+use App\Models\User;
+use App\Notifications\CommentNotification;
+
 class ReqcommentController extends Controller
 {
     
@@ -15,6 +18,13 @@ class ReqcommentController extends Controller
             'user_id' =>Auth()->id(),
             'request_id'=>$request->request_id,
         ]));
+
+        if(auth()->user()){
+            $user = User::find(auth()->user()->id);
+            $data = User::find($request->request_user);
+            $data->notify(new CommentNotification($user));
+            }
+
         return back()->with('cstatus','Your Comment Published Successfully:)'); 
       
      }

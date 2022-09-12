@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Coursereview;
+use App\Models\User;
+use App\Notifications\CourseNotification;
 use Illuminate\Http\Request;
 
 class CoursereviewController extends Controller
@@ -33,6 +35,13 @@ class CoursereviewController extends Controller
             $course->rating = $rating;
             $course->save();
         }
+
+        if (auth()->user()) {
+            $user = User::find(auth()->user()->id);
+            $data = User::find($request->course_user);
+            $data->notify(new CourseNotification($user));
+        }
+
         return back()->with('status', 'Thanks for your Review :)');
     }
 }

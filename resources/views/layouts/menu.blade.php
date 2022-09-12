@@ -6,21 +6,21 @@
                 <i class="feather-menu"></i>
             </span>
         </button>
-        <a class="navbar-bran ms-lg-0 ml-2 me-auto" href="{{route('req.index')}}">
+        <a class="navbar-bran ms-lg-0 ml-2 me-auto" href="{{ route('req.index') }}">
 
             <div class="res_main_logo">
-                <img src="{{asset('images/res-logo.png')}}" alt="">
+                <img src="{{ asset('images/res-logo.png') }}" alt="">
             </div>
             <div class="main_logo" id="logo">
-                <img src="{{asset('images/logo.png')}}" alt="">
-                <img class="logo-inverse" src="{{asset('images/dark-logo.png')}}" alt="">
+                <img src="{{ asset('images/logo.png') }}" alt="">
+                <img class="logo-inverse" src="{{ asset('images/dark-logo.png') }}" alt="">
             </div>
         </a>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
                 <div class="offcanvas-logo" id="offcanvasNavbarLabel">
-                    <img src="{{asset('images/res-logo.png')}}" alt="">
+                    <img src="{{ asset('images/res-logo.png') }}" alt="">
                 </div>
                 <button type="button" class="close-btn btn-color" data-bs-dismiss="offcanvas" aria-label="Close">
                     <i class="feather-x"></i>
@@ -35,21 +35,21 @@
 </div> -->
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe_5">
                     @auth
-                    @if (Auth::user()->role->name == 'Admin')
-                    <li class="nav-item">
-                        <a class="nav-link {{  (request()->routeIs('admin.index')) ? 'active' : '' }}"
-                            aria-current="page" href="{{route('admin.index')}}">
-                            <span class="nav-icon d-lg-none">
-                                <i class="feather-home"></i>
-                            </span>
-                            Admin
-                        </a>
-                    </li>
-                    @endif
+                        @if (Auth::user()->role->name == 'Admin')
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.index') ? 'active' : '' }}"
+                                    aria-current="page" href="{{ route('admin.index') }}">
+                                    <span class="nav-icon d-lg-none">
+                                        <i class="feather-home"></i>
+                                    </span>
+                                    Admin
+                                </a>
+                            </li>
+                        @endif
                     @endauth
                     <li class="nav-item">
-                        <a class="nav-link {{  (request()->routeIs('req.index')) ? 'active' : ''  }}"
-                            aria-current="page" href="{{route('req.index')}}">
+                        <a class="nav-link {{ request()->routeIs('req.index') ? 'active' : '' }}" aria-current="page"
+                            href="{{ route('req.index') }}">
                             <span class="nav-icon d-lg-none">
                                 <i class="feather-home"></i>
                             </span>
@@ -57,8 +57,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{  (request()->routeIs('tutorial.getvideos')) ? 'active' : ''  }}"
-                            href="{{route('tutorial.getvideos')}}">
+                        <a class="nav-link {{ request()->routeIs('tutorial.getvideos') ? 'active' : '' }}"
+                            href="{{ route('tutorial.getvideos') }}">
                             <span class="nav-icon d-lg-none">
                                 <i class="feather-briefcase"></i>
                             </span>
@@ -66,8 +66,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{  (request()->routeIs('books.index')) ? 'active' : ''  }}"
-                            href="{{route('market.index')}}">
+                        <a class="nav-link {{ request()->routeIs('books.index') ? 'active' : '' }}"
+                            href="{{ route('market.index') }}">
                             <span class="nav-icon d-lg-none">
                                 <i class="feather-shopping-cart"></i>
                             </span>
@@ -75,8 +75,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{  (request()->routeIs('course.index')) ? 'active' : ''  }}"
-                            href="{{route('course.index')}}">
+                        <a class="nav-link {{ request()->routeIs('course.index') ? 'active' : '' }}"
+                            href="{{ route('course.index') }}">
                             <span class="nav-icon d-lg-none">
                                 <i class="feather-book-open"></i>
                             </span>
@@ -84,24 +84,24 @@
                         </a>
                     </li>
                     @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('login')}}">
-                            <span class="nav-icon d-lg-none">
-                                <i class="feather-book-open"></i>
-                            </span>
-                            Login
-                        </a>
-                    </li>
-                    @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('register')}}">
-                            <span class="nav-icon d-lg-none">
-                                <i class="feather-book-open"></i>
-                            </span>
-                            Register
-                        </a>
-                    </li>
-                    @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <span class="nav-icon d-lg-none">
+                                    <i class="feather-book-open"></i>
+                                </span>
+                                Login
+                            </a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">
+                                    <span class="nav-icon d-lg-none">
+                                        <i class="feather-book-open"></i>
+                                    </span>
+                                    Register
+                                </a>
+                            </li>
+                        @endif
                     @endguest
                 </ul>
             </div>
@@ -116,62 +116,64 @@
             <ul class="mn-icons-set ms-3 align-self-stretch">
 
                 @auth
-                <li class="mn-icon">
-                    <a class="mn-link" href="{{route('messages')}}" role="button">
-                        <i class="feather-message-square"></i>
-                        <div class="alert-circle"></div>
-                    </a>
-                </li>
-                <li class="mn-icon">
-                    <a class="mn-link" href="all_notifications.html" role="button">
-                        <i class="feather-bell"></i>
-                        <div class="alert-circle"></div>
-                    </a>
-                </li>
-                <li class="mn-icon dropdown dropdown-account ms-4">
-                    <a href="#" class="opts_account" role="button" id="dropdownMenuClickableInside"
-                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        <img src="/storage/{{Auth()->user()->image}}" alt="">
-                        <i class="fas fa-caret-down arrow-icon"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end"
-                        aria-labelledby="dropdownMenuClickableInside">
-                        <li class="media-list">
-                            <div class="night_mode_switch__btn">
-                                <a href="#" id="night-mode" class="btn-night-mode">
-                                    <i class="far fa-moon"></i>Night mode
-                                    <span class="btn-night-mode-switch">
-                                        <span class="uk-switch-button"></span>
-                                    </span>
+                    <li class="mn-icon">
+                        <a class="mn-link" href="{{ route('messages') }}" role="button">
+                            <i class="feather-message-square"></i>
+                            <div class="alert-circle"></div>
+                        </a>
+                    </li>
+                    <li class="mn-icon">
+                        <a class="mn-link" href="{{ route('notification.index') }}" role="button">
+                            <i class="feather-bell"></i>
+                            <div class="alert-circle"></div>
+                        </a>
+                    </li>
+                    <li class="mn-icon dropdown dropdown-account ms-4">
+                        <a href="#" class="opts_account" role="button" id="dropdownMenuClickableInside"
+                            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                            <img src="/storage/{{ Auth()->user()->image }}" alt="">
+                            <i class="fas fa-caret-down arrow-icon"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end"
+                            aria-labelledby="dropdownMenuClickableInside">
+                            <li class="media-list">
+                                <div class="night_mode_switch__btn">
+                                    <a href="#" id="night-mode" class="btn-night-mode">
+                                        <i class="far fa-moon"></i>Night mode
+                                        <span class="btn-night-mode-switch">
+                                            <span class="uk-switch-button"></span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="dropdown-menu-footer">
+                                <a href="{{ route('profile.show', ['id' => Auth()->id()]) }}" id="night-mode"
+                                    class="dropdown-item-link text-link text-center"
+                                    title="{{ auth()->user()->username }}">
+                                    Profile
                                 </a>
-                            </div>
-                        </li>
-                        <li class="dropdown-menu-footer">
-                            <a href="{{ route('profile.show', ['id'=>Auth()->id()]) }}" id="night-mode"
-                                class="dropdown-item-link text-link text-center" title="{{auth()->user()->username}}">
-                                Profile
-                            </a>
-                        </li>
-                        <li class="dropdown-menu-footer">
-                            <a href="{{ route('profile.index') }}" id="night-mode"
-                                class="dropdown-item-link text-link text-center">
-                                Setting
-                            </a>
-                        </li>
-                        <li class="dropdown-menu-footer">
-                            <a href="{{ route('badge.show') }}" id="night-mode"
-                                class="dropdown-item-link text-link text-center">
-                                Badges
-                            </a>
-                        </li>
-                        <li class="dropdown-menu-footer">
-                            <form action="{{route('logout')}}" method="post">
-                                @csrf
-                                <button type="submit" class="dropdown-item-link text-link text-center">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
+                            </li>
+                            <li class="dropdown-menu-footer">
+                                <a href="{{ route('profile.index') }}" id="night-mode"
+                                    class="dropdown-item-link text-link text-center">
+                                    Setting
+                                </a>
+                            </li>
+                            <li class="dropdown-menu-footer">
+                                <a href="{{ route('badge.show') }}" id="night-mode"
+                                    class="dropdown-item-link text-link text-center">
+                                    Badges
+                                </a>
+                            </li>
+                            <li class="dropdown-menu-footer">
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button type="submit"
+                                        class="dropdown-item-link text-link text-center">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
                 @endauth
             </ul>
         </div>

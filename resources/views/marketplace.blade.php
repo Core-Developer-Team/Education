@@ -1,4 +1,4 @@
-@section('title','Products')
+@section('title', 'Products')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -31,7 +31,7 @@
                     </div>
                     <ul class="info__sections">
                         <li>
-                            <a  class="all-info__sections">
+                            <a class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-grid me-2"></i>My Products</span>
                                 <span
                                     class="all-info__right">{{ $data->where('user_id', Auth()->id())->count() }}</span>
@@ -112,8 +112,7 @@
                                             <div class="posts-list">
                                                 <div class="feed-shared-product-dt">
                                                     <div class="pdct-img">
-                                                        <a><img
-                                                                class="ft-plus-square product-bg-w bg-cyan me-0"
+                                                        <a><img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
                                                                 <div class="badge-timer">
@@ -123,14 +122,83 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a
-                                                            class="job-heading pp-title">{{ $item->name }}</a>
+                                                        <a class="job-heading pp-title">{{ $item->name }}</a>
                                                         <p class="notification-text font-small-4">
-                                                            by <a
+                                                            by
+                                                        <div class="userimg"> <a
                                                                 href="{{ route('profile.show', ['id' => $item->user_id]) }}"
                                                                 class="cmpny-dt blk-clr"
                                                                 style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
+                                                            <!--hover-->
+                                                            <div class="box imagehov shadow"
+                                                                style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                                <div class="full-width">
+                                                                    <div class="recent-items">
+                                                                        <div class="posts-list">
+                                                                            <div class="feed-shared-author-dt">
+                                                                                <div class="author-left">
+                                                                                    <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                                        src="/storage/{{ $item->user->image }}"
+                                                                                        alt="">
+                                                                                    <div
+                                                                                        class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="author-dts">
+                                                                                    <p
+                                                                                        class="notification-text font-username">
+                                                                                        <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
+                                                                                            style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                                                                        </a><img
+                                                                                            src="{{ $item->user->badge->image }}"
+                                                                                            alt=""
+                                                                                            style="width: 20px;"
+                                                                                            title="{{ $item->user->badge->name }}">
+                                                                                        <span class="job-loca"><i
+                                                                                                class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                                    </p>
 
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span class="time-dt">Joined on
+                                                                                            {{ $item->user->created_at->format('d:M:y g:i A') }}</span>
+                                                                                    </p>
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span class="time-dt">Last Seen
+                                                                                            @if (Cache::has('user-is-online-' . $item->user->id))
+                                                                                                <span
+                                                                                                    class="text-success">Online</span>
+                                                                                            @else
+                                                                                                {{ Carbon\Carbon::parse($item->user->last_seen)->diffForHumans() }}
+                                                                                            @endif
+                                                                                        </span>
+                                                                                    </p>
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span class="time-dt">Total
+                                                                                            Solutions
+                                                                                            {{ $item->user->solutions }}</span>
+                                                                                    </p>
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span class="time-dt">Rating
+                                                                                            {{ $item->user->rating }}</span>
+                                                                                    </p>
+                                                                                    <p
+                                                                                        class="notification-text font-small-4 pt-1">
+                                                                                        <span
+                                                                                            class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                                    </p>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- end hover-->
+                                                        </div>
                                                         </p>
                                                         <div class="ppdt-price-sales">
                                                             <div class="ppdt-price">
@@ -190,14 +258,14 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">Product_name</label>
-                            <input type="text" id="name" class="form-control" placeholder="Product Name" name="name"
-                                value="{{ old('name') }}">
+                            <input type="text" id="name" class="form-control" placeholder="Product Name"
+                                name="name" value="{{ old('name') }}">
                             <div class="text-danger mt-2 text-sm nameerror"></div>
                         </div>
                         <div class="form-group">
                             <label for="price">Product_Price</label>
-                            <input type="number" id="price" class="form-control" placeholder="৳" name="price"
-                                value="{{ old('price') }}">
+                            <input type="number" id="price" class="form-control" placeholder="৳"
+                                name="price" value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceerror"></div>
                         </div>
                         <div class="form-group pt-2">
@@ -208,8 +276,8 @@
                         </div>
                         <div class="form-group pt-2">
                             <label for="category">Category</label>
-                            <input type="text" id="category" class="form-control" placeholder="Category" name="Category"
-                                value="{{ old('Category') }}">
+                            <input type="text" id="category" class="form-control" placeholder="Category"
+                                name="Category" value="{{ old('Category') }}">
                             <div class="text-danger mt-2 text-sm categoryerror">
                             </div>
                         </div>

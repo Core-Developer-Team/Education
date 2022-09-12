@@ -170,6 +170,7 @@
                                                 @endforeach
                                             @endif
                                             @csrf
+                                            <input type="hidden" name="book_user" value="{{ $data->user_id }}">
                                             <input type="hidden" name="book_id" value="{{ $data->id }}">
                                             <div class="mt-30">
                                                 <div class="rating-container">

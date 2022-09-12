@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use App\Models\User;
+use App\Notifications\ReviewNotification;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -51,6 +52,13 @@ class ReviewController extends Controller
             $user->rating = $rating;
             $user->save();
         }
+
+        if (auth()->user()) {
+            $user = User::find(auth()->user()->id);
+            $data = User::find($request->t_user_id);
+            $data->notify(new ReviewNotification($user));
+        }
+
         return back()->with('reciewstatus', 'Thanks for your Review :)');
     }
 }
