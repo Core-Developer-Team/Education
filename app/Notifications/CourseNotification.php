@@ -11,15 +11,17 @@ class CourseNotification extends Notification
 {
     use Queueable;
     public $user;
+    public $course;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $course)
     {
         $this->user = $user;
+        $this->course = $course;
     }
 
     /**
@@ -40,6 +42,8 @@ class CourseNotification extends Notification
             'name'    => $this->user['username'],
             'image'   => $this->user['image'],
             'mesg'    => "Give Review on Your Course",
+            'request_id' => $this->course['id'],
+            'link'       => "course.showcourse",
         ];
     }
 }

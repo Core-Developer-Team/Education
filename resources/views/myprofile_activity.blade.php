@@ -20,7 +20,7 @@
                             <div class="banner-content">
                                 <div class="banner-media">
                                     <div class="item-profile-img">
-                                        <div style="margin-top: 10px; width:15px; height:15px;"
+                                        <div style="margin-top: 10px; margin-left:4px; width:15px; height:15px;"
                                             class="@if (Cache::has('user-is-online-' . $user->id)) status-oncircle @else status-ofcircle @endif">
                                         </div>
                                         <img src="/storage/{{ $user->image }}" alt="User-Avatar"
@@ -33,7 +33,7 @@
                                         <div class="profile-rating-section">
                                             <div class="profile-rating">
                                                 <p>Rating :</p>
-                                                @if ($user->rating == 0)
+                                                @if ($user->rating >= 0.0 && $user->rating<1.0)
                                                     <div class="profile-stars">
                                                         <i class="fas fa-star color-gray-medium"></i>
                                                         <i class="fas fa-star color-gray-medium"></i>
@@ -47,7 +47,7 @@
                                                         <i class="fas fa-star color-gray-medium"></i>
                                                         <i class="fas fa-star color-gray-medium"></i>
                                                         <i class="fas fa-star color-gray-medium"></i>
-                                                        <i class="fas fa-starr color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
                                                     </div>
                                                 @elseif ($user->rating >= 2 && $user->rating < 3)
                                                     <div class="profile-stars">

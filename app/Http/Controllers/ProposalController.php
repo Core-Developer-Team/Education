@@ -141,7 +141,7 @@ class ProposalController extends Controller
                 'filename' => $filename,
             ]));
         } else {
-            Proposal::create(array_merge($request->only('proposalname', 'price', 'description'), [
+            Proposal::create(array_merge($request->only('proposalname','category',  'price', 'description'), [
                 'user_id'  => auth()->id(),
                 'file'     => '',
                 'filename' => '',

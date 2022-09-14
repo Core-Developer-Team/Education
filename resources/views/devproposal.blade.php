@@ -127,8 +127,11 @@
                                     <div class="author-left userimg">
                                         <img class="ft-plus-square job-bg-circle  bg-cyan mr-0"
                                             src="/storage/{{ $item->user->image }}" alt="">
-                                        <div
-                                            class="@if (Cache::has('user-is-online-' . $item->user->id)) status-oncircle @else status-ofcircle @endif">
+                                            <div style="position: relative;margin-top: -10px;margin-left: 10px;"
+                                            class="presence-entity__badge @if (Cache::has('user-is-online-' . $item->user_id)) badge__online @else badge__offline @endif">
+                                            <span class="visually-hidden">
+                                                Status is online
+                                            </span>
                                         </div>
                                         <!--hover on image-->
                                         <div class="box imagehov shadow"
@@ -266,8 +269,8 @@
                                             <!-- end hover-->
                                         </div>
                                         <img src="@if ($item->user->badge_id == 5) {{ $item->user->badge->image }} @endif"
-                                            class="@if ($item->user->badge_id == 5) d-block @else d-none @endif "
-                                            alt="Verified" style="width: 15px;" title="Verified">
+                                            class="@if ($item->user->badge_id == 5) @else d-none @endif "
+                                            alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
                                         </p>

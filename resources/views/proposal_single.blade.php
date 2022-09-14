@@ -24,7 +24,7 @@
     </div>
     <div class="event-content-main">
         <div class="container">
-            <div class="row justify-content-md-center">
+            <div class="row ">
                 <div class="col-lg-12 col-md-12">
                     <div class="full-width">
                         <div class="recent-items">
@@ -192,13 +192,9 @@
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
                                                 </div>
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
-                                                    @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1)
-                                                        <i class="feather-users ms-2"></i><span
-                                                            class="text-info">Applied</span><ins></ins>
-                                                    @else
-                                                        <i
-                                                            class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->proposalbid()->count() }}</ins>
-                                                    @endif
+                                                    <i
+                                                        class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->proposalbid()->count() }}</ins>
+
                                                 </div>
 
                                             </div>
@@ -554,15 +550,15 @@
                     @endif
                 </div>
                 <div class="col-lg-3 col-md-12">
-
                     <div class="full-width mt-4">
                         <div class="user-profile">
                             <div class="username-dt dpbg-1">
                                 <div class="usr-pic">
-                                    <div style="margin-top: 10px; width:15px; height: 15px"
+                                    <div style="margin-top: 10px; width:15px; height: 15px; margin-left:5px"
                                         class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
                                     </div>
-                                    <img src="/storage/{{ $data->user->image }}" alt="">
+                                    <img src="/storage/{{ $data->user->image }}" alt=""
+                                        style="width: 80px; height:80px">
 
                                 </div>
                             </div>
@@ -713,11 +709,11 @@
                         </div>
                     @endif
                     <!--Review Form-->
-                    <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
+                    <form method="POST" id="rev" action="{{ route('propreview.store') }}">
                         @csrf
-
+                        <input type="hidden" name="proposal_id" value="{{ $data->id }}">
                         @if ($data->propsolution()->count() >= 1)
-                            <input type="hidden" name="t_user_id" value="{{ $data->propsolution->user_id }}">
+                            <input type="hidden" name="tp_user_id" value="{{ $data->propsolution->user_id }}">
                         @endif
                         <div class="mt-30">
                             <div class="rating-container">

@@ -248,13 +248,8 @@
 
                                                 </div>
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
-                                                    @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1)
-                                                        <i class="feather-users ms-2"></i><span
-                                                            class="text-info">Applied</span><ins></ins>
-                                                    @else
-                                                        <i
-                                                            class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->reqbid->count() }}</ins>
-                                                    @endif
+                                                        <i class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->reqbid->count() }}</ins>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
@@ -958,10 +953,10 @@
                         <div class="user-profile">
                             <div class="username-dt dpbg-1">
                                 <div class="usr-pic">
-                                    <div style="margin-top: 10px; width:15px; height: 15px"
+                                    <div style="margin-top: 10px; width:15px; height: 15px; margin-left:5px"
                                         class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
                                     </div>
-                                    <img src="/storage/{{ $data->user->image }}" alt="">
+                                    <img src="/storage/{{ $data->user->image }}" alt="" style="width: 80px; height:80px">
 
                                 </div>
                             </div>
@@ -1125,6 +1120,7 @@
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
                         @if ($data->reqsolution()->count() >= 1)
+                        <input type="hidden" name="request_id" value="{{$data->id}}">
                             <input type="hidden" name="t_user_id" value="{{ $data->reqsolution->user_id }}">
                         @endif
                         <div class="mt-30">

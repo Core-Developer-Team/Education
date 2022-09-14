@@ -6,14 +6,14 @@ use App\Models\Book;
 use App\Models\Course;
 use App\Models\Playlist;
 use App\Models\Product;
-use App\Models\Productreview;
+use App\Models\Proposal;
 use App\Models\Proposalreview;
 use App\Models\Review;
 use App\Models\User;
-use App\Notifications\ProductrevNotification;
+use App\Notifications\PrevNotification;
 use Illuminate\Http\Request;
 
-class ProductreviewController extends Controller
+class ProposalreviewController extends Controller
 {
     public function store(Request $request)
     {
@@ -22,41 +22,41 @@ class ProductreviewController extends Controller
             'description'  => 'required|string',
         ]);
 
-        Productreview::create(array_merge($request->only('description', 'rating'), [
-            'user_id'   => auth()->id(),
-            'product_id'   => $request->product_id,
+        Proposalreview::create(array_merge($request->only('description', 'rating'), [
+            'fr_user_id'   => auth()->id(),
+            'tp_user_id'   => $request->tp_user_id,
         ]));
-
-        //avg product rating
+        $five = 0;
+        $four = 0;
+        $three = 0;
+        $two = 0;
+        $one = 0;
         $avgrating = 0;
-        $reviews = Productreview::where('product_id', $request->product_id)->get();
-        $totalreview = $reviews->count();
+        $reviews = Proposalreview::where('tp_user_id', $request->tp_user_id)->get();
         foreach ($reviews as $review) {
-            $avgrating = $avgrating + $review->rating;
-        }
-        $totalrat = $avgrating / $totalreview;
-        $rating   = number_format((float)$totalrat, 2, '.', '');
-        $product =  Product::find($request->product_id);
-        if ($product) {
-            $product->rating = $rating;
-            $product->save();
-        }
 
-        //avg user rating
-
-        $pureview  = Proposalreview::where('tp_user_id', $request->product_user)->get();
-        $pavguser = 0;
-        $ptuserrating = 0;
-        $ptotal = $pureview->count();
-        foreach ($pureview as $puser) {
-            $pavguser = $pavguser + $puser->rating;
+            if ($review->rating == 5) {
+                $five = $five + $review->rating;
+            }
+            if ($review->rating == 4) {
+                $four = $four + $review->rating;
+            }
+            if ($review->rating == 3) {
+                $three = $three + $review->rating;
+            }
+            if ($review->rating == 2) {
+                $two = $two + $review->rating;
+            }
+            if ($review->rating == 1) {
+                $one = $one + $review->rating;
+            }
         }
-        if ($ptotal > 0) {
-            $ptotalrat = $pavguser / $ptotal;
-            $ptuserrating   = number_format((float)$ptotalrat, 2, '.', '');
-        }
+        $avgrating = (5 * $five + 4 * $four + 3 * $three + 2 * $two + 1 * $one) / ($five + $four + $three + $two + $one);
+        $rating = number_format((float)$avgrating, 2, '.', '');
+        $user = User::find($request->tp_user_id);
 
-        $ureview  = Review::where('t_user_id', $request->product_user)->get();
+
+        $ureview  = Review::where('t_user_id', $request->tp_user_id)->get();
         $avguser = 0;
         $tuserrating = 0;
         $total = $ureview->count();
@@ -68,7 +68,7 @@ class ProductreviewController extends Controller
             $tuserrating   = number_format((float)$totalrat, 2, '.', '');
         }
 
-        $tutreview  = Playlist::where('user_id', $request->product_user)->get();
+        $tutreview  = Playlist::where('user_id', $request->tp_user_id)->get();
         $avgtutrat = 0;
         $trating = 0;
         $totaltut = $tutreview->count();
@@ -80,7 +80,7 @@ class ProductreviewController extends Controller
             $trating   = number_format((float)$totalrat, 2, '.', '');
         }
 
-        $courserev  = Course::where('user_id', $request->product_user)->get();
+        $courserev  = Course::where('user_id', $request->tp_user_id)->get();
         $avgcourse = 0;
         $courating = 0;
         $totalcourse = $courserev->count();
@@ -92,7 +92,7 @@ class ProductreviewController extends Controller
             $courating   = number_format((float)$ctotal, 2, '.', '');
         }
 
-        $bookrev  = Book::where('user_id', $request->product_user)->get();
+        $bookrev  = Book::where('user_id', $request->tp_user_id)->get();
         $avgbook = 0;
         $bookrating = 0;
         $totalbook = $bookrev->count();
@@ -104,7 +104,7 @@ class ProductreviewController extends Controller
             $bookrating   = number_format((float)$btotal, 2, '.', '');
         }
 
-        $prodrev  = Product::where('user_id', $request->product_user)->get();
+        $prodrev  = Product::where('user_id', $request->tp_user_id)->get();
         $avgprod = 0;
         $prod = 0;
         $totalprod = $prodrev->count();
@@ -116,21 +116,23 @@ class ProductreviewController extends Controller
             $prod   = number_format((float)$ptotal, 2, '.', '');
         }
 
-        $totaluserrating = $tuserrating +$ptuserrating  + $trating + $courating + $bookrating + $prod;
+        $totaluserrating = $rating + $tuserrating + $trating + $courating + $bookrating + $prod;
         $useravgrating = $totaluserrating / 6;
-        $user = User::find($request->product_user);
+      
         if ($user) {
             $user->rating = $useravgrating;
             $user->save();
         }
 
+      
         if (auth()->user()) {
-            $product = Product::where('id',$request->product_id)->first();
+            $prorev = Proposal::where('id',$request->proposal_id)->first();
             $user = User::find(auth()->user()->id);
-            $data = User::find($request->product_user);
-            $data->notify(new ProductrevNotification($user,$product));
+            $data = User::find($request->tp_user_id);
+            $data->notify(new PrevNotification($user, $prorev));
         }
 
-        return back()->with('status', 'Thanks for your Review :)');
+
+        return back()->with('reciewstatus', 'Thanks for your Review :)');
     }
 }

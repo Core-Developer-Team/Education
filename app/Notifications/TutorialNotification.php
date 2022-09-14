@@ -11,15 +11,17 @@ class TutorialNotification extends Notification
 {
     use Queueable;
     public $user;
+    public  $tutorial;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user ,  $tutorial)
     {
         $this->user = $user;
+        $this->tutorial =  $tutorial;
     }
 
     /**
@@ -40,6 +42,8 @@ class TutorialNotification extends Notification
             'name'    => $this->user['username'],
             'image'   => $this->user['image'],
             'mesg'    => "Give Review on Your Tutorial",
+            'request_id' => $this->tutorial['id'],
+            'link'       => "tutorial.sin",
         ];
     }
 }

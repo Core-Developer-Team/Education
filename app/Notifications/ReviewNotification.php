@@ -11,15 +11,17 @@ class ReviewNotification extends Notification
 {
     use Queueable;
     public $user;
+    public $reqrev;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $reqrev)
     {
         $this->user = $user;
+        $this->reqrev = $reqrev;
     }
 
     /**
@@ -41,6 +43,8 @@ class ReviewNotification extends Notification
             'name'    => $this->user['username'],
             'image'   => $this->user['image'],
             'mesg'    => "Gave review on Your Solution",
+            'request_id' => $this->reqrev['id'],
+            'link'       => "req.showsingle",
         ];
     }
 }

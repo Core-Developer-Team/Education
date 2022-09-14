@@ -49,9 +49,10 @@ class PropsolutionController extends Controller
         $users->update();
 
         if (auth()->user()) {
+            $proposal = Proposal::where('id',$request->proposal_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->proposal_user);
-            $data->notify(new PsolNotification($user));
+            $data->notify(new PsolNotification($user, $proposal));
         }
 
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');

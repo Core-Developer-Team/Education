@@ -61,9 +61,10 @@ class ReqSolutionController extends Controller
         $users->update();
 
         if(auth()->user()){
+            $req = ModelsRequest::where('id',$request->request_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->request_user);
-            $data->notify(new SolNotification($user));
+            $data->notify(new SolNotification($user,$req));
             }
 
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');

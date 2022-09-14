@@ -20,7 +20,7 @@
                             <div class="banner-content">
                                 <div class="banner-media">
                                     <div class="item-profile-img">
-                                        <div style="margin-top: 10px; width:15px; height:15px;"
+                                        <div style="margin-top: 10px; margin-left:4px; width:15px; height:15px;"
                                             class="@if (Cache::has('user-is-online-' . $user->id)) status-oncircle @else status-ofcircle @endif">
                                         </div>
                                         <img src="/storage/{{ $user->image }}" alt="User-Avatar"
@@ -33,7 +33,7 @@
                                         <div class="profile-rating-section">
                                             <div class="profile-rating">
                                                 <p>Rating :</p>
-                                                @if ($user->rating == 0)
+                                                @if ($user->rating >= 0.0 && $user->rating<1.0)
                                                     <div class="profile-stars">
                                                         <i class="fas fa-star color-gray-medium"></i>
                                                         <i class="fas fa-star color-gray-medium"></i>
@@ -47,7 +47,7 @@
                                                         <i class="fas fa-star color-gray-medium"></i>
                                                         <i class="fas fa-star color-gray-medium"></i>
                                                         <i class="fas fa-star color-gray-medium"></i>
-                                                        <i class="fas fa-starr color-gray-medium"></i>
+                                                        <i class="fas fa-star color-gray-medium"></i>
                                                     </div>
                                                 @elseif ($user->rating >= 2 && $user->rating < 3)
                                                     <div class="profile-stars">
@@ -417,7 +417,7 @@
                         </div>
                         <div class="all-activities">
                             <div class="activities-items">
-                                @forelse ($review as $item)
+                                @foreach ($review as $item)
                                     <div class="review-card mt-4">
                                         <div class="review-content">
                                             <div class="review-head">
@@ -485,8 +485,78 @@
                                             </div>
                                         </div>
                                     </div>
-                                @empty
-                                @endforelse
+                                
+                                @endforeach
+                                @foreach ($preview as $item)
+                                    <div class="review-card mt-4">
+                                        <div class="review-content">
+                                            <div class="review-head">
+                                                <div class="review-rating-stars">
+                                                    @if ($item->rating == 1)
+                                                        <div class="item-rating-stars">
+                                                            <i class="feather-star"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                        </div>
+                                                    @elseif ($item->rating == 2)
+                                                        <div class="item-rating-stars">
+                                                            <i class="feather-star"></i>
+                                                            <i class="feather-star "></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                        </div>
+                                                    @elseif ($item->rating == 3)
+                                                        <div class="item-rating-stars">
+                                                            <i class="feather-star"></i>
+                                                            <i class="feather-star "></i>
+                                                            <i class="feather-star"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                        </div>
+                                                    @elseif ($item->rating == 4)
+                                                        <div class="item-rating-stars">
+                                                            <i class="feather-star"></i>
+                                                            <i class="feather-star "></i>
+                                                            <i class="feather-star "></i>
+                                                            <i class="feather-star "></i>
+                                                            <i class="feather-star color-gray-medium"></i>
+                                                        </div>
+                                                    @elseif ($item->rating == 5)
+                                                        <div class="item-rating-stars">
+                                                            <i class="feather-star"></i>
+                                                            <i class="feather-star "></i>
+                                                            <i class="feather-star "></i>
+                                                            <i class="feather-star"></i>
+                                                            <i class="feather-star"></i>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <span class="rating-time-posting"><i
+                                                        class="feather-clock me-2"></i>{{ $item->created_at->diffForHumans() }}</span>
+                                            </div>
+                                            <div class="rating-by">
+                                                by:
+                                                <a href="#" class="ms-2">
+                                                    <div class="ttlcnt15 invtbyuser">
+                                                        <div class="invited_avtar_ee">
+                                                            <img class="ft-plus-square evnt-invite-circle bg-cyan me-0"
+                                                                src="/storage/{{ $item->fr_user->image }}"
+                                                                alt="">
+                                                        </div>
+                                                        <span class="evntcunt">{{ $item->fr_user->username }}</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="rating_descp">
+                                                <p>{{ $item->description }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                @endforeach
                             </div>
                         </div>
                     </div>

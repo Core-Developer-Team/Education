@@ -136,8 +136,11 @@
                                     <div class="author-left userimg">
                                         <img class="ft-plus-square job-bg-circle  bg-cyan mr-0"
                                             src="/storage/{{ $data->user->image }}" alt="">
-                                        <div
-                                            class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                        <div style="position: relative;margin-top: -10px;margin-left: 10px;"
+                                            class="presence-entity__badge @if (Cache::has('user-is-online-' . $data->user_id)) badge__online @else badge__offline @endif">
+                                            <span class="visually-hidden">
+                                                Status is online
+                                            </span>
                                         </div>
                                         <!--hover on image-->
                                         <div class="box imagehov shadow"

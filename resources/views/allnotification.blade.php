@@ -54,7 +54,7 @@
                                         </a>
                                     </div>
                                     <div class="display-flex flex-column flex-grow-1 mt-1 mr-3">
-                                        <a class="nt-card__headline t-black t-normal" href="#">
+                                        <a class="nt-card__headline t-black t-normal" href="{{ route($notification->data['link'], ['id' => $notification->data['request_id']]) }}">
                                             <span><strong>
                                                     @if ($notification->notifiable_id == $notification->data['user_id'])
                                                         You
@@ -75,12 +75,7 @@
                             @endforeach
 
                         </div>
-                        <div class="loading-btn noti-loading">
-                            <button class="process-btn btn-hover" type="button">
-                                <i class="fa-solid fa-spinner fa-spin"></i>
-                                Loading...
-                            </button>
-                        </div>
+                       
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-12">
@@ -92,7 +87,7 @@
                                     <span>Learning Plateform</span>
                                     <h4>Keep learning in the moments that matter.</h4>
                                     <button class="main-btn color btn-hover"
-                                        onclick="window.location.href='all_learning.html';">See Courses</button>
+                                     > <a href="{{route('course.index')}}">See Courses </a> </button>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +100,9 @@
                                     <span>Digital Marketplace</span>
                                     <h4 class="prtf-size">295 WordPress Themes &amp; Website Templates From $5</h4>
                                     <button class="main-btn color btn-hover"
-                                        onclick="window.location.href='all_products.html';">See Products</button>
+                                    >   <a
+                                    href="{{route('product.index')}}">See Products</a> </button>
+                                  
                                 </div>
                             </div>
                         </div>
