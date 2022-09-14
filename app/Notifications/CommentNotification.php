@@ -12,15 +12,17 @@ class CommentNotification extends Notification
 {
     use Queueable;
     public $user;
+    public $req;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $req)
     {
         $this->user = $user;
+        $this->req = $req;
     }
 
     /**
@@ -38,10 +40,12 @@ class CommentNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user_id' => $this->user['id'],
-            'name'    => $this->user['username'],
-            'image'   => $this->user['image'],
-            'mesg'    => "comment on Your Request",
+            'request_id' => $this->req['id'],
+            'user_id'    => $this->user['id'],
+            'name'       => $this->user['username'],
+            'image'      => $this->user['image'],
+            'mesg'       => "comment on Your Request",
+            'link'       => "req.showsingle",
         ];
     }
 }

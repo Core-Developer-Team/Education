@@ -11,15 +11,17 @@ class ProductrevNotification extends Notification
 {
     use Queueable;
     public $user;
+    public  $product;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user,  $product)
     {
         $this->user = $user;
+        $this->product =  $product;
     }
 
     /**
@@ -40,6 +42,8 @@ class ProductrevNotification extends Notification
             'name'    => $this->user['username'],
             'image'   => $this->user['image'],
             'mesg'    => "Gave Review on Your Product",
+            'request_id' => $this->product['id'],
+            'link'       => "product.showproduct",
         ];
     }
 }

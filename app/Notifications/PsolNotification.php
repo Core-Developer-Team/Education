@@ -11,15 +11,17 @@ class PsolNotification extends Notification
 {
     use Queueable;
     public $user;
+    public $proposal;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $proposal)
     {
         $this->user = $user;
+        $this->proposal = $proposal;
     }
 
     /**
@@ -41,6 +43,8 @@ class PsolNotification extends Notification
             'name'    => $this->user['username'],
             'image'   => $this->user['image'],
             'mesg'    => "gave Solution on Your Proposal",
+            'request_id' => $this->proposal['id'],
+            'link'       => "proposal.showproposal",
         ];
     }
 }

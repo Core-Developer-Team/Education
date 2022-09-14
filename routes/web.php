@@ -48,6 +48,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductreviewController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProposalreviewController;
 use App\Http\Controllers\PropsolutionController;
 use App\Http\Controllers\ReqSolutionController;
 use App\Http\Controllers\ResourcebidController;
@@ -136,6 +137,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.index');
 
     Route::post('/request_review', [ReviewController::class, 'store'])->name('reqreview.store');
+    Route::post('/proposal_review', [ProposalreviewController::class, 'store'])->name('propreview.store');
     Route::get('/latestreq', [RequestController::class, 'latest'])->name('request.latest');
     Route::get('/trendingreq', [RequestController::class, 'trending'])->name('request.trending');
     Route::get('/week', [RequestController::class, 'weekly'])->name('req.weekly');

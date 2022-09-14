@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proposal;
 use Illuminate\Http\Request;
 use App\Models\Proposalbid;
 use App\Models\User;
@@ -22,9 +23,10 @@ class ProposalbidController extends Controller
         ]));
 
         if (auth()->user()) {
+            $proposal = Proposal::where('id',$request->proposal_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->proposal_user);
-            $data->notify(new PbidNotification($user));
+            $data->notify(new PbidNotification($user,$proposal));
         }
 
         return back()->with('status','Your Bit Published Successfully:)');

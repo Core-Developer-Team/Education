@@ -155,7 +155,7 @@
                                 @csrf
 
                                 <input type="hidden" name="to_user_id" id="to_user"
-                                    value="@isset($data) @else  {{$to_user->id}} @endisset">
+                                    value="@isset($data) @else {{$to_user->id}} @endisset">
                                 <input type="hidden" name="from_user_id" id="from_user"
                                     value="@isset($data) @else {{Auth()->id()}} @endisset">
 

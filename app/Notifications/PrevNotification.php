@@ -7,21 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PbidNotification extends Notification
+class PrevNotification extends Notification
 {
     use Queueable;
     public $user;
-    public $proposal;
+    public $prorev;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user,$proposal)
+    public function __construct($user, $prorev)
     {
         $this->user = $user;
-        $this->proposal = $proposal;
+        $this->prorev = $prorev;
     }
 
     /**
@@ -35,14 +35,15 @@ class PbidNotification extends Notification
         return ['database'];
     }
 
+
     public function toArray($notifiable)
     {
         return [
             'user_id' => $this->user['id'],
             'name'    => $this->user['username'],
             'image'   => $this->user['image'],
-            'mesg'    => "Bid on Your Proposal",
-            'request_id' => $this->proposal['id'],
+            'mesg'    => "Gave review on Your Solution",
+            'request_id' => $this->prorev['id'],
             'link'       => "proposal.showproposal",
         ];
     }
