@@ -1,3 +1,4 @@
+@section('title', 'Add Course')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -45,7 +46,7 @@
                     <!--course Form-->
                     <form action=" @isset($data) {{ route('admin.courses.update', ['course' => $data->id]) }}
                         @else
-                    {{ route('admin.course.get') }} @endisset" method="POST" enctype="multipart/form-data">
+                    {{ route('course.get') }} @endisset" method="POST" enctype="multipart/form-data">
                         @csrf
                         @isset($data)
                         @method('PATCH')

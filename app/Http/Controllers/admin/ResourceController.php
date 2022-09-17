@@ -65,15 +65,16 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-        $data=Resource::find($id);
+  
+        $data=Resource::find($request->res_id);
         $file_path = public_path().$data->file_path;
         if(File::exists($file_path))
         {
          File::delete($file_path);
         }
         $data->delete();
-        return back()->with('success', 'Course has deleted Successfully');
+        return back()->with('success', 'Resource has deleted Successfully');
     }
 }

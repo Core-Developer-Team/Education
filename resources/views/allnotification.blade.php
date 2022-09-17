@@ -1,4 +1,4 @@
-@section('title', 'home')
+@section('title', 'notifications')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -33,6 +33,7 @@
                         </div>
                         <div class="notification-block">
                             @foreach (auth()->user()->notifications as $notification)
+                                {{ $notification->markAsRead() }}
                                 <div class="nt-card pl-24">
                                     <div class="nt-card__left-rail">
 
@@ -54,7 +55,8 @@
                                         </a>
                                     </div>
                                     <div class="display-flex flex-column flex-grow-1 mt-1 mr-3">
-                                        <a class="nt-card__headline t-black t-normal" href="{{ route($notification->data['link'], ['id' => $notification->data['request_id']]) }}">
+                                        <a class="nt-card__headline t-black t-normal"
+                                            href="{{ route($notification->data['link'], ['id' => $notification->data['request_id']]) }}">
                                             <span><strong>
                                                     @if ($notification->notifiable_id == $notification->data['user_id'])
                                                         You
@@ -75,7 +77,7 @@
                             @endforeach
 
                         </div>
-                       
+
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-12">
@@ -86,8 +88,8 @@
                                 <div class="banner-overlay">
                                     <span>Learning Plateform</span>
                                     <h4>Keep learning in the moments that matter.</h4>
-                                    <button class="main-btn color btn-hover"
-                                     > <a href="{{route('course.index')}}">See Courses </a> </button>
+                                    <button class="main-btn color btn-hover"> <a href="{{ route('course.index') }}">See
+                                            Courses </a> </button>
                                 </div>
                             </div>
                         </div>
@@ -99,10 +101,9 @@
                                 <div class="banner-overlay">
                                     <span>Digital Marketplace</span>
                                     <h4 class="prtf-size">295 WordPress Themes &amp; Website Templates From $5</h4>
-                                    <button class="main-btn color btn-hover"
-                                    >   <a
-                                    href="{{route('product.index')}}">See Products</a> </button>
-                                  
+                                    <button class="main-btn color btn-hover"> <a href="{{ route('product.index') }}">See
+                                            Products</a> </button>
+
                                 </div>
                             </div>
                         </div>

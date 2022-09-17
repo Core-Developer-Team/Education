@@ -100,16 +100,16 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-        $data=Book::find($id);
+      
+        $data=Book::find($request->book_id);
        $file_path = public_path().$data->cover_pic;
-       $file_sec =  public_path().$data->book;
        if(File::exists($file_path))
        {
-        File::delete($file_path , $file_sec);
+        File::delete($file_path);
        }
        $data->delete();
-       return back()->with('success', 'Course has deleted Successfully');
+       return back()->with('success', 'Book has deleted Successfully');
     }
 }

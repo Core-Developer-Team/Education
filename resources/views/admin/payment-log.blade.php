@@ -1,3 +1,4 @@
+@section('title', 'Payments')
 @include('admin.layouts.header')
 <!-- Sidebar -->
 @include('admin.layouts.leftmenu')

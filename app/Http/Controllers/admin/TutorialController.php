@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Playlist;
 use App\Models\Tutorial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -16,8 +17,8 @@ class TutorialController extends Controller
      */
     public function index()
     {
-        $data = Tutorial::all();
-        return view('admin.tutorial',compact('data'));
+        $data = Playlist::all();
+        return view('admin.tutorial', compact('data'));
     }
 
     /**
@@ -60,8 +61,8 @@ class TutorialController extends Controller
      */
     public function edit($id)
     {
-        $data = Tutorial::find($id);
-        return view('admin.addtutorial',compact('data'));
+        $data = Playlist::find($id);
+        return view('admin.addtutorial', compact('data'));
     }
 
     /**
@@ -79,11 +80,11 @@ class TutorialController extends Controller
             'description'  => 'required|string',
             'price'        => 'required',
         ]);
-        $imagename = time().'_'.$request->pic->getClientOriginalName();
-        $imagepath = $request->file('pic')->storeAs('Images',$imagename, 'public');
+        $imagename = time() . '_' . $request->pic->getClientOriginalName();
+        $imagepath = $request->file('pic')->storeAs('Images', $imagename, 'public');
 
-        Tutorial::find($id)->update(array_merge($request->only('description','price','tutorials_name'),[
-            'pic' => '/storage/'.$imagepath,
+        Playlist::find($id)->update(array_merge($request->only('description', 'price', 'tutorials_name'), [
+            'pic' => '/storage/' . $imagepath,
         ]));
         return back()->with('success', 'tutorial has been updated Successfully');
     }
@@ -94,15 +95,14 @@ class TutorialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-        $data=Tutorial::find($id);
-       $file_path = public_path().$data->pic;
-       if(File::exists($file_path))
-       {
-        File::delete($file_path);
-       }
-       $data->delete();
-       return back()->with('success', 'Tutorial has deleted Successfully');
+        $data = Playlist::find($request->tutorial_id);
+        $file_path = public_path() . $data->pic;
+        if (File::exists($file_path)) {
+            File::delete($file_path);
+        }
+        $data->delete();
+        return back()->with('success', 'Tutorial has deleted Successfully');
     }
 }

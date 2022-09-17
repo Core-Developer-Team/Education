@@ -1,3 +1,4 @@
+@section('title', 'Add Resource')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -45,7 +46,7 @@
                     <!--Resource Form-->
                     <form action=" @isset($data) {{ route('admin.resources.update', ['resource' => $data->id]) }}
                         @else
-                        {{ route('admin.resource.store') }} @endisset" method="POST" enctype="multipart/form-data">
+                        {{ route('resource.store') }} @endisset" method="POST" enctype="multipart/form-data">
                         @csrf
                         @isset($data)
                         @method('PATCH')

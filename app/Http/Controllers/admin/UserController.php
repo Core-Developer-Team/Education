@@ -81,15 +81,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        $data=User::find($id);
+      
+        $data=User::find($request->user_id);
         $file_path = public_path().'/storage/'.$data->profile_photo_path;
         if(File::exists($file_path))
         {
          File::delete($file_path);
         }
         $data->delete();
-        return back()->with('success', 'Course has deleted Successfully');
+        return back()->with('success', 'User has deleted Successfully');
     }
 }

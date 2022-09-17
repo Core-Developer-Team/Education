@@ -1,3 +1,4 @@
+@section('title', 'Badges')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -46,7 +47,6 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No.</th>
-                                    <th>User_id</th>
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Image</th>
@@ -57,19 +57,15 @@
                                 @foreach ($data as $key => $item)
                                 <tr class="text-center">
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $item->user_id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->description }}</td>
-                                    <td>{{ $item->image }}</td>
+                                    <td><img style="width: 50px; height:50px" src="{{ $item->image }}" alt=""
+                                        class="" srcset=""></td>
                                     <td>
-                                        <form action="{{ route('admin.badge.destroy', ['badge' => $item->id]) }}"
-                                            method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger"><i
-                                                    class="fa fa-trash-alt">
-                                                </i></button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-danger delete-confirm"
+                                        data-bs-toggle="modal" data-bs-target="#delreq"
+                                        data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
+                                        </i></button>
                                         <a href="{{ route('admin.badge.edit', ['badge' => $item->id]) }}"
                                             class="btn btn-sm btn-info"><i class="fa fa-edit">
                                             </i></a>
@@ -92,6 +88,34 @@
 
     </div>
     <!-- End of Main Content -->
-
+    <!--delete Model-->
+    <div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                </div>
+                <div class="modal-body p-3">
+                    <p>Do you really want to delete this Badge? </p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{ route('admin.badge.delete') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="badge_id" value="" id="badge_id">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Footer -->
     @include('admin.layouts.footer')
+
+    <script>
+        $(document).on("click", ".delete-confirm", function() {
+            var reqId = $(this).data('id');
+            $(".modal-footer #badge_id").val(reqId);
+            $('#delreq').modal('show');
+        });
+    </script>

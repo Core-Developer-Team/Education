@@ -1,3 +1,4 @@
+@section('title', 'Event')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -37,9 +38,9 @@
                 </div>
                 <div class="card-body">
                     @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <strong>{{ $message }}</strong>
-                    </div>
+                        <div class="alert alert-success">
+                            <strong>{{ $message }}</strong>
+                        </div>
                     @endif
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -48,6 +49,7 @@
                                     <th>No.</th>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Image</th>
                                     <th>Location</th>
                                     <th>Event_Date</th>
                                     <th>start_time</th>
@@ -57,28 +59,27 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $key => $item)
-                                <tr class="text-center">
-                                    <td>{{ $key + 1 }}</td>
-                                    <td>{{ $item->name }} </td>
-                                    <td>{{ $item->description }} </td>
-                                    <td> <img src="{{ $item->image }}" class="w-100 h-auto" alt="" srcset=""> </td>
-                                    <td>{{ $item->location }} </td>
-                                    <td>{{ $item->event_date }} </td>
-                                    <td>{{ $item->start_time }} </td>
-                                    <td>{{ $item->end_time }} </td>
-                                    <td>
-                                        <form action="" method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger"><i
-                                                    class="fa fa-trash-alt">
+                                    <tr class="text-center">
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $item->name }} </td>
+                                        <td>{{ $item->description }} </td>
+                                        <td> <img style="width:100px; height:auto" src="{{ $item->image }}"
+                                                alt="" srcset=""> </td>
+                                        <td>{{ $item->location }} </td>
+                                        <td>{{ $item->event_date }} </td>
+                                        <td>{{ $item->start_time }} </td>
+                                        <td>{{ $item->end_time }} </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-danger delete-confirm"
+                                                data-bs-toggle="modal" data-bs-target="#delreq"
+                                                data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
                                                 </i></button>
-                                        </form>
-                                        <a href="{{ route('admin.event.edit', ['event' => $item->id]) }}"
-                                            class="btn btn-sm btn-info"><i class="fa fa-edit">
-                                            </i></a>
-                                    </td>
-                                </tr>
+                                          
+                                            <a href="{{ route('admin.event.edit', ['event' => $item->id]) }}"
+                                                class="btn btn-sm btn-info"><i class="fa fa-edit">
+                                                </i></a>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -91,5 +92,35 @@
     </div>
     <!-- End of Main Content -->
 
+     <!--delete Model-->
+     <div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                </div>
+                <div class="modal-body p-3">
+                    <p>Do you really want to delete this Event? </p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    
+                    <form action="{{route('admin.event.delete')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="event_id" value="" id="event_id">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     @include('admin.layouts.footer')
+    <script>
+        $(document).on("click", ".delete-confirm", function() {
+            var reqId = $(this).data('id');
+            $(".modal-footer #event_id").val(reqId);
+            $('#delreq').modal('show');
+        });
+    </script>

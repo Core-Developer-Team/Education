@@ -125,7 +125,7 @@
                     <li class="mn-icon">
                         <a class="mn-link" href="{{ route('notification.index') }}" role="button">
                             <i class="feather-bell"></i>
-                            <div class="alert-circle"></div>
+                            <div class="@if (auth()->user()->unreadNotifications->count() >= 1) alert-circle @endif"></div>
                         </a>
                     </li>
                     <li class="mn-icon dropdown dropdown-account ms-4">
@@ -150,26 +150,30 @@
                                 <a href="{{ route('profile.show', ['id' => Auth()->id()]) }}" id="night-mode"
                                     class="dropdown-item-link text-link text-center"
                                     title="{{ auth()->user()->username }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
                             </li>
                             <li class="dropdown-menu-footer">
                                 <a href="{{ route('profile.index') }}" id="night-mode"
                                     class="dropdown-item-link text-link text-center">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Setting
                                 </a>
                             </li>
                             <li class="dropdown-menu-footer">
                                 <a href="{{ route('badge.show') }}" id="night-mode"
                                     class="dropdown-item-link text-link text-center">
+                                    <i class="fas fa-award fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Badges
                                 </a>
                             </li>
                             <li class="dropdown-menu-footer">
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
-                                    <button type="submit"
-                                        class="dropdown-item-link text-link text-center">Logout</button>
+                                    <button type="submit" class="dropdown-item-link text-link text-center">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout</button>
                                 </form>
                             </li>
                         </ul>

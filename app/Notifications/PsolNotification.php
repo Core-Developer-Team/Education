@@ -35,7 +35,7 @@ class PsolNotification extends Notification
         return ['database'];
     }
 
-   
+
     public function toArray($notifiable)
     {
         return [

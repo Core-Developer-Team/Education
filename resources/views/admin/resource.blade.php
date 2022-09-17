@@ -1,3 +1,4 @@
+@section('title', 'Resource')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -47,8 +48,11 @@
                                 <tr class="text-center">
                                     <th>No.</th>
                                     <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Category</th>
                                     <th>Description</th>
                                     <th>filename</th>
+                                    <th>Price</th>
                                     <th>view</th>
                                     <th>Action</th>
                                 </tr>
@@ -58,18 +62,18 @@
                                 <tr class="text-center">
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->name }}</td>
+                                    <td>{{$item->user->username}}</td>
+                                    <td>{{$item->category}}</td>
                                     <td>{{ $item->description }}</td>
                                     <td>{{ $item->file_name }}</td>
+                                    <td>{{$item->price}}</td>
                                     <td>{{ $item->view_count }}</td>
                                     <td>
-                                        <form action="{{ route('admin.resources.destroy', ['resource' => $item->id]) }}"
-                                            method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger"><i
-                                                    class="fa fa-trash-alt">
+                                        <button type="button" class="btn btn-sm btn-danger delete-confirm"
+                                                data-bs-toggle="modal" data-bs-target="#delreq"
+                                                data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
                                                 </i></button>
-                                        </form>
+                                       
                                         <a href="{{ route('admin.resources.edit', ['resource' => $item->id]) }}"
                                             class="btn btn-sm btn-info"><i class="fa fa-edit">
                                             </i></a>
@@ -93,5 +97,34 @@
     </div>
     <!-- End of Main Content -->
 
+        <!--delete Model-->
+        <div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    </div>
+                    <div class="modal-body p-3">
+                        <p>Do you really want to delete this Resource? </p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form action="{{ route('admin.resource.delete') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="res_id" value="" id="req_id">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- Footer -->
     @include('admin.layouts.footer')
+    <script>
+        $(document).on("click", ".delete-confirm", function() {
+            var reqId = $(this).data('id');
+            $(".modal-footer #req_id").val(reqId);
+            $('#delreq').modal('show');
+        });
+    </script>

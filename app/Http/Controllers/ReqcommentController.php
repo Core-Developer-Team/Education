@@ -10,24 +10,24 @@ use App\Notifications\CommentNotification;
 
 class ReqcommentController extends Controller
 {
-    
-    public function store(Request $request){
+
+    public function store(Request $request)
+    {
         $request->validate([
-            'comment'  => ['required','string'],
+            'comment'  => ['required', 'string'],
         ]);
-        Reqcomment::create(array_merge($request->only('comment'),[
-            'user_id' =>Auth()->id(),
-            'request_id'=>$request->request_id,
+        Reqcomment::create(array_merge($request->only('comment'), [
+            'user_id' => Auth()->id(),
+            'request_id' => $request->request_id,
         ]));
 
-        if(auth()->user()){
-            $req = ModelsRequest::where('id',$request->request_id)->first();
+        if (auth()->user()) {
+            $req = ModelsRequest::where('id', $request->request_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->request_user);
-            $data->notify(new CommentNotification($user ,$req));
-            }
+            $data->notify(new CommentNotification($user, $req));
+        }
 
-        return back()->with('cstatus','Your Comment Published Successfully:)'); 
-      
-     }
+        return back()->with('cstatus', 'Your Comment Published Successfully:)');
+    }
 }

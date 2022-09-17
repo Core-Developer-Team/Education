@@ -22,6 +22,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\OfflinetopicController;
 use App\Http\Controllers\BookorderController;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AdminProductController;
 use App\Http\Controllers\admin\AnnouncementController;
 use App\Http\Controllers\admin\BooksController;
 use App\Http\Controllers\admin\CourseController as AdminCourseController;
@@ -55,9 +56,7 @@ use App\Http\Controllers\ResourcebidController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TermsandPrivacyController;
 use App\Http\Controllers\TutorialreviewController;
-use App\Models\Product;
-use App\Models\Proposal;
-use App\Models\Request;
+
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -264,14 +263,25 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     //admin controller
     Route::get('/admin', [AdminController::class, 'index'])->name('index');
     Route::resource('/admin/book', BooksController::class);
+    Route::post('/admin/book/del', [BooksController::class ,'del'])->name('book.delete');
+    Route::get('/admin/product', [AdminProductController::class ,'index'])->name('product.index');
+    Route::post('/admin/product/del', [AdminProductController::class ,'del'])->name('product.delete');
     Route::resource('/admin/courses', AdminCourseController::class);
+    Route::post('/admin/courses/del', [AdminCourseController::class ,'del'])->name('course.delete');
     Route::resource('/admin/proposals', AdminProposalController::class);
+    Route::post('/admin/proposals/del', [AdminProposalController::class ,'del'])->name('proposal.delete');
     Route::resource('/admin/resources', AdminResourceController::class);
+    Route::post('/admin/resources/del', [AdminResourceController::class ,'del'])->name('resource.delete');
     Route::resource('/admin/request', AdminRequest::class);
+    Route::post('/admin/request/del', [AdminRequest::class ,'del'])->name('request.delete');
     Route::resource('/admin/tutorials', AdminTutorialController::class);
+    Route::post('/admin/tutorials/del', [AdminTutorialController::class ,'del'])->name('tutorial.delete');
     Route::resource('/admin/badge', BadgeController::class);
+    Route::post('/admin/badge/del', [BadgeController::class ,'del'])->name('badge.delete');
     Route::resource('/admin/user', UserController::class);
+    Route::post('/admin/user/del', [UserController::class ,'delete'])->name('user.delete');
     Route::resource('/admin/event', AdminEventController::class);
+    Route::post('/admin/event/del', [AdminEventController::class ,'del'])->name('event.delete');
     Route::get('/admin/announcement', [AnnouncementController::class, 'index'])->name('announcement');
     Route::get('/admin/addannouncement', [AnnouncementController::class, 'get'])->name('addannouncement');
     Route::post('/admin/addannouncement', [AnnouncementController::class, 'store'])->name('storeannouncement');

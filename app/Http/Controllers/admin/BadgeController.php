@@ -105,9 +105,9 @@ class BadgeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-        $data=Badge::find($id);
+        $data=Badge::find($request->badge_id);
         $file_path = public_path().$data->image;
         if(File::exists($file_path))
         {

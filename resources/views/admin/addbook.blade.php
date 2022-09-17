@@ -1,3 +1,4 @@
+@section('title', 'Add Book')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -40,7 +41,7 @@
                     <!--book Form-->
                     <form action=" @isset($data) {{ route('admin.book.update', ['book' => $data->id]) }}
                     @else
-                    {{ route('admin.books.store') }} @endisset" method="POST" enctype="multipart/form-data">
+                    {{ route('books.store') }} @endisset" method="POST" enctype="multipart/form-data">
                         @csrf
                         @isset($data)
                         @method('PATCH')
@@ -81,11 +82,7 @@
                         </div>
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea id="desc" class="form-control" name="description" rows="3"> @isset($data)
-{{ $data->description }}
-@else
-{{ old('description') }}
-@endisset </textarea>
+                            <textarea id="desc" class="form-control" name="description" rows="3">@isset($data){{ $data->description }}@else{{ old('description') }}@endisset </textarea>
                         </div>
 
                         <button type="submit" name="submit" class="btn btn-primary mt-4">

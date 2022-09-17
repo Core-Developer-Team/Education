@@ -1,4 +1,4 @@
-@section('title','Books')
+@section('title', 'Books')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -112,8 +112,7 @@
                                             <div class="posts-list">
                                                 <div class="feed-shared-product-dt">
                                                     <div class="pdct-img">
-                                                        <a><img
-                                                                class="ft-plus-square product-bg-w bg-cyan me-0"
+                                                        <a><img class="ft-plus-square product-bg-w bg-cyan me-0"
                                                                 src="{{ $item->cover_pic }}" alt="">
                                                             <div class="overlay-item">
                                                                 <div class="badge-timer">
@@ -123,8 +122,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a 
-                                                            class="job-heading pp-title">{{ $item->title }}</a>
+                                                        <a class="job-heading pp-title">{{ $item->title }}</a>
                                                         <p class="notification-text font-small-4">
                                                             by <a
                                                                 href="{{ route('profile.show', ['id' => $item->user_id]) }}"
