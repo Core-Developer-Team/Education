@@ -1,3 +1,4 @@
+@section('title', 'Add Tutorial')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->

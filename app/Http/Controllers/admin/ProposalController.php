@@ -94,9 +94,9 @@ class ProposalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-        $data=Proposal::find($id);
+        $data=Proposal::find($request->proposal_id);
         $file_path = public_path().$data->file;
         if(File::exists($file_path))
         {

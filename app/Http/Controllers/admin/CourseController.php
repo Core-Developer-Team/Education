@@ -94,9 +94,9 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-       $data=Course::find($id);
+       $data=Course::find($request->course_id);
        $file_path = public_path().$data->pic;
        if(File::exists($file_path))
        {

@@ -32,7 +32,7 @@
             <span>Resource</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{route('admin.announcement')}}">
+        <a class="nav-link" href="{{ route('admin.announcement') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Announcement</span></a>
     </li>
@@ -55,6 +55,11 @@
         <a class="nav-link" href="{{ route('admin.book.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Books</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.product.index') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Products</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.badge.index') }}">

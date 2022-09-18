@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class EventController extends Controller
 {
@@ -111,8 +112,16 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-        //
+     
+        $data=Event::find($request->event_id);
+        $file_path = public_path().$data->image;
+        if(File::exists($file_path))
+        {
+         File::delete($file_path);
+        }
+        $data->delete();
+        return back()->with('success', 'Event has deleted Successfully');
     }
 }

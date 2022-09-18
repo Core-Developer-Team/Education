@@ -16,8 +16,8 @@ class RequestController extends Controller
      */
     public function index()
     {
-       $data= ModelsRequest::all();
-       return view('admin.request',compact('data'));
+        $data = ModelsRequest::all();
+        return view('admin.request', compact('data'));
     }
 
     /**
@@ -27,7 +27,7 @@ class RequestController extends Controller
      */
     public function create()
     {
-       return view('admin.addrequest');
+        return view('admin.addrequest');
     }
 
     /**
@@ -60,8 +60,8 @@ class RequestController extends Controller
      */
     public function edit($id)
     {
-       $data = ModelsRequest::find($id);
-       return view('admin.addrequest',compact('data'));
+        $data = ModelsRequest::find($id);
+        return view('admin.addrequest', compact('data'));
     }
 
     /**
@@ -74,19 +74,19 @@ class RequestController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'requestname'  => ['required','string'],
-            'coursename'   => ['required','string'],
-            'description'  => ['required','string'],
-            'file'         => ['required','mimes:jpg,jpeg,svg,pdf,png'],
+            'requestname'  => ['required', 'string'],
+            'coursename'   => ['required', 'string'],
+            'description'  => ['required', 'string'],
+            'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png'],
             'tag'          => ['required'],
         ]);
-        $filename = time().'_'.$request->file->getClientOriginalName();
-        $imgPath = $request->file('file')->storeAs('ReqFile',$filename,'public');
-        ModelsRequest::find($id)->update(array_merge($request->only('requestname','coursename','description','tag'),[
-            'file'    =>'/storage/'.$imgPath,
+        $filename = time() . '_' . $request->file->getClientOriginalName();
+        $imgPath = $request->file('file')->storeAs('ReqFile', $filename, 'public');
+        ModelsRequest::find($id)->update(array_merge($request->only('requestname', 'coursename', 'description', 'tag'), [
+            'file'    => '/storage/' . $imgPath,
             'filename' => $filename,
         ]));
-        return back()->with('reqstatus','Your Request updated Successfully:)');  
+        return back()->with('reqstatus', 'Your Request updated Successfully:)');
     }
 
     /**
@@ -95,15 +95,14 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del(Request $request)
     {
-        $data=ModelsRequest::find($id);
-        $file_path = public_path().$data->file;
-        if(File::exists($file_path))
-        {
-         File::delete($file_path);
+        $data = ModelsRequest::find($request->req_id);
+        $file_path = public_path() . $data->file;
+        if (File::exists($file_path)) {
+            File::delete($file_path);
         }
         $data->delete();
-        return back()->with('success', 'Course has deleted Successfully');
+        return back()->with('success', 'Request has deleted Successfully');
     }
 }

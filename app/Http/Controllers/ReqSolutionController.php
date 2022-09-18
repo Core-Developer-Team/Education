@@ -16,9 +16,9 @@ use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\User;
 use App\Notifications\SolNotification;
+use App\Notifications\SolreportNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ReqSolutionController extends Controller
 {
@@ -126,6 +126,13 @@ class ReqSolutionController extends Controller
             'request_id'  => $rid,
             'reqsolution_id' => $sid,
         ]);
+        if (auth()->user()) {
+            $req = ModelsRequest::where('id', $rid)->first();
+            $user = User::find(auth()->user()->id);
+            $touser = User::find($uid);
+            $data = User::find(1);
+            $data->notify(new SolreportNotification($user, $req, $touser));
+        }
         return back();
     }
     //All Reported Solution

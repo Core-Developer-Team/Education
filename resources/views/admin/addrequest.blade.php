@@ -1,3 +1,4 @@
+@section('title', 'Add Request')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->

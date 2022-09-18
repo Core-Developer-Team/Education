@@ -9,6 +9,7 @@ use App\Models\Propsolreport;
 use App\Models\Propsolution;
 use App\Models\User;
 use App\Notifications\PsolNotification;
+use App\Notifications\PsolreportNotification;
 use Illuminate\Http\Request;
 
 class PropsolutionController extends Controller
@@ -64,6 +65,13 @@ class PropsolutionController extends Controller
             'proposal_id'  => $rid,
             'propsolution_id' => $sid,
         ]);
+        if (auth()->user()) {
+            $req = Proposal::where('id', $rid)->first();
+            $user = User::find(auth()->user()->id);
+            $touser = User::find($uid);
+            $data = User::find(1);
+            $data->notify(new PsolreportNotification($user, $req, $touser));
+        }
         return back();
     }
 }

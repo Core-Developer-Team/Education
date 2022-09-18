@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('requestname');
             $table->string('coursename');
-            $table->integer('days');
+            $table->timestamp('days');
             $table->text('description');
             $table->integer('view_count')->default(0);
             $table->integer('price');

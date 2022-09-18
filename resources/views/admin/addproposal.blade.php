@@ -1,3 +1,4 @@
+@section('title', 'Add Proposal')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->

@@ -1,3 +1,4 @@
+@section('title', 'Proposal')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -46,8 +47,10 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No.</th>
+                                    <th>Username</th>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Category</th>
                                     <th>filename</th>
                                     <th>price</th>
                                     <th>view</th>
@@ -58,20 +61,23 @@
                                 @foreach ($data as $key => $item)
                                 <tr class="text-center">
                                     <td>{{ $item->user_id }}</td>
+                                    <td>{{$item->user->username}}</td>
                                     <td>{{ $item->proposalname }}</td>
                                     <td>{{ $item->description }}</td>
-                                    <td>{{ $item->filename }}</td>
+                                    <td>{{$item->category}}</td>
+                                    <td> @if ($item->filename=='')
+                                        Null
+                                    @else
+                                    {{ $item->filename }}
+                                    @endif </td>
                                     <td>{{ $item->price }}</td>
                                     <td>{{ $item->view_count }}</td>
                                     <td>
-                                        <form action="{{ route('admin.proposals.destroy', ['proposal' => $item->id]) }}"
-                                            method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger"><i
-                                                    class="fa fa-trash-alt">
+                                        <button type="button" class="btn btn-sm btn-danger delete-confirm"
+                                                data-bs-toggle="modal" data-bs-target="#delreq"
+                                                data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
                                                 </i></button>
-                                        </form>
+                                    
                                         <a href="{{ route('admin.proposals.edit', ['proposal' => $item->id]) }}"
                                             class="btn btn-sm btn-info"><i class="fa fa-edit">
                                             </i></a>
@@ -92,5 +98,34 @@
     </div>
     <!-- End of Main Content -->
 
+  <!--delete Model-->
+  <div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+            </div>
+            <div class="modal-body p-3">
+                <p>Do you really want to delete Proposal? </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('admin.proposal.delete') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="proposal_id" value="" id="req_id">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- Footer -->
     @include('admin.layouts.footer')
+
+    <script>
+        $(document).on("click", ".delete-confirm", function() {
+            var reqId = $(this).data('id');
+            $(".modal-footer #req_id").val(reqId);
+            $('#delreq').modal('show');
+        });
+    </script>

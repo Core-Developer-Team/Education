@@ -1,3 +1,4 @@
+@section('title', 'Book')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -46,11 +47,15 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No.</th>
+                                    <th>Username</th>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Category</th>
                                     <th>Image</th>
                                     <th>view</th>
                                     <th>price</th>
+                                    <th>Rating</th>
+
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -58,20 +63,21 @@
                                 @foreach ($data as $key => $item)
                                 <tr class="text-center">
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $item->book_name }}</td>
+                                    <td>{{$item->user->username}}</td>
+                                    <td>{{ $item->title }}</td>
                                     <td>{{ $item->description }}</td>
-                                    <td> <img src="{{ $item->cover_pic }}" class="w-100 h-100" alt="" srcset=""> </td>
+                                    <td>{{$item->Category}}</td>
+                                    <td> <img style="width: 100px; height:auto" src="{{ $item->cover_pic }}" alt="" srcset=""> </td>
                                     <td>{{ $item->view_count }}</td>
                                     <td>{{ $item->price }}</td>
+                                    <td>{{$item->rating}}</td>
                                     <td>
-                                        <form action="{{ route('admin.book.destroy', ['book' => $item->id]) }}"
-                                            method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger"><i
-                                                    class="fa fa-trash-alt">
+                                        
+                                            <button type="button" class="btn btn-sm btn-danger delete-confirm"
+                                                data-bs-toggle="modal" data-bs-target="#delreq"
+                                                data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
                                                 </i></button>
-                                        </form>
+                                       
                                         <a href="{{ route('admin.book.edit', ['book' => $item->id]) }}"
                                             class="btn btn-sm btn-info"><i class="fa fa-edit">
                                             </i></a>
@@ -89,5 +95,34 @@
     </div>
     <!-- End of Main Content -->
 
+      <!--delete Model-->
+      <div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                </div>
+                <div class="modal-body p-3">
+                    <p>Do you really want to delete this Book? </p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{ route('admin.book.delete') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="book_id" value="" id="req_id">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     @include('admin.layouts.footer')
+    <script>
+        $(document).on("click", ".delete-confirm", function() {
+            var reqId = $(this).data('id');
+            $(".modal-footer #req_id").val(reqId);
+            $('#delreq').modal('show');
+        });
+    </script>

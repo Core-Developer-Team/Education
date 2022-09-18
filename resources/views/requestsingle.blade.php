@@ -225,31 +225,32 @@
                                                     </span>
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
                                                     <span class="job-badge ttcolor">
-                                                        @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 1)
-                                                            @if ($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60 &&
-                                                                $data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) >= 1)
-                                                                {{ $data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) }}
+                                                        @if (\Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) <= 1)
+                                                            @if (\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 60 &&
+                                                                \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) >= 1)
+                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) }}
                                                                 Minutes left
-                                                            @elseif($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 0)
+                                                            @elseif(\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 0)
                                                                 @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
                                                                     Closed
                                                                 @else
                                                                     Unsolved
                                                                 @endif
                                                             @else
-                                                                {{ $data->days * 24 - $data->created_at->diffInHours(\Carbon\Carbon::now()) }}
+                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInHours($data->days, false) }}
                                                                 Hours left
                                                             @endif
                                                         @else
-                                                            {{ $data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) }}
+                                                            {{ \Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) }}
                                                             days left
                                                         @endif
                                                     </span>
 
                                                 </div>
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
-                                                        <i class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->reqbid->count() }}</ins>
-                                                   
+                                                    <i
+                                                        class="feather-users ms-2"></i><span>Applicants</span><ins>{{ $data->reqbid->count() }}</ins>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -729,7 +730,7 @@
                                                             </p>
                                                             <!-- Download solution from here -->
                                                             <p>{{ $item->description }}</p>
-                                                            
+
                                                             <div class="jobtxt47">
                                                                 <a href=" {{ $data->istTakeSolution($data->id) ? $item->file : 'javascript:void(0)' }} "
                                                                     download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
@@ -896,11 +897,12 @@
                                                                     action="{{ route('req.report', ['uid' => $item->user_id, 'cid' => $item->id]) }}"
                                                                     method="post">
                                                                     @csrf
+                                                                    <input type="hidden" name="request_id" value="{{$data->id}}">
                                                                     @if (!($item->commentreport()->count() >= 1 && $item->commentreport->reqcomment_id == $item->id))
                                                                         <button type="submit"
                                                                             class="btn">Report</button>
                                                                     @else
-                                                                        <button class="btn">Reported</button>
+                                                                        <a class="btn">Reported</a>
                                                                     @endif
                                                                 </form>
                                                             </li>
@@ -956,7 +958,8 @@
                                     <div style="margin-top: 10px; width:15px; height: 15px; margin-left:5px"
                                         class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
                                     </div>
-                                    <img src="/storage/{{ $data->user->image }}" alt="" style="width: 80px; height:80px">
+                                    <img src="/storage/{{ $data->user->image }}" alt=""
+                                        style="width: 80px; height:80px">
 
                                 </div>
                             </div>
@@ -1120,7 +1123,7 @@
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
                         @if ($data->reqsolution()->count() >= 1)
-                        <input type="hidden" name="request_id" value="{{$data->id}}">
+                            <input type="hidden" name="request_id" value="{{ $data->id }}">
                             <input type="hidden" name="t_user_id" value="{{ $data->reqsolution->user_id }}">
                         @endif
                         <div class="mt-30">
