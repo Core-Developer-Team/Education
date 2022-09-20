@@ -12,6 +12,8 @@ class Review extends Model
         'f_user_id',
         't_user_id',
         'rating',
+        'reqsolution_id',
+        'request_id',
         'description',
      ];
     public function f_user(){
@@ -19,5 +21,13 @@ class Review extends Model
      }
      public function t_user(){
      return $this->belongsTo(User::class);
+    }
+    public function reqsolution()
+    {
+        return $this->belongsTo(ReqSolution::class);
+    }
+    public function request()
+    {
+        return $this->belongsTo(Request::class);
     }
 }

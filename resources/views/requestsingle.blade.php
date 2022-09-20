@@ -9,21 +9,7 @@
 </header>
 
 <div class="wrapper pt-0">
-    <div class="breadcrumb-pt breadcrumb-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="breadcrumb-title">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('req.index') }}">Requests</a></li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <div class="page-tabs">
         <div class="container">
             <div class="row">
@@ -262,11 +248,16 @@
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                     data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
                                             @endif
-                                            @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->request_id == $data->id)
+                                            
+                                            @if ($data->reqsolutionreport()->count() >0 )
+                                            @if ($data->reqsolutionreport->request_id == $data->id && $data->reqsolutionreport->user_id == $data->user_id)
+                                             
                                                 <a href="#"
-                                                    class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 2) d-none @endif"
+                                                    class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', $data->user_id)->count() > 2) d-none @endif"
                                                     data-bs-toggle="modal" data-bs-target="#addbid">Bid Again</a>
-                                            @endif
+                                               
+                                                    @endif
+                                                    @endif
                                             @if (@$data->isBided()->first()->id != @$data->paymentLog($data->id)->bid_id)
                                                 <a href="#" class="job-badge btn-success text-light"
                                                     data-bs-toggle="" data-bs-target=""
@@ -517,7 +508,25 @@
                                                         </div>
                                                         <div class="aplcnts_15 job-center applcntres ml-3">
                                                             <i class="feather-users ms-2"></i> Do On
-                                                            <ins>{{ $bids->days }}</ins><span>Days</span>
+                                                            <ins> @if (\Carbon\Carbon::parse($data->created_at)->diffInDays($bids->days, false) <= 1)
+                                                                @if (\Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) < 60 &&
+                                                                    \Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) >= 1)
+                                                                    {{ \Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) }}
+                                                                    Minutes
+                                                                @elseif(\Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) < 0)
+                                                                    @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
+                                                                        Closed
+                                                                    @else
+                                                                        Unsolved
+                                                                    @endif
+                                                                @else
+                                                                    {{ \Carbon\Carbon::parse($data->created_at)->diffInHours($bids->days, false) }}
+                                                                    Hours 
+                                                                @endif
+                                                            @else
+                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInDays($bids->days, false) }}
+                                                                days 
+                                                            @endif</ins>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -744,13 +753,13 @@
                                                                 <span class="text-danger">Reported</span>
                                                             @else
                                                                 <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
-                                                                    class="label-dker post_categories_reported mr-10"><span>Report</span></a>
+                                                                    class="label-dker post_categories_reported mr-10 px-2"><span>Report</span></a>
                                                             @endif
-
+                                                           
                                                             <a href=""
-                                                                class="label-dker post_categories_top_right mr-20"
+                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#review"><span>Review</span></a>
+                                                                data-bs-target="#review" data-id="{{$item->id}}" data-rid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -795,6 +804,10 @@
                                                 class="d-sm-flex align-items-center rounded w-full border-none mt-3 p-3 mb-4">
                                                 <div class="rounded-circle d-flex">
                                                     <div class="userimg">
+                                                        <img class="ft-plus-square job-bg-circle iconreq bg-cyan mr-0"
+                                                                src="{{ $item->user->badge->image }}"
+                                                                style="width:17px; height:17px"
+                                                                title="{{ $item->user->badge->name }}">
                                                         <img src="/storage/{{ $item->user->image }}"
                                                             class="rounded-circle" style="width: 50px;height: 50px;"
                                                             alt="" srcset="">
@@ -897,7 +910,8 @@
                                                                     action="{{ route('req.report', ['uid' => $item->user_id, 'cid' => $item->id]) }}"
                                                                     method="post">
                                                                     @csrf
-                                                                    <input type="hidden" name="request_id" value="{{$data->id}}">
+                                                                    <input type="hidden" name="request_id"
+                                                                        value="{{ $data->id }}">
                                                                     @if (!($item->commentreport()->count() >= 1 && $item->commentreport->reqcomment_id == $item->id))
                                                                         <button type="submit"
                                                                             class="btn">Report</button>
@@ -1028,8 +1042,8 @@
                         </div>
                         <div class="form-group pt-2 pb-2">
                             <label for="days">In how much days you'll done it</label>
-                            <input type="number" class="form-control" name="days" id="days"
-                                placeholder="No of days" value="{{ old('days') }}">
+                            <input type="datetime-local" class="form-control " name="days" id="days"
+                                            value="{{ old('days') }}" placeholder="No of Days">
                             <div class="text-danger mt-2 text-sm daysError"></div>
                         </div>
                         <div class="form-group">
@@ -1123,8 +1137,9 @@
                     <form method="POST" id="rev" action="{{ route('reqreview.store') }}">
                         @csrf
                         @if ($data->reqsolution()->count() >= 1)
-                            <input type="hidden" name="request_id" value="{{ $data->id }}">
-                            <input type="hidden" name="t_user_id" value="{{ $data->reqsolution->user_id }}">
+                            <input type="hidden" name="request_id" value="" id="req_id">
+                            <input type="hidden" name="t_user_id" value="" id="t_user">
+                            <input type="hidden" name="solution_id" value="" id="solu_id">
                         @endif
                         <div class="mt-30">
                             <div class="rating-container">
@@ -1216,6 +1231,43 @@
 <link rel="stylesheet" href="{{ asset('asset/css/paymentBkash.css') }}">
 <script src="{{ asset('asset/js/bkashpayment.js') }}"></script>
 <!---/footer-->
+
+<!--req solution model script-->
+<script>
+    const reqsolform = $('form#reqsol');
+    reqsolform.on('submit', (e) => {
+        e.preventDefault();
+
+        $('.fileeror').text('');
+        $('.descriptioneror').text('');
+
+        const formsolbid = document.getElementById('reqsol');
+        const formData = new FormData(formsolbid);
+        const action = $(e.currentTarget).attr('action');
+        formData.append('_token', '{{ csrf_token() }}');
+        $.ajax({
+            url: action,
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                location.href = location.href;
+            },
+            error: function(error) {
+                const errorResponse = error.responseJSON.errors;
+                if (errorResponse.file) {
+                    $('.fileeror').text(errorResponse.file[0]);
+                }
+                if (errorResponse.description) {
+                    $('.descriptioneror').text(errorResponse.description[0]);
+                }
+
+            }
+        });
+    });
+</script>
 <!--req Bid model script-->
 <script>
     const reqbidform = $('form#reqbid');
@@ -1256,42 +1308,21 @@
         })
     })
 </script>
-<!--req solution model script-->
+
+
 <script>
-    const reqsolform = $('form#reqsol');
-    reqsolform.on('submit', (e) => {
-        e.preventDefault();
+    $(document).on("click", ".rev", function() {
+        var solId = $(this).data('id');
+        var userid = $(this).data('uid');
+        var reqid = $(this).data('rid'); 
 
-        $('.fileeror').text('');
-        $('.descriptioneror').text('');
-
-        const formsolbid = document.getElementById('reqsol');
-        const formData = new FormData(formsolbid);
-        const action = $(e.currentTarget).attr('action');
-        formData.append('_token', '{{ csrf_token() }}');
-        $.ajax({
-            url: action,
-            method: 'POST',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                location.href = location.href;
-            },
-            error: function(error) {
-                const errorResponse = error.responseJSON.errors;
-                if (errorResponse.file) {
-                    $('.fileeror').text(errorResponse.file[0]);
-                }
-                if (errorResponse.description) {
-                    $('.descriptioneror').text(errorResponse.description[0]);
-                }
-
-            }
-        });
+        $(".modal-footer #req_id").val(reqid);
+        $(".modal-footer #t_user").val(userid);
+        $(".modal-footer #solu_id").val(solId);
+        $('#review').modal('show');
     });
 </script>
+
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 {{-- <script src="https://code.jquery.com/jquery-1.8.3.min.js" integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script> --}}

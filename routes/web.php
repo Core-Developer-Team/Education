@@ -286,7 +286,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('/admin/addannouncement', [AnnouncementController::class, 'get'])->name('addannouncement');
     Route::post('/admin/addannouncement', [AnnouncementController::class, 'store'])->name('storeannouncement');
     Route::get('/admin/announcement/{id}', [AnnouncementController::class, 'updatestatus'])->name('updateannouncement');
-    Route::delete('/admin/announcement/{id}', [AnnouncementController::class, 'destroy'])->name('destroyannouncement');
+    Route::post('/admin/announcement/del', [AnnouncementController::class, 'destroy'])->name('destroyannouncement');
 });
 
 // terms of use and privacy

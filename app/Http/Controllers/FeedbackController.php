@@ -44,7 +44,7 @@ class FeedbackController extends Controller
     {
         $request->validate([
             'rating'       => 'required',
-            'description'  => 'required|string',
+            'description'  => 'required|string|max:300',
         ]);
 
         Feedback::create(array_merge($request->only('description', 'rating'), [

@@ -277,26 +277,27 @@
                                                 </span>
                                                 <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                                 <span class="job-badge ttcolor">
-                                                    @if ($data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) <= 1)
-                                                        @if ($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 60 &&
-                                                            $data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) >= 1)
-                                                            {{ $data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) }}
+                                                    @if (\Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) <= 1)
+                                                        @if (\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 60 &&
+                                                            \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) >= 1)
+                                                            {{ \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) }}
                                                             Minutes left
-                                                        @elseif($data->days * 24 * 60 - $data->created_at->diffInMinutes(\Carbon\Carbon::now()) < 0)
+                                                        @elseif(\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 0)
                                                             @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
                                                                 Closed
                                                             @else
                                                                 Unsolved
                                                             @endif
                                                         @else
-                                                            {{ $data->days * 24 - $data->created_at->diffInHours(\Carbon\Carbon::now()) }}
+                                                            {{ \Carbon\Carbon::parse($data->created_at)->diffInHours($data->days, false) }}
                                                             Hours left
                                                         @endif
                                                     @else
-                                                        {{ $data->days - $data->created_at->diffInDays(\Carbon\Carbon::now()) }}
+                                                        {{ \Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) }}
                                                         days left
                                                     @endif
                                                 </span>
+
                                             </div>
                                         </div>
                                     </div>

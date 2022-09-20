@@ -46,6 +46,10 @@ class Request extends Model
     {
         return $this->hasOne(Reqsolutionreport::class);
     }
+    public function review()
+    {
+        return $this->hasMany(Review::class);
+    }
 
     public function isAccept($reqId, $bidId = '')
     {

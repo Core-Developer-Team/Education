@@ -12,116 +12,7 @@
 <div class="wrapper">
     <div class="container">
         <div class="row">
-            <div class="owl-carousel evtcate_slider">
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 1</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Artificial Intelligence</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Web Programming</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Architecture</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Data Structure 2</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Software Engineering</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Discrete Mathematics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Green Computing</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Computer Networks</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electrical Circuits</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Theory of Computation</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="item text-center">
-                    <a href="#" class="event-cate-links">
-                        <div class="event-full-width">
-                            <div class="event-cate-items">
-                                <h6>Electronics</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+           
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
@@ -214,17 +105,17 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="days">days</label>
-                                        <input type="number" class="form-control" name="days" id="days"
-                                            placeholder="Days"
-                                            value=@isset($data) {{ $data->days }}
-                                                @else {{ old('days') }} @endisset>
-                                        @error('days')
+                                        <label for="days">In How much days</label>
+                                        <input type="datetime-local" class="form-control " name="days" id="days"
+                                            value="{{ old('days') }}" placeholder="No of Days"  value=@isset($data) {{$data->days }}
+                                            @else {{ old('days') }} @endisset>
+                                            @error('days')
                                             <div class="text-danger mt-2 text-sm">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                     </div>
+                                
                                     <div class="form-group pt-2">
                                         <label for="coursename">Course/Category Name</label>
                                         <input type="text" class="form-control" name="coursename" id="coursename"
@@ -237,11 +128,7 @@
                                     </div>
                                     <div class="form-group pt-2">
                                         <label for="description">Description</label>
-                                        <textarea class="form-control" name="description" rows="3">
-@isset($data)
-{{ $data->description }}@else{{ old('data') }}
-@endisset
-</textarea>
+                                        <textarea class="form-control" name="description" rows="3">@isset($data){{ $data->description }}@else{{ old('data') }}@endisset</textarea>
                                         @error('description')
                                             <div class="text-danger mt-2 text-sm">
                                                 {{ $message }}

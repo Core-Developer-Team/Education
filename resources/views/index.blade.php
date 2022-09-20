@@ -328,7 +328,7 @@
                                         <a href=""
                                             class="label-dker post_categories_reported mr-10 @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->request_id == $data->id) @else d-none @endif"><span
                                                 class="label-dker post_categories_reported mr-10">Reported</span></a>
-                                        <a href="" class="label-dker post_department_top_right mr-10"><span>
+                                        <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>
                                                 @if ($data->user->department == 0)
                                                     bba
                                                 @elseif($data->user->department == 1)
@@ -338,7 +338,7 @@
                                                 @endif
                                             </span></a>
                                         <a href=""
-                                            class="label-dker post_categories_top_right mr-20"><span>{{ $data->coursename }}</span></a>
+                                            class="label-dker post_categories_top_right mr-20 ms-2"><span>{{ $data->coursename }}</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -413,43 +413,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
-                        <div class="container bg-white rounded">
-                            <div class="event-card">
-                                <div class="evnt1523">
-                                    <h4 class="evntitle">
-                                        {{ session()->get('announcements')->event_date->format('d:m:Y') }}
-                                    </h4>
-                                </div>
-                                <div class="ental5896">
-                                    <div class="evntlnk47">
-                                        <div class="ental485">
-                                            <a href="#">
-                                                <div class="ental486">
-                                                    <img class="et-plus-square2 mr-0"
-                                                        src="/storage/Images/1662301373_img4.jpg" alt="">
-                                                </div>
-                                            </a>
-                                            <div class="ental487">
-                                                <span class="evntime">At
-                                                    {{ session()->get('announcements')->start_time->format('g:i A') }}
-                                                    To
-                                                    {{ session()->get('announcements')->end_time->format('g:i A') }}</span></span>
-                                                <a href="#"
-                                                    class="envttle14">{{ session()->get('announcements')->name }}</a>
-                                                <div class="ttlcnt15">
-                                                    <span class="evntcunt">
-                                                        {{ Str::limit(session()->get('announcements')->description, 150, $end = '.........') }}</span>
-                                                    <a href="{{ route('event.index') }}" class="btn">Readmore</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="ttlcnt15">
+                            <span class="evntcunt">
+                                {{ session()->get('announcements')->description }}</span>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

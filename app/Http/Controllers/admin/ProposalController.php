@@ -77,11 +77,12 @@ class ProposalController extends Controller
             'proposalname'  => ['required','string'],
             'price'         => ['required','string'],
             'description'   => ['required','string'],
+            'days'          => ['required'],
             'file'          => ['required','mimes:jpg,jpeg,svg,pdf,png,jpeg'],
         ]);
         $filename  = $request->file->getClientOriginalName();
         $filePath   =  $request->file('file')->storeAs('Images',$filename,'public');
-        Proposal::find($id)->update(array_merge($request->only('proposalname','price','description'),[
+        Proposal::find($id)->update(array_merge($request->only('proposalname','price','days','description'),[
             'file'     =>'/storage/'.$filePath,
             'filename' => $filename,
         ]));

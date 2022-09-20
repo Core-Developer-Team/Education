@@ -22,8 +22,10 @@ class ReviewController extends Controller
         ]);
 
         Review::create(array_merge($request->only('description', 'rating'), [
-            'f_user_id'   => auth()->id(),
-            't_user_id'   => $request->t_user_id,
+            'f_user_id'      => auth()->id(),
+            't_user_id'      => $request->t_user_id,
+            'reqsolution_id' => $request->solution_id,
+            'request_id'     => $request->request_id,
         ]));
         $five = 0;
         $four = 0;
@@ -123,7 +125,7 @@ class ReviewController extends Controller
         }
 
         if (auth()->user()) {
-            $reqrev = Review::where('id',$request->request_id)->first();
+            $reqrev = Review::where('id',$request->request_id)->get();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->t_user_id);
             $data->notify(new ReviewNotification($user, $reqrev));

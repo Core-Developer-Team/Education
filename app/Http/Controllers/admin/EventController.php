@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class EventController extends Controller
@@ -101,7 +102,8 @@ class EventController extends Controller
         $imagepath = $request->file('image')->storeAs('Images',$imagename, 'public');
 
         Event::find($id)->update(array_merge($request->only('description','location','event_date','event_time','name'),[
-            'image' => '/storage/'.$imagepath,
+     
+            'image'   => '/storage/'.$imagepath,
         ]));
         return back()->with('status', 'Event updated Successfully');
     }

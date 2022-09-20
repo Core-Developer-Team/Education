@@ -74,15 +74,17 @@
                                         </td>
                                         <td>{{ $item->description }}</td>
                                         <td>{{ $item->tag }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-danger delete-confirm"
+                                        <td style="display: inline-flex" >
+                                            <button type="button" class="btn btn-sm btn-danger mr-1 delete-confirm"
                                                 data-bs-toggle="modal" data-bs-target="#delreq"
                                                 data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
                                                 </i></button>
 
                                             <a href="{{ route('admin.request.edit', ['request' => $item->id]) }}"
-                                                class="btn btn-sm btn-info"><i class="fa fa-edit">
+                                                class="btn btn-sm btn-info mr-1"><i class="fa fa-edit">
                                                 </i></a>
+                                                <button class=" btn btn-danger" type="submit"><i class="fa fa-map-pin"></i></button>
+
                                         </td>
                                     </tr>
                                 @endforeach

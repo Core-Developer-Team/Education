@@ -161,4 +161,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Propsolreport::class);
     }
+    public function event()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

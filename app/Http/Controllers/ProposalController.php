@@ -127,6 +127,7 @@ class ProposalController extends Controller
             'proposalname'  => ['required', 'string'],
             'price'         => ['required', 'string'],
             'description'   => ['required', 'string'],
+            'days'          => ['required'],
             'category'      => ['required', 'max:25'],
         ]);
         if ($request->hasFile('file')) {
@@ -135,13 +136,13 @@ class ProposalController extends Controller
             ]);
             $filename  = $request->file->getClientOriginalName();
             $filePath   =  $request->file('file')->storeAs('Images', $filename, 'public');
-            Proposal::create(array_merge($request->only('proposalname', 'category', 'price', 'description'), [
+            Proposal::create(array_merge($request->only('proposalname', 'category','days', 'price', 'description'), [
                 'user_id'  => auth()->id(),
                 'file'     => '/storage/' . $filePath,
                 'filename' => $filename,
             ]));
         } else {
-            Proposal::create(array_merge($request->only('proposalname','category',  'price', 'description'), [
+            Proposal::create(array_merge($request->only('proposalname','category', 'days', 'price', 'description'), [
                 'user_id'  => auth()->id(),
                 'file'     => '',
                 'filename' => '',
@@ -161,7 +162,7 @@ class ProposalController extends Controller
             $data->increment('view_count');
             Session::put($prop_key, 1);
         }
-        return view('proposal_single', compact('data', 'user'));
+        return view('check', compact('data', 'user'));
     }
     //search
     public function search(Request $request)

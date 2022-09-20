@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>Micko - @yield('title')</title>
+    <title>CRAVSOL - @yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="icon" type="image/png" href="{{asset('images/fav.png')}}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;700;800;900&amp;display=swap"
         rel="stylesheet">

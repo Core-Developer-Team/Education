@@ -14,7 +14,7 @@ class ProposalbidController extends Controller
         $request->validate([
             'price'       => ['required','integer'],
             'description' => ['required','string','max:255'],
-            'days'        => ['required','integer'],
+            'days'        => ['required'],
             'proposal_id'  => ['required'],
 
         ]);

@@ -397,7 +397,7 @@
                                     <div class="jbdes25">
                                         <div class="jobtxt47">
                                             <h4>Solution</h4>
-                                            @forelse ($data->propsolution()->orderBy('updated_at','DESC')->get() as $item)
+                                            @foreach ($data->propsolution()->orderBy('updated_at','DESC')->get() as $item)
                                                 <div
                                                     class="d-sm-flex align-items-center rounded border-none mt-3 p-3  mb-4">
                                                     <div class="rounded-circle d-flex ">
@@ -511,8 +511,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @empty
-                                            @endforelse
+                                            
+                                            @endforeach
                                         </div>
 
                                     </div>
@@ -520,19 +520,6 @@
                             </div>
                         @endif
                     @endif
-                    <!--description-->
-                    <div class="event-card mt-4">
-                        <div class="jobdt99">
-                            <div class="jbdes25">
-                                <div class="jobtxt47">
-                                    <h4>Description</h4>
-                                    {{ $data->description }}
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
                     <!--file-->
                     @if (!$data->file == '')
                         <div class="event-card mt-4">
@@ -548,6 +535,20 @@
                             </div>
                         </div>
                     @endif
+                    <!--description-->
+                    <div class="event-card mt-4">
+                        <div class="jobdt99">
+                            <div class="jbdes25">
+                                <div class="jobtxt47">
+                                    <h4>Description</h4>
+                                    {{ $data->description }}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-lg-3 col-md-12">
                     <div class="full-width mt-4">

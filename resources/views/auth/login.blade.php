@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>Micko - Sign In</title>
+    <title>CRAVSOL - Sign In</title>
 
     <link rel="icon" type="image/png" href="images/fav.png">
 
@@ -34,7 +34,7 @@
         <div class="app-form">
             <div class="app-form-sidebar">
                 <div class="sign-logo">
-                    <img src="images/logo_2.png" alt="">
+                    <img src="{{ asset('images/logo.png') }}" class="w-100" alt="">
                 </div>
                 <div class="sign_sidebar_text">
                     <h1>Best place to buy and sell digital products and LMS Courses with social Networking</h1>
@@ -49,7 +49,7 @@
                                     <img src="images/logo.png" alt="">
                                 </div>
                                 <div class="app-top-right-link">
-                                    New to Micko?<a class="SidebarRegister__link" href="{{ route('register') }}">Sign
+                                    New to CRAVSOL?<a class="SidebarRegister__link" href="{{ route('register') }}">Sign
                                         up</a>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                             <div class="registration">
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
-                                    <h2 class="registration_title">Sign in to Micko</h2>
+                                    <h2 class="registration_title">Sign in to CRAVSOL</h2>
 
                                     <div class="form_group mt-30">
                                         <label class="label25">Your Email*</label>
@@ -143,14 +143,14 @@
                                     </div>
                                 </div>
                                 <div class="app_responsive_signup_link">
-                                    New to Micko?<a class="SidebarRegister__link" href="sign_up.html">Sign up</a>
+                                    New to CRAVSOL?<a class="SidebarRegister__link" href="sign_up.html">Sign up</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="register_footer mt-50">
-                    © 2021 Micko owned by Gambolthemes. All rights reserved
+                    © 2021 CRAVSOL owned by Gambolthemes. All rights reserved
                     <nav class="footer__links">
                         <a href="{{route('term.show')}}" class="footer__link" target="_blank">Terms of Use</a>
                         <a href="{{route('privacy.show')}}" class="footer__link" target="_blank">Privacy Policy</a>
