@@ -279,8 +279,8 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <img src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
-                                            class="@if ($data->user->badge_id == 5) @else d-none @endif "
+                                        <img src="@if ($data->user->badge_id == 5 || $data->user->status==1) /storage/badges/verified.svg @endif"
+                                            class="@if ($data->user->badge_id == 5 || $data->user->status==1) @else d-none @endif "
                                             alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>

@@ -99,7 +99,7 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="#">
+                                                                    <a href="{{ route('event.single', ['id'=>$item->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $item->image }}"
@@ -149,7 +149,7 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="#">
+                                                                    <a href="{{ route('event.single', ['id'=>$next->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $next->image }}"
@@ -199,7 +199,7 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="#">
+                                                                    <a href="{{ route('event.single', ['id'=>$expire->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $expire->image }}"
@@ -216,6 +216,7 @@
                                                                         <div class="ttlcnt15">
                                                                             <span
                                                                                 class="evntcunt">{{ $expire->description }}</span>
+                                                                                <button class="moreless-btn">See more</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>

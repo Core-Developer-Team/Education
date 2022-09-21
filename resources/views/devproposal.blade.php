@@ -268,9 +268,9 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <img src="@if ($item->user->badge_id == 5) {{ $item->user->badge->image }} @endif"
-                                            class="@if ($item->user->badge_id == 5) @else d-none @endif "
-                                            alt="Verified" style="width: 17px;" title="Verified">
+                                        <img src="@if ($item->user->badge_id == 5 || $item->user->status==1) /storage/badges/verified.svg @endif"
+                                        class="@if ($item->user->badge_id == 5 || $item->user->status==1) @else d-none @endif "
+                                        alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
                                         </p>
@@ -310,8 +310,17 @@
                                         <a href=""
                                             class="label-dker post_categories_reported mr-10 @if ($item->propsolreport()->count() > 0 && $item->propsolreport->proposal_id == $item->id) @else d-none @endif"><span
                                                 class="label-dker post_categories_reported mr-10">Reported</span></a>
+                                                <a href="" class="label-dker post_department_top_right mr-10 px-2 ms-2"><span>
+                                                    @if ($item->user->department == 0)
+                                                        bba
+                                                    @elseif($item->user->department == 1)
+                                                        bse
+                                                    @elseif ($item->user->department == 2)
+                                                        bcs
+                                                    @endif
+                                                </span></a>
                                         <a href=""
-                                            class="label-dker post_categories_top_right mr-20"><span>{{ $item->category }}</span></a>
+                                            class="label-dker post_categories_top_right mr-20 ms-2"><span>{{ $item->category }}</span></a>
                                     </div>
                                 </div>
 
@@ -331,15 +340,14 @@
                                             <div class="@if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id) d-none @endif">
                                                 <a href="" title="Edit"
                                                     class="px-3">
-                                                    <button type="button" class="bm-btn btn-hover">
+                                                    <a href="{{ route('proposal.edit', ['id'=>$item->id]) }}" type="button" class="bm-btn btn-hover">
                                                         <i class="feather-edit"></i>
-                                                    </button>
+                                                    </a>
                                                 </a>
                                                 <button class="bm-btn btn-hover delete-confirm" data-bs-toggle="modal"
                                                     data-bs-target="#delreq" data-id="{{ $item->id }}"><i
                                                         class="fa-solid fa-trash-can"></i>
                                                 </button>
-
                                             </div>
                                         @endif
                                         @isset($bid)

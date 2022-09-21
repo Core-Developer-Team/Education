@@ -122,11 +122,53 @@
                             <div class="alert-circle"></div>
                         </a>
                     </li>
-                    <li class="mn-icon">
-                        <a class="mn-link" href="{{ route('notification.index') }}" role="button">
+
+                    <li class="mn-icon dropdown dropdown-account">
+                        <a href="#" class="mn-link" role="button" id="dropdownMenuClickableInside"
+                            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                             <i class="feather-bell"></i>
                             <div class="@if (auth()->user()->unreadNotifications->count() >= 1) alert-circle @endif"></div>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end"
+                            aria-labelledby="dropdownMenuClickableInside">
+                            <li class="media-list">
+                                <div class="night_mode_switch__btn">
+                                    <a href="#" id="night-mode" class="btn-night-mode">
+                                        Notifications
+                                    </a>
+                                </div>
+                            </li>
+
+                            @foreach (auth()->user()->unreadNotifications as $notification)
+                                {{ $notification->markAsRead() }}
+
+                                <a
+                                    href="{{ route($notification->data['link'], ['id' => $notification->data['request_id']]) }}">
+                                    <li style="display: flex" class="dropdown-menu-footer">
+                                        <div style="margin-right: 8px" class="img">
+                                            <img style="width:30px; height:30px" class="rounded-circle"
+                                                src="/storage/{{ $notification->data['image'] }}" alt=""
+                                                srcset="">
+                                        </div>
+                                        <p style="font-size: 11px"><span class="text-muted-1.active">
+                                                @if ($notification->notifiable_id == $notification->data['user_id'])
+                                                    You
+                                                @else
+                                                    {{ $notification->data['name'] }}
+                                                @endif
+                                            </span>{{ $notification->data['mesg'] }}</p>
+                                        <p style="font-size: 10px">{{ $notification->created_at->diffForHumans() }}</p>
+                                    </li>
+                                </a>
+                            @endforeach
+                            <li class="dropdown-menu-footer">
+                                <a href="{{ route('notification.index') }}" id="night-mode"
+                                    class="dropdown-item-link text-link text-center">
+                                    All Notifications
+                                </a>
+                            </li>
+
+                        </ul>
                     </li>
                     <li class="mn-icon dropdown dropdown-account ms-4">
                         <a href="#" class="opts_account" role="button" id="dropdownMenuClickableInside"

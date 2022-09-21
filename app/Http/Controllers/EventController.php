@@ -18,6 +18,12 @@ class EventController extends Controller
         $eventcount = $event->count();
         return view('event', compact('data','expires','eventcount','upcoming'));
     }
+
+    public function single($id)
+    {
+        $data = Event::find($id);
+        return view('eventdetail',compact('data'));
+    }
    
     public function store(Request $request)
     {

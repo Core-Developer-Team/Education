@@ -221,4 +221,62 @@ class ProposalController extends Controller
 
         return view('devproposal', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
+
+    public function proposalsingle($id)
+    {
+        $data = Proposal::find($id);
+        $categ = Proposal::orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $bid = Proposalbid::all();
+        $req_count = ModelsRequest::count();
+        $feed_count = Feedback::count();
+        $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $myques = ModelsRequest::where('user_id', Auth()->id())->count();
+        $res  = Resource::count();
+        $event = Event::count();
+        $offline = Offlinetopic::count();
+        $product = Product::count();
+        $prop   = Proposal::count();
+        $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
+        $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+
+        $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
+        $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
+        $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
+        $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
+
+        return view('proposal_edit', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'proposalname'  => ['required', 'string'],
+            'price'         => ['required', 'string'],
+            'description'   => ['required', 'string'],
+            'days'          => ['required'],
+            'category'      => ['required', 'max:25'],
+        ]);
+
+        $proposal = Proposal::find($request->proposal_id);
+
+        if ($request->hasFile('file')) {
+          
+            $request->validate([
+                'file'         => ['required', 'mimes:jpg,jpeg,svg,pdf,png,zip,rar'],
+            ]);
+            $filename  = $request->file->getClientOriginalName();
+            $filePath   =  $request->file('file')->storeAs('Images', $filename, 'public');
+            $proposal->update(['file' => $filePath]);
+            $proposal->update(['filename' => $filename]);
+        }
+        $proposal->update([
+            'proposalname' => $request->proposalname,
+            'price' => $request->price,
+            'days' => $request->days,
+            'category' => $request->category,
+            'description' => $request->description,
+        ]);
+
+        return back()->with('status', 'Your Proposal Updated Successfully:)');
+    }
 }
