@@ -25,6 +25,8 @@ class ProposalreviewController extends Controller
         Proposalreview::create(array_merge($request->only('description', 'rating'), [
             'fr_user_id'   => auth()->id(),
             'tp_user_id'   => $request->tp_user_id,
+            'proposal_id'  => $request->proposal_id, 
+            'propsolution_id' => $request->propsolution_id,
         ]));
         $five = 0;
         $four = 0;

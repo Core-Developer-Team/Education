@@ -28,4 +28,8 @@ class ReqSolution extends Model
     {
         return $this->hasOne(Reqsolutionreport::class);
     }
+    public function review()
+    {
+        return $this->hasOne(Review::class);
+    }
 }

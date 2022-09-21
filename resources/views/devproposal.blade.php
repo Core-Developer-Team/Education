@@ -268,9 +268,9 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <img src="@if ($item->user->badge_id == 5) {{ $item->user->badge->image }} @endif"
-                                            class="@if ($item->user->badge_id == 5) @else d-none @endif "
-                                            alt="Verified" style="width: 17px;" title="Verified">
+                                        <img src="@if ($item->user->badge_id == 5 || $item->user->status==1) /storage/badges/verified.svg @endif"
+                                        class="@if ($item->user->badge_id == 5 || $item->user->status==1) @else d-none @endif "
+                                        alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
                                         </p>
@@ -282,6 +282,27 @@
                                             <div class="jbbdges10">
                                                 <span class="job-badge ffcolor">Online</span>
                                                 <span class="job-badge ddcolor">৳ {{ $item->price }}</span>
+                                                <span class="job-badge ttcolor">
+                                                    @if (\Carbon\Carbon::parse($item->created_at)->diffInDays($item->days, false) <= 1)
+                                                        @if (\Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) < 60 &&
+                                                            \Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) >= 1)
+                                                            {{ \Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) }}
+                                                            Minutes left
+                                                        @elseif(\Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) < 0)
+                                                            @if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id)
+                                                                Closed
+                                                            @else
+                                                                Unsolved
+                                                            @endif
+                                                        @else
+                                                            {{ \Carbon\Carbon::parse($item->created_at)->diffInHours($item->days, false) }}
+                                                            Hours left
+                                                        @endif
+                                                    @else
+                                                        {{ \Carbon\Carbon::parse($item->created_at)->diffInDays($item->days, false) }}
+                                                        days left
+                                                    @endif
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -289,8 +310,17 @@
                                         <a href=""
                                             class="label-dker post_categories_reported mr-10 @if ($item->propsolreport()->count() > 0 && $item->propsolreport->proposal_id == $item->id) @else d-none @endif"><span
                                                 class="label-dker post_categories_reported mr-10">Reported</span></a>
+                                                <a href="" class="label-dker post_department_top_right mr-10 px-2 ms-2"><span>
+                                                    @if ($item->user->department == 0)
+                                                        bba
+                                                    @elseif($item->user->department == 1)
+                                                        bse
+                                                    @elseif ($item->user->department == 2)
+                                                        bcs
+                                                    @endif
+                                                </span></a>
                                         <a href=""
-                                            class="label-dker post_categories_top_right mr-20"><span>{{ $item->category }}</span></a>
+                                            class="label-dker post_categories_top_right mr-20 ms-2"><span>{{ $item->category }}</span></a>
                                     </div>
                                 </div>
 
@@ -303,14 +333,23 @@
                                         <i
                                             class="feather-eye mr-2"></i><span>Views</span><ins>{{ $item->view_count }}</ins>
                                     </div>
-                                    <div class="action-btns-job">
+                                    <div class="action-btns-job d-flex justify-content-space">
                                         <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
                                             class="view-btn btn-hover">Detail</a>
-                                        <a href="" title="Edit" class="bm-btn btn-hover d-none"><i
-                                                class="feather-edit "></i></a>
-                                        <span class="bm-btn btn-hover ms-2 d-none" data-bs-toggle="modal"
-                                            title="Delete" data-bs-target="#deleteJobModal"><i
-                                                class="feather-trash-2"></i></span>
+                                            @if ($item->user_id == Auth()->id())
+                                            <div class="@if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id) d-none @endif">
+                                                <a href="" title="Edit"
+                                                    class="px-3">
+                                                    <a href="{{ route('proposal.edit', ['id'=>$item->id]) }}" type="button" class="bm-btn btn-hover">
+                                                        <i class="feather-edit"></i>
+                                                    </a>
+                                                </a>
+                                                <button class="bm-btn btn-hover delete-confirm" data-bs-toggle="modal"
+                                                    data-bs-target="#delreq" data-id="{{ $item->id }}"><i
+                                                        class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </div>
+                                        @endif
                                         @isset($bid)
                                             @foreach ($bid as $bidd)
                                                 @if ($bidd->proposal_id == $item->id && $bidd->status == 1)
@@ -365,6 +404,12 @@
                                 value="{{ old('price') }}" placeholder="project price">
                             <div class="text-danger mt-2 text-sm price"></div>
                         </div>
+                        <div class="form-group">
+                            <label for="days">In How much days</label>
+                            <input type="datetime-local" class="form-control " name="days" id="days"
+                                value="{{ old('days') }}" placeholder="No of Days">
+                            <div class="text-danger mt-2 text-sm dayError"></div>
+                        </div>
                         <div class="form-group pt-2">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
@@ -394,6 +439,36 @@
     </div>
 </div>
 
+<!--delete Model-->
+<div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-3">
+                <p>Do you really want to delete this Proposal? </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{route('admin.proposal.delete')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="proposal_id" value="" id="proposal_id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<script>
+    $(document).on("click", ".delete-confirm", function() {
+        var reqId = $(this).data('id');
+        $(".modal-footer #proposal_id").val(reqId);
+        $('#delreq').modal('show');
+    });
+</script>

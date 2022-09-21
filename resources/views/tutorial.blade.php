@@ -137,6 +137,7 @@
                                         <a href="{{ route('tutorial.freetutorial', ['id' => 0]) }}">View All</a>
                                     </div>
                                     <div class="owl-carousel learning_slider owl-theme">
+                                        
                                         @forelse ($playlists_json as $key => $items)
                                             @foreach ($items['playlists']['items'] as $key => $item)
                                                 @if ($key == 0)

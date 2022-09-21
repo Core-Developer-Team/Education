@@ -275,7 +275,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="date">Event_Date</label>
+                            <label for="date">Contest_Date</label>
                             <input type="date" class="form-control" name="event_date" id="date"
                                 placeholder="date" value={{ old('event_date') }}>
                             <div class="text-danger mt-2 text-sm event_date">
@@ -289,7 +289,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="time">Event End_Time</label>
+                            <label for="time">Contest End_Time</label>
                             <input type="time" class="form-control" name="end_time" id="time"
                                 placeholder="time" value={{ old('end_time') }}>
                             <div class="text-danger mt-2 text-sm end_time">

@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('proposals', function (Blueprint $table) {
+        Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('proposalname');
-            $table->integer('price');
             $table->text('description');
-            $table->timestamp('days');
-            $table->string('category');
-            $table->integer('view_count')->default(0);
-            $table->string('file')->nullable();
-            $table->string('filename');
+            $table->boolean('active');
             $table->timestamps();
         });
     }
@@ -35,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proposals');
+        Schema::dropIfExists('announcements');
     }
 };

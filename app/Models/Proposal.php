@@ -13,6 +13,7 @@ class Proposal extends Model
         'proposalname',
         'description',
         'price',
+        'days',
         'file',
         'category',
         'filename',
@@ -34,6 +35,10 @@ class Proposal extends Model
     public function propsolreport()
     {
         return $this->hasOne(Propsolreport::class);
+    }
+    public function proposalreview()
+    {
+        return $this->hasMany(Proposalreview::class);
     }
 
     public function isAccept($reqId, $bidId = '')

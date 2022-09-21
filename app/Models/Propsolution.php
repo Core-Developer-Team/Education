@@ -26,4 +26,8 @@ class Propsolution extends Model
     {
         return $this->hasOne(Propsolreport::class);
     }
+    public function proposalreview()
+    {
+        return $this->hasMany(Proposalreview::class);
+    }
 }

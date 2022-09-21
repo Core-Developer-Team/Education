@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -16,6 +17,12 @@ class EventController extends Controller
         $event = Event::all();
         $eventcount = $event->count();
         return view('event', compact('data','expires','eventcount','upcoming'));
+    }
+
+    public function single($id)
+    {
+        $data = Event::find($id);
+        return view('eventdetail',compact('data'));
     }
    
     public function store(Request $request)
@@ -33,7 +40,8 @@ class EventController extends Controller
         $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
         Event::create(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
-            'image' => '/storage/' . $imagepath,
+            'user_id' => Auth()->id(),
+            'image'   => '/storage/' . $imagepath,
         ]));
         return back()->with('status', 'Event
          has been created Successfully');

@@ -87,11 +87,16 @@
                                         <td>{{ $item->email }}</td>
                                         <td><img style="width: 50px; height:50px" src="/storage/{{ $item->image }}"
                                                 alt="" srcset=""></td>
-                                        <td>
+                                        <td style="display: inline-flex">
                                             <button type="button" class="btn btn-sm btn-danger delete-confirm"
                                                 data-bs-toggle="modal" data-bs-target="#delreq"
                                                 data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
                                                 </i></button>
+                                                <a style="margin-left: 3px" href="{{ route('admin.user.status', ['id'=>$item->id]) }}" class="btn btn-sm btn-info"> @if ($item->status==0)
+                                                    Verify
+                                                @elseif($item->status==1)
+                                                    Unverify
+                                                @endif </a>
                                         </td>
                                     </tr>
                                 @endforeach

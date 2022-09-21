@@ -146,6 +146,8 @@ Route::middleware('auth')->group(function () {
     //proposal routes
     Route::post('/proposals', [ProposalController::class, 'get'])->name('proposal.get');
     Route::get('/proposal_single/{id}', [ProposalController::class, 'showproposal'])->name('proposal.showproposal');
+    Route::get('/proposal_edit/{id}', [ProposalController::class, 'proposalsingle'])->name('proposal.edit');
+    Route::post('/proposal_edit/update', [ProposalController::class, 'update'])->name('proposal.update');
     Route::post('/proposal_single', [ProposalbidController::class, 'store'])->name('proposalbid.store');
     Route::post('/proposal_sol', [PropsolutionController::class, 'store'])->name('prosolution.store');
     Route::get('/proposalsol/{uid}/{rid}/{sid}', [PropsolutionController::class, ('solutionreport')])->name('proposal.reppropsol');
@@ -182,7 +184,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/res_weekly', [ResourceController::class, 'week'])->name('res.week');
     // event page
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
-  
+    Route::get('/event_single/{id}', [EventController::class, 'single'])->name('event.single');
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
     // Contest page
     Route::get('/contest', [ContestController::class, 'index'])->name('contest.index');
@@ -280,13 +282,14 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('/admin/badge/del', [BadgeController::class ,'del'])->name('badge.delete');
     Route::resource('/admin/user', UserController::class);
     Route::post('/admin/user/del', [UserController::class ,'delete'])->name('user.delete');
+    Route::get('/admin/user/update/{id}', [UserController::class ,'upstatus'])->name('user.status');
     Route::resource('/admin/event', AdminEventController::class);
     Route::post('/admin/event/del', [AdminEventController::class ,'del'])->name('event.delete');
     Route::get('/admin/announcement', [AnnouncementController::class, 'index'])->name('announcement');
     Route::get('/admin/addannouncement', [AnnouncementController::class, 'get'])->name('addannouncement');
     Route::post('/admin/addannouncement', [AnnouncementController::class, 'store'])->name('storeannouncement');
     Route::get('/admin/announcement/{id}', [AnnouncementController::class, 'updatestatus'])->name('updateannouncement');
-    Route::delete('/admin/announcement/{id}', [AnnouncementController::class, 'destroy'])->name('destroyannouncement');
+    Route::post('/admin/announcement/del', [AnnouncementController::class, 'destroy'])->name('destroyannouncement');
 });
 
 // terms of use and privacy

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('f_user_id');
             $table->unsignedBigInteger('t_user_id');
+            $table->foreignId('req_solution_id')->constrained();
+            $table->foreignId('request_id')->constrained();
             $table->integer('rating');
             $table->string('description');
             $table->timestamps();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Event;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -73,7 +74,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         $request->session()->regenerate();
-        $announcements = Event::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();
+        $announcements = Announcement::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();
         
         Session::flash('announcements', $announcements);
 

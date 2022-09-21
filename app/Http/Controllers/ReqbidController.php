@@ -17,7 +17,7 @@ class ReqbidController extends Controller
             'price'       => ['required', 'integer'],
             'description' => ['required', 'string', 'max:255'],
             'request_id'  => ['required'],
-            'days'        => ['required', 'integer'],
+            'days'        => ['required'],
             'user_id'     => ['required'],
         ]);
         Reqbid::create($request->only('price', 'description', 'days', 'request_id', 'user_id'));

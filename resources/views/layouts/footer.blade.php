@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div class="footer-bottom-links">
                     <div class="footer-logo">
-                        <a href="index.html"><img src="images/dark-logo.png" alt=""></a>
+                        <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a>
                     </div>
                     <div class="micko-copyright">
                         <p><i class="fas fa-copyright"></i>Copyright 2022 Micko by <a href="#">Gambolthemes</a>.
@@ -300,6 +300,8 @@
         $('.file').text('');
         $('.category').text('');
         $('.description').text('');
+        $('.dayError').text('');
+ 
 
         const formprop = document.getElementById('proposal');
         const formData = new FormData(formprop);
@@ -325,6 +327,9 @@
                 }
                 if (errorResponse.file) {
                     $('.file').text(errorResponse.file[0]);
+                }
+                if (errorResponse.days) {
+                    $('.dayError').text(errorResponse.days[0]);
                 }
                 if (errorResponse.category) {
                     $('.category').text(errorResponse.category[0]);

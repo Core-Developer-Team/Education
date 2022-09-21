@@ -12,6 +12,8 @@ class Proposalreview extends Model
         'fr_user_id',
         'tp_user_id',
         'rating',
+        'proposal_id',
+        'propsolution_id',
         'description',
      ];
     public function fr_user(){
@@ -19,5 +21,13 @@ class Proposalreview extends Model
      }
      public function tp_user(){
      return $this->belongsTo(User::class);
+     }
+     public function proposal()
+     {
+      return $this->belongsTo(Proposal::class);
+     }
+     public function propsolution()
+     {
+      return $this->belongsTo(Propsolution::class);
      }
 }
