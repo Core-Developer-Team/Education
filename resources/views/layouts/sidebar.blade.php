@@ -32,7 +32,7 @@
     </li>
     <li>
         <a href="{{ route('event.index') }}" class="all-info__sections">
-            <span class="all-info__left"><i class="feather-user me-2"></i>events</span>
+            <span class="all-info__left"><i class="feather-calendar me-2"></i>events</span>
             <span class="all-info__right">{{ $event }}</span>
         </a>
     </li>

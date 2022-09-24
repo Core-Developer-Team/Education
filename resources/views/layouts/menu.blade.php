@@ -47,6 +47,19 @@
                             </li>
                         @endif
                     @endauth
+                    @auth
+                    @if (Auth::user()->role->name == 'Moderator')
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('moderator.index') ? 'active' : '' }}"
+                                aria-current="page" href="{{ route('moderator.index') }}">
+                                <span class="nav-icon d-lg-none">
+                                    <i class="feather-home"></i>
+                                </span>
+                                Moderator
+                            </a>
+                        </li>
+                    @endif
+                @endauth
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('req.index') ? 'active' : '' }}" aria-current="page"
                             href="{{ route('req.index') }}">
@@ -122,13 +135,14 @@
                             <div class="alert-circle"></div>
                         </a>
                     </li>
-
+                    @if (Auth()->id()!=1)
                     <li class="mn-icon dropdown dropdown-account">
                         <a href="#" class="mn-link" role="button" id="dropdownMenuClickableInside"
                             data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                             <i class="feather-bell"></i>
                             <div class="@if (auth()->user()->unreadNotifications->count() >= 1) alert-circle @endif"></div>
                         </a>
+
                         <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end"
                             aria-labelledby="dropdownMenuClickableInside">
                             <li class="media-list">
@@ -138,7 +152,8 @@
                                     </a>
                                 </div>
                             </li>
-
+                     
+                            
                             @foreach (auth()->user()->unreadNotifications as $notification)
                                 {{ $notification->markAsRead() }}
 
@@ -170,6 +185,7 @@
 
                         </ul>
                     </li>
+                    @endif
                     <li class="mn-icon dropdown dropdown-account ms-4">
                         <a href="#" class="opts_account" role="button" id="dropdownMenuClickableInside"
                             data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">

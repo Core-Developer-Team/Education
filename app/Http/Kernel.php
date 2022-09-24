@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Moderator;
 use App\Http\Middleware\UserActivity;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -66,5 +67,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin'  => \App\Http\Middleware\Admin::class,
+        'moderator' => \App\Http\Middleware\Moderator::class,
     ];
 }

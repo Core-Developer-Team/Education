@@ -90,4 +90,8 @@ class Request extends Model
     {
         return $this->hasOne(Reqbid::class, 'request_id', 'id')->where('user_id', auth()->id());
     }
+    public function moderator()
+    {
+        return $this->hasMany(Moderator::class);
+    }
 }

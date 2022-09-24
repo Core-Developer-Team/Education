@@ -165,4 +165,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class);
     }
+    public function moderator()
+    {
+        return $this->hasMany(Moderator::class);
+    }
 }

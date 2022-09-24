@@ -2,10 +2,8 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        
+        <div class="sidebar-brand-text mx-3">CRAVSOL</div>
     </a>
 
     <!-- Divider -->
@@ -13,37 +11,37 @@
     <!-- Nav Item - Charts -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.user.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-users"></i>
             <span>Users</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.request.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-archive"></i>
             <span>Requests</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.event.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-calendar"></i>
             <span>Event</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.resources.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-file"></i>
             <span>Resource</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.announcement') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-bullhorn"></i>
             <span>Announcement</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.proposals.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-terminal"></i>
             <span>Proposal</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.courses.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-screen"></i>
             <span>Courses</span></a>
     </li>
     <li class="nav-item">
@@ -53,8 +51,13 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.book.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-book"></i>
             <span>Books</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.notification') }}">
+            <i class="fas fa-fw fa-bell"></i>
+            <span>Notifications</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.product.index') }}">
@@ -63,9 +66,18 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.badge.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-award"></i>
             <span>User Badges</span></a>
     </li>
+    @if (Auth::user()->role->name == 'Moderator')
+        
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('moderator.index') }}">
+            <i class="fas fa-fw fa-award"></i>
+            <span>Moderator</span></a>
+    </li>
+    
+    @endif
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.payment-log') }}">
             <i class="fas fa-fw fa-chart-area"></i>
