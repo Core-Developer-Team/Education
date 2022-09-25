@@ -22,6 +22,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\OfflinetopicController;
 use App\Http\Controllers\BookorderController;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AdminnotifController;
 use App\Http\Controllers\admin\AdminProductController;
 use App\Http\Controllers\admin\AnnouncementController;
 use App\Http\Controllers\admin\BooksController;
@@ -261,6 +262,11 @@ Route::get('/bookorder', [BookorderController::class, ('index')])->name('bookord
 Route::post('/bookorder/{bid}', [BookorderController::class, ('store')])->name('bookorder.store');
 Route::get('/booksell', [BookorderController::class, ('Sell')])->name('bookorder.sell');
 
+//Moderator Middleware
+Route::middleware(['moderator'])->name('moderator.')->group(function () {
+    Route::get('/moderator',[AdminnotifController::class, 'moderator'])->name('index');
+});
+
 Route::middleware(['admin'])->name('admin.')->group(function () {
     //admin controller
     Route::get('/admin', [AdminController::class, 'index'])->name('index');
@@ -290,6 +296,12 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('/admin/addannouncement', [AnnouncementController::class, 'store'])->name('storeannouncement');
     Route::get('/admin/announcement/{id}', [AnnouncementController::class, 'updatestatus'])->name('updateannouncement');
     Route::post('/admin/announcement/del', [AnnouncementController::class, 'destroy'])->name('destroyannouncement');
+    //Notification controller
+    Route::get('/admin/notifications',[AdminnotifController::class, 'index'])->name('notification');
+    Route::get('/admin/allnotifications',[AdminnotifController::class, 'allNotification'])->name('allnotification');
+    Route::get('/admin/assignnot/{uid}/{rid}/{link}',[AdminnotifController::class, 'send'])->name('notification.assign');
+    Route::post('/admin/notifications/delete',[AdminnotifController::class, 'destroy'])->name('notification.delete');
+    
 });
 
 // terms of use and privacy
