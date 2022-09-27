@@ -279,8 +279,8 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <img src="@if ($data->user->badge_id == 5 || $data->user->status==1) /storage/badges/verified.svg @endif"
-                                            class="@if ($data->user->badge_id == 5 || $data->user->status==1) @else d-none @endif "
+                                        <img src="@if ($data->user->badge_id == 5 || $data->user->status == 1) /storage/badges/verified.svg @endif"
+                                            class="@if ($data->user->badge_id == 5 || $data->user->status == 1) @else d-none @endif "
                                             alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
@@ -328,7 +328,8 @@
                                         <a href=""
                                             class="label-dker post_categories_reported mr-10 @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->request_id == $data->id) @else d-none @endif"><span
                                                 class="label-dker post_categories_reported mr-10">Reported</span></a>
-                                        <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>
+                                        <a href=""
+                                            class="label-dker post_department_top_right mr-10 px-2"><span>
                                                 @if ($data->user->department == 0)
                                                     bba
                                                 @elseif($data->user->department == 1)
@@ -354,7 +355,8 @@
                                         <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
                                             class="view-btn btn-hover">View Job</a>
                                         @if ($data->user_id == Auth()->id())
-                                            <div class="@if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id) d-none @endif">
+                                    
+                                            <div class="@if ($data->reqbid()->count() > 0 ) @foreach ( $data->reqbid as $item) @if($item->request_id == $data->id) d-none @endif @endforeach @endif">
                                                 <a href="{{ route('req.show', ['id' => $data->id]) }}" title="Edit"
                                                     class="px-3">
                                                     <button type="button" class="bm-btn btn-hover">

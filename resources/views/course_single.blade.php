@@ -40,6 +40,7 @@
                         </div>
                         <div class="learning_all_items mt-35">
                             <div class="owl-carousel related_courses_slider owl-theme">
+                             
                                 @foreach ($playlist_data['items'] as $key => $item)
                                     <div class="item lists">
                                         <div class="full-width">
@@ -186,7 +187,7 @@
                                         <!-- END review-list -->
                                         @if (auth()->id() != $playlist->user_id)
                                         <!--review form-->
-                                        <form method="POST" action="{{ route('course.storereview') }}">
+                                        <form method="POST" class="@foreach ( $playlist->coursereview as $item) @if($item->user_id==Auth()->id()) d-none @endif @endforeach" action="{{ route('course.storereview') }}">
                                             @if ($errors->any())
                                                 @foreach ($errors->all() as $error)
                                                     <div class="alert alert-danger mt-3">

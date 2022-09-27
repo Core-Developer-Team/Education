@@ -78,7 +78,7 @@
                             </div>
                         @endif
                     @endif
-                    @if ($playlist->isPaid($playlist->id) == true)
+                    @if ($playlist->isPaid($playlist->id) == true || $playlist->type==0)
                         <!--Reviews-->
                         <div class="full-width mt-30">
                             <div class="event-card mt-4">
@@ -168,7 +168,7 @@
                                             <!-- END review-list -->
                                             @if (auth()->id() != $playlist->user_id)
                                                 <!--review form-->
-                                                <form method="POST" action="{{ route('playlist.storereview') }}">
+                                                <form method="POST"  class="@foreach ( $playlist->tutorialreview as $item) @if($item->user_id==Auth()->id()) d-none @endif @endforeach" action="{{ route('playlist.storereview') }}">
                                                     @if ($errors->any())
                                                         @foreach ($errors->all() as $error)
                                                             <div class="alert alert-danger mt-3">

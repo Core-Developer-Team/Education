@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contest;
 use App\Models\Event;
 use App\Models\Feedback;
 use App\Models\Offlinetopic;
@@ -32,6 +33,7 @@ class ProposalController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -43,7 +45,7 @@ class ProposalController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('devproposal', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('devproposal', compact('data', 'categ', 'contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //get latest request
     public function latesttutorial()
@@ -57,6 +59,7 @@ class ProposalController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -68,7 +71,7 @@ class ProposalController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('devproposal', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('devproposal', compact('data', 'contest','categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //get trending request
     public function trending()
@@ -82,6 +85,7 @@ class ProposalController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -93,7 +97,7 @@ class ProposalController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('devproposal', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('devproposal', compact('data', 'categ','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //get week request
     public function week()
@@ -107,6 +111,7 @@ class ProposalController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -118,7 +123,7 @@ class ProposalController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('devproposal', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('devproposal', compact('data', 'categ','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //add new proposal
     public function get(Request $request)
@@ -162,7 +167,7 @@ class ProposalController extends Controller
             $data->increment('view_count');
             Session::put($prop_key, 1);
         }
-        return view('check', compact('data', 'user'));
+        return view('proposal_single', compact('data', 'user'));
     }
     //search
     public function search(Request $request)
@@ -182,6 +187,7 @@ class ProposalController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -193,7 +199,7 @@ class ProposalController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('devproposal', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('devproposal', compact('data','contest','categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function searchcat($name)
     {
@@ -208,6 +214,7 @@ class ProposalController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -219,7 +226,7 @@ class ProposalController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('devproposal', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('devproposal', compact('data','contest','categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     public function proposalsingle($id)
@@ -233,6 +240,8 @@ class ProposalController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -244,7 +253,7 @@ class ProposalController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('proposal_edit', compact('data', 'categ', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('proposal_edit', compact('data','contest','categ','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'bid', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     public function update(Request $request)

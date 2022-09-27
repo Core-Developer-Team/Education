@@ -143,7 +143,7 @@
                                         <!-- END review-list -->
                                         @if (Auth()->id() != $data->user_id)
                                             <!--review form-->
-                                            <form method="POST" action="{{ route('products.storereview') }}">
+                                            <form method="POST" class="@foreach ($data->productreview as $item) @if ($item->user_id == Auth()->id()) d-none @endif @endforeach" action="{{ route('products.storereview') }}">
                                                 @if ($errors->any())
                                                     @foreach ($errors->all() as $error)
                                                         <div class="alert alert-danger mt-3">

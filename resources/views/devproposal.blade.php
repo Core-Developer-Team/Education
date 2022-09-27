@@ -337,7 +337,7 @@
                                         <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
                                             class="view-btn btn-hover">Detail</a>
                                             @if ($item->user_id == Auth()->id())
-                                            <div class="@if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id) d-none @endif">
+                                            <div class="@if ($item->proposalbid()->count() > 0) @foreach ( $item->proposalbid as $bi) @if($bi->proposal_id == $item->id) d-none @endif @endforeach @endif">
                                                 <a href="" title="Edit"
                                                     class="px-3">
                                                     <a href="{{ route('proposal.edit', ['id'=>$item->id]) }}" type="button" class="bm-btn btn-hover">

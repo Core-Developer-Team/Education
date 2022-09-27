@@ -388,7 +388,7 @@
                                                 </div>
 
                                                 <div class="author-dts">
-                                                    <div class="userimg">
+                                                    <div class="userimg" style="display: block;max-width: fit-content;">
                                                         <a href="{{ route('profile.show', ['id' => $bids->user_id]) }}"
                                                             class="job-view-heading job-center"
                                                             style="color: {{ $bids->user->role->color->name }}">
@@ -654,7 +654,7 @@
                                                             <!-- end hover-->
                                                         </div>
                                                         <div class="ps-4 pt-0">
-                                                            <div class="userimg">
+                                                            <div class="userimg" style="display: block;max-width: fit-content;">
                                                                 <a href="{{ route('profile.show', ['id' => $item->user_id]) }}"
                                                                     class="h2"
                                                                     style="color: {{ $item->user->role->color->name }}">
@@ -757,9 +757,10 @@
                                                             @endif
                                                            
                                                             <a href=""
-                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev"
+                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev @foreach ($data->review as $item) @if ($item->user_id == Auth()->id()) d-none @endif @endforeach"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#review" data-id="{{$item->id}}" data-rid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span></a>
+                                                                data-bs-target="#review" data-id="{{$item->id}}" data-rid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>

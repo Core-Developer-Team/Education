@@ -39,7 +39,7 @@
     <li>
         <a href="{{ route('contest.index') }}" class="all-info__sections">
             <span class="all-info__left"><i class="feather-user me-2"></i>Contest</span>
-            <span class="all-info__right">{{ $event }}</span>
+            <span class="all-info__right">{{  $contest }}</span>
         </a>
     </li>
 

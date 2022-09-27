@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contest;
 use App\Models\Event;
 use App\Models\Feedback;
 use App\Models\Offlinetopic;
@@ -26,6 +27,7 @@ class FeedbackController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -38,7 +40,7 @@ class FeedbackController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
        
 
-        return view('feedback', compact('datas','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('feedback', compact('datas','t_req_count','contest','t_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function store(Request $request)
     {
