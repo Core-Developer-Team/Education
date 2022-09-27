@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('privacies', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
+            $table->longText('description');
             $table->timestamps();
         });
     }

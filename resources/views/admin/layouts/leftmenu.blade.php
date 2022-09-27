@@ -83,6 +83,16 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Payment Logs</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.term')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Terms</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.privacy')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Privacy</span></a>
+    </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
