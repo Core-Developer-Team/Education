@@ -138,7 +138,7 @@ class User extends Authenticatable
     }
     public function tutorialreview()
     {
-        return $this->hasMany(Tutorialreview::class);
+        return $this->hasOne(Tutorialreview::class);
     }
 
     public function coursereview()

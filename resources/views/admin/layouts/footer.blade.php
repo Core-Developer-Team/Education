@@ -54,6 +54,17 @@
 <!-- Page level custom scripts -->
 <script src="{{ asset('asset/js/demo/chart-area-demo.js') }}"></script>
 <script src="{{ asset('asset/js/demo/chart-pie-demo.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+</head>
+<body>
+  
+  <script>
+    $('#summernote').summernote({
+      placeholder: 'Hello Bootstrap 4',
+      tabsize: 2,
+      height: 100
+    });
+  </script>
 
 </body>
 

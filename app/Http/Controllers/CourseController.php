@@ -182,6 +182,7 @@ class CourseController extends Controller
             Session::put($course_key, 1);
         }
         $reviews = Coursereview::where('course_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(4);
+       
         return view('course_single', compact('playlist_data', 'playlist', 'reviews'));
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contest;
 use App\Models\Event;
 use App\Models\Feedback;
 use App\Models\Message;
@@ -80,6 +81,7 @@ class ReqSolutionController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -91,7 +93,7 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('mysolutions', compact('data', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('mysolutions', compact('data','contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //all solutions
@@ -105,6 +107,7 @@ class ReqSolutionController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -117,7 +120,7 @@ class ReqSolutionController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
 
-        return view('allsolutions', compact('datas', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('allsolutions', compact('datas','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function solutionreport($uid, $rid, $sid)
     {
@@ -146,6 +149,7 @@ class ReqSolutionController extends Controller
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
+        $contest = Contest::count();
         $offline = Offlinetopic::count();
         $product = Product::count();
         $prop   = Proposal::count();
@@ -157,7 +161,7 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('reportedsolutions',compact('datas', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('reportedsolutions',compact('datas','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
 }

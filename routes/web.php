@@ -35,6 +35,8 @@ use App\Http\Controllers\admin\BadgeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
 use App\Http\Controllers\admin\PaymentLogController;
+use App\Http\Controllers\admin\PrivacyController;
+use App\Http\Controllers\admin\TermController;
 use App\Http\Controllers\BadgesController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
@@ -301,6 +303,20 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('/admin/allnotifications',[AdminnotifController::class, 'allNotification'])->name('allnotification');
     Route::get('/admin/assignnot/{uid}/{rid}/{link}',[AdminnotifController::class, 'send'])->name('notification.assign');
     Route::post('/admin/notifications/delete',[AdminnotifController::class, 'destroy'])->name('notification.delete');
+   
+    //Privacy
+    Route::get('/admin/Privacy', [PrivacyController::class, 'index'])->name('privacy');
+    Route::get('/admin/EditPrivacy', [PrivacyController::class, 'show'])->name('editprivacy');
+    Route::get('/admin/updatePrivacy/{id}', [PrivacyController::class, 'getupdate'])->name('updateprivacy');
+    Route::patch('/admin/updatePrivacy/{id}', [PrivacyController::class, 'update'])->name('updateprivacy.up');
+    Route::post('/admin/EditPrivacy', [PrivacyController::class, 'get'])->name('editprivacy.add');
+
+       //Terms
+       Route::get('/admin/term', [TermController::class, 'index'])->name('term');
+       Route::get('/admin/Editterm', [TermController::class, 'show'])->name('editterm');
+       Route::get('/admin/updateterm/{id}', [TermController::class, 'getupdate'])->name('updateterm');
+       Route::patch('/admin/updateterm/{id}', [TermController::class, 'update'])->name('updateterm.up');
+       Route::post('/admin/Editterm', [TermController::class, 'get'])->name('editterm.add');
     
 });
 
