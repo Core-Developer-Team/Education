@@ -9,7 +9,7 @@
 </header>
 
 <div class="wrapper pt-0">
-    
+
     <div class="page-tabs">
         <div class="container">
             <div class="row">
@@ -198,8 +198,7 @@
                                                             <input type="hidden" name="to_id"
                                                                 value="{{ $data->user_id }}" />
                                                             <button type="submit"
-                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                                Now</button>
+                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
                                                         </form>
                                                     @endif
                                                     <span class="job-badge ffcolor">
@@ -248,14 +247,14 @@
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                     data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
                                             @endif
-                                            
+
                                             @if ($data->reqsolutionreport()->count() >0 )
                                             @if ($data->reqsolutionreport->request_id == $data->id && $data->reqsolutionreport->user_id == $data->user_id)
-                                             
+
                                                 <a href="#"
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', $data->user_id)->count() > 2) d-none @endif"
                                                     data-bs-toggle="modal" data-bs-target="#addbid">Bid Again</a>
-                                               
+
                                                     @endif
                                                     @endif
                                             @if (@$data->isBided()->first()->id != @$data->paymentLog($data->id)->bid_id)
@@ -490,6 +489,7 @@
                                                                     {{-- id="bKash_button" --}}
                                                                 @endif
                                                             @else
+                                                            @if ( !$data->reqsolution()->count())
                                                                 <form method="POST" class="job-badge p-0"
                                                                     action="{{ route('messages') }}">
                                                                     @csrf
@@ -498,9 +498,9 @@
                                                                     <input type="hidden" name="to_id"
                                                                         value="{{ $data->user_id == auth()->id() ? $bids->user->id : $data->user_id }}">
                                                                     <button type="submit"
-                                                                        class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                                        Now</button>
+                                                                        class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
                                                                 </form>
+                                                            @endif
                                                             @endif
                                                             <span class="job-badge ffcolor">৳
                                                                 {{ $bids->price }}</span>
@@ -521,11 +521,11 @@
                                                                     @endif
                                                                 @else
                                                                     {{ \Carbon\Carbon::parse($data->created_at)->diffInHours($bids->days, false) }}
-                                                                    Hours 
+                                                                    Hours
                                                                 @endif
                                                             @else
                                                                 {{ \Carbon\Carbon::parse($data->created_at)->diffInDays($bids->days, false) }}
-                                                                days 
+                                                                days
                                                             @endif</ins>
                                                         </div>
                                                     </div>
@@ -745,7 +745,7 @@
                                                                     download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
                                                                     data-id="{{ $data->paymentLog($data->id)->request_id }}"
                                                                     data-amount="{{ $data->paymentLog($data->id)->amount }}"
-                                                                    data-resource="requests" class="payNow">
+                                                                    data-resource="requests" class="{!! $data->istTakeSolution($data->id) == false ?'payNow':'' !!} ">
                                                                     Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
                                                             </div>
                                                             <!-- Download solution from here -->
@@ -755,7 +755,7 @@
                                                                 <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
                                                                     class="label-dker post_categories_reported mr-10 px-2"><span>Report</span></a>
                                                             @endif
-                                                           
+
                                                             <a href=""
                                                                 class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev @foreach ($data->review as $item) @if ($item->user_id == Auth()->id()) d-none @endif @endforeach"
                                                                 data-bs-toggle="modal"
@@ -1315,7 +1315,7 @@
     $(document).on("click", ".rev", function() {
         var solId = $(this).data('id');
         var userid = $(this).data('uid');
-        var reqid = $(this).data('rid'); 
+        var reqid = $(this).data('rid');
 
         $(".modal-footer #req_id").val(reqid);
         $(".modal-footer #t_user").val(userid);

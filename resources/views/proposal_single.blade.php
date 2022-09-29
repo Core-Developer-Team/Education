@@ -198,8 +198,7 @@
                                                             <input type="hidden" name="to_id"
                                                                 value="{{ $data->user_id }}" />
                                                             <button type="submit"
-                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                                Now</button>
+                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
                                                         </form>
                                                     @endif
 
@@ -472,7 +471,7 @@
                                                                             class="job-badge bg-success payNow bkashPayBtn"
                                                                             data-id="{{ $bids->id }}"
                                                                             data-amount="{{ $bids->price }}"
-                                                                            data-resource="requests">
+                                                                            data-resource="proposals">
                                                                             Take this offer
                                                                         </span>
                                                                         {{-- <input type="hidden" id="bKash_button"> --}}
@@ -480,6 +479,7 @@
                                                                     {{-- id="bKash_button" --}}
                                                                 @endif
                                                             @else
+                                                            @if ( !$data->propsolution()->count())
                                                                 <form method="POST" class="job-badge p-0"
                                                                     action="{{ route('messages') }}">
                                                                     @csrf
@@ -491,6 +491,7 @@
                                                                         class="apply_job_btn ps-4 view-btn btn-hover">Chat
                                                                         Now</button>
                                                                 </form>
+                                                            @endif
                                                             @endif
                                                             <span class="job-badge ffcolor">৳
                                                                 {{ $bids->price }}</span>
@@ -1154,7 +1155,7 @@
     $(document).on("click", ".prev", function() {
         var solId = $(this).data('id');
         var userid = $(this).data('uid');
-        var pid = $(this).data('pid'); 
+        var pid = $(this).data('pid');
 
         $(".modal-footer #pid").val(pid);
         $(".modal-footer #uid").val(userid);
