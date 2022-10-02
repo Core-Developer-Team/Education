@@ -39,7 +39,6 @@ class FeedbackController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
        
-
         return view('feedback', compact('datas','t_req_count','contest','t_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function store(Request $request)

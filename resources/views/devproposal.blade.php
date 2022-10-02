@@ -31,9 +31,11 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" 
-                        @auth
+                        data-bs-target="@auth @fullinfo
 #addproposal
+@else
+#userinfolink
+@endfullinfo
 @else
 #loginlink @endauth  ">Post
                             your Proposal</a>
@@ -378,8 +380,8 @@
 </div>
 
 <!--Add Proposal Model-->
-<div class="modal fade" id="addproposal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addproposal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Proposal</h5>
@@ -430,7 +432,7 @@
                             <div class="text-danger mt-2 text-sm file"></div>
                         </div>
                         <hr>
-                        <input type="submit" class="btn" name="submit" value="Submit">
+                        <input type="submit" class="btn mt-3" name="submit" value="Submit">
                     </form>
                 </div>
             </div>
@@ -440,8 +442,8 @@
 </div>
 
 <!--delete Model-->
-<div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
@@ -455,7 +457,7 @@
                 <form action="{{route('admin.proposal.delete')}}" method="post">
                     @csrf
                     <input type="hidden" name="proposal_id" value="" id="proposal_id">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger mt-3">Delete</button>
                 </form>
             </div>
         </div>

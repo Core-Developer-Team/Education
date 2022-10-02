@@ -19,6 +19,7 @@ use App\Models\Resource;
 use App\Models\Review;
 use App\Models\User;
 use App\Notifications\CommentNotification;
+use App\Rules\GreaterThanCurrentTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Notifications\Notifiable;
 class RequestController extends Controller
 {  
+    
     
     // All requests page
     public function index()
@@ -157,7 +159,7 @@ class RequestController extends Controller
         $request->validate([
             'requestname'  => ['required', 'string', 'max:25'],
             'description'  => ['required', 'string'],
-            'days'         => ['required'],
+            'days'         => ['required', 'date', new GreaterThanCurrentTime],
             'coursename'   => ['required', 'string'],
             'tag'          => ['required'],
             'price'          => ['required'],
@@ -310,7 +312,7 @@ class RequestController extends Controller
         $request->validate([
             'requestname'  => ['required', 'string'],
             'price'        => ['required'],
-            'days'          =>  ['required'],
+            'days'         => ['required', 'date', new GreaterThanCurrentTime],
             'coursename'   => ['required', 'string'],
             'description'  => ['required', 'string'],
             'tag'          => ['required'],

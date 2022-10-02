@@ -211,24 +211,29 @@
                                                     </span>
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
                                                     <span class="job-badge ttcolor">
-                                                        @if (\Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) <= 1)
-                                                            @if (\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 60 &&
-                                                                \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) >= 1)
-                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) }}
+                                                        @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1)
+                                                            @if (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
+                                                                \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1)
+                                                                {{ \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) }}
                                                                 Minutes left
-                                                            @elseif(\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 0)
+                                                            @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0)
+                                                            @if(\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0)
+                                                            {{ \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) }}
+                                                            Seconds left          
+                                                            @else
                                                                 @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
                                                                     Closed
                                                                 @else
                                                                     Unsolved
                                                                 @endif
+                                                            @endif
                                                             @else
-                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInHours($data->days, false) }}
+                                                                {{ \Carbon\Carbon::parse(now())->diffInHours($data->days, false) }}
                                                                 Hours left
                                                             @endif
                                                         @else
-                                                            {{ \Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) }}
-                                                            days left
+                                                            {{ \Carbon\Carbon::parse(now())->diffInDays($data->days, false) }}
+                                                            Days left
                                                         @endif
                                                     </span>
 
@@ -508,24 +513,29 @@
                                                         </div>
                                                         <div class="aplcnts_15 job-center applcntres ml-3">
                                                             <i class="feather-users ms-2"></i> Do On
-                                                            <ins> @if (\Carbon\Carbon::parse($data->created_at)->diffInDays($bids->days, false) <= 1)
-                                                                @if (\Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) < 60 &&
-                                                                    \Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) >= 1)
-                                                                    {{ \Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) }}
+                                                            <ins> @if (\Carbon\Carbon::parse(now())->diffInDays($bids->days, false) <= 1)
+                                                                @if (\Carbon\Carbon::parse(now())->diffInMinutes($bids->days, false) < 60 &&
+                                                                    \Carbon\Carbon::parse(now())->diffInMinutes($bids->days, false) >= 1)
+                                                                    {{ \Carbon\Carbon::parse(now())->diffInMinutes($bids->days, false) }}
                                                                     Minutes
-                                                                @elseif(\Carbon\Carbon::parse($data->created_at)->diffInMinutes($bids->days, false) < 0)
+                                                                @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($bids->days, false) <= 0)
+                                                                @if(\Carbon\Carbon::parse(now())->diffInSeconds($bids->days, false) > 0)
+                                                                {{ \Carbon\Carbon::parse(now())->diffInSeconds($bids->days, false) }}
+                                                                Seconds          
+                                                                @else
                                                                     @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
                                                                         Closed
                                                                     @else
                                                                         Unsolved
                                                                     @endif
+                                                                @endif
                                                                 @else
-                                                                    {{ \Carbon\Carbon::parse($data->created_at)->diffInHours($bids->days, false) }}
+                                                                    {{ \Carbon\Carbon::parse(now())->diffInHours($bids->days, false) }}
                                                                     Hours 
                                                                 @endif
                                                             @else
-                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInDays($bids->days, false) }}
-                                                                days 
+                                                                {{ \Carbon\Carbon::parse(now())->diffInDays($bids->days, false) }}
+                                                                Days 
                                                             @endif</ins>
                                                         </div>
                                                     </div>
@@ -1020,8 +1030,8 @@
 <input type="hidden" class="reqId" value="{{ $data->id }}" />
 
 <!--Bid Model-->
-<div class="modal fade" id="addbid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="addbid" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Request Bid</h5>
@@ -1052,8 +1062,7 @@
                             <textarea class="form-control" id="description" name="description" rows="3"> {{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm descriptionError"></div>
                         </div>
-                        <hr>
-                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover"
+                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover mt-3"
                             name="submit">submit</button>
                     </form>
 
@@ -1065,8 +1074,8 @@
 </div>
 
 <!--solution Model-->
-<div class="modal fade" id="addsolution" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="addsolution" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Request Solution</h5>
@@ -1102,8 +1111,7 @@
                                 value=" {{ old('file') }}">
                             <div class="text-danger mt-2 text-sm fileeror"></div>
                         </div>
-                        <hr>
-                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover btn-prevent-mul"
+                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover btn-prevent-mul mt-3"
                             name="submit"> submit</button>
                     </form>
 
@@ -1115,8 +1123,8 @@
 </div>
 
 <!--Review Model-->
-<div class="modal fade" id="review" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="review" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Request Solution</h5>
@@ -1214,7 +1222,7 @@
                         </div>
 
                         <div class="submit_btn mb-4">
-                            <button type="submit" class="main-btn color btn-hover" data-ripple="">Send
+                            <button type="submit" class="main-btn color btn-hover mt-3" data-ripple="">Send
                                 Review</button>
                         </div>
                     </form>

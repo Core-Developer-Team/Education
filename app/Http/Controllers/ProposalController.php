@@ -14,6 +14,7 @@ use App\Models\ReqSolution;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\User;
+use App\Rules\GreaterThanCurrentTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -132,7 +133,7 @@ class ProposalController extends Controller
             'proposalname'  => ['required', 'string'],
             'price'         => ['required', 'string'],
             'description'   => ['required', 'string'],
-            'days'          => ['required'],
+            'days'          => ['required', 'date', new GreaterThanCurrentTime],
             'category'      => ['required', 'max:25'],
         ]);
         if ($request->hasFile('file')) {
@@ -262,7 +263,7 @@ class ProposalController extends Controller
             'proposalname'  => ['required', 'string'],
             'price'         => ['required', 'string'],
             'description'   => ['required', 'string'],
-            'days'          => ['required'],
+            'days'          => ['required', 'date', new GreaterThanCurrentTime],
             'category'      => ['required', 'max:25'],
         ]);
 

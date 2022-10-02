@@ -26,6 +26,7 @@ class User extends Authenticatable
         'cover_img',
         'department',
         'last_seen',
+        'provider',
     ];
 
     public function role()

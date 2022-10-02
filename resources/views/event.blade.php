@@ -54,11 +54,13 @@
                                         </div>
                                         <h6>Create New Event</h6>
                                         <a href="" class="create-ebtn btn-hover" data-bs-toggle="modal"
-                                            data-bs-target=" @auth
-                                        #addevent
+                                            data-bs-target="@auth @fullinfo
+#addevent
 @else
-#loginlink
-                                        @endauth ">Create</a>
+#userinfolink
+@endfullinfo
+@else
+#loginlink @endauth ">Create</a>
                                     </div>
                                 </div>
                             </div>
@@ -241,8 +243,8 @@
     </div>
 </div>
 <!--Add Event Model-->
-<div class="modal fade" id="addevent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addevent" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Event</h5>
@@ -310,8 +312,7 @@
                             <div class="text-danger mt-2 text-sm image">
                             </div>
                         </div>
-                        <hr>
-                        <button type="submit" name="submit" class="btn mt-4">
+                        <button type="submit" name="submit" class="btn mt-3">
                             Add
                         </button>
                     </form>

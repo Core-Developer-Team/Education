@@ -602,8 +602,8 @@
 </div>
 
 <!--Bid Model-->
-<div class="modal fade" id="addproposalbid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="addproposalbid" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Proposal Bid</h5>
@@ -642,8 +642,8 @@
     </div>
 </div>
 <!--solution Model-->
-<div class="modal fade" id="addsolution" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="addsolution" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Proposal Solution</h5>
@@ -678,8 +678,7 @@
                                 accept="image/*,.doc,.docx,.pdf,.pptx" name="file" value=" {{ old('file') }}">
                             <div class="text-danger mt-2 text-sm fileeror"></div>
                         </div>
-                        <hr>
-                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover btn-prevent-mul"
+                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover btn-prevent-mul mt-3"
                             name="submit"> submit</button>
                     </form>
 
@@ -691,8 +690,8 @@
 </div>
 
 <!--Review Model-->
-<div class="modal fade" id="review" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="review" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Request Solution</h5>
@@ -786,7 +785,7 @@
                             <div class="text-danger mt-2 text-sm revdescription"></div>
                         </div>
 
-                        <div class="submit_btn mb-4">
+                        <div class="submit_btn mb-4 mt-3">
                             <button type="submit" class="main-btn color btn-hover" data-ripple="">Send
                                 Review</button>
                         </div>

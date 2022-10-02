@@ -310,8 +310,8 @@
 </div>
 
 <!--Bid Model-->
-<div class="modal fade" id="addresourcebid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="addresourcebid" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Resource Bid</h5>
@@ -335,7 +335,7 @@
                             <textarea class="form-control" id="description" name="description" rows="3"> {{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm descriptionerr"></div>
                         </div>
-                        <input type="submit" class="view-btn btn-hover mt-2" name="submit" value="Submit">
+                        <input type="submit" class="view-btn btn-hover mt-3" name="submit" value="Submit">
                     </form>
                 </div>
             </div>

@@ -15,8 +15,12 @@
             <div class="col-xl-3 col-lg-4 col-md-12">
                 <div class="full-width">
                     <div class="btn_1589">
-                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" data-bs-target=" @auth
-                        #addcourse
+                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" 
+                        data-bs-target="@auth @fullinfo
+#addcourse
+@else
+#userinfolink
+@endfullinfo
 @else
 #loginlink
                         @endauth">Add Course</a>
@@ -303,8 +307,8 @@
 </div>
 
 <!--Add Course Model-->
-<div class="modal fade" id="addcourse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addcourse" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Course</h5>
@@ -349,9 +353,7 @@
                         <div id="price">
 
                         </div>
-
-                        <hr>
-                        <button type="submit" name="submit" class="post-link-btn btn-hover">Upload</button>
+                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>
