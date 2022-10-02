@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Book;
 use App\Models\Bookreview;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Spatie\FlareClient\View;
 
 class BookController extends Controller
@@ -83,5 +84,65 @@ class BookController extends Controller
             ->where('book_name', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         return view('books', compact('data'));
+    }
+   //live search
+    public function livesearch(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+
+            $datas = Book::where('title', 'LIKE', '%' . $request->search . "%")->get();
+            if ($datas) {
+                foreach ($datas as $data) {
+                    $output .= ' 
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <div class="full-width mt-4">
+                        <div class="recent-items">
+                            <div class="posts-list">
+                                <div class="feed-shared-product-dt">
+                                    <div class="pdct-img">
+                                        <a><img class="ft-plus-square product-bg-w bg-cyan me-0" src="'.$data->cover_pic.'" alt="">
+                                            <div class="overlay-item">
+                                                <div class="badge-timer">
+                                                   '.$data->created_at->diffForHumans().'
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="author-dts pp-20">
+                                        <a class="job-heading pp-title">'.$data->title.'</a>
+                                        <p class="notification-text font-small-4">
+                                            by <a href="/profile_dashboard/'.$data->id.'" class="cmpny-dt blk-clr" style="color:'.$data->user->role->color->name.'">'.$data->user->username.'</a>
+                                        </p>
+                                        <div class="ppdt-price-sales">
+                                            <div class="ppdt-price">
+                                                ৳ '.$data->price.'
+                                            </div>
+                                            <div class="ppdt-sales">
+                                                0 Sales
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-meta">
+                                <div class="job-actions">
+                                    <div class="aplcnts_15">
+                                        <a href="/books_single/'.$data->id.'" class="view-btn btn-hover">Detail
+                                            View</a>
+                                    </div>
+                                    <div class="action-btns-job">
+                                        <i class="fas fa-eye"></i> '.$data->view_count.'
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+                }
+
+                return Response($output);
+            }
+        }
     }
 }

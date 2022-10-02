@@ -152,11 +152,8 @@
                                     </a>
                                 </div>
                             </li>
-                     
-                            
                             @foreach (auth()->user()->unreadNotifications as $notification)
                                 {{ $notification->markAsRead() }}
-
                                 <a
                                     href="{{ route($notification->data['link'], ['id' => $notification->data['request_id']]) }}">
                                     <li style="display: flex" class="dropdown-menu-footer">

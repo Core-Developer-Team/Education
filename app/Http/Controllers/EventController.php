@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Event_user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,4 +47,13 @@ class EventController extends Controller
         return back()->with('status', 'Event
          has been created Successfully');
     }
+     public function interested($id , $mesg)
+     {
+        Event_user::create([
+             'slug'     => $mesg,
+             'event_id' => $id,
+             'user_id'  => Auth()->id(),
+        ]);
+        return back()->with('status','Thanks for Your Interest...');
+     }
 }

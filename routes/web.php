@@ -187,17 +187,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/res_weekly', [ResourceController::class, 'week'])->name('res.week');
     // event page
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
+    Route::get('/event/interested/{id}/{mesg}', [EventController::class, 'interested'])->name('event.interested');
     Route::get('/event_single/{id}', [EventController::class, 'single'])->name('event.single');
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
     // Contest page
     Route::get('/contest', [ContestController::class, 'index'])->name('contest.index');
+    Route::get('/contest/interested/{id}/{mesg}', [ContestController::class, 'interested'])->name('contest.interested');
+    Route::get('/contest_single/{id}', [ContestController::class, 'single'])->name('contest.single');
     Route::post('/contest', [ContestController::class, 'store'])->name('contest.store');
     //offline topic
     Route::get('/offlinetopic', [OfflinetopicController::class, ('show')])->name('offlinetopic.show');
     Route::post('/offlinetopic', [OfflinetopicController::class, ('get')])->name('offlinetopic.get');
     Route::post('/offlinetopic/report', [OfflinereportsController::class, ('store')])->name('offlinetopic.report');
     // Reported page
-    Route::get('/reported',[ReqSolutionController::class,('Allrepsolution')])->name('reported.ind');
+    Route::get('/reported', [ReqSolutionController::class, ('Allrepsolution')])->name('reported.ind');
     //req solution
     Route::get('/mysolution', [ReqSolutionController::class, ('mysol')])->name('profile.mysol');
     Route::get('/mysolution/{uid}/{rid}/{sid}', [ReqSolutionController::class, ('solutionreport')])->name('profile.repsol');
@@ -214,6 +217,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/product_latest', [ProductController::class, 'latest'])->name('prod.latest');
     Route::get('/product_trending', [ProductController::class, 'trending'])->name('prod.trending');
     Route::get('/product_weekly', [ProductController::class, 'week'])->name('prod.week');
+    Route::get('/productsearch', [ProductController::class, 'livesearch'])->name('product.livesearch');
 
     //profile
     Route::get('/profile_dashboard/{id}', [ProfileController::class, ('show')])->name('profile.show');
@@ -233,21 +237,26 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [RequestController::class, 'index'])->name('req.index');
 Route::patch('/', [RequestController::class, 'search'])->name('req.search');
 Route::get('ch/{name}', [RequestController::class, 'searchcat'])->name('req.searchcat');
+Route::get('/livesearch', [RequestController::class, 'livesearch'])->name('request.livesearch');
 //proposal
 Route::get('/proposals', [ProposalController::class, 'index'])->name('proposal.index');
 Route::patch('/proposals', [ProposalController::class, 'search'])->name('proposal.search');
 Route::get('prop/{name}', [ProposalController::class, 'searchcat'])->name('prop.searchcat');
+Route::get('/livepropsearch', [ProposalController::class, 'livesearch'])->name('prop.livesearch');
 //Books home routes
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::patch('/books', [BookController::class, 'search'])->name('book.search');
+Route::get('/booksearch', [BookController::class, 'livesearch'])->name('books.livesearch');
 
 //course homepqage
 Route::get('/course', [CourseController::class, 'index'])->name('course.index');
+Route::get('/coursesearch', [CourseController::class, 'livesearch'])->name('course.livesearch');
 Route::get('/freecourses/{id}', [CourseController::class, 'freecourse'])->name('course.freecourse');
 Route::patch('/course', [CourseController::class, 'search'])->name('course.search');
 
 //tutorial
 Route::get('/tutorial', [TutorialController::class, 'getvideos'])->name('tutorial.getvideos');
+Route::get('/tutlivsearch', [TutorialController::class, 'livesearch'])->name('tutorial.livsearch');
 Route::patch('/tutorial', [TutorialController::class, 'search'])->name('tutorial.search');
 Route::get('/freetutorial/{id}', [TutorialController::class, 'freetutorial'])->name('tutorial.freetutorial');
 //marketplace
@@ -257,8 +266,7 @@ Route::patch('/marketplace', [MarketplaceController::class, 'search'])->name('ma
 Route::get('/resource', [ResourceController::class, 'index'])->name('resource.index');
 Route::patch('/resource', [ResourceController::class, 'search'])->name('res.search');
 Route::get('/res/{cat}', [ResourceController::class, 'searchcategory'])->name('resource.searchcat');
-
-
+Route::get('/liveressearch', [ResourceController::class, 'livesearch'])->name('res.livesearch');
 //book order
 Route::get('/bookorder', [BookorderController::class, ('index')])->name('bookorder.index');
 Route::post('/bookorder/{bid}', [BookorderController::class, ('store')])->name('bookorder.store');
@@ -266,44 +274,44 @@ Route::get('/booksell', [BookorderController::class, ('Sell')])->name('bookorder
 
 //Moderator Middleware
 Route::middleware(['moderator'])->name('moderator.')->group(function () {
-    Route::get('/moderator',[AdminnotifController::class, 'moderator'])->name('index');
+    Route::get('/moderator', [AdminnotifController::class, 'moderator'])->name('index');
 });
 
 Route::middleware(['admin'])->name('admin.')->group(function () {
     //admin controller
     Route::get('/admin', [AdminController::class, 'index'])->name('index');
     Route::resource('/admin/book', BooksController::class);
-    Route::post('/admin/book/del', [BooksController::class ,'del'])->name('book.delete');
-    Route::get('/admin/product', [AdminProductController::class ,'index'])->name('product.index');
-    Route::post('/admin/product/del', [AdminProductController::class ,'del'])->name('product.delete');
+    Route::post('/admin/book/del', [BooksController::class, 'del'])->name('book.delete');
+    Route::get('/admin/product', [AdminProductController::class, 'index'])->name('product.index');
+    Route::post('/admin/product/del', [AdminProductController::class, 'del'])->name('product.delete');
     Route::resource('/admin/courses', AdminCourseController::class);
-    Route::post('/admin/courses/del', [AdminCourseController::class ,'del'])->name('course.delete');
+    Route::post('/admin/courses/del', [AdminCourseController::class, 'del'])->name('course.delete');
     Route::resource('/admin/proposals', AdminProposalController::class);
-    Route::post('/admin/proposals/del', [AdminProposalController::class ,'del'])->name('proposal.delete');
+    Route::post('/admin/proposals/del', [AdminProposalController::class, 'del'])->name('proposal.delete');
     Route::resource('/admin/resources', AdminResourceController::class);
-    Route::post('/admin/resources/del', [AdminResourceController::class ,'del'])->name('resource.delete');
+    Route::post('/admin/resources/del', [AdminResourceController::class, 'del'])->name('resource.delete');
     Route::resource('/admin/request', AdminRequest::class);
-    Route::post('/admin/request/del', [AdminRequest::class ,'del'])->name('request.delete');
+    Route::post('/admin/request/del', [AdminRequest::class, 'del'])->name('request.delete');
     Route::resource('/admin/tutorials', AdminTutorialController::class);
-    Route::post('/admin/tutorials/del', [AdminTutorialController::class ,'del'])->name('tutorial.delete');
+    Route::post('/admin/tutorials/del', [AdminTutorialController::class, 'del'])->name('tutorial.delete');
     Route::resource('/admin/badge', BadgeController::class);
-    Route::post('/admin/badge/del', [BadgeController::class ,'del'])->name('badge.delete');
+    Route::post('/admin/badge/del', [BadgeController::class, 'del'])->name('badge.delete');
     Route::resource('/admin/user', UserController::class);
-    Route::post('/admin/user/del', [UserController::class ,'delete'])->name('user.delete');
-    Route::get('/admin/user/update/{id}', [UserController::class ,'upstatus'])->name('user.status');
+    Route::post('/admin/user/del', [UserController::class, 'delete'])->name('user.delete');
+    Route::get('/admin/user/update/{id}', [UserController::class, 'upstatus'])->name('user.status');
     Route::resource('/admin/event', AdminEventController::class);
-    Route::post('/admin/event/del', [AdminEventController::class ,'del'])->name('event.delete');
+    Route::post('/admin/event/del', [AdminEventController::class, 'del'])->name('event.delete');
     Route::get('/admin/announcement', [AnnouncementController::class, 'index'])->name('announcement');
     Route::get('/admin/addannouncement', [AnnouncementController::class, 'get'])->name('addannouncement');
     Route::post('/admin/addannouncement', [AnnouncementController::class, 'store'])->name('storeannouncement');
     Route::get('/admin/announcement/{id}', [AnnouncementController::class, 'updatestatus'])->name('updateannouncement');
     Route::post('/admin/announcement/del', [AnnouncementController::class, 'destroy'])->name('destroyannouncement');
     //Notification controller
-    Route::get('/admin/notifications',[AdminnotifController::class, 'index'])->name('notification');
-    Route::get('/admin/allnotifications',[AdminnotifController::class, 'allNotification'])->name('allnotification');
-    Route::get('/admin/assignnot/{uid}/{rid}/{link}',[AdminnotifController::class, 'send'])->name('notification.assign');
-    Route::post('/admin/notifications/delete',[AdminnotifController::class, 'destroy'])->name('notification.delete');
-   
+    Route::get('/admin/notifications', [AdminnotifController::class, 'index'])->name('notification');
+    Route::get('/admin/allnotifications', [AdminnotifController::class, 'allNotification'])->name('allnotification');
+    Route::get('/admin/assignnot/{uid}/{rid}/{link}', [AdminnotifController::class, 'send'])->name('notification.assign');
+    Route::post('/admin/notifications/delete', [AdminnotifController::class, 'destroy'])->name('notification.delete');
+
     //Privacy
     Route::get('/admin/Privacy', [PrivacyController::class, 'index'])->name('privacy');
     Route::get('/admin/EditPrivacy', [PrivacyController::class, 'show'])->name('editprivacy');
@@ -311,13 +319,12 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::patch('/admin/updatePrivacy/{id}', [PrivacyController::class, 'update'])->name('updateprivacy.up');
     Route::post('/admin/EditPrivacy', [PrivacyController::class, 'get'])->name('editprivacy.add');
 
-       //Terms
-       Route::get('/admin/term', [TermController::class, 'index'])->name('term');
-       Route::get('/admin/Editterm', [TermController::class, 'show'])->name('editterm');
-       Route::get('/admin/updateterm/{id}', [TermController::class, 'getupdate'])->name('updateterm');
-       Route::patch('/admin/updateterm/{id}', [TermController::class, 'update'])->name('updateterm.up');
-       Route::post('/admin/Editterm', [TermController::class, 'get'])->name('editterm.add');
-    
+    //Terms
+    Route::get('/admin/term', [TermController::class, 'index'])->name('term');
+    Route::get('/admin/Editterm', [TermController::class, 'show'])->name('editterm');
+    Route::get('/admin/updateterm/{id}', [TermController::class, 'getupdate'])->name('updateterm');
+    Route::patch('/admin/updateterm/{id}', [TermController::class, 'update'])->name('updateterm.up');
+    Route::post('/admin/Editterm', [TermController::class, 'get'])->name('editterm.add');
 });
 
 // terms of use and privacy
