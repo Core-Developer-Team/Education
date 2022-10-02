@@ -67,7 +67,7 @@
                         <div class="mt-30">
                             <div class="rating-container">
                                 <div class="rating-text">
-                                    <p>Feedbacks</p>
+                                    <p>Feedbacks( <span class="text-info"> {{$rating}}</span> )</p>
                                 </div>
                             </div>
                         </div>

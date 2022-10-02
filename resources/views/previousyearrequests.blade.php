@@ -97,7 +97,7 @@
                                     <a href="{{ route('req.weekly') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/week') fltr-active @endif">Weekly</a>
                                 </div>
-                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+                               
                             </div>
                         </div>
                     </div>
