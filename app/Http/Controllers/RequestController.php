@@ -35,7 +35,7 @@ class RequestController extends Controller
     public function index()
     {
         $datas = ModelsRequest::orderBy('created_at', 'DESC')->cursorPaginate(6);
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $bid = Reqbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -60,7 +60,7 @@ class RequestController extends Controller
     public function previousyearQuestion()
     {
         $datas = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->cursorPaginate(6);
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $bid = Reqbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -86,7 +86,7 @@ class RequestController extends Controller
     {
         $datas = ModelsRequest::whereDate('created_at', Carbon::today())->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -111,7 +111,7 @@ class RequestController extends Controller
     {
         $datas = ModelsRequest::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -135,7 +135,7 @@ class RequestController extends Controller
     {
         $datas = ModelsRequest::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -208,7 +208,7 @@ class RequestController extends Controller
 
         $datas = ModelsRequest::where('user_id', Auth()->id())->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -235,7 +235,7 @@ class RequestController extends Controller
             ->Where('coursename', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         $bid = Reqbid::all();
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -266,7 +266,7 @@ class RequestController extends Controller
             ->orWhere('coursename', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         $bid = Reqbid::all();
-        $categ = ModelsRequest::select('coursename')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('requests')->distinct('coursename')->limit(15)->groupBy('id')->get('coursename');
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();

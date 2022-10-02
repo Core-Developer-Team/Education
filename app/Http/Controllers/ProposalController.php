@@ -18,6 +18,7 @@ use App\Rules\GreaterThanCurrentTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
@@ -27,7 +28,7 @@ class ProposalController extends Controller
     public function index()
     {
         $data = Proposal::orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('proposals')->distinct('category')->limit(15)->groupBy('id')->get('category');
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -53,7 +54,7 @@ class ProposalController extends Controller
     public function latesttutorial()
     {
         $data = Proposal::whereDate('created_at', Carbon::today())->orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('proposals')->distinct('category')->limit(15)->groupBy('id')->get('category');
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -79,7 +80,7 @@ class ProposalController extends Controller
     public function trending()
     {
         $data = Proposal::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('proposals')->distinct('category')->limit(15)->groupBy('id')->get('category');
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -105,7 +106,7 @@ class ProposalController extends Controller
     public function week()
     {
         $data = Proposal::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('proposals')->distinct('category')->limit(15)->groupBy('id')->get('category');
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -182,7 +183,7 @@ class ProposalController extends Controller
             ->where('proposalname', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         $bid = Proposalbid::all();
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('proposals')->distinct('category')->limit(15)->groupBy('id')->get('category');
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -210,7 +211,7 @@ class ProposalController extends Controller
             ->cursorPaginate(6);
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('proposals')->distinct('category')->limit(15)->groupBy('id')->get('category');
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
@@ -234,7 +235,7 @@ class ProposalController extends Controller
     public function proposalsingle($id)
     {
         $data = Proposal::find($id);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = DB::table('proposals')->distinct('category')->limit(15)->groupBy('id')->get('category');
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -423,7 +424,7 @@ class ProposalController extends Controller
                                     </div>
                                 </div>
                                 <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                    <a href="" class="label-dker post_categories_reported mr-10 '.($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $data->id ? '' : 'd-none' ).'"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
+                                    <a href="" class="label-dker post_categories_reported mr-10 ' . ($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $data->id ? '' : 'd-none') . '"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
                                     <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>' . ($data->user->department == 0 ? 'bba' : ($data->user->department == 1 ? 'bse' : 'bcs')) . ' </span></a>
                                     <a href="" class="label-dker post_categories_top_right mr-20 ms-2"><span>' . $data->category . '</span></a>
                                 </div>
@@ -437,7 +438,7 @@ class ProposalController extends Controller
                                     </ins>
                                 </div>
                                 <div class="action-btns-job d-flex justify-content-space">
-                                    <a href="/proposal_single/'. $data->id . '" class="view-btn btn-hover">View Job</a>                                                                                              
+                                    <a href="/proposal_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>                                                                                              
                                 </div>
                                 ' . ($data->user_id == Auth()->id() ? '  <div class="">
                                 <a href="/proposal_edit/' . $data->id . '"
