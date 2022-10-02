@@ -165,8 +165,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class);
     }
+    public function contest()
+    {
+        return $this->hasMany(Contest::class);
+    }
     public function moderator()
     {
         return $this->hasMany(Moderator::class);
+    }
+    public function event_user()
+    {
+        return $this->hasMany(Event_user::class);
+    }
+    public function contest_user()
+    {
+        return $this->hasMany(Contest_user::class);
     }
 }

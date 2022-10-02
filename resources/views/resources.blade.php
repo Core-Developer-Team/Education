@@ -84,7 +84,7 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-8">
                                 <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                    <input class="form_input_1" type="text" id="search" placeholder="Search within these results"
                                         name="search" required>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                     <a href="{{ route('res.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/res_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+                                
                             </div>
                         </div>
                     </div>
@@ -117,6 +117,7 @@
                         {{ session('status') }}
                     </div>
                 @endif
+                <div class="ressearch">
                 @forelse ($datas as $data)
                     <div class="full-width mt-4">
                         <div class="recent-items">
@@ -266,10 +267,9 @@
                                     <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                         <a href=""
                                             class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
+     
                                         <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                        <a href=""
-                                            class="label-dker post_categories_top_right mr-20"><span>{{ $data->category }}</span></a>
-
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -297,6 +297,7 @@
                         </div>
                     </div>
                 @empty
+            </div>
                     <div class="alert alert-success mt-3">
                         Sorry! No data found
                     </div>
@@ -406,5 +407,22 @@
                 }
             }
         })
+    })
+</script>
+<!--live search-->
+<script type="text/javascript">
+    $('#search').on('keyup', function() {
+        $value = $(this).val();
+        $.ajax({
+            type: 'get',
+            url: '{{ URL::to('liveressearch') }}',
+            data: {
+                'search': $value
+            },
+            success: function(data) {
+                $('.ressearch').html(data);
+            }
+           
+        });
     })
 </script>

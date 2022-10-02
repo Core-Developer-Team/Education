@@ -94,7 +94,7 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-8">
                                 <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                    <input class="form_input_1" type="text" id="search" placeholder="Search within these results"
                                         name="search" required>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                     <a href="{{ route('tutorial.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/tutorial_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+                            
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                                         <h4>Free</h4>
                                         <a href="{{ route('tutorial.freetutorial', ['id' => 0]) }}">View All</a>
                                     </div>
-                                    <div class="owl-carousel learning_slider owl-theme">
+                                    <div class="owl-carousel learning_slider owl-theme videosearch">
                                         
                                         @forelse ($playlists_json as $key => $items)
                                             @foreach ($items['playlists']['items'] as $key => $item)
@@ -389,3 +389,4 @@
         }
     });
 </script>
+

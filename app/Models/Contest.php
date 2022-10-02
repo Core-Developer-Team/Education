@@ -10,12 +10,24 @@ class Contest extends Model
     use HasFactory;
     protected $dates = ['event_date','start_time','end_time'];
     protected $fillable = [
+        'user_id',
         'name',
         'description',
         'image',
         'location',
         'event_date',
+        'price',
         'start_time',
         'end_time',    
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function contest_user()
+    {
+        return $this->hasMany(Contest_user::class);
+    }
 }

@@ -69,7 +69,7 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-8">
                                 <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                    <input class="form_input_1" type="text" id="search" placeholder="Search within these results"
                                         name="search" required>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                     <a href="{{ route('book.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/books_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+                              
                             </div>
                         </div>
                     </div>
@@ -104,7 +104,8 @@
                 @endif
                 <div class="all-items">
                     <div class="product-items-list">
-                        <div class="row">
+                        <div class="row booksearch">
+                                   
                             @forelse ($data as $item)
                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                     <div class="full-width mt-4">
@@ -236,3 +237,21 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+
+<!--live search-->
+<script type="text/javascript">
+    $('#search').on('keyup', function() {
+        $value = $(this).val();
+        $.ajax({
+            type: 'get',
+            url: '{{ URL::to('booksearch') }}',
+            data: {
+                'search': $value
+            },
+            success: function(data) {
+                $('.booksearch').html(data);
+            }
+           
+        });
+    })
+</script>

@@ -241,7 +241,7 @@ class TutorialController extends Controller
             $playlist_data = (array)json_decode($response->body());
             $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
         }
-        // dd($playlist);
+        // dd($playlists_json);
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
@@ -251,7 +251,6 @@ class TutorialController extends Controller
 
     public function freetutorial($id)
     {
-
         $parts = 'snippet';
         $apikey = config('services.youtube.api_key');
         $maxResults = 40;
@@ -300,4 +299,102 @@ class TutorialController extends Controller
         $reviews = Tutorialreview::where('playlist_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(4);
         return view('video_single', compact('playlist_data', 'playlist', 'reviews'));
     }
+    
+      //live search
+      public function livesearch(Request $request)
+      {
+          if ($request->ajax()) {
+              $output = "";
+              $parts = 'snippet';
+              $apikey = config('services.youtube.api_key');
+              $maxResults = 40;
+              $youtubeEndPoint = config('services.youtube.playlist_endpoint');
+
+              $datas = Playlist::where('Category', 'LIKE', '%' . $request->search . "%")->get();
+              $playlists_json = [];
+              foreach ($datas as $playlists) {
+                $playlist_id = $playlists->playlists_id;
+                $playid      = $playlists->id;
+                $price       = $playlists->price;
+                $user        = $playlists->user->username;
+                $color       = $playlists->user->role->color->name;
+                $cat         = $playlists->Category;
+                $type        = $playlists->type;
+                $view_count  = $playlists->view_count;
+                  $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=".$playlist_id;
+                  $response = Http::get($url);
+                  $playlist_data = (array)json_decode($response->body());
+                  $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
+              }
+
+              if ($datas) {
+                foreach ($playlists_json as $key => $items) {
+                  foreach ($items['playlists']['items'] as $key => $item) {
+                    if($key == 0){
+                        
+                      $output .= ' 
+                      <div class="col-xl-4 col-lg-6 col-md-6">
+                      <div class="full-width mt-4">
+                          <div class="recent-items">
+                              <div class="posts-list">
+                                  <div class="feed-shared-product-dt">
+                                      <div class="pdct-img">
+                                          <a><img
+                                                  class="ft-plus-square product-bg-w bg-cyan me-0"
+                                                  src="'.$item->snippet->thumbnails->medium->url.'"
+                                                  alt=""></a>
+                                          <div class="overlay-item">
+                                              <div class="badge-timer">
+                                                  '.\Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans().'
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="author-dts pp-20">
+                                          <a  class="job-heading pp-title">{{
+                                              '.$item->snippet->title.'</a>
+                                                  <p
+                                                  class="notification-text font-small-4">
+                                                  by <a href="#"
+                                                  class="cmpny-dt blk-clr" style="color:'.$items['color'].'">'.$items['user'].'</a>
+                                              </p>
+                                              <p class="notification-text font-small-4">
+                                                  <i class="fas fa-tag"></i> '.$items['category'].'
+                                              </p>
+                                          <div class="ppdt-price-sales">
+
+                                              <div class="ppdt-price">
+                                                  ৳ '.$items['price'].'
+                                              </div>
+                                              <div class="ppdt-sales">
+                                                  0 Sales
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="post-meta">
+                                  <div class="job-actions">
+                                      <div class="aplcnts_15">
+                                          <a href="/tutorial_sin/'.$items['id'].'" class="
+                                              view-btn btn-hover">Detail
+                                              View</a>
+                                      </div>
+                                      <div class="action-btns-job">
+                                          <i class="feather-eye mr-2"></i>'.$items['view_count'].'
+                                       
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+                
+                }
+                  }
+                }
+                  return Response($output);
+              }
+          }
+      }
+
 }

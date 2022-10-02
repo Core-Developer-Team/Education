@@ -89,13 +89,18 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
-                                                    <h4> Contests</h4>
-                                                    <span class="event-count">{{$data->count()}} Contests</span>
+                                                    <h4> Contest</h4>
+                                                    <span class="event-count">{{ $data->count() }} Contest</span>
                                                 </div>
                                             </div>
+                                            @if (session()->has('status'))
+                                                <div class="alert alert-success mt-3">
+                                                    {{ session()->get('status') }}
+                                                </div>
+                                            @endif
                                             @foreach ($data as $item)
                                                 <div class="col-lg-12 col-md-12">
-                                                    <div class="event-card mt-5">
+                                                    <div class="event-card mt-1">
                                                         <div class="evnt1523">
                                                             <h4 class="evntitle">
                                                                 {{ $item->event_date->format('d:m:Y') }}
@@ -104,7 +109,8 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="#">
+                                                                    <a
+                                                                        href="{{ route('contest.single', ['id' => $item->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $item->image }}"
@@ -120,10 +126,50 @@
                                                                             class="envttle14">{{ $item->name }}</a>
                                                                         <div class="ttlcnt15">
                                                                             <span
-                                                                                class="evntcunt">{{ $item->description }}</span>
+                                                                                class="evntcunt">{{ $item->description }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="ppdt-price">
+                                                                            ৳ {{$item->price}}
+                                                                        </div>
+                                                                        <div class="ttlcnt15">
+                                                                            <span
+                                                                                class="evntcunt">{{ $item->contest_user()->where('slug', 'interested')->count() }}
+                                                                                interested ·
+                                                                                {{ $item->contest_user()->where('slug', 'Going')->count() }}
+                                                                                going</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ental488">
+                                                                        <div class="evnticop me-3 dropdown">
+                                                                            <a href="#" class="enptdwn"
+                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                aria-expanded="false">
+                                                                                <i class="feather-check-circle"></i>
+                                                                                <span class="entxt"> Going </span>
+                                                                                <i class="fas fa-angle-down"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($item->contest_user as $event) @if ($event->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                                style="">
+                                                                                <li class="media-list">
+                                                                                    <a href="{{ route('contest.interested', ['id' => $item->id, 'mesg' => 'interested']) }}"
+                                                                                        class="item channel_item event_item">
+                                                                                        <i
+                                                                                            class="feather-star icon_circle"></i>
+                                                                                        Interested
+                                                                                    </a>
+                                                                                    <a href="{{ route('contest.interested', ['id' => $item->id, 'mesg' => 'Going']) }}"
+                                                                                        class="item channel_item event_item active">
+                                                                                        <i
+                                                                                            class="feather-check-circle icon_circle"></i>Going
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -140,12 +186,12 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
                                                     <h4> Contest</h4>
-                                                    <span class="event-count">{{$upcoming->count()}} Contest</span>
+                                                    <span class="event-count">{{ $upcoming->count() }} Contest</span>
                                                 </div>
                                             </div>
                                             @foreach ($upcoming as $next)
                                                 <div class="col-lg-12 col-md-12">
-                                                    <div class="event-card mt-5">
+                                                    <div class="event-card mt-1">
                                                         <div class="evnt1523">
                                                             <h4 class="evntitle">
                                                                 {{ $next->event_date->format('d:m:Y') }}
@@ -154,7 +200,8 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="#">
+                                                                    <a
+                                                                        href="{{ route('contest.single', ['id' => $next->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $next->image }}"
@@ -172,10 +219,50 @@
                                                                             <span
                                                                                 class="evntcunt">{{ $next->description }}</span>
                                                                         </div>
+                                                                        <div class="ppdt-price">
+                                                                            ৳ {{$next->price}}
+                                                                        </div>
+                                                                        <div class="ttlcnt15">
+                                                                            <span
+                                                                                class="evntcunt">{{ $next->contest_user()->where('slug', 'interested')->count() }}
+                                                                                interested ·
+                                                                                {{ $next->contest_user()->where('slug', 'Going')->count() }}
+                                                                                going</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ental488">
+                                                                        <div class="evnticop me-3 dropdown">
+                                                                            <a href="#" class="enptdwn"
+                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                aria-expanded="false">
+                                                                                <i class="feather-check-circle"></i>
+                                                                                <span class="entxt"> Going </span>
+                                                                                <i class="fas fa-angle-down"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($next->contest_user as $event) @if ($next->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                                style="">
+                                                                                <li class="media-list">
+                                                                                    <a href="{{ route('contest.interested', ['id' => $next->id, 'mesg' => 'interested']) }}"
+                                                                                        class="item channel_item event_item">
+                                                                                        <i
+                                                                                            class="feather-star icon_circle"></i>
+                                                                                        Interested
+                                                                                    </a>
+                                                                                    <a href="{{ route('contest.interested', ['id' => $next->id, 'mesg' => 'Going']) }}"
+                                                                                        class="item channel_item event_item active">
+                                                                                        <i
+                                                                                            class="feather-check-circle icon_circle"></i>Going
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -190,7 +277,7 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
                                                     <h4> Contest</h4>
-                                                    <span class="event-count">{{$expires->count()}} Contest</span>
+                                                    <span class="event-count">{{ $expires->count() }} Contest</span>
                                                 </div>
                                             </div>
                                             @foreach ($expires as $expire)
@@ -204,7 +291,8 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="#">
+                                                                    <a
+                                                                        href="{{ route('contest.single', ['id' => $expire->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $expire->image }}"
@@ -220,7 +308,47 @@
                                                                             class="envttle14">{{ $expire->name }}</a>
                                                                         <div class="ttlcnt15">
                                                                             <span
-                                                                                class="evntcunt">{{ $expire->description }}</span>
+                                                                                class="evntcunt">{{ $expire->description }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="ppdt-price">
+                                                                            ৳ {{$expire->price}}
+                                                                        </div>
+                                                                        
+                                                                        <div class="ttlcnt15">
+                                                                            <span
+                                                                                class="evntcunt">{{ $expire->contest_user()->where('slug', 'interested')->count() }}
+                                                                                interested ·
+                                                                                {{ $expire->contest_user()->where('slug', 'Going')->count() }}
+                                                                                going</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ental488">
+                                                                        <div class="evnticop me-3 dropdown">
+                                                                            <a href="#" class="enptdwn"
+                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                aria-expanded="false">
+                                                                                <i class="feather-check-circle"></i>
+                                                                                <span class="entxt"> Going </span>
+                                                                                <i class="fas fa-angle-down"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($expire->contest_user as $event) @if ($expire->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                                style="">
+                                                                                <li class="media-list">
+                                                                                    <a href="{{ route('contest.interested', ['id' => $expire->id, 'mesg' => 'interested']) }}"
+                                                                                        class="item channel_item event_item">
+                                                                                        <i
+                                                                                            class="feather-star icon_circle"></i>
+                                                                                        Interested
+                                                                                    </a>
+                                                                                    <a href="{{ route('contest.interested', ['id' => $expire->id, 'mesg' => 'Going']) }}"
+                                                                                        class="item channel_item event_item active">
+                                                                                        <i
+                                                                                            class="feather-check-circle icon_circle"></i>Going
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -288,11 +416,19 @@
                             <div class="text-danger mt-2 text-sm start_time">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="time">Contest End_Time</label>
                             <input type="time" class="form-control" name="end_time" id="time"
                                 placeholder="time" value={{ old('end_time') }}>
                             <div class="text-danger mt-2 text-sm end_time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" name="price" id="price"
+                                placeholder="price" value={{ old('price') }}>
+                            <div class="text-danger mt-2 text-sm price">
                             </div>
                         </div>
                         <div class="form-group">

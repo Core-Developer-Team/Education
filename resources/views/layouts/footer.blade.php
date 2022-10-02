@@ -19,7 +19,7 @@
                         <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a>
                     </div>
                     <div class="micko-copyright">
-                        <p><i class="fas fa-copyright"></i>Copyright 2022 Micko by <a href="#">Gambolthemes</a>.
+                        <p>
                             All
                             Right Reserved.</p>
                     </div>
@@ -453,6 +453,7 @@
         $('.end_time').text('');
         $('.image').text('');
         $('.description').text('');
+        $('.price').text('');
 
         const formcontest = document.getElementById('contest');
         const formData = new FormData(formcontest);
@@ -487,6 +488,9 @@
                 }
                 if (errorResponse.image) {
                     $('.image').text(errorResponse.image[0]);
+                }
+                if (errorResponse.price) {
+                    $('.price').text(errorResponse.price[0]);
                 }
                 if (errorResponse.description) {
                     $('.description').text(errorResponse.description[0]);

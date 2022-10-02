@@ -25,11 +25,18 @@
                                         </div>
                                         <img src="/storage/{{ $user->image }}" alt="User-Avatar"
                                             style="width: 100px; height:100px">
-
+                                            <div class="iconreq">
+                                                <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                    src="{{ $user->badge->image }}" style="width:20px; height:20px; margin-top:-45px"
+                                                    title="{{ $user->badge->name }}">
+                                            </div>
                                     </div>
 
                                     <div class="banner-media-body">
                                         <h3 class="item-user-title">{{ $user->username }}</h3>
+                                        <img src="@if ($user->badge_id == 5 || $user->status == 1) /storage/badges/verified.svg @endif"
+                                        class="@if ($user->badge_id == 5 || $user->status == 1) @else d-none @endif "
+                                        alt="Verified" style="width: 17px;" title="Verified">
                                         <div class="profile-rating-section">
                                             <div class="profile-rating">
                                                 <p>Rating :</p>
