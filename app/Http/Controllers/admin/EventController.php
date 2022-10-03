@@ -53,9 +53,10 @@ class EventController extends Controller
 
         Event::create(array_merge($request->only('description','location', 'event_date', 'start_time', 'end_time','name'),[
             'image' => '/storage/'.$imagepath,
+            'user_id' => auth()->user()->id,
         ]));
-        return back()->with('status', 'Event
-         has been created Successfully');
+        flash()->addSuccess('Event has been created Successfully');
+        return redirect(route('admin.event.index'));
     }
 
     /**

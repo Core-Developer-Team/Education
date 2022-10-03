@@ -171,15 +171,14 @@
                                             </div>
                                             <span class="job-loca"><i class="fas fa-location-arrow"></i><ins
                                                     class="state-name">{{ $data->user->uni_name }}</span>
-                                            </p>
                                             <p class="notification-text font-small-4 pt-2 job-center">
                                                 <span class="time-dt">{{ $data->updated_at->diffForHumans() }}</span>
                                             </p>
                                             <div class="jbopdt142">
                                                 @if ($data->user_id != auth()->id())
                                                     @if ($data->isAccept($data->id) == false)
-                                                        <div class="aplcnts_15 job-center applcntres ml-3">
-                                                            <span class="job-badge bg-success payNow" data-id=""
+                                                        <div class="aplcnts_15 job-center applcntres ml-3 mb-md-0 mb-4">
+                                                            <span class="job-badge bg-success payNow d-inline" data-id=""
                                                                 data-amount="{{ $data->price }}"
                                                                 data-resource="resources">
                                                                 Take this resource
@@ -201,8 +200,8 @@
                                                 @endif
                                                 <div class="aplcnts_15 job-center applcntres ml-3">
                                                     <i
-                                                        class="feather-users ms-2"></i><span>Applicants</span><ins>0</ins>
-                                                    <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
+                                                        class="feather-users ms-2"></i><span class="d-inline">Applicants</span><ins>0</ins>
+                                                    <span class="job-badge ddcolor d-inline">৳ {{ $data->price }} </span>
                                                 </div>
                                             </div>
 
@@ -310,8 +309,8 @@
 </div>
 
 <!--Bid Model-->
-<div class="modal fade" id="addresourcebid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable">
+<div class="modal fade" id="addresourcebid" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Resource Bid</h5>
@@ -335,7 +334,7 @@
                             <textarea class="form-control" id="description" name="description" rows="3"> {{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm descriptionerr"></div>
                         </div>
-                        <input type="submit" class="view-btn btn-hover mt-2" name="submit" value="Submit">
+                        <input type="submit" class="view-btn btn-hover mt-3" name="submit" value="Submit">
                     </form>
                 </div>
             </div>

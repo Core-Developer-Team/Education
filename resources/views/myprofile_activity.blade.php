@@ -11,7 +11,7 @@
 
 <div class="wrapper pt-0">
     <div class="main-background-cover breadcrumb-pt">
-        <div class="banner-user" style="background-image:url(/storage/{{ $user->cover_img }});">
+        <div class="banner-user" style="background: url('/storage/{{ $user->cover_img }}');">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">

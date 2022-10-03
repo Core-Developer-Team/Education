@@ -624,6 +624,10 @@ input[type=number][disabled] {
     margin-right: 35px;
 }
 
+.mt-60{
+    margin-top: 60px;
+}
+
 .mt-50 {
     margin-top: 50px;
 }
@@ -3596,6 +3600,7 @@ output {
 
 .page-tabs .nav-tabs {
     border-bottom: 0 !important;
+    padding: 1rem 0;
 }
 
 .page-tabs .nav-tabs .nav-item {
@@ -5089,7 +5094,7 @@ img.img-thumbnail {
 }
 
 .filter_items {
-    margin-top: 30px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
@@ -5139,7 +5144,6 @@ img.img-thumbnail {
 .btn-4585 {
     border: 2px solid hsl(0, 0%, 90%);
     border-radius: 8px;
-    overflow: hidden;
     display: inline-block;
 }
 
@@ -5168,7 +5172,6 @@ img.img-thumbnail {
     padding: 0 0 12px;
     display: block;
     width: 100%;
-    position: relative;
 }
 
 .pdct-img {
@@ -14621,7 +14624,9 @@ input[class="super-sad"]:focus+svg {
     text-align: center;
 }
 
-.ct-logo img {}
+.ct-logo img {
+    width: 265px;
+}
 
 .cmtk_dt {
     padding: 106px 0 117px;
@@ -14800,7 +14805,7 @@ input[class="super-sad"]:focus+svg {
 }
 
 .title_404 {
-    font-size: 14em;
+    font-size: 7em;
     font-weight: 600;
     color: #fff;
     text-align: center;
@@ -14808,6 +14813,12 @@ input[class="super-sad"]:focus+svg {
     text-shadow: 1px 10px 6px rgb(0 0 0 / 20%);
     padding-bottom: 29px;
     margin-top: 0;
+}
+
+@media screen and (min-width: 576px){
+    .title_404{
+        font-size: 14em;
+    }
 }
 
 .thnk_title1 {
@@ -15562,7 +15573,7 @@ input[class="super-sad"]:focus+svg {
 
 .picture-container {
     position: relative;
-    cursor: pointer;
+    cursor: auto;
     text-align: center;
 }
 
@@ -15610,6 +15621,10 @@ input[class="super-sad"]:focus+svg {
     width: 100%;
 }
 
+.picture input[type="file"].custom-wizard-picture{
+    font-size: 0;
+}
+
 .picture-src {
     width: 100%;
 }
@@ -15621,7 +15636,6 @@ input[class="super-sad"]:focus+svg {
 /*image */
 
 .userimg {
-    height: min-content;
     display: inline;
 }
 
@@ -15664,4 +15678,39 @@ input[class="super-sad"]:focus+svg {
     margin-top: 0px;
     display: inline;
     margin-left: -20px;
+}
+
+/* Registration Page */ 
+
+/* Image Button */
+.custom-register-input-file{
+    margin-top: 0.7rem;
+}
+
+/* Pagination Button */
+@media (max-width: 400px) {
+.actions ul{
+    display: block !important;
+    text-align: center;
+}
+}
+
+/* Model Forms */
+div.modal-body form div.form-group{
+    margin-bottom: 0.5rem;
+}
+
+div.modal-body form div.form-group label{
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+/* Request Single Page Reported Button  */
+.custom-media-list{
+    list-style-type: none !important;
+    margin-left: 0 !important;
+}
+
+.custom-media-list a{
+    line-height: 2rem;
 }

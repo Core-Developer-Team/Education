@@ -14,6 +14,7 @@ use App\Models\ReqSolution;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\User;
+use App\Rules\GreaterThanCurrentTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -26,7 +27,7 @@ class ProposalController extends Controller
     public function index()
     {
         $data = Proposal::orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = Proposal::select('category')->distinct('category')->limit(15)->get();
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -52,7 +53,7 @@ class ProposalController extends Controller
     public function latesttutorial()
     {
         $data = Proposal::whereDate('created_at', Carbon::today())->orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = Proposal::select('category')->distinct('category')->limit(15)->get();
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -78,7 +79,7 @@ class ProposalController extends Controller
     public function trending()
     {
         $data = Proposal::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = Proposal::select('category')->distinct('category')->limit(15)->get();
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -104,7 +105,7 @@ class ProposalController extends Controller
     public function week()
     {
         $data = Proposal::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('updated_at', 'DESC')->cursorPaginate(6);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = Proposal::select('category')->distinct('category')->limit(15)->get();
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -133,7 +134,7 @@ class ProposalController extends Controller
             'proposalname'  => ['required', 'string'],
             'price'         => ['required', 'string'],
             'description'   => ['required', 'string'],
-            'days'          => ['required'],
+            'days'          => ['required', 'date', new GreaterThanCurrentTime],
             'category'      => ['required', 'max:25'],
         ]);
         if ($request->hasFile('file')) {
@@ -181,7 +182,7 @@ class ProposalController extends Controller
             ->where('proposalname', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         $bid = Proposalbid::all();
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = Proposal::select('category')->distinct('category')->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -209,7 +210,7 @@ class ProposalController extends Controller
             ->cursorPaginate(6);
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = Proposal::select('category')->distinct('category')->limit(15)->get();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
@@ -233,7 +234,7 @@ class ProposalController extends Controller
     public function proposalsingle($id)
     {
         $data = Proposal::find($id);
-        $categ = Proposal::select('category')->distinct()->orderBy('created_at', 'DESC')->inRandomOrder()->limit(15)->get();
+        $categ = Proposal::select('category')->distinct('category')->limit(15)->get();
         $bid = Proposalbid::all();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
@@ -263,7 +264,7 @@ class ProposalController extends Controller
             'proposalname'  => ['required', 'string'],
             'price'         => ['required', 'string'],
             'description'   => ['required', 'string'],
-            'days'          => ['required'],
+            'days'          => ['required', 'date', new GreaterThanCurrentTime],
             'category'      => ['required', 'max:25'],
         ]);
 

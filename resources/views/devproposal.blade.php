@@ -31,9 +31,11 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" 
-                        @auth
+                        data-bs-target="@auth @fullinfo
 #addproposal
+@else
+#userinfolink
+@endfullinfo
 @else
 #loginlink @endauth  ">Post
                             your Proposal</a>
@@ -270,7 +272,7 @@
                                                 <!-- end hover-->
                                             </div>
                                             <img src="@if ($item->user->badge_id == 5 || $item->user->status == 1) /storage/badges/verified.svg @endif"
-                                                class="@if ($item->user->badge_id == 5 || $item->user->status == 1) @else d-none @endif "
+                                                class="ms-1 @if ($item->user->badge_id == 5 || $item->user->status == 1) @else d-none @endif "
                                                 alt="Verified" style="width: 17px;" title="Verified">
                                             <span class="job-loca"><i
                                                     class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
@@ -284,25 +286,30 @@
                                                     <span class="job-badge ffcolor">Online</span>
                                                     <span class="job-badge ddcolor">৳ {{ $item->price }}</span>
                                                     <span class="job-badge ttcolor">
-                                                        @if (\Carbon\Carbon::parse($item->created_at)->diffInDays($item->days, false) <= 1)
-                                                            @if (\Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) < 60 &&
-                                                                \Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) >= 1)
-                                                                {{ \Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) }}
-                                                                Minutes left
-                                                            @elseif(\Carbon\Carbon::parse($item->created_at)->diffInMinutes($item->days, false) < 0)
-                                                                @if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id)
-                                                                    Closed
-                                                                @else
-                                                                    Unsolved
-                                                                @endif
+                                                    @if (\Carbon\Carbon::parse(now())->diffInDays($item->days, false) <= 1)
+                                                        @if (\Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) < 60 &&
+                                                            \Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) >= 1)
+                                                            {{ \Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) }}
+                                                            Minutes left
+                                                        @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) <= 0)
+                                                            @if(\Carbon\Carbon::parse(now())->diffInSeconds($item->days, false) > 0)
+                                                            {{ \Carbon\Carbon::parse(now())->diffInSeconds($item->days, false) }}
+                                                            Seconds left          
                                                             @else
-                                                                {{ \Carbon\Carbon::parse($item->created_at)->diffInHours($item->days, false) }}
-                                                                Hours left
+                                                            @if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id)
+                                                                Closed
+                                                            @else
+                                                                Unsolved
+                                                            @endif
                                                             @endif
                                                         @else
-                                                            {{ \Carbon\Carbon::parse($item->created_at)->diffInDays($item->days, false) }}
-                                                            days left
+                                                            {{ \Carbon\Carbon::parse(now())->diffInHours($item->days, false) }}
+                                                            Hours left
                                                         @endif
+                                                    @else
+                                                        {{ \Carbon\Carbon::parse(now())->diffInDays($item->days, false) }}
+                                                        days left
+                                                    @endif
                                                     </span>
                                                 </div>
                                             </div>
@@ -383,8 +390,8 @@
 </div>
 
 <!--Add Proposal Model-->
-<div class="modal fade" id="addproposal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addproposal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Proposal</h5>
@@ -434,8 +441,7 @@
                                 pdf">
                             <div class="text-danger mt-2 text-sm file"></div>
                         </div>
-                        <hr>
-                        <input type="submit" class="btn" name="submit" value="Submit">
+                        <input type="submit" class="btn btn-primary bg-primary mt-3 w-100" name="submit" value="Submit">
                     </form>
                 </div>
             </div>
@@ -445,8 +451,8 @@
 </div>
 
 <!--delete Model-->
-<div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
@@ -460,7 +466,7 @@
                 <form action="{{ route('admin.proposal.delete') }}" method="post">
                     @csrf
                     <input type="hidden" name="proposal_id" value="" id="proposal_id">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger mt-3">Delete</button>
                 </form>
             </div>
         </div>

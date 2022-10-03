@@ -71,8 +71,6 @@ class RegisteredUserController extends Controller
             'badge_id'   => '1',
         ]);
 
-        event(new Registered($user));
-
         $request->session()->regenerate();
         $announcements = Announcement::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();
         

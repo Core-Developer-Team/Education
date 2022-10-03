@@ -11,9 +11,9 @@ class ContestController extends Controller
 {
     public function index()
     {
-        $data = Contest::where('event_date','=', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $expires = Contest::where('event_date','<', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $upcoming = Contest::where('event_date','>', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $data = Contest::where('event_date','=', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
+        $expires = Contest::where('event_date','<', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
+        $upcoming = Contest::where('event_date','>', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
         $contest = Contest::all();
         $contestcount = $contest->count();
         return view('contest', compact('data','expires','upcoming','contestcount'));

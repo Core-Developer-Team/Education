@@ -31,11 +31,13 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" 
-                        @auth
+                            data-bs-target="@auth @fullinfo
 #addresource
 @else
-#loginlink @endauth">Add
+#userinfolink
+@endfullinfo
+@else
+#loginlink @endauth ">Add
                             Resource</a>
                     </div>
                     @include('layouts/sidebar')
@@ -253,9 +255,9 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <img src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
-                                            class="@if ($data->user->badge_id == 5) d-block @else d-none @endif "
-                                            alt="Verified" style="width: 15px;" title="Verified">
+                                        <img src="@if ($data->user->badge_id == 5 || $data->user->status == 1) /storage/badges/verified.svg @endif"
+                                                class="ms-1 @if ($data->user->badge_id == 5 || $data->user->status == 1) @else d-none @endif "
+                                                alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
                                         </p>
@@ -313,8 +315,8 @@
 </div>
 
 <!--Add Resource Model-->
-<div class="modal fade" id="addresource" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addresource" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Resource</h5>
@@ -357,7 +359,7 @@
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
 
-                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-2">Upload</button>
+                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>

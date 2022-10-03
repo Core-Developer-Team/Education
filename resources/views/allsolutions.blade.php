@@ -296,8 +296,8 @@
 </div>
 
 <!--Request Model-->
-<div class="modal fade" id="addrequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addrequest" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Request</h5>
@@ -358,7 +358,7 @@
                             </select>
                             <div class="text-danger mt-2 text-sm tagError"></div>
                         </div>
-                        <button type="submit" class="post-link-btn btn-hover mt-2 btn-prevent" name="submit"
+                        <button type="submit" class="post-link-btn btn-hover mt-3 btn-prevent" name="submit"
                             value="Submit"> <i class="spinner fa fa-spinner fa-spin" style="display: none;"></i>
                             Submit
                         </button>

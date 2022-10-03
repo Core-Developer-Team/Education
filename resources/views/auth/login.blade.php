@@ -59,7 +59,7 @@
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <h2 class="registration_title">Sign in to CRAVSOL</h2>
-
+                                    <div class="text-danger text-center border border-danger error_box p-3 mt-4 d-none"></div>
                                     <div class="form_group mt-30">
                                         <label class="label25">Your Email*</label>
                                         <input class="reg_form_input_1" name="email" type="email" placeholder=""
@@ -73,8 +73,6 @@
                                     <div class="form_group mt-25">
                                         <div class="field_password">
                                             <label class="label25">Password*</label>
-                                            <a class="FieldPassword__link" href="forgot_password.html">Forgot
-                                                Password?</a>
                                         </div>
                                         <div class="loc_group">
                                             <input class="reg_form_input_1" name="password" id="pass_log_id"
@@ -88,6 +86,9 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="position-relative text-end mt-3 mb-5">
+                                        <a class="FieldPassword__link" href="{{route('forgotpassword')}}">Forgot Password?</a>
+                                    </div>
                                     <button class="btn-register btn-hover" type="submit">Sign In <i
                                             class="feather-log-in ms-2"></i></button>
                                 </form>
@@ -96,7 +97,7 @@
                                 </div>
                                 <div class="social_buttons">
                                     <div class="social_buttons_list">
-                                        <button class="google_login">
+                                        <button class="google_login google_provider">
                                             <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                 class="google_login__icon" width="20" height="20">
                                                 <path
@@ -119,26 +120,6 @@
                                                     fill="#D93F21"></path>
                                             </svg>
                                             <span class="google_login__text">Sign in with Google</span>
-                                        </button>
-                                        <button class="facebook_login facebook_login--small" data-toggle="tooltip"
-                                            data-placement="top" title="Sign in with Facebook">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                class="facebook_login__icon" width="20" height="20">
-                                                <path
-                                                    d="M8.434 11.3H5.959c-.4 0-.525-.15-.525-.525V7.75c0-.4.15-.525.525-.525h2.475v-2.2c0-1 .175-1.95.675-2.825.525-.9 1.275-1.5 2.225-1.85a5.562 5.562 0 011.925-.325h2.45c.35 0 .5.15.5.5v2.85c0 .35-.15.5-.5.5-.675 0-1.35 0-2.025.025-.675 0-1.025.325-1.025 1.025-.025.75 0 1.475 0 2.25h2.9c.4 0 .55.15.55.55v3.025c0 .4-.125.525-.55.525h-2.9v8.15c0 .425-.125.575-.575.575H8.959c-.375 0-.525-.15-.525-.525V11.3z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                        <button class="twitter_login" data-toggle="tooltip" data-placement="top"
-                                            title="Sign in with Twitter">
-                                            <svg data-prefix="fab" data-icon="twitter"
-                                                class="svg-inline--fa fa-twitter fa-w-16" role="img"
-                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                width="20" height="20">
-                                                <path fill="currentColor"
-                                                    d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
-                                                </path>
-                                            </svg>
                                         </button>
                                     </div>
                                 </div>
@@ -166,7 +147,67 @@
     <script src="vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/night-mode.js"></script>
+    <script type="module" src="{{ asset('/js/firebase-config.js') }}" crossorigin="anonymous" defer></script>
+    <script type="module" defer>
+        import {
+            getAuth,
+            multiFactor,
+            signInWithPopup,
+            GoogleAuthProvider,
+        } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 
+        //GOOGLE SIGN IN
+        
+        $('.google_provider').on('click', () => {
+            const googleAuth = getAuth();
+            const Gprovider = new GoogleAuthProvider();
+            signInWithPopup(googleAuth, Gprovider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    const username = user.providerData[0].displayName;
+                    const email = user.providerData[0].email;
+                    // Ajax call to Controller
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "{{ route('googleLogin') }}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "username": username,
+                            "email": email,
+                        },
+                        success: function(response) {
+                            $('.error_box').addClass('d-none');
+                            $('.error_box').text('');
+                            if(response == 'Registered'){
+                                location.href = (new URL(location.href)).origin + '/userinfo';
+                            }else if(response == 'SignedIn'){
+                                location.href = (new URL(location.href)).origin + '/';
+                            }else if(response == 'Error'){
+                                $('.error_box').removeClass('d-none');
+                                $('.error_box').text('Please Login through Form');
+                            }
+                        },
+                        error: function(error) {
+                            const auth_failed = JSON.parse(error.responseText).message;
+                            console.log(auth_failed);
+                            $('.error_box').removeClass('d-none');
+                            $('.error_box').text('' + auth_failed + '');
+                        }
+                    });
+                }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    console.log(errorCode, errorMessage, credential);
+                });
+        });
+    </script>
 </body>
 
 <!-- Mirrored from www.gambolthemes.net/html-items/new-micko-html/disable-demo-link/sign_in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 23:21:05 GMT -->

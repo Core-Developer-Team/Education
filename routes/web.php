@@ -37,6 +37,8 @@ use App\Http\Controllers\admin\EventController as AdminEventController;
 use App\Http\Controllers\admin\PaymentLogController;
 use App\Http\Controllers\admin\PrivacyController;
 use App\Http\Controllers\admin\TermController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\UserInfoController;
 use App\Http\Controllers\BadgesController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BookreviewController;
@@ -93,6 +95,11 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
+    Route::post('googleLogin', [AuthenticatedSessionController::class, 'googleStore'])->name('googleLogin');
+
+    Route::get('forgotpassword', [ForgotPasswordController::class, 'index'])->name('forgotpassword');
+    Route::post('forgotpassword', [ForgotPasswordController::class, 'store']);
+
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
 
@@ -106,7 +113,17 @@ Route::middleware('guest')->group(function () {
         ->name('password.update');
 });
 
+Route::middleware('auth', 'needInfo')->group(function () {
+    Route::get('userinfo', [UserInfoController::class, 'index'])->name('userinfo');
+    Route::post('userinfo', [UserInfoController::class, 'store']);
+});
+
 Route::middleware('auth')->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+});
+
+Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
         ->name('verification.notice');
 
@@ -123,8 +140,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
     //request routes
     Route::get('/previous_year', [RequestController::class, 'previousyearQuestion'])->name('req.prevyear');
     Route::get('/AllSolution', [ReqSolutionController::class, 'allsolution'])->name('req.allsolution');
@@ -354,3 +369,8 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
 });
 
 Route::get('/request/action', [RequestController::class, 'action'])->name('live_search.action');
+
+
+Route::get('/test', function(){
+    return view('testsignup');
+});

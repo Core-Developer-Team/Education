@@ -16,8 +16,11 @@
                 <div class="full-width">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" @auth
+                            data-bs-target="@auth @fullinfo
 #addproduct
+@else
+#userinfolink
+@endfullinfo
 @else
 #loginlink @endauth ">Add
                             New Product</a>
@@ -123,9 +126,10 @@
                                                     </div>
                                                     <div class="author-dts pp-20">
                                                         <a class="job-heading pp-title">{{ $item->name }}</a>
-                                                        <p class="notification-text font-small-4">
+                                                        <p class="notification-text font-small-4 d-inline-block me-2">
                                                             by
-                                                        <div class="userimg"> <a
+                                                        <div class="userimg d-inline-block"> 
+                                                            <a
                                                                 href="{{ route('profile.show', ['id' => $item->user_id]) }}"
                                                                 class="cmpny-dt blk-clr"
                                                                 style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
@@ -243,8 +247,8 @@
 </div>
 
 <!--Add Product Model-->
-<div class="modal fade" id="addproduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addproduct" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Products for Sell</h5>
@@ -286,9 +290,8 @@
                             <textarea id="desc" class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
-                        <hr>
                         <button type="submit" name="submit" value="submit"
-                            class="post-link-btn btn-hover mt-2">Upload</button>
+                            class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>

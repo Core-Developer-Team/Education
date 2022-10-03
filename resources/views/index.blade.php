@@ -31,8 +31,11 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" @auth
+                            data-bs-target="@auth @fullinfo
 #addrequest
+@else
+#userinfolink
+@endfullinfo
 @else
 #loginlink @endauth ">Post
                             your problem</a>
@@ -205,124 +208,52 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <div class="iconreq">
-                                            <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                src="{{ $data->user->badge->image }}" style="width:20px; height:20px"
-                                                title="{{ $data->user->badge->name }}">
-                                        </div>
-                                        <div class="author-dts">
-                                            <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
-                                                class="problems_title">{{ $data->requestname }}</a>
-                                            <p class="notification-text font-username">
-                                            <div class="userimg">
-                                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
-                                                    class=""
-                                                    style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
-                                                    &nbsp;
-                                                </a>
-                                                <!--hover on image-->
-                                                <div class="box imagehov shadow"
-                                                    style="width: auto; height:auto;  position: absolute; z-index: 1;">
-                                                    <div class="full-width">
-                                                        <div class="recent-items">
-                                                            <div class="posts-list">
-                                                                <div class="feed-shared-author-dt">
-                                                                    <div class="author-left">
-                                                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
-                                                                            src="/storage/{{ $data->user->image }}"
-                                                                            alt="">
-                                                                        <div
-                                                                            class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="author-dts">
-                                                                        <p class="notification-text font-username">
-                                                                            <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
-                                                                                style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
-                                                                            </a><img
-                                                                                src="{{ $data->user->badge->image }}"
-                                                                                alt="" style="width: 20px;"
-                                                                                title="{{ $data->user->badge->name }}">
-                                                                            <span class="job-loca"><i
-                                                                                    class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
-                                                                        </p>
-
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Joined on
-                                                                                {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Last Seen
-                                                                                @if (Cache::has('user-is-online-' . $data->user->id))
-                                                                                    <span
-                                                                                        class="text-success">Online</span>
-                                                                                @else
-                                                                                    {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }}
-                                                                                @endif
-                                                                            </span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Total Solutions
-                                                                                {{ $data->user->solutions }}</span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span class="time-dt">Rating
-                                                                                {{ $data->user->rating }}</span>
-                                                                        </p>
-                                                                        <p class="notification-text font-small-4 pt-1">
-                                                                            <span
-                                                                                class="time-dt">{{ $data->user->badge->name }}</span>
-                                                                        </p>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end hover-->
-                                            </div>
-                                            <img src="@if ($data->user->badge_id == 5 || $data->user->status == 1) /storage/badges/verified.svg @endif"
-                                                class="@if ($data->user->badge_id == 5 || $data->user->status == 1) @else d-none @endif "
-                                                alt="Verified" style="width: 17px;" title="Verified">
-                                            <span class="job-loca"><i
-                                                    class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
-                                            </p>
-                                            <span>{{ Str::limit($data->description, 150, $end = '.........') }} </span>
-                                            <p class="notification-text font-small-4 pt-1">
-                                                <span class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
-                                            </p>
-                                            <div class="jbopdt142">
-                                                <div class="jbbdges10">
-                                                    <span class="job-badge ffcolor">
-                                                        @if ($data->tag == 1)
-                                                            Offline
-                                                        @else
-                                                            Online
-                                                        @endif
-                                                    </span>
-                                                    <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                                    <span class="job-badge ttcolor">
-                                                        @if (\Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) <= 1)
-                                                            @if (\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 60 &&
-                                                                \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) >= 1)
-                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) }}
-                                                                Minutes left
-                                                            @elseif(\Carbon\Carbon::parse($data->created_at)->diffInMinutes($data->days, false) < 0)
-                                                                @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
-                                                                    Closed
-                                                                @else
-                                                                    Unsolved
-                                                                @endif
+                                        <img src="@if ($data->user->badge_id == 5 || $data->user->status == 1) /storage/badges/verified.svg @endif"
+                                            class="ms-1 @if ($data->user->badge_id == 5 || $data->user->status == 1) @else d-none @endif "
+                                            alt="Verified" style="width: 17px;" title="Verified">
+                                        <span class="job-loca"><i
+                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                        </p>
+                                        <span>{{ Str::limit($data->description, 150, $end = '.........') }} </span>
+                                        <p class="notification-text font-small-4 pt-1">
+                                            <span class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
+                                        </p>
+                                        <div class="jbopdt142">
+                                            <div class="jbbdges10">
+                                                <span class="job-badge ffcolor">
+                                                    @if ($data->tag == 1)
+                                                        Offline
+                                                    @else
+                                                        Online
+                                                    @endif
+                                                </span>
+                                                <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
+                                                <span class="job-badge ttcolor">
+                                                    @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1)
+                                                        @if (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
+                                                            \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1)
+                                                            {{ \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) }}
+                                                            Minutes left
+                                                        @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0)
+                                                            @if(\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0)
+                                                            {{ \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) }}
+                                                            Seconds left          
                                                             @else
-                                                                {{ \Carbon\Carbon::parse($data->created_at)->diffInHours($data->days, false) }}
-                                                                Hours left
+                                                            @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
+                                                                Closed
+                                                            @else
+                                                                Unsolved
+                                                            @endif
                                                             @endif
                                                         @else
-                                                            {{ \Carbon\Carbon::parse($data->created_at)->diffInDays($data->days, false) }}
-                                                            days left
+                                                            {{ \Carbon\Carbon::parse(now())->diffInHours($data->days, false) }}
+                                                            Hours left
                                                         @endif
-                                                    </span>
+                                                    @else
+                                                        {{ \Carbon\Carbon::parse(now())->diffInDays($data->days, false) }}
+                                                        days left
+                                                    @endif
+                                                </span>
 
                                                 </div>
                                             </div>
@@ -411,9 +342,9 @@
 
     @if (Session::has('announcements'))
         <!--announcement model-->
-        <div class="modal fade" id="announcement" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="announcement" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Announcement</h5>
@@ -433,8 +364,8 @@
 @endauth
 
 <!--Request Model-->
-<div class="modal fade" id="addrequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addrequest" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Request</h5>
@@ -492,7 +423,7 @@
                             </select>
                             <div class="text-danger mt-2 text-sm tagError"></div>
                         </div>
-                        <button type="submit" class="post-link-btn btn-hover mt-2 btn-prevent" name="submit"
+                        <button type="submit" class="post-link-btn btn-hover mt-3 btn-prevent" name="submit"
                             value="Submit"> <i class="spinner fa fa-spinner fa-spin" style="display: none;"></i>
                             Submit
                         </button>
@@ -505,8 +436,8 @@
     </div>
 </div>
 <!--delete Model-->
-<div class="modal fade" id="delreq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>

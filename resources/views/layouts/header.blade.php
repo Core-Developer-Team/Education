@@ -23,7 +23,7 @@
 
     <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/feather-icons/feather.css')}}" rel="stylesheet">
-    <link href="{{asset(' vendor/unicons-2.0.1/css/unicons.css')}}" rel='stylesheet'>
+    <link href="{{asset('vendor/unicons-2.0.1/css/unicons.css')}}" rel='stylesheet'>
     <link href="{{asset('vendor/OwlCarousel/assets/owl.carousel.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/OwlCarousel/assets/owl.theme.default.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">

@@ -120,8 +120,7 @@
                                         id="file" placeholder="Upload image or pdf" value="@isset($data) {{ $data->file }}@else{{ old('file') }} @endisset">
                                     <div class="text-danger mt-2 text-sm file"></div>
                                 </div>
-                                <hr>
-                                <input type="submit" class="btn" name="submit" value="Update">
+                                <input type="submit" class="btn mt-3" name="submit" value="Update">
                             </form>
                         </div>
                     

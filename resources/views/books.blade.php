@@ -16,8 +16,11 @@
                 <div class="full-width">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" @auth
+                        data-bs-target="@auth @fullinfo
 #addbook
+@else
+#userinfolink
+@endfullinfo
 @else
 #loginlink @endauth ">Add
                             New Book</a>
@@ -171,8 +174,8 @@
 </div>
 
 <!--Add Book Model-->
-<div class="modal fade" id="addbook" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addbook" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Book for Sell or Rent</h5>
@@ -224,9 +227,8 @@
                             <textarea id="desc" class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
-                        <hr>
                         <button type="submit" name="submit" value="submit"
-                            class="post-link-btn btn-hover mt-2">Upload</button>
+                            class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>

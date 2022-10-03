@@ -28,6 +28,6 @@ class ReqcommentController extends Controller
             $data->notify(new CommentNotification($user, $req));
         }
 
-        return back()->with('cstatus', 'Your Comment Published Successfully:)');
+        return back()->with('cstatus', 'Your Comment Published Successfully');
     }
 }
