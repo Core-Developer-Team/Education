@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'infoRequired' => \App\Http\Middleware\EnsureUserHasInfo::class,
         'needInfo' => \App\Http\Middleware\EnsureUserNeedInfo::class,
         'checkflash' => \App\Http\Middleware\CheckFlashData::class,
+        'historyClear' => \App\Http\Middleware\PreventBackHistory::class,
     ];
 }

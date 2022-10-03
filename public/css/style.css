@@ -3600,6 +3600,7 @@ output {
 
 .page-tabs .nav-tabs {
     border-bottom: 0 !important;
+    padding: 1rem 0;
 }
 
 .page-tabs .nav-tabs .nav-item {
@@ -15702,4 +15703,14 @@ div.modal-body form div.form-group{
 div.modal-body form div.form-group label{
     margin-bottom: 0.25rem;
     font-weight: 500;
+}
+
+/* Request Single Page Reported Button  */
+.custom-media-list{
+    list-style-type: none !important;
+    margin-left: 0 !important;
+}
+
+.custom-media-list a{
+    line-height: 2rem;
 }

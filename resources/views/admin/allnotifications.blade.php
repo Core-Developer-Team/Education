@@ -37,14 +37,13 @@
                 </div>
                 <div class="container">
                     @foreach (auth()->user()->Notifications as $notification)
+                    <div class="row w-100">
                         <a class="dropdown-item d-flex mt-2 mb-2 align-items-center"
                             href="{{ route($notification->data['link'], ['id' => $notification->data['request_id']]) }}">
-                            <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="/storage/{{ $notification->data['image'] }}"
+                            <div class="dropdown-list-image mr-3" style="width: 60px;">
+                                <img class="rounded-circle w-100" src="/storage/{{ $notification->data['image'] }}"
                                     alt="...">
-                                <div
-                                    class="status-indicator  @if (Cache::has('user-is-online-' . $notification->data['user_id'])) bg-success @else bg-secondary @endif ">
-                                </div>
+                                <div class="status-indicator  @if (Cache::has('user-is-online-' . $notification->data['user_id'])) bg-success @else bg-secondary @endif "></div>
                             </div>
                             <div class="">
                                 <div class="text-truncate"> <span class="font-weight-bold">
@@ -70,6 +69,7 @@
                             @endforeach
                             </div>
                         </div>
+                    </div>
                     @endforeach
 
                 </div>

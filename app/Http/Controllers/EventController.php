@@ -12,9 +12,9 @@ class EventController extends Controller
 {
     public function index()
     {
-        $data = Event::where('event_date','=', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $expires = Event::where('event_date','<', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $upcoming = Event::where('event_date','>', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $data = Event::where('event_date','=', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
+        $expires = Event::where('event_date','<', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
+        $upcoming = Event::where('event_date','>', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
         $event = Event::all();
         $eventcount = $event->count();
         return view('event', compact('data','expires','eventcount','upcoming'));

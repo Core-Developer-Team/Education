@@ -47,8 +47,8 @@ return new class extends Migration
             'department' => '0',
             'email'      => 'admin@gmail.com',
             'password'   =>  Hash::make('12345678'),
-            'image'      => 'profile-photos/1659435528_IMG_20200805_202653.jpg',
-            'cover_img'  => 'profile-photos/1659435528_IMG_20200805_202653.jpg',
+            'image'      => 'Admin/admin.jpg',
+            'cover_img'  => 'Admin/admin.jpg',
         ]);
     }
 

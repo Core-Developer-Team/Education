@@ -166,9 +166,9 @@
                                                                             <label class="label25" for="dep">Departmment*</label>
                                                                             <select name="department" id="dep" class="form-control @error('department') border border-danger @enderror">
                                                                                 <option selected disabled>Select dep</option>
-                                                                                <option value="0" {{ (old('department') == '0') ? 'selected' : ''}}>bba</option>
-                                                                                <option value="1" {{ (old('department') == '1') ? 'selected' : ''}}>bse</option>
-                                                                                <option value="2" {{ (old('department') == '2') ? 'selected' : ''}}>bcs</option>
+                                                                                <option value="0" {{ (old('department') == '0') ? 'selected' : ''}}>BBA</option>
+                                                                                <option value="1" {{ (old('department') == '1') ? 'selected' : ''}}>BSE</option>
+                                                                                <option value="2" {{ (old('department') == '2') ? 'selected' : ''}}>BCS</option>
                                                                             </select>
                                                                             @error('department')
                                                                             <div class="text-danger mt-2 text-sm">

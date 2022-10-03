@@ -294,7 +294,7 @@
                         </div>
                     @endif
                     @if (session('cstatus'))
-                        <div class="bg-danger p-4 rounded-lg mb-6 text-white text-center">
+                        <div class="bg-secondary p-4 rounded-lg mb-6 text-white text-center">
                             {{ session('cstatus') }}
                         </div>
                     @endif
@@ -916,7 +916,7 @@
                                                         <ul class="dropdown-menu dropdown-ellipsis dropdown-menu-end"
                                                             style="">
 
-                                                            <li class="media-list">
+                                                            <li class="media-list custom-media-list">
                                                                 <form
                                                                     action="{{ route('req.report', ['uid' => $item->user_id, 'cid' => $item->id]) }}"
                                                                     method="post">
@@ -925,7 +925,7 @@
                                                                         value="{{ $data->id }}">
                                                                     @if (!($item->commentreport()->count() >= 1 && $item->commentreport->reqcomment_id == $item->id))
                                                                         <button type="submit"
-                                                                            class="btn">Report</button>
+                                                                            class="btn w-100">Report</button>
                                                                     @else
                                                                         <a class="btn">Reported</a>
                                                                     @endif

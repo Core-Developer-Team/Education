@@ -123,7 +123,7 @@ Route::middleware('auth')->group(function () {
     ->name('logout');
 });
 
-Route::middleware('auth', 'infoRequired')->group(function () {
+Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
         ->name('verification.notice');
 

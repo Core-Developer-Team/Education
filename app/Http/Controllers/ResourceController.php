@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -29,7 +28,7 @@ class ResourceController extends Controller
   {
     $datas = Resource::orderBy('updated_at', 'DESC')->cursorPaginate(6);
     $req_count = ModelsRequest::count();
-    $categ = DB::table('resources')->distinct('category')->limit(15)->groupBy('id')->get('category');
+    $categ = Resource::select('category')->distinct('category')->limit(15)->get();
     $feed_count = Feedback::count();
     $mysol = ReqSolution::where('user_id', Auth()->id())->count();
     $myques = ModelsRequest::where('user_id', Auth()->id())->count();
@@ -62,7 +61,7 @@ class ResourceController extends Controller
     $offline = Offlinetopic::count();
     $product = Product::count();
     $prop   = Proposal::count();
-    $categ = DB::table('resources')->distinct('category')->limit(15)->groupBy('id')->get('category');
+    $categ = Resource::select('category')->distinct('category')->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
 
@@ -86,7 +85,7 @@ class ResourceController extends Controller
     $offline = Offlinetopic::count();
     $product = Product::count();
     $prop   = Proposal::count();
-    $categ = DB::table('resources')->distinct('category')->limit(15)->groupBy('id')->get('category');
+    $categ = Resource::select('category')->distinct('category')->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
 
@@ -110,7 +109,7 @@ class ResourceController extends Controller
     $offline = Offlinetopic::count();
     $product = Product::count();
     $prop   = Proposal::count();
-    $categ = DB::table('resources')->distinct('category')->limit(15)->groupBy('id')->get('category');
+    $categ = Resource::select('category')->distinct('category')->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
 
@@ -178,7 +177,7 @@ class ResourceController extends Controller
     $offline = Offlinetopic::count();
     $product = Product::count();
     $prop   = Proposal::count();
-    $categ = DB::table('resources')->distinct('category')->limit(15)->groupBy('id')->get('category');
+    $categ = Resource::select('category')->distinct('category')->limit(15)->get();
     $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
     $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
 
@@ -196,7 +195,7 @@ class ResourceController extends Controller
       ->Where('category', 'LIKE', "%{$search}%")
       ->cursorPaginate(6);
     $bid = Reqbid::all();
-    $categ = DB::table('resources')->distinct('category')->limit(15)->groupBy('id')->get('category');
+    $categ = Resource::select('category')->distinct('category')->limit(15)->get();
     $req_count = ModelsRequest::count();
     $feed_count = Feedback::count();
     $mysol = ReqSolution::where('user_id', Auth()->id())->count();
