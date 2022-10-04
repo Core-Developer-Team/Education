@@ -86,7 +86,7 @@ class RequestController extends Controller
     {
         $datas = ModelsRequest::whereDate('created_at', Carbon::today())->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-                $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
+        $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -111,7 +111,7 @@ class RequestController extends Controller
     {
         $datas = ModelsRequest::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-                $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
+        $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -135,7 +135,7 @@ class RequestController extends Controller
     {
         $datas = ModelsRequest::where('view_count', '>=', 20)->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-                $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
+        $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -208,7 +208,7 @@ class RequestController extends Controller
 
         $datas = ModelsRequest::where('user_id', Auth()->id())->orderBy('updated_at', 'DESC')->cursorPaginate(6);
         $bid = Reqbid::all();
-                $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
+        $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -235,7 +235,7 @@ class RequestController extends Controller
             ->Where('coursename', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         $bid = Reqbid::all();
-                $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
+        $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -266,7 +266,7 @@ class RequestController extends Controller
             ->orWhere('coursename', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         $bid = Reqbid::all();
-                $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
+        $categ = ModelsRequest::select('coursename')->distinct('coursename')->limit(15)->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
@@ -375,11 +375,44 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $output = "";
-
+            $time  = "";
+            $see   = "";
             $datas = ModelsRequest::where('requestname', 'LIKE', '%' . $request->search . "%")->get();
             if ($datas) {
                 foreach ($datas as $data) {
-                    
+
+                    if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1) {
+                        if (
+                            \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
+                            \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1
+                        ) {
+                            $time =   \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) . " Minutes left";
+                        } elseif (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0) {
+                            if (\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0) {
+                                $time = \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) . " Seconds left";
+                            } else {
+                                if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id) {
+                                    $time = "Closed";
+                                } else {
+                                    $time = "Unsolved";
+                                }
+                            }
+                        } else {
+                            $time =  \Carbon\Carbon::parse(now())->diffInHours($data->days, false) . " Hours left";
+                        }
+                    } else {
+                        $time = \Carbon\Carbon::parse(now())->diffInDays($data->days, false) . " days left";
+                    }
+
+                    if ($data->reqsolution()->count() > 0) {
+                        foreach ($data->reqsolution  as $item) {
+                            if ($item->request_id == $data->id) {
+                                $see = "d-none";
+                            }
+                        }
+                    }
+
+
                     $output .= ' 
                     <div class="full-width mt-4">
                     <div class="recent-items">
@@ -387,7 +420,7 @@ class RequestController extends Controller
                             <div class="feed-shared-author-dt">
                                 <div class="author-left userimg ">
                                     <img class="ft-plus-square job-bg-circle  bg-cyan mr-0" src="/storage/' . $data->user->image . '" alt="">
-                                    <div style="position: relative;margin-top: -10px;margin-left: 10px;" class="presence-entity__badge '.(Cache::has("user-is-online-".$data->user_id) ? 'badge__online' : 'badge__offline' ).'">
+                                    <div style="position: relative;margin-top: -10px;margin-left: 10px;" class="presence-entity__badge ' . (Cache::has("user-is-online-" . $data->user_id) ? 'badge__online' : 'badge__offline') . '">
                                         <span class="visually-hidden">
                                             Status is online
                                         </span>
@@ -400,7 +433,7 @@ class RequestController extends Controller
                                                     <div class="feed-shared-author-dt">
                                                         <div class="author-left">
                                                             <img class="ft-plus-square job-bg-circle bg-cyan" src="/storage/' . $data->user->image . '" alt="">
-                                                            <div class="'.(Cache::has("user-is-online-".$data->user->id) ? 'status-oncircle' : 'status-ofcircle' ).'">
+                                                            <div class="' . (Cache::has("user-is-online-" . $data->user->id) ? 'status-oncircle' : 'status-ofcircle') . '">
                                                             
                                                             </div>
                                                         </div>
@@ -416,7 +449,7 @@ class RequestController extends Controller
                                                                 <span class="time-dt">Joined on ' . $data->user->created_at->format("d:M:y g:i A") . '</span>
                                                             </p>
                                                             <p class="notification-text font-small-4 pt-1">
-                                                            <span class="time-dt">Last Seen '.(Cache::has("user-is-online-".$data->user->id) ? '<span class="text-success">Online</span>' : Carbon::parse($data->user->last_seen)->diffForHumans() ).' </span>
+                                                            <span class="time-dt">Last Seen ' . (Cache::has("user-is-online-" . $data->user->id) ? '<span class="text-success">Online</span>' : Carbon::parse($data->user->last_seen)->diffForHumans()) . ' </span>
                                                             </p>
                                                             <p class="notification-text font-small-4 pt-1">
                                                                 <span class="time-dt">Total Solutions ' . $data->user->solutions . '</span>
@@ -454,7 +487,7 @@ class RequestController extends Controller
                                                     <div class="feed-shared-author-dt">
                                                         <div class="author-left">
                                                             <img class="ft-plus-square job-bg-circle bg-cyan" src="/storage/' . $data->user->image . '" alt="">
-                                                            <div class="'.(Cache::has("user-is-online-".$data->user->id) ? 'status-oncircle' : 'status-ofcircle' ).'">
+                                                            <div class="' . (Cache::has("user-is-online-" . $data->user->id) ? 'status-oncircle' : 'status-ofcircle') . '">
                                                             </div>
                                                         </div>
 
@@ -469,7 +502,7 @@ class RequestController extends Controller
                                                                 <span class="time-dt">Joined on ' . $data->user->created_at->format("d:M:y g:i A") . '</span>
                                                             </p>
                                                             <p class="notification-text font-small-4 pt-1">
-                                                                <span class="time-dt">Last Seen '.(Cache::has("user-is-online-".$data->user->id) ? '<span class="text-success">Online</span>' : Carbon::parse($data->user->last_seen)->diffForHumans() ).' </span>
+                                                                <span class="time-dt">Last Seen ' . (Cache::has("user-is-online-" . $data->user->id) ? '<span class="text-success">Online</span>' : Carbon::parse($data->user->last_seen)->diffForHumans()) . ' </span>
                                                             </p>
                                                             <p class="notification-text font-small-4 pt-1">
                                                                 <span class="time-dt">Total Solutions ' . $data->user->solutions . '</span>
@@ -489,41 +522,42 @@ class RequestController extends Controller
                                     </div>
                                         <!-- end hover-->
                                     </div>
-                                    <img src="'.($data->user->badge_id == 5 || $data->user->status == 1 ? "/storage/badges/verified.svg" : "" ).'" class=" '.($data->user->badge_id == 5 || $data->user->status == 1 ? " " : "d-none" ).'" alt="Verified" style="width: 17px;" title="Verified">
-                                    <span class="job-loca"><i class="fas fa-location-arrow"></i>'.$data->user->uni_name.'</span>
+                                    <img src="' . ($data->user->badge_id == 5 || $data->user->status == 1 ? "/storage/badges/verified.svg" : "") . '" class=" ' . ($data->user->badge_id == 5 || $data->user->status == 1 ? " " : "d-none") . '" alt="Verified" style="width: 17px;" title="Verified">
+                                    <span class="job-loca"><i class="fas fa-location-arrow"></i>' . $data->user->uni_name . '</span>
                                     <p></p>
-                                    <span>'.$data->description.'</span>
+                                    <span>' . $data->description . '</span>
                                     <p class="notification-text font-small-4 pt-1">
-                                        <span class="time-dt">'.$data->created_at->diffForHumans().'</span>
+                                        <span class="time-dt">' . $data->created_at->diffForHumans() . '</span>
                                     </p>
                                     <div class="jbopdt142">
                                         <div class="jbbdges10">
-                                            <span class="job-badge ffcolor"> '.($data->tag == 1 ? 'Offline' : 'Online' ).' </span>
-                                            <span class="job-badge ddcolor">৳ '.$data->price.' </span>
-                                            <span class="job-badge ttcolor"> 2 days ago </span>
+                                            <span class="job-badge ffcolor"> ' . ($data->tag == 1 ? 'Offline' : 'Online') . ' </span>
+                                            <span class="job-badge ddcolor">৳ ' . $data->price . ' </span>
+                                            <span class="job-badge ttcolor"> ' . $time . ' </span>
 
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                    <a href="" class="label-dker post_categories_reported mr-10 '.($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->proposal_id == $data->id ? '' : 'd-none' ).'"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
-                                    <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>'.($data->user->department == 0 ? 'bba' : ($data->user->department == 1 ? 'bse' : 'bcs')) .' </span></a>
-                                    <a href="" class="label-dker post_categories_top_right mr-20 ms-2"><span>'.$data->coursename.'</span></a>
+                                    <a href="" class="label-dker post_categories_reported mr-10 ' . ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->proposal_id == $data->id ? '' : 'd-none') . '"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
+                                    <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>' . $data->user->department->name . ' </span></a>
+                                    <a href="" class="label-dker post_categories_top_right mr-20 ms-2"><span>' . $data->coursename . '</span></a>
                                 </div>
                             </div>
                         </div>
                         <div class="post-meta">
                             <div class="job-actions">
                                 <div class="aplcnts_15">
-                                    <i class="feather-users mr-2"></i><span>Applied</span><ins>'. $data->reqbid->count().'</ins>
-                                    <i class="feather-eye mr-2"></i><span>Views</span><ins>'.$data->view_count.'
+                                    <i class="feather-users mr-2"></i><span>Applied</span><ins>' . $data->reqbid->count() . '</ins>
+                                    <i class="feather-eye mr-2"></i><span>Views</span><ins>' . $data->view_count . '
                                     </ins>
                                 </div>
                                 <div class="action-btns-job d-flex justify-content-space">
-                                    <a href="/request_single/'.$data->id.'" class="view-btn btn-hover">View Job</a>                                                                                              
+                                    <a href="/request_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>                                                                                              
                                 </div>
-                                '.($data->user_id == Auth()->id() ? '  <div class="">
-                                <a href="/edit/'.$data->id.'"
+                                ' . ($data->user_id == Auth()->id() ? '  
+                                <div class="' . $see . '">
+                                <a href="/edit/' . $data->id . '"
                                     title="Edit" class="px-3">
                                     <button type="button" class="bm-btn btn-hover">
                                         <i class="feather-edit"></i>
@@ -531,10 +565,10 @@ class RequestController extends Controller
                                 </a>
                                 <button class="bm-btn btn-hover delete-confirm"
                                     data-bs-toggle="modal" data-bs-target="#delreq"
-                                    data-id="'.$data->id.'"><i
+                                    data-id="' . $data->id . '"><i
                                         class="fa-solid fa-trash-can"></i>
                                 </button>
-                            </div>' : '' ).'
+                            </div>' : '') . '
                             </div>
                         </div>
                     </div>

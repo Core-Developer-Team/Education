@@ -125,7 +125,7 @@
                                                             alt=""></a>
                                                     <div class="overlay-item">
                                                         <div class="badge-timer">
-                                                            {{\Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans()}}
+                                                            {{ $items['duration'] }}
                                                         </div>
                                                     </div>
                                                 </div>
