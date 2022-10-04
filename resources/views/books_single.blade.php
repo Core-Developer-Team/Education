@@ -290,13 +290,6 @@
                             </ul>
 
                             <div class="item_buttons">
-                                <form action="{{ route('bookorder.store', ['bid' => $data->id]) }}" method="post">
-                                    @csrf
-                                    <div class="purchase_form_btn">
-                                        <button class="add-cart-btn btn-hover" type="submit"><i
-                                                class="feather-shopping-cart mr-2"></i> Add to Cart</button>
-                                    </div>
-                                </form>
                                 <div class="purchase_form_btn">
                                     <form action="{{ route('bookorder.index') }}" method="get">
                                         <button class="buy-btn btn-hover" type="submit">Buy Now</button>

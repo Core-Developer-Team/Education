@@ -624,7 +624,7 @@ input[type=number][disabled] {
     margin-right: 35px;
 }
 
-.mt-60{
+.mt-60 {
     margin-top: 60px;
 }
 
@@ -14815,8 +14815,8 @@ input[class="super-sad"]:focus+svg {
     margin-top: 0;
 }
 
-@media screen and (min-width: 576px){
-    .title_404{
+@media screen and (min-width: 576px) {
+    .title_404 {
         font-size: 14em;
     }
 }
@@ -15621,7 +15621,7 @@ input[class="super-sad"]:focus+svg {
     width: 100%;
 }
 
-.picture input[type="file"].custom-wizard-picture{
+.picture input[type="file"].custom-wizard-picture {
     font-size: 0;
 }
 
@@ -15663,7 +15663,7 @@ input[class="super-sad"]:focus+svg {
     border-radius: 50%;
     background-color: green;
     border: 2px solid white;
-    margin-top: -20px;
+    margin-top: -18px;
     justify-self: right;
     position: absolute;
 }
@@ -15674,43 +15674,58 @@ input[class="super-sad"]:focus+svg {
     border-radius: 50%;
     background-color: grey;
     border: 2px solid white;
+    margin-top: -20px;
+    justify-self: right;
     position: absolute;
-    margin-top: 0px;
-    display: inline;
-    margin-left: -20px;
 }
 
-/* Registration Page */ 
+
+/* Registration Page */
+
 
 /* Image Button */
-.custom-register-input-file{
+
+.custom-register-input-file {
     margin-top: 0.7rem;
 }
 
+
 /* Pagination Button */
+
 @media (max-width: 400px) {
-.actions ul{
-    display: block !important;
-    text-align: center;
-}
+    .actions ul {
+        display: block !important;
+        text-align: center;
+    }
 }
 
+
 /* Model Forms */
-div.modal-body form div.form-group{
+
+div.modal-body form div.form-group {
     margin-bottom: 0.5rem;
 }
 
-div.modal-body form div.form-group label{
+div.modal-body form div.form-group label {
     margin-bottom: 0.25rem;
     font-weight: 500;
 }
 
+
 /* Request Single Page Reported Button  */
-.custom-media-list{
+
+.custom-media-list {
     list-style-type: none !important;
     margin-left: 0 !important;
 }
 
-.custom-media-list a{
+.custom-media-list a {
     line-height: 2rem;
+}
+
+
+/* sidebar */
+
+.custom-tex {
+    /* font-size: 14px; */
 }

@@ -120,6 +120,17 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
+                                        <div class="form-group mt-25">
+                                            <label class="label25" for="dep">Department*</label>
+                                            <select name="department_id" id="department_id" class="form-control">
+                                                <option selected disabled>Select dep</option>
+                                                @foreach ($dep as $item)
+                                                <option value="{{$item->id}}" {{ ($user->department_id == $item->id) ? 'selected' : ''}}>{{$item->name}}</option>  
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form_group mt-30">
                                             <label class="label25">uni_name*</label>
                                             <input class="form_input_1" type="text" name="uni_name" placeholder="" value="{{ Auth()->user()->uni_name }}">

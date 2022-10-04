@@ -212,7 +212,7 @@
                                 <div class="pf-deferred-dashboard_card-cate-section">
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                            <a href="" class="pf-dashboard-section__card-item">
+                                            <a href="{{route('req.index')}}" class="pf-dashboard-section__card-item">
                                                 <i class="feather-briefcase"></i>
                                                 <h4 class="pv-dashboard-section__metric-title">Request</h4>
                                                 <p class="pv-dashboard-section__metric-products-totle">
@@ -220,7 +220,7 @@
                                             </a>
                                         </div>
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                            <a href="" class="pf-dashboard-section__card-item">
+                                            <a href="{{route('product.index')}}" class="pf-dashboard-section__card-item">
                                                 <i class="feather-shopping-cart"></i>
                                                 <h4 class="pv-dashboard-section__metric-title">Products</h4>
                                                 <p class="pv-dashboard-section__metric-products-totle">
@@ -229,7 +229,7 @@
                                             </a>
                                         </div>
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                            <a href="" class="pf-dashboard-section__card-item">
+                                            <a href="{{route('course.index')}}" class="pf-dashboard-section__card-item">
                                                 <i class="feather-book-open"></i>
                                                 <h4 class="pv-dashboard-section__metric-title">Courses</h4>
                                                 <p class="pv-dashboard-section__metric-products-totle">
@@ -238,7 +238,7 @@
                                             </a>
                                         </div>
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                            <a href="" class="pf-dashboard-section__card-item">
+                                            <a href="{{route('tutorial.getvideos')}}" class="pf-dashboard-section__card-item">
                                                 <i class="feather-flag"></i>
                                                 <h4 class="pv-dashboard-section__metric-title">Tutorial</h4>
                                                 <p class="pv-dashboard-section__metric-products-totle">
@@ -247,29 +247,29 @@
                                             </a>
                                         </div>
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                            <a href="" class="pf-dashboard-section__card-item">
+                                            <a href="{{route('books.index')}}" class="pf-dashboard-section__card-item">
                                                 <i class="feather-users"></i>
                                                 <h4 class="pv-dashboard-section__metric-title">Books</h4>
                                                 <p class="pv-dashboard-section__metric-products-totle">
-                                                    {{ $user->book()->count() }} Added Tutorial
+                                                    {{ $user->book()->count() }} Added Books
                                                 </p>
                                             </a>
                                         </div>
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                            <a href="" class="pf-dashboard-section__card-item">
+                                            <a href="{{route('resource.index')}}" class="pf-dashboard-section__card-item">
                                                 <i class="feather-calendar"></i>
                                                 <h4 class="pv-dashboard-section__metric-title">Resource</h4>
                                                 <p class="pv-dashboard-section__metric-products-totle">
-                                                    {{ $user->resource()->count() }} Resource Created
+                                                    {{ $user->resource()->count() }} Resource Added
                                                 </p>
                                             </a>
                                         </div>
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                            <a href="" class="pf-dashboard-section__card-item">
+                                            <a href="{{route('proposal.index')}}" class="pf-dashboard-section__card-item">
                                                 <i class="feather-calendar"></i>
                                                 <h4 class="pv-dashboard-section__metric-title">Proposal</h4>
                                                 <p class="pv-dashboard-section__metric-products-totle">
-                                                    {{ $user->proposal()->count() }} Proposal Created
+                                                    {{ $user->proposal()->count() }} Proposal Added
                                                 </p>
                                             </a>
                                         </div>

@@ -32,6 +32,7 @@ use App\Http\Controllers\admin\ResourceController  as AdminResourceController;
 use App\Http\Controllers\admin\RequestController as AdminRequest;
 use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
+use App\Http\Controllers\admin\DepartmentController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
 use App\Http\Controllers\admin\PaymentLogController;
@@ -247,6 +248,8 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::get('/profile_review/{id}', [ProfileController::class, ('showreview')])->name('profile.review');
     Route::get('/profile_activity/{id}', [ProfileController::class, ('showactivity')])->name('profile.activity');
     Route::get('/profile_earning/{id}', [ProfileController::class, ('showearning')])->name('profile.earning');
+
+
 });
 
 Route::get('/', [RequestController::class, 'index'])->name('req.index');
@@ -314,6 +317,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('/admin/user', UserController::class);
     Route::post('/admin/user/del', [UserController::class, 'delete'])->name('user.delete');
     Route::get('/admin/user/update/{id}', [UserController::class, 'upstatus'])->name('user.status');
+    Route::get('/admin/user/roleup/{id}', [UserController::class, 'showeditrole'])->name('user.editrole');
+    Route::post('/admin/user/role', [UserController::class, 'updaterole'])->name('user.updaterole');
     Route::resource('/admin/event', AdminEventController::class);
     Route::post('/admin/event/del', [AdminEventController::class, 'del'])->name('event.delete');
     Route::get('/admin/announcement', [AnnouncementController::class, 'index'])->name('announcement');
@@ -340,6 +345,11 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('/admin/updateterm/{id}', [TermController::class, 'getupdate'])->name('updateterm');
     Route::patch('/admin/updateterm/{id}', [TermController::class, 'update'])->name('updateterm.up');
     Route::post('/admin/Editterm', [TermController::class, 'get'])->name('editterm.add');
+    //Departments
+    Route::get('/Dep',[DepartmentController::class, ('index')])->name('dep');
+    Route::get('/Add_Dep',[DepartmentController::class, ('show')])->name('dep.show');
+    Route::post('/Add_Dep/add',[DepartmentController::class, ('add')])->name('dep.add');
+    Route::post('/Add_Dep/delete',[DepartmentController::class, ('del')])->name('dep.del');
 });
 
 // terms of use and privacy

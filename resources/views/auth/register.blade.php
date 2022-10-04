@@ -164,13 +164,13 @@
                                                                     <div class="row justify-content-md-center">
                                                                         <div class="form-group mt-3">
                                                                             <label class="label25" for="dep">Departmment*</label>
-                                                                            <select name="department" id="dep" class="form-control @error('department') border border-danger @enderror">
+                                                                            <select name="department_id" id="dep" class="form-control @error('department') border border-danger @enderror">
                                                                                 <option selected disabled>Select dep</option>
-                                                                                <option value="0" {{ (old('department') == '0') ? 'selected' : ''}}>BBA</option>
-                                                                                <option value="1" {{ (old('department') == '1') ? 'selected' : ''}}>BSE</option>
-                                                                                <option value="2" {{ (old('department') == '2') ? 'selected' : ''}}>BCS</option>
+                                                                                @foreach ($dep as $item)
+                                                                                <option value="{{$item->id}}" {{ (old('department_id') == $item->id) ? 'selected' : ''}}>{{$item->name}}</option>  
+                                                                                @endforeach
                                                                             </select>
-                                                                            @error('department')
+                                                                            @error('department_id')
                                                                             <div class="text-danger mt-2 text-sm">
                                                                                 {{ $message }}
                                                                             </div>

@@ -24,7 +24,7 @@ class User extends Authenticatable
         'gender',
         'rating',
         'cover_img',
-        'department',
+        'department_id',
         'last_seen',
         'provider',
     ];
@@ -181,5 +181,9 @@ class User extends Authenticatable
     public function contest_user()
     {
         return $this->hasMany(Contest_user::class);
+    }
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Department;
 use App\Models\Feedback;
 use App\Models\Product;
 use App\Models\Proposalbid;
@@ -25,7 +26,8 @@ class ProfileController extends Controller
     public function index()
     {
         $user = User::where('id', Auth()->id())->first();
-        return view('profile', compact('user'));
+        $dep = Department::all();
+        return view('profile', compact('user','dep'));
     }
 
 
@@ -38,6 +40,7 @@ class ProfileController extends Controller
             'uni_id'    => ['required', 'string'],
             'uni_name'  => ['required', 'string'],
             'gender'    => ['required'],
+            'department_id'=> ['required'],
         ]);
         $users = User::find($id);
         if ($request->hasFile('image')) {
@@ -63,6 +66,7 @@ class ProfileController extends Controller
             'uni_id'    => $request->uni_id,
             'uni_name'  => $request->uni_name,
             'gender'    => $request->gender,
+            'department_id' => $request->department_id,
         ]);
         return back()->with('message', 'Profile Updated Susseffully:)');
     }
