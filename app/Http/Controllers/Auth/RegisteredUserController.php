@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Models\Department;
 use App\Models\Event;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -24,7 +25,8 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        $dep = Department::all();
+        return view('auth.register',compact('dep'));
     }
 
     /**
@@ -44,7 +46,7 @@ class RegisteredUserController extends Controller
             'image'     => ['required','image','mimes:jpg,jpeg,png,svg'],
             'uni_id'    => ['required','string'],
             'uni_name'  => ['required','string'],
-            'department'=> ['required','regex:/^(0|1|2)$/'],
+            'department_id'=> ['required','regex:/^(1|2)$/'],
             'gender'    => ['required','regex:/^(0|1)$/'],
             'cover_img' => ['required'],
             'password'  => ['required', 'confirmed', Rules\Password::defaults()],
@@ -65,7 +67,7 @@ class RegisteredUserController extends Controller
             'uni_id'     => $request->uni_id,
             'gender'     => $request->gender,
             'uni_name'   => $request->uni_name,
-            'department' => $request->department,
+            'department_id' => $request->department_id,
             'password'   => Hash::make($request->password),
             'role_id'    => '2',
             'badge_id'   => '1',

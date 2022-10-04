@@ -96,25 +96,7 @@
 
             </div>
             <div class="col-xl-9 col-lg-8 col-md-12">
-                <div class="pl_item_search mt-30 mt-lg-0">
-                    <form action="{{ route('marketplace.search') }}" method="post">
-                        @csrf
-                        @method('PATCH')
-                        <div class="row">
-                            <div class="col-lg-10 col-md-8">
-                                <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
-                                        name="search" required>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4">
-                                <button class="post-link-btn color btn-hover w-100 rmt-10"
-                                    type="submit">Search</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
+                
                 <div class="all-items">
                     <div class="product-items-list">
                         <div class="row">

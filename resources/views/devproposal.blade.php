@@ -320,13 +320,7 @@
                                                     class="label-dker post_categories_reported mr-10">Reported</span></a>
                                             <a href=""
                                                 class="label-dker post_department_top_right mr-10 px-2 ms-2"><span>
-                                                    @if ($item->user->department == 0)
-                                                        bba
-                                                    @elseif($item->user->department == 1)
-                                                        bse
-                                                    @elseif ($item->user->department == 2)
-                                                        bcs
-                                                    @endif
+                                                    {{$item->user->department->name}}
                                                 </span></a>
                                             <a href=""
                                                 class="label-dker post_categories_top_right mr-20 ms-2"><span>{{ $item->category }}</span></a>
@@ -347,7 +341,7 @@
                                                 class="view-btn btn-hover">Detail</a>
                                             @if ($item->user_id == Auth()->id())
                                                 <div
-                                                    class="@if ($item->proposalbid()->count() > 0) @foreach ($item->proposalbid as $bi) @if ($bi->proposal_id == $item->id) d-none @endif @endforeach @endif">
+                                                    class="@if ($item->propsolution()->count() > 0) @foreach ($item->propsolution as $bi) @if ($bi->proposal_id == $item->id) d-none @endif @endforeach @endif">
                                                     <a href="" title="Edit" class="px-3">
                                                         <a href="{{ route('proposal.edit', ['id' => $item->id]) }}"
                                                             type="button" class="bm-btn btn-hover">

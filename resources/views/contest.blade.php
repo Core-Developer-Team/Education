@@ -48,6 +48,8 @@
                             </div>
                             <div class="col-lg-12 col-md-12">
                                 <div class="ppevent-card mb-30">
+                                    @if (auth()->user()->username == 'admin' || auth()->user()->username == 'Admin')
+                                  
                                     <div class="eventc_dts">
                                         <div class="Create_eicon">
                                             <i class="fas fa-calendar-check"></i>
@@ -68,6 +70,8 @@
 #loginlink
                                         @endauth ">Create</a>
                                     </div>
+                                          
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12">

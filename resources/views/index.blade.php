@@ -208,28 +208,105 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <img src="@if ($data->user->badge_id == 5 || $data->user->status == 1) /storage/badges/verified.svg @endif"
-                                            class="ms-1 @if ($data->user->badge_id == 5 || $data->user->status == 1) @else d-none @endif "
-                                            alt="Verified" style="width: 17px;" title="Verified">
-                                        <span class="job-loca"><i
-                                                class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
-                                        </p>
-                                        <span>{{ Str::limit($data->description, 150, $end = '.........') }} </span>
-                                        <p class="notification-text font-small-4 pt-1">
-                                            <span class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
-                                        </p>
-                                        <div class="jbopdt142">
-                                            <div class="jbbdges10">
-                                                <span class="job-badge ffcolor">
-                                                    @if ($data->tag == 1)
-                                                        Offline
-                                                    @else
-                                                        Online
-                                                    @endif
-                                                </span>
-                                                <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                                <span class="job-badge ttcolor">
-                                                    @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1)
+                                        <div class="iconreq">
+                                            <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                src="{{ $data->user->badge->image }}" style="width:20px; height:20px"
+                                                title="{{ $data->user->badge->name }}">
+                                        </div>
+                                        <div class="author-dts">
+                                            <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
+                                                class="problems_title">{{ $data->requestname }}</a>
+                                            <p class="notification-text font-username">
+                                            <div class="userimg">
+                                                <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
+                                                    class=""
+                                                    style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                                    &nbsp;
+                                                </a>
+                                                <!--hover on image-->
+                                                <div class="box imagehov shadow"
+                                                    style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                    <div class="full-width">
+                                                        <div class="recent-items">
+                                                            <div class="posts-list">
+                                                                <div class="feed-shared-author-dt">
+                                                                    <div class="author-left">
+                                                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                            src="/storage/{{ $data->user->image }}"
+                                                                            alt="">
+                                                                        <div
+                                                                            class="@if (Cache::has('user-is-online-' . $data->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="author-dts">
+                                                                        <p class="notification-text font-username">
+                                                                            <a href="{{ route('profile.show', ['id' => $data->user_id]) }}"
+                                                                                style="color: {{ $data->user->role->color->name }}">{{ $data->user->username }}
+                                                                            </a><img
+                                                                                src="{{ $data->user->badge->image }}"
+                                                                                alt="" style="width: 20px;"
+                                                                                title="{{ $data->user->badge->name }}">
+                                                                            <span class="job-loca"><i
+                                                                                    class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                                                        </p>
+
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Joined on
+                                                                                {{ $data->user->created_at->format('d:M:y g:i A') }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Last Seen
+                                                                                @if (Cache::has('user-is-online-' . $data->user->id))
+                                                                                    <span
+                                                                                        class="text-success">Online</span>
+                                                                                @else
+                                                                                    {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }}
+                                                                                @endif
+                                                                            </span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Total Solutions
+                                                                                {{ $data->user->solutions }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Rating
+                                                                                {{ $data->user->rating }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span
+                                                                                class="time-dt">{{ $data->user->badge->name }}</span>
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end hover-->
+                                            </div>
+                                            <img src="@if ($data->user->badge_id == 5 || $data->user->status == 1) /storage/badges/verified.svg @endif"
+                                                class="@if ($data->user->badge_id == 5 || $data->user->status == 1) @else d-none @endif "
+                                                alt="Verified" style="width: 17px;" title="Verified">
+                                            <span class="job-loca"><i
+                                                    class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
+                                            </p>
+                                            <span>{{ Str::limit($data->description, 150, $end = '.........') }} </span>
+                                            <p class="notification-text font-small-4 pt-1">
+                                                <span class="time-dt">{{ $data->created_at->diffForHumans() }}</span>
+                                            </p>
+                                            <div class="jbopdt142">
+                                                <div class="jbbdges10">
+                                                    <span class="job-badge ffcolor">
+                                                        @if ($data->tag == 1)
+                                                            Offline
+                                                        @else
+                                                            Online
+                                                        @endif
+                                                    </span>
+                                                    <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
+                                                    <span class="job-badge ttcolor">
+                                                        @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1)
                                                         @if (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
                                                             \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1)
                                                             {{ \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) }}
@@ -253,7 +330,8 @@
                                                         {{ \Carbon\Carbon::parse(now())->diffInDays($data->days, false) }}
                                                         days left
                                                     @endif
-                                                </span>
+
+                                                    </span>
 
                                                 </div>
                                             </div>
@@ -264,13 +342,7 @@
                                                     class="label-dker post_categories_reported mr-10">Reported</span></a>
                                             <a href=""
                                                 class="label-dker post_department_top_right mr-10 px-2"><span>
-                                                    @if ($data->user->department == 0)
-                                                        bba
-                                                    @elseif($data->user->department == 1)
-                                                        bse
-                                                    @elseif ($data->user->department == 2)
-                                                        bcs
-                                                    @endif
+                                                    {{$data->user->department->name}}
                                                 </span></a>
                                             <a href=""
                                                 class="label-dker post_categories_top_right mr-20 ms-2"><span>{{ $data->coursename }}</span></a>
@@ -291,7 +363,7 @@
                                             @if ($data->user_id == Auth()->id())
 
                                                 <div
-                                                    class="@if ($data->reqbid()->count() > 0) @foreach ($data->reqbid as $item) @if ($item->request_id == $data->id) d-none @endif @endforeach @endif">
+                                                    class="@if ($data->reqsolution()->count() > 0) @foreach ($data->reqsolution as $item) @if ($item->request_id == $data->id) d-none @endif @endforeach @endif">
                                                     <a href="{{ route('req.show', ['id' => $data->id]) }}"
                                                         title="Edit" class="px-3">
                                                         <button type="button" class="bm-btn btn-hover">

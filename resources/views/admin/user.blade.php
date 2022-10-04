@@ -21,7 +21,7 @@
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                
+
             </div>
 
             <!-- Content Row -->
@@ -68,34 +68,39 @@
                                         <td>{{ $item->solutions }}</td>
                                         <td>{{ $item->rating }}</td>
                                         <td>
-                                            @if ($item->department == 0)
+                                            @if ($item->gender == 0)
                                                 Male
-                                            @elseif ($item->department == 1)
+                                            @elseif ($item->gender == 1)
                                                 Female
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($item->department == 0)
-                                                bba
-                                            @elseif($item->department == 1)
-                                                bse
-                                            @elseif ($item->department == 2)
-                                                bcs
-                                            @endif
+                                           {{$item->department->name}}
                                         </td>
                                         <td>{{ $item->email }}</td>
                                         <td><img style="width: 50px; height:50px" src="/storage/{{ $item->image }}"
                                                 alt="" srcset=""></td>
                                         <td style="display: inline-flex">
-                                            <button type="button" class="btn btn-sm btn-danger delete-confirm"
-                                                data-bs-toggle="modal" data-bs-target="#delreq"
-                                                data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
-                                                </i></button>
-                                                <a style="margin-left: 3px" href="{{ route('admin.user.status', ['id'=>$item->id]) }}" class="btn btn-sm btn-info"> @if ($item->status==0)
+                                            @if ($item->role->name != 'admin')
+                                                <button type="button" class="btn btn-sm btn-danger delete-confirm"
+                                                    data-bs-toggle="modal" data-bs-target="#delreq"
+                                                    data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
+                                                    </i>
+                                                </button>
+                                            @endif
+                                            <a style="margin-left: 3px"
+                                                href="{{ route('admin.user.status', ['id' => $item->id]) }}"
+                                                class="btn btn-sm btn-info">
+                                                @if ($item->status == 0)
                                                     Verify
-                                                @elseif($item->status==1)
+                                                @elseif($item->status == 1)
                                                     Unverify
-                                                @endif </a>
+                                                @endif
+                                            </a>
+                                            <a style="margin-left: 3px"
+                                                href="{{ route('admin.user.editrole', ['id' => $item->id]) }}"
+                                                class="btn btn-sm btn-primary"> Edit
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -111,7 +116,8 @@
     </div>
     <!-- End of Main Content -->
     <!--delete Model-->
-    <div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
