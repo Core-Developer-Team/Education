@@ -294,10 +294,45 @@ class ProposalController extends Controller
     {
         if ($request->ajax()) {
             $output = "";
+            $time  = "";
+            $see   = "";
 
             $datas = Proposal::where('proposalname', 'LIKE', '%' . $request->search . "%")->get();
             if ($datas) {
                 foreach ($datas as $data) {
+
+
+                    if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1) {
+                        if (
+                            \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
+                            \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1
+                        ) {
+                            $time =   \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) . " Minutes left";
+                        } elseif (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0) {
+                            if (\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0) {
+                                $time = \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) . " Seconds left";
+                            } else {
+                                if ($data->propsolution()->count() >= 1 && $data->propsolution->proposal_id == $data->id) {
+                                    $time = "Closed";
+                                } else {
+                                    $time = "Unsolved";
+                                }
+                            }
+                        } else {
+                            $time =  \Carbon\Carbon::parse(now())->diffInHours($data->days, false) . " Hours left";
+                        }
+                    } else {
+                        $time = \Carbon\Carbon::parse(now())->diffInDays($data->days, false) . " days left";
+                    }
+
+                    if ($data->propsolution()->count() > 0) {
+                        foreach ($data->propsolution  as $item) {
+                            if ($item->proposal_id == $data->id) {
+                                $see = "d-none";
+                            }
+                        }
+                    }
+
                     $output .= ' 
                     <div class="full-width mt-4">
                     <div class="recent-items">
@@ -417,14 +452,14 @@ class ProposalController extends Controller
                                     <div class="jbopdt142">
                                         <div class="jbbdges10">
                                             <span class="job-badge ddcolor">৳ ' . $data->price . ' </span>
-                                            <span class="job-badge ttcolor"> 2 days ago </span>
+                                            <span class="job-badge ttcolor">' . $time . '</span>
 
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                    <a href="" class="label-dker post_categories_reported mr-10 '.($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $data->id ? '' : 'd-none' ).'"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
-                                    <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>' . ($data->user->department == 0 ? 'bba' : ($data->user->department == 1 ? 'bse' : 'bcs')) . ' </span></a>
+                                    <a href="" class="label-dker post_categories_reported mr-10 ' . ($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $data->id ? '' : 'd-none') . '"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
+                                    <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>' .  $data->user->department->name  . ' </span></a>
                                     <a href="" class="label-dker post_categories_top_right mr-20 ms-2"><span>' . $data->category . '</span></a>
                                 </div>
                             </div>
@@ -437,9 +472,10 @@ class ProposalController extends Controller
                                     </ins>
                                 </div>
                                 <div class="action-btns-job d-flex justify-content-space">
-                                    <a href="/proposal_single/'. $data->id . '" class="view-btn btn-hover">View Job</a>                                                                                              
+                                    <a href="/proposal_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>                                                                                              
                                 </div>
-                                ' . ($data->user_id == Auth()->id() ? '  <div class="">
+                                ' . ($data->user_id == Auth()->id() ? '  
+                                <div class="' . $see . '">
                                 <a href="/proposal_edit/' . $data->id . '"
                                     title="Edit" class="px-3">
                                     <button type="button" class="bm-btn btn-hover">

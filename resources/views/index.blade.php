@@ -307,29 +307,29 @@
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                                     <span class="job-badge ttcolor">
                                                         @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1)
-                                                        @if (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
-                                                            \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1)
-                                                            {{ \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) }}
-                                                            Minutes left
-                                                        @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0)
-                                                            @if(\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0)
-                                                            {{ \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) }}
-                                                            Seconds left          
+                                                            @if (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
+                                                                \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1)
+                                                                {{ \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) }}
+                                                                Minutes left
+                                                            @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0)
+                                                                @if (\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0)
+                                                                    {{ \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) }}
+                                                                    Seconds left
+                                                                @else
+                                                                    @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
+                                                                        Closed
+                                                                    @else
+                                                                        Unsolved
+                                                                    @endif
+                                                                @endif
                                                             @else
-                                                            @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
-                                                                Closed
-                                                            @else
-                                                                Unsolved
-                                                            @endif
+                                                                {{ \Carbon\Carbon::parse(now())->diffInHours($data->days, false) }}
+                                                                Hours left
                                                             @endif
                                                         @else
-                                                            {{ \Carbon\Carbon::parse(now())->diffInHours($data->days, false) }}
-                                                            Hours left
+                                                            {{ \Carbon\Carbon::parse(now())->diffInDays($data->days, false) }}
+                                                            days left
                                                         @endif
-                                                    @else
-                                                        {{ \Carbon\Carbon::parse(now())->diffInDays($data->days, false) }}
-                                                        days left
-                                                    @endif
 
                                                     </span>
 
@@ -342,7 +342,7 @@
                                                     class="label-dker post_categories_reported mr-10">Reported</span></a>
                                             <a href=""
                                                 class="label-dker post_department_top_right mr-10 px-2"><span>
-                                                    {{$data->user->department->name}}
+                                                    {{ $data->user->department->name }}
                                                 </span></a>
                                             <a href=""
                                                 class="label-dker post_categories_top_right mr-20 ms-2"><span>{{ $data->coursename }}</span></a>
@@ -414,8 +414,8 @@
 
     @if (Session::has('announcements'))
         <!--announcement model-->
-        <div class="modal fade" id="announcement" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="announcement" tabindex="-1" data-bs-backdrop="static"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -436,7 +436,8 @@
 @endauth
 
 <!--Request Model-->
-<div class="modal fade" id="addrequest" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addrequest" tabindex="-1" data-bs-backdrop="static"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -508,7 +509,8 @@
     </div>
 </div>
 <!--delete Model-->
-<div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -563,8 +565,11 @@
             },
             success: function(data) {
                 $('.bod').html(data);
+            },
+            error: function(error) {
+                console.log(error);
             }
-           
+
         });
     })
 </script>

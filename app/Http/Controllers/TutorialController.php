@@ -11,6 +11,8 @@ use App\Models\Request as ModelsRequest;
 use App\Models\Tutorial;
 use App\Models\Tutorialreview;
 use Carbon\Carbon;
+use DateInterval;
+use DateTime;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File as FacadesFile;
@@ -40,7 +42,7 @@ class TutorialController extends Controller
                 },
             ],
             'Category'      => ['required', 'max:25'],
-            'type'          => ['required','regex:/^(0|1)$/'],
+            'type'          => ['required', 'regex:/^(0|1)$/'],
         ]);
         $video = Playlist::all();
         if ($request->has('file')) {
@@ -239,9 +241,30 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
+            //get video duration
+
+            //dd($playlist_data);
+
+            foreach ($playlist_data['items'] as $key => $data) {
+                if ($key == 0) {
+
+                    $video_id = $data->id->videoId;
+                    $url_duration = $youtubeEndPoint . "videos?id=" . $video_id . "&part=contentDetails&key=" . $apikey;
+                    $response_duration = Http::get($url_duration);
+                    $duration_data = (array)json_decode($response_duration->body());
+                    $video_duration = $duration_data['items'][0]->contentDetails->duration;
+
+                    if ($video_duration) {
+                        $start = new DateTime('@0'); // Unix epoch
+                        $start->add(new DateInterval($video_duration));
+                        $youtube_time = $start->format('H:i:s');
+                    }
+                }
+            }
+            $playlists_json[] = ['playlists' => $playlist_data, 'duration' => $youtube_time, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
         }
         // dd($playlists_json);
+
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
@@ -299,20 +322,20 @@ class TutorialController extends Controller
         $reviews = Tutorialreview::where('playlist_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(4);
         return view('video_single', compact('playlist_data', 'playlist', 'reviews'));
     }
-    
-      //live search
-      public function livesearch(Request $request)
-      {
-          if ($request->ajax()) {
-              $output = "";
-              $parts = 'snippet';
-              $apikey = config('services.youtube.api_key');
-              $maxResults = 40;
-              $youtubeEndPoint = config('services.youtube.playlist_endpoint');
 
-              $datas = Playlist::where('Category', 'LIKE', '%' . $request->search . "%")->get();
-              $playlists_json = [];
-              foreach ($datas as $playlists) {
+    //live search
+    public function livesearch(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+            $parts = 'snippet';
+            $apikey = config('services.youtube.api_key');
+            $maxResults = 40;
+            $youtubeEndPoint = config('services.youtube.playlist_endpoint');
+
+            $datas = Playlist::where('Category', 'LIKE', '%' . $request->search . "%")->get();
+            $playlists_json = [];
+            foreach ($datas as $playlists) {
                 $playlist_id = $playlists->playlists_id;
                 $playid      = $playlists->id;
                 $price       = $playlists->price;
@@ -321,18 +344,18 @@ class TutorialController extends Controller
                 $cat         = $playlists->Category;
                 $type        = $playlists->type;
                 $view_count  = $playlists->view_count;
-                  $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=".$playlist_id;
-                  $response = Http::get($url);
-                  $playlist_data = (array)json_decode($response->body());
-                  $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
-              }
+                $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
+                $response = Http::get($url);
+                $playlist_data = (array)json_decode($response->body());
+                $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
+            }
 
-              if ($datas) {
+            if ($datas) {
                 foreach ($playlists_json as $key => $items) {
-                  foreach ($items['playlists']['items'] as $key => $item) {
-                    if($key == 0){
-                        
-                      $output .= ' 
+                    foreach ($items['playlists']['items'] as $key => $item) {
+                        if ($key == 0) {
+
+                            $output .= ' 
                       <div class="col-xl-4 col-lg-6 col-md-6">
                       <div class="full-width mt-4">
                           <div class="recent-items">
@@ -341,29 +364,29 @@ class TutorialController extends Controller
                                       <div class="pdct-img">
                                           <a><img
                                                   class="ft-plus-square product-bg-w bg-cyan me-0"
-                                                  src="'.$item->snippet->thumbnails->medium->url.'"
+                                                  src="' . $item->snippet->thumbnails->medium->url . '"
                                                   alt=""></a>
                                           <div class="overlay-item">
                                               <div class="badge-timer">
-                                                  '.\Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans().'
+                                                  ' . \Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans() . '
                                               </div>
                                           </div>
                                       </div>
                                       <div class="author-dts pp-20">
                                           <a  class="job-heading pp-title">{{
-                                              '.$item->snippet->title.'</a>
+                                              ' . $item->snippet->title . '</a>
                                                   <p
                                                   class="notification-text font-small-4">
                                                   by <a href="#"
-                                                  class="cmpny-dt blk-clr" style="color:'.$items['color'].'">'.$items['user'].'</a>
+                                                  class="cmpny-dt blk-clr" style="color:' . $items['color'] . '">' . $items['user'] . '</a>
                                               </p>
                                               <p class="notification-text font-small-4">
-                                                  <i class="fas fa-tag"></i> '.$items['category'].'
+                                                  <i class="fas fa-tag"></i> ' . $items['category'] . '
                                               </p>
                                           <div class="ppdt-price-sales">
 
                                               <div class="ppdt-price">
-                                                  ৳ '.$items['price'].'
+                                                  ৳ ' . $items['price'] . '
                                               </div>
                                               <div class="ppdt-sales">
                                                   0 Sales
@@ -375,12 +398,12 @@ class TutorialController extends Controller
                               <div class="post-meta">
                                   <div class="job-actions">
                                       <div class="aplcnts_15">
-                                          <a href="/tutorial_sin/'.$items['id'].'" class="
+                                          <a href="/tutorial_sin/' . $items['id'] . '" class="
                                               view-btn btn-hover">Detail
                                               View</a>
                                       </div>
                                       <div class="action-btns-job">
-                                          <i class="feather-eye mr-2"></i>'.$items['view_count'].'
+                                          <i class="feather-eye mr-2"></i>' . $items['view_count'] . '
                                        
                                       </div>
                                   </div>
@@ -388,13 +411,11 @@ class TutorialController extends Controller
                           </div>
                       </div>
                   </div>';
-                
+                        }
+                    }
                 }
-                  }
-                }
-                  return Response($output);
-              }
-          }
-      }
-
+                return Response($output);
+            }
+        }
+    }
 }

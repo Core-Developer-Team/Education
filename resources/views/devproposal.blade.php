@@ -31,7 +31,7 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                        data-bs-target="@auth @fullinfo
+                            data-bs-target="@auth @fullinfo
 #addproposal
 @else
 #userinfolink
@@ -283,33 +283,32 @@
                                             </p>
                                             <div class="jbopdt142">
                                                 <div class="jbbdges10">
-                                                    <span class="job-badge ffcolor">Online</span>
                                                     <span class="job-badge ddcolor">৳ {{ $item->price }}</span>
                                                     <span class="job-badge ttcolor">
-                                                    @if (\Carbon\Carbon::parse(now())->diffInDays($item->days, false) <= 1)
-                                                        @if (\Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) < 60 &&
-                                                            \Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) >= 1)
-                                                            {{ \Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) }}
-                                                            Minutes left
-                                                        @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) <= 0)
-                                                            @if(\Carbon\Carbon::parse(now())->diffInSeconds($item->days, false) > 0)
-                                                            {{ \Carbon\Carbon::parse(now())->diffInSeconds($item->days, false) }}
-                                                            Seconds left          
+                                                        @if (\Carbon\Carbon::parse(now())->diffInDays($item->days, false) <= 1)
+                                                            @if (\Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) < 60 &&
+                                                                \Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) >= 1)
+                                                                {{ \Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) }}
+                                                                Minutes left
+                                                            @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($item->days, false) <= 0)
+                                                                @if (\Carbon\Carbon::parse(now())->diffInSeconds($item->days, false) > 0)
+                                                                    {{ \Carbon\Carbon::parse(now())->diffInSeconds($item->days, false) }}
+                                                                    Seconds left
+                                                                @else
+                                                                    @if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id)
+                                                                        Closed
+                                                                    @else
+                                                                        Unsolved
+                                                                    @endif
+                                                                @endif
                                                             @else
-                                                            @if ($item->propsolution()->count() >= 1 && $item->propsolution->proposal_id == $item->id)
-                                                                Closed
-                                                            @else
-                                                                Unsolved
-                                                            @endif
+                                                                {{ \Carbon\Carbon::parse(now())->diffInHours($item->days, false) }}
+                                                                Hours left
                                                             @endif
                                                         @else
-                                                            {{ \Carbon\Carbon::parse(now())->diffInHours($item->days, false) }}
-                                                            Hours left
+                                                            {{ \Carbon\Carbon::parse(now())->diffInDays($item->days, false) }}
+                                                            days left
                                                         @endif
-                                                    @else
-                                                        {{ \Carbon\Carbon::parse(now())->diffInDays($item->days, false) }}
-                                                        days left
-                                                    @endif
                                                     </span>
                                                 </div>
                                             </div>
@@ -320,7 +319,7 @@
                                                     class="label-dker post_categories_reported mr-10">Reported</span></a>
                                             <a href=""
                                                 class="label-dker post_department_top_right mr-10 px-2 ms-2"><span>
-                                                    {{$item->user->department->name}}
+                                                    {{ $item->user->department->name }}
                                                 </span></a>
                                             <a href=""
                                                 class="label-dker post_categories_top_right mr-20 ms-2"><span>{{ $item->category }}</span></a>
@@ -384,7 +383,8 @@
 </div>
 
 <!--Add Proposal Model-->
-<div class="modal fade" id="addproposal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addproposal" tabindex="-1" data-bs-backdrop="static"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -435,7 +435,8 @@
                                 pdf">
                             <div class="text-danger mt-2 text-sm file"></div>
                         </div>
-                        <input type="submit" class="btn btn-primary bg-primary mt-3 w-100" name="submit" value="Submit">
+                        <input type="submit" class="btn btn-primary bg-primary mt-3 w-100" name="submit"
+                            value="Submit">
                     </form>
                 </div>
             </div>
@@ -445,7 +446,8 @@
 </div>
 
 <!--delete Model-->
-<div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
