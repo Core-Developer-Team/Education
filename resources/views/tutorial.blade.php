@@ -17,10 +17,13 @@
                 <div class="full-width">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" @auth
+                            data-bs-target="@auth @fullinfo
 #addtutorial
-                        @else
-                        #loginlink @endauth ">Add
+@else
+#userinfolink
+@endfullinfo
+@else
+#loginlink @endauth ">Add
                             Tutorials</a>
                     </div>
 
@@ -87,24 +90,7 @@
                 </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-12">
-                <div class="pl_item_search rrmt-30">
-                    <form action="{{ route('tutorial.search') }}" method="post">
-                        @csrf
-                        @method('PATCH')
-                        <div class="row">
-                            <div class="col-lg-10 col-md-8">
-                                <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
-                                        name="search" required>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4">
-                                <button class="post-link-btn color btn-hover w-100 rmt-10"
-                                    type="submit">Search</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+
                 <div class="filter_items">
                     <div class="row">
                         <div class="col-lg-12">
@@ -117,7 +103,7 @@
                                     <a href="{{ route('tutorial.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/tutorial_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+
                             </div>
                         </div>
                     </div>
@@ -136,8 +122,8 @@
                                         <h4>Free</h4>
                                         <a href="{{ route('tutorial.freetutorial', ['id' => 0]) }}">View All</a>
                                     </div>
-                                    <div class="owl-carousel learning_slider owl-theme">
-                                        
+                                    <div class="owl-carousel learning_slider owl-theme videosearch">
+
                                         @forelse ($playlists_json as $key => $items)
                                             @foreach ($items['playlists']['items'] as $key => $item)
                                                 @if ($key == 0)
@@ -158,7 +144,7 @@
                                                                                             free
                                                                                         </div>
                                                                                         <div class="badge-timer">
-                                                                                            {{ \Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans() }}
+                                                                                            {{ $items['duration'] }}
                                                                                         </div>
                                                                                     </div>
                                                                                 </a>
@@ -249,7 +235,7 @@
                                                                                             Paid
                                                                                         </div>
                                                                                         <div class="badge-timer">
-                                                                                            {{ \Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans() }}
+                                                                                            {{ $items['duration'] }}
                                                                                         </div>
                                                                                     </div>
                                                                                 </a>
@@ -320,8 +306,9 @@
 </div>
 
 <!--Add tutorial Model-->
-<div class="modal fade" id="addtutorial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addtutorial" tabindex="-1" data-bs-backdrop="static"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Tutorial</h5>
@@ -335,15 +322,15 @@
                         @csrf
                         <div class="form-group pt-2">
                             <label for="playlists_id">Video_URL</label>
-                            <input type="text" id="playlists_id" placeholder="Paste video URL" class="form-control" name="playlists_id"
-                                value="{{ old('playlists_id') }}">
+                            <input type="text" id="playlists_id" placeholder="Paste video URL"
+                                class="form-control" name="playlists_id" value="{{ old('playlists_id') }}">
                             <div class="text-danger mt-2 text-sm playlistserror">
                             </div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="category">Category</label>
-                            <input type="text" id="category" placeholder="Category" class="form-control" name="Category"
-                                value="{{ old('Category') }}">
+                            <input type="text" id="category" placeholder="Category" class="form-control"
+                                name="Category" value="{{ old('Category') }}">
                             <div class="text-danger mt-2 text-sm categoryerror">
                             </div>
                         </div>
@@ -364,10 +351,9 @@
                             <div class="text-danger mt-2 text-sm typeError"></div>
                         </div>
                         <div id="price">
-                           
+
                         </div>
-                        <hr>
-                        <button type="submit" name="submit" class="post-link-btn btn-hover">Upload</button>
+                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>
@@ -381,7 +367,8 @@
 <!---/footer-->
 <script>
     $('#type').change(function() {
-        let value = `<div class="form-group pt-2"> <label for="price">Price</label><input type="number" required class="form-control" name="price"value="{{ old('price') }}"><div class="text-danger mt-2 text-sm price"></div></div>`;
+        let value =
+            `<div class="form-group pt-2"> <label for="price">Price</label><input type="number" required class="form-control" name="price"value="{{ old('price') }}"><div class="text-danger mt-2 text-sm price"></div></div>`;
         if ($('#type').val() == '1') {
             $('#price').append(value);
         } else {

@@ -15,6 +15,7 @@ use App\Models\Resource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PDO;
 
 class FeedbackController extends Controller
 {
@@ -38,9 +39,21 @@ class FeedbackController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-       
 
-        return view('feedback', compact('datas','t_req_count','contest','t_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        //avg tutorial Rating
+        $avgrating = 0;
+        $reviews = Feedback::all();
+        $totalreview = $reviews->count();
+        $rating = 0;
+        if($totalreview){
+            foreach ($reviews as $review) {
+                $avgrating = $avgrating + $review->rating;
+            }
+            $totalrat = $avgrating / $totalreview;
+            $rating   = number_format((float)$totalrat, 2, '.', '');
+        }
+
+        return view('feedback', compact('datas','rating','t_req_count','contest','t_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function store(Request $request)
     {

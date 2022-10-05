@@ -89,7 +89,7 @@
                                                         <div class="review-rating-stars">
                                                             @if ($item->rating == 1)
                                                                 <div class="item-rating-stars">
-                                                                    <i class="feather-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
                                                                     <i class="feather-star color-gray-medium"></i>
                                                                     <i class="feather-star color-gray-medium"></i>
                                                                     <i class="feather-star color-gray-medium"></i>
@@ -97,7 +97,7 @@
                                                                 </div>
                                                             @elseif ($item->rating == 2)
                                                                 <div class="item-rating-stars">
-                                                                    <i class="feather-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
                                                                     <i class="feather-star "></i>
                                                                     <i class="feather-star color-gray-medium"></i>
                                                                     <i class="feather-star color-gray-medium"></i>
@@ -105,15 +105,15 @@
                                                                 </div>
                                                             @elseif ($item->rating == 3)
                                                                 <div class="item-rating-stars">
-                                                                    <i class="feather-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
                                                                     <i class="feather-star "></i>
-                                                                    <i class="feather-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
                                                                     <i class="feather-star color-gray-medium"></i>
                                                                     <i class="feather-star color-gray-medium"></i>
                                                                 </div>
                                                             @elseif ($item->rating == 4)
                                                                 <div class="item-rating-stars">
-                                                                    <i class="feather-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
                                                                     <i class="feather-star "></i>
                                                                     <i class="feather-star "></i>
                                                                     <i class="feather-star "></i>
@@ -121,11 +121,11 @@
                                                                 </div>
                                                             @elseif ($item->rating == 5)
                                                                 <div class="item-rating-stars">
-                                                                    <i class="feather-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
                                                                     <i class="feather-star "></i>
                                                                     <i class="feather-star "></i>
-                                                                    <i class="feather-star"></i>
-                                                                    <i class="feather-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
                                                                 </div>
                                                             @endif
                                                         </div>
@@ -290,13 +290,6 @@
                             </ul>
 
                             <div class="item_buttons">
-                                <form action="{{ route('bookorder.store', ['bid' => $data->id]) }}" method="post">
-                                    @csrf
-                                    <div class="purchase_form_btn">
-                                        <button class="add-cart-btn btn-hover" type="submit"><i
-                                                class="feather-shopping-cart mr-2"></i> Add to Cart</button>
-                                    </div>
-                                </form>
                                 <div class="purchase_form_btn">
                                     <form action="{{ route('bookorder.index') }}" method="get">
                                         <button class="buy-btn btn-hover" type="submit">Buy Now</button>
@@ -367,7 +360,7 @@
                                 </div>
                             @elseif ($data->rating >= 1 && $data->rating < 2)
                                 <div class="item-rating-stars">
-                                    <i class="feather-star"></i>
+                                    <i class="fa-solid fa-star"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                     <i class="feather-star color-gray-medium"></i>
@@ -375,35 +368,35 @@
                                 </div>
                             @elseif ($data->rating >= 2 && $data->rating < 3)
                                 <div class="item-rating-stars">
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                 </div>
                             @elseif ($data->rating >= 3 && $data->rating < 4)
                                 <div class="item-rating-stars">
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                 </div>
                             @elseif ($data->rating >= 4 && $data->rating < 5)
                                 <div class="item-rating-stars">
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
                                     <i class="feather-star color-gray-medium"></i>
                                 </div>
                             @elseif ($data->rating == 5)
                                 <div class="item-rating-stars">
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
-                                    <i class="feather-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
                                 </div>
                             @endif
                             <p class="rating_text">{{ $data->rating }} average based on 5 ratings.</p>

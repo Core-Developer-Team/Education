@@ -19,11 +19,14 @@
             <div class="col-xl-3 col-lg-4 col-md-12">
                 <div class="full-width">
                     <div class="btn_1589">
-                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" data-bs-target=" @auth
-                        #addcourse
+                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" 
+                        data-bs-target="@auth @fullinfo
+#addcourse
 @else
-#loginlink
-                        @endauth">Add Course</a>
+#userinfolink
+@endfullinfo
+@else
+#loginlink @endauth">Add Course</a>
                     </div>
                     <div class="posted_1590">
                         <div class="count-ttl"> {{ $playlist->count()}}</div>
@@ -72,7 +75,7 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-8">
                                 <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                    <input class="form_input_1" id="search" type="text" placeholder="Search within these results"
                                         name="search">
                                 </div>
                             </div>
@@ -91,7 +94,7 @@
                                     <a href="{{route('course.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_trending') fltr-active @endif">Trending</a>
                                     <a href="{{route('course.week')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+                              
                             </div>
                         </div>
                     </div>
@@ -103,7 +106,7 @@
                 @endif
                 <div class="all-items">
                     <div class="product-items-list">
-                        <div class="row">
+                        <div class="row coursesearch">
 
                             @forelse ($playlists_json as $key => $items)
                             @foreach ($items['playlists']['items'] as $key=>$item)
@@ -182,8 +185,8 @@
 </div>
 
 <!--Add Course Model-->
-<div class="modal fade" id="addcourse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addcourse" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Course</h5>
@@ -231,9 +234,7 @@
                                 value="{{ old('price') }}">
                             <div class="text-danger mt-2 text-sm priceError"></div>
                         </div>
-
-                        <hr>
-                        <button type="submit" name="submit" class="post-link-btn btn-hover">Upload</button>
+                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>
@@ -245,3 +246,21 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+
+<!--live search-->
+<script type="text/javascript">
+    $('#search').on('keyup', function() {
+        $value = $(this).val();
+        $.ajax({
+            type: 'get',
+            url: '{{ URL::to('coursesearch') }}',
+            data: {
+                'search': $value
+            },
+            success: function(data) {
+                $('.coursesearch').html(data);
+            }
+           
+        });
+    })
+</script>

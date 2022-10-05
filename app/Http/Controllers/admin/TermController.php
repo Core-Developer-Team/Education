@@ -42,10 +42,11 @@ class TermController extends Controller
         }
  
        $content = $dom->saveHTML();
-       $fileUpload = new Terms();
+       $fileUpload = Terms::where('id',1)->first();
        $fileUpload->description = $content;
        $fileUpload->save();
-       return back()->with('success', 'Terms Added Sussessfully');
+       flash()->addSuccess('Terms Page Content Added Successsfully');
+       return redirect(route('admin.term'));
     }
     public function getupdate($id)
     {

@@ -18,10 +18,13 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" @auth
+                            data-bs-target="@auth @fullinfo
 #addrequest
-            @else
-            #loginlink @endauth ">Post
+@else
+#userinfolink
+@endfullinfo
+@else
+#loginlink @endauth ">Post
                             your problem</a>
                     </div>
                     @include('layouts.sidebar')
@@ -169,7 +172,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <button type="submit" class="post-link-btn btn-hover mt-2" name="submit"
+                                    <button type="submit" class="post-link-btn btn-hover mt-3" name="submit"
                                         value="Submit"> Update
                                     </button>
                                 </form>
@@ -187,8 +190,8 @@
 </div>
 
 <!--Request Model-->
-<div class="modal fade" id="addrequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addrequest" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Request</h5>
@@ -238,7 +241,7 @@
                             </select>
                             <div class="text-danger mt-2 text-sm tagError"></div>
                         </div>
-                        <button type="submit" class="post-link-btn btn-hover mt-2" name="submit" value="Submit">
+                        <button type="submit" class="post-link-btn btn-hover mt-3" name="submit" value="Submit">
                             Submit
                         </button>
                     </form>

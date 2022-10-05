@@ -1,4 +1,4 @@
-@section('title','Events')
+@section('title', 'Events')
 @include('layouts.header')
 
 <header class="header clearfix">
@@ -54,11 +54,13 @@
                                         </div>
                                         <h6>Create New Event</h6>
                                         <a href="" class="create-ebtn btn-hover" data-bs-toggle="modal"
-                                            data-bs-target=" @auth
-                                        #addevent
+                                            data-bs-target="@auth @fullinfo
+#addevent
 @else
-#loginlink
-                                        @endauth ">Create</a>
+#userinfolink
+@endfullinfo
+@else
+#loginlink @endauth ">Create</a>
                                     </div>
                                 </div>
                             </div>
@@ -85,12 +87,17 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
                                                     <h4> Events</h4>
-                                                    <span class="event-count">{{$data->count()}} Events</span>
+                                                    <span class="event-count">{{ $data->count() }} Events</span>
                                                 </div>
                                             </div>
+                                            @if (session()->has('status'))
+                                                <div class="alert alert-success mt-3">
+                                                    {{ session()->get('status') }}
+                                                </div>
+                                            @endif
                                             @foreach ($data as $item)
                                                 <div class="col-lg-12 col-md-12">
-                                                    <div class="event-card mt-5">
+                                                    <div class="event-card mt-1">
                                                         <div class="evnt1523">
                                                             <h4 class="evntitle">
                                                                 {{ $item->event_date->format('d:m:Y') }}
@@ -99,7 +106,8 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="{{ route('event.single', ['id'=>$item->id]) }}">
+                                                                    <a
+                                                                        href="{{ route('event.single', ['id' => $item->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $item->image }}"
@@ -115,10 +123,47 @@
                                                                             class="envttle14">{{ $item->name }}</a>
                                                                         <div class="ttlcnt15">
                                                                             <span
-                                                                                class="evntcunt">{{ $item->description }}</span>
+                                                                                class="evntcunt">{{ $item->description }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="ttlcnt15">
+                                                                            <span
+                                                                                class="evntcunt">{{ $item->event_user()->where('slug', 'interested')->count() }}
+                                                                                interested ·
+                                                                                {{ $item->event_user()->where('slug', 'Going')->count() }}
+                                                                                going</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ental488">
+                                                                        <div class="evnticop me-3 dropdown">
+                                                                            <a href="#" class="enptdwn"
+                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                aria-expanded="false">
+                                                                                <i class="feather-check-circle"></i>
+                                                                                <span class="entxt"> Going </span>
+                                                                                <i class="fas fa-angle-down"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($item->event_user as $event) @if ($event->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                                style="">
+                                                                                <li class="media-list">
+                                                                                    <a href="{{ route('event.interested', ['id' => $item->id, 'mesg' => 'interested']) }}"
+                                                                                        class="item channel_item event_item">
+                                                                                        <i
+                                                                                            class="feather-star icon_circle"></i>
+                                                                                        Interested
+                                                                                    </a>
+                                                                                    <a href="{{ route('event.interested', ['id' => $item->id, 'mesg' => 'Going']) }}"
+                                                                                        class="item channel_item event_item active">
+                                                                                        <i
+                                                                                            class="feather-check-circle icon_circle"></i>Going
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -135,12 +180,12 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
                                                     <h4> Events</h4>
-                                                    <span class="event-count">{{$upcoming->count()}} Events</span>
+                                                    <span class="event-count">{{ $upcoming->count() }} Events</span>
                                                 </div>
                                             </div>
                                             @foreach ($upcoming as $next)
                                                 <div class="col-lg-12 col-md-12">
-                                                    <div class="event-card mt-5">
+                                                    <div class="event-card mt-1">
                                                         <div class="evnt1523">
                                                             <h4 class="evntitle">
                                                                 {{ $next->event_date->format('d:m:Y') }}
@@ -149,7 +194,8 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="{{ route('event.single', ['id'=>$next->id]) }}">
+                                                                    <a
+                                                                        href="{{ route('event.single', ['id' => $next->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $next->image }}"
@@ -167,10 +213,47 @@
                                                                             <span
                                                                                 class="evntcunt">{{ $next->description }}</span>
                                                                         </div>
+                                                                        <div class="ttlcnt15">
+                                                                            <span
+                                                                                class="evntcunt">{{ $next->event_user()->where('slug', 'interested')->count() }}
+                                                                                interested ·
+                                                                                {{ $next->event_user()->where('slug', 'Going')->count() }}
+                                                                                going</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ental488">
+                                                                        <div class="evnticop me-3 dropdown">
+                                                                            <a href="#" class="enptdwn"
+                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                aria-expanded="false">
+                                                                                <i class="feather-check-circle"></i>
+                                                                                <span class="entxt"> Going </span>
+                                                                                <i class="fas fa-angle-down"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($next->event_user as $event) @if ($next->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                                style="">
+                                                                                <li class="media-list">
+                                                                                    <a href="{{ route('event.interested', ['id' => $next->id, 'mesg' => 'interested']) }}"
+                                                                                        class="item channel_item event_item">
+                                                                                        <i
+                                                                                            class="feather-star icon_circle"></i>
+                                                                                        Interested
+                                                                                    </a>
+                                                                                    <a href="{{ route('event.interested', ['id' => $next->id, 'mesg' => 'Going']) }}"
+                                                                                        class="item channel_item event_item active">
+                                                                                        <i
+                                                                                            class="feather-check-circle icon_circle"></i>Going
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -185,7 +268,7 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="event_dt_title mb-25">
                                                     <h4> Events</h4>
-                                                    <span class="event-count">{{$expires->count()}} Events</span>
+                                                    <span class="event-count">{{ $expires->count() }} Events</span>
                                                 </div>
                                             </div>
                                             @foreach ($expires as $expire)
@@ -199,7 +282,8 @@
                                                         <div class="ental5896">
                                                             <div class="evntlnk47">
                                                                 <div class="ental485">
-                                                                    <a href="{{ route('event.single', ['id'=>$expire->id]) }}">
+                                                                    <a
+                                                                        href="{{ route('event.single', ['id' => $expire->id]) }}">
                                                                         <div class="ental486">
                                                                             <img class="et-plus-square2 mr-0"
                                                                                 src="{{ $expire->image }}"
@@ -215,8 +299,43 @@
                                                                             class="envttle14">{{ $expire->name }}</a>
                                                                         <div class="ttlcnt15">
                                                                             <span
-                                                                                class="evntcunt">{{ $expire->description }}</span>
-                                                                                <button class="moreless-btn">See more</button>
+                                                                                class="evntcunt">{{ $expire->description }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="ttlcnt15">
+                                                                            <span
+                                                                                class="evntcunt">{{ $expire->event_user()->where('slug', 'interested')->count() }}
+                                                                                interested ·
+                                                                                {{ $expire->event_user()->where('slug', 'Going')->count() }}
+                                                                                going</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ental488">
+                                                                        <div class="evnticop me-3 dropdown">
+                                                                            <a href="#" class="enptdwn"
+                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                aria-expanded="false">
+                                                                                <i class="feather-check-circle"></i>
+                                                                                <span class="entxt"> Going </span>
+                                                                                <i class="fas fa-angle-down"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($expire->event_user as $event) @if ($expire->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                                style="">
+                                                                                <li class="media-list">
+                                                                                    <a href="{{ route('event.interested', ['id' => $expire->id, 'mesg' => 'interested']) }}"
+                                                                                        class="item channel_item event_item">
+                                                                                        <i
+                                                                                            class="feather-star icon_circle"></i>
+                                                                                        Interested
+                                                                                    </a>
+                                                                                    <a href="{{ route('event.interested', ['id' => $expire->id, 'mesg' => 'Going']) }}"
+                                                                                        class="item channel_item event_item active">
+                                                                                        <i
+                                                                                            class="feather-check-circle icon_circle"></i>Going
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -241,8 +360,8 @@
     </div>
 </div>
 <!--Add Event Model-->
-<div class="modal fade" id="addevent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addevent" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Event</h5>
@@ -310,8 +429,7 @@
                             <div class="text-danger mt-2 text-sm image">
                             </div>
                         </div>
-                        <hr>
-                        <button type="submit" name="submit" class="btn mt-4">
+                        <button type="submit" name="submit" class="btn mt-3">
                             Add
                         </button>
                     </form>

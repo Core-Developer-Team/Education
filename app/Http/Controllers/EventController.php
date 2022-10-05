@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Event_user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,9 +12,9 @@ class EventController extends Controller
 {
     public function index()
     {
-        $data = Event::where('event_date','=', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $expires = Event::where('event_date','<', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
-        $upcoming = Event::where('event_date','>', Carbon::now()->format('Y:m:d'))->cursorPaginate(6);
+        $data = Event::where('event_date','=', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
+        $expires = Event::where('event_date','<', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
+        $upcoming = Event::where('event_date','>', Carbon::now()->format('Y-m-d'))->cursorPaginate(6);
         $event = Event::all();
         $eventcount = $event->count();
         return view('event', compact('data','expires','eventcount','upcoming'));
@@ -46,4 +47,13 @@ class EventController extends Controller
         return back()->with('status', 'Event
          has been created Successfully');
     }
+     public function interested($id , $mesg)
+     {
+        Event_user::create([
+             'slug'     => $mesg,
+             'event_id' => $id,
+             'user_id'  => Auth()->id(),
+        ]);
+        return back()->with('status','Thanks for Your Interest...');
+     }
 }

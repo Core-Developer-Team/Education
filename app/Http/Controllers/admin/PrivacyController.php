@@ -42,10 +42,11 @@ class PrivacyController extends Controller
         }
  
        $content = $dom->saveHTML();
-       $fileUpload = new Privacy();
+       $fileUpload = Privacy::where('id', 1)->first();
        $fileUpload->description = $content;
        $fileUpload->save();
-       return back()->with('success', 'Privacy Added Sussessfully');
+       flash()->addSuccess('Privacy Page Content Added Successsfully');
+       return redirect(route('admin.privacy'));
     }
     public function getupdate($id)
     {

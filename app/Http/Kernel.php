@@ -68,5 +68,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin'  => \App\Http\Middleware\Admin::class,
         'moderator' => \App\Http\Middleware\Moderator::class,
+        'infoRequired' => \App\Http\Middleware\EnsureUserHasInfo::class,
+        'needInfo' => \App\Http\Middleware\EnsureUserNeedInfo::class,
+        'checkflash' => \App\Http\Middleware\CheckFlashData::class,
+        'historyClear' => \App\Http\Middleware\PreventBackHistory::class,
     ];
 }

@@ -31,11 +31,13 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" 
-                        @auth
+                            data-bs-target="@auth @fullinfo
 #addresource
 @else
-#loginlink @endauth">Add
+#userinfolink
+@endfullinfo
+@else
+#loginlink @endauth ">Add
                             Resource</a>
                     </div>
                     @include('layouts/sidebar')
@@ -84,7 +86,7 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-8">
                                 <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
+                                    <input class="form_input_1" type="text" id="search" placeholder="Search within these results"
                                         name="search" required>
                                 </div>
                             </div>
@@ -107,7 +109,7 @@
                                     <a href="{{ route('res.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/res_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                                <button class="flter-btn2 pull-bs-canvas-left">Filter</button>
+                                
                             </div>
                         </div>
                     </div>
@@ -117,6 +119,7 @@
                         {{ session('status') }}
                     </div>
                 @endif
+                <div class="ressearch">
                 @forelse ($datas as $data)
                     <div class="full-width mt-4">
                         <div class="recent-items">
@@ -252,9 +255,9 @@
                                             </div>
                                             <!-- end hover-->
                                         </div>
-                                        <img src="@if ($data->user->badge_id == 5) {{ $data->user->badge->image }} @endif"
-                                            class="@if ($data->user->badge_id == 5) d-block @else d-none @endif "
-                                            alt="Verified" style="width: 15px;" title="Verified">
+                                        <img src="@if ($data->user->badge_id == 5 || $data->user->status == 1) /storage/badges/verified.svg @endif"
+                                                class="ms-1 @if ($data->user->badge_id == 5 || $data->user->status == 1) @else d-none @endif "
+                                                alt="Verified" style="width: 17px;" title="Verified">
                                         <span class="job-loca"><i
                                                 class="fas fa-location-arrow"></i>{{ $data->user->uni_name }}</span>
                                         </p>
@@ -266,10 +269,9 @@
                                     <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                         <a href=""
                                             class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
+     
                                         <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                        <a href=""
-                                            class="label-dker post_categories_top_right mr-20"><span>{{ $data->category }}</span></a>
-
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -297,6 +299,7 @@
                         </div>
                     </div>
                 @empty
+            </div>
                     <div class="alert alert-success mt-3">
                         Sorry! No data found
                     </div>
@@ -312,8 +315,8 @@
 </div>
 
 <!--Add Resource Model-->
-<div class="modal fade" id="addresource" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addresource" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Resource</h5>
@@ -356,7 +359,7 @@
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
 
-                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-2">Upload</button>
+                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>
@@ -406,5 +409,22 @@
                 }
             }
         })
+    })
+</script>
+<!--live search-->
+<script type="text/javascript">
+    $('#search').on('keyup', function() {
+        $value = $(this).val();
+        $.ajax({
+            type: 'get',
+            url: '{{ URL::to('liveressearch') }}',
+            data: {
+                'search': $value
+            },
+            success: function(data) {
+                $('.ressearch').html(data);
+            }
+           
+        });
     })
 </script>

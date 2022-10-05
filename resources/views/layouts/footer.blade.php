@@ -19,7 +19,7 @@
                         <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a>
                     </div>
                     <div class="micko-copyright">
-                        <p><i class="fas fa-copyright"></i>Copyright 2022 Micko by <a href="#">Gambolthemes</a>.
+                        <p>
                             All
                             Right Reserved.</p>
                     </div>
@@ -29,7 +29,7 @@
     </div>
 </footer>
 
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="paymentModal" tabindex="-1" data-bs-backdrop="static" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -49,27 +49,52 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger dangerButton" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger dangerButton" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 <!--login redirect model-->
 
-<div class="modal fade" id="loginlink" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog ">
+<div class="modal fade" id="loginlink" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-3">
-                <div class="container bg-white rounded">
-                    Sorry you don't have access to this page register yourself to get Access
-                    <a href="{{ route('register') }}">Register</a>
+                <div class="container bg-white rounded text-center mb-3">
+                    Sign In to Access the Page
                 </div>
+                <a href="{{ route('login') }}">
+                    <button class="btn btn-primary bg-primary mx-auto">Login</button>
+                </a>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<!--User Missing Info redirect model-->
+
+<div class="modal fade" id="userinfolink" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Missing Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="container bg-white rounded text-center mb-3">
+                    Please Complete your Profile before Accessing
+                </div>
+                <a href="{{ route('userinfo') }}">
+                    <button class="btn btn-primary bg-primary mx-auto">
+                        Let's Go
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -453,6 +478,7 @@
         $('.end_time').text('');
         $('.image').text('');
         $('.description').text('');
+        $('.price').text('');
 
         const formcontest = document.getElementById('contest');
         const formData = new FormData(formcontest);
@@ -487,6 +513,9 @@
                 }
                 if (errorResponse.image) {
                     $('.image').text(errorResponse.image[0]);
+                }
+                if (errorResponse.price) {
+                    $('.price').text(errorResponse.price[0]);
                 }
                 if (errorResponse.description) {
                     $('.description').text(errorResponse.description[0]);

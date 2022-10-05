@@ -17,8 +17,11 @@
                 <div class="full-width">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target=" @auth
+                            data-bs-target="@auth @fullinfo
 #addnew
+@else
+#userinfolink
+@endfullinfo
 @else
 #loginlink @endauth ">Add
                             New</a>
@@ -93,25 +96,7 @@
 
             </div>
             <div class="col-xl-9 col-lg-8 col-md-12">
-                <div class="pl_item_search mt-30 mt-lg-0">
-                    <form action="{{ route('marketplace.search') }}" method="post">
-                        @csrf
-                        @method('PATCH')
-                        <div class="row">
-                            <div class="col-lg-10 col-md-8">
-                                <div class="form_group">
-                                    <input class="form_input_1" type="text" placeholder="Search within these results"
-                                        name="search" required>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4">
-                                <button class="post-link-btn color btn-hover w-100 rmt-10"
-                                    type="submit">Search</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
+                
                 <div class="all-items">
                     <div class="product-items-list">
                         <div class="row">
@@ -264,8 +249,8 @@
 </div>
 
 <!-- Add new Modal -->
-<div class="modal fade" id="addnew" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addnew" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add New</h5>
