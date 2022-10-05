@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Feedback;
+use App\Models\PaymentLog;
 use App\Models\Product;
 use App\Models\Proposalbid;
 use App\Models\Proposalreview;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -98,7 +100,7 @@ class ProfileController extends Controller
         $reqsol     = ReqSolution::where('user_id', $id)->inRandomOrder()->limit(4)->get();
         $propbid    = Proposalbid::where('user_id', $id)->inRandomOrder()->limit(4)->get();
         $propsol    = Propsolution::where('user_id', $id)->inRandomOrder()->limit(4)->get();
-        return view('profile_dashboard', compact('user','preview', 'review', 'reqcomment', 'reqbid', 'reqsol', 'propbid', 'propsol'));
+        return view('profile_dashboard', compact('user', 'preview', 'review', 'reqcomment', 'reqbid', 'reqsol', 'propbid', 'propsol'));
     }
 
     public function showreview($id)
@@ -106,7 +108,7 @@ class ProfileController extends Controller
         $review = Review::where('t_user_id', $id)->orderBy('created_at', 'DESC')->get();
         $preview = Proposalreview::where('tp_user_id', $id)->orderBy('created_at', 'DESC')->get();
         $user = User::where('id', $id)->first();
-        return view('myprofile_reviews', compact('user', 'review','preview'));
+        return view('myprofile_reviews', compact('user', 'review', 'preview'));
     }
     public function showactivity($id)
     {
@@ -121,8 +123,28 @@ class ProfileController extends Controller
     }
     public function showearning($id)
     {
-        $user = User::where('id', $id)->first();
-        return view('myprofile_earning', compact('user'));
+        $data = [];
+        $data["user"] = User::where('id', $id)->first();
+        $data["model"] = new PaymentLog();
+        $data["items"] = PaymentLog::where('seller_id', auth()->user()->id)->get()->groupBy('pay_for');
+        $step = 'requests';
+        if (isset($_GET["step"])) {
+            $step = $_GET["step"];
+        }
+
+        $numebrOfDayOfMonth = cal_days_in_month(CAL_GREGORIAN, date('m', strtotime(date("Y-m-d H:i:s"))), date('Y', strtotime(date("Y-m-d H:i:s"))));
+        $currentMonth  = date('m', strtotime(date("Y-m-d H:i:s")));
+        $currentYear = date('Y', strtotime(date("Y-m-d H:i:s")));
+
+        $firstDayOfMonth =  $currentYear . '-' . $currentMonth . '-01 00:00:00';
+        $lastDayOfMonth = $currentYear . '-' . $currentMonth . '-' . $numebrOfDayOfMonth . ' 23:59:59';
+
+
+        // $data["thisMonth"] = PaymentLog::where('seller_id', auth()->user()->id)->whereBetween('created_at', ['2022-09-01 00:00:00', '2022-09-30 23:59:59'])->pluck('amount')->sum();
+        $data["thisMonth"] = PaymentLog::where('seller_id', auth()->user()->id)->whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->pluck('amount')->sum();
+
+        $data["collections"] = PaymentLog::where('seller_id', auth()->user()->id)->where('pay_for', $step)->get();
+        return view('myprofile_earning', $data);
     }
 
     public function myreqs($id)

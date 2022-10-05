@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="item-total-link-group">
                                             <div class="item-total-product-links">
-                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.myreqs', ['id' => Auth()->id()]) }} 
+                                                <a href=" @if (request()->route('id') == Auth()->id()) {{ route('profile.myreqs', ['id' => Auth()->id()]) }}
                                                 @else
                                                 {{ route('profile.myreqs', ['id' => request()->route('id')]) }} @endif "
                                                     class="myprofle-item-links">Requests<span
@@ -197,8 +197,8 @@
             <div class="row">
                 <div class="col-xl-4 col-lg-4 col-md-12">
                     <div class="earning_steps">
-                        <p>Sales earnings this month (March), after micko fees, &amp; before taxes:</p>
-                        <h2>$1146.78</h2>
+                        <p>Sales earnings this month ({{ date('M', strtotime(date("Y-m-d H:i:s")))}}), after micko fees, &amp; before taxes:</p>
+                        <h2>{{$thisMonth}}</h2>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-12">
@@ -303,18 +303,27 @@
                     </div>
                 </div>
                 <div class="col-xl-8 col-lg-8 col-md-12">
-                    <div class="date_selector rrmt-30">
-                        <div class="sorting-earing-select">
-                            <select class="sorting-select">
-                                <option value="total-sales" selected>Total Sales</option>
-                                <option value="referrals">Referrals</option>
-                                <option value="item-sales">Item Sales</option>
-                            </select>
+                    <div class="date_selector rrmt-30 d-flex justify-content-between">
+                        <div class="d-flex">
+                            <div class="sorting-earing-select">
+                                <select class="sorting-select">
+                                    <option value="total-sales" selected>Total Sales</option>
+                                    <option value="referrals">Referrals</option>
+                                    <option value="item-sales">Item Sales</option>
+                                </select>
+                            </div>
+                            <div class="date_list152">
+                                <a href="#">All Time</a> /
+                                <a href="#">2020</a> /
+                                <a href="#">April</a>
+                            </div>
                         </div>
-                        <div class="date_list152">
-                            <a href="#">All Time</a> /
-                            <a href="#">2020</a> /
-                            <a href="#">April</a>
+                        <div class="btn-group btn-group-md">
+                            @if($items)
+                            @foreach ($items as $k=>$item)
+                            <a href="{{route('profile.earning',[Auth()->id(),"step"=>$k])}}" type="button" class="text-uppercase p-2 {{ (isset($_GET['step']) && $_GET['step'] == $k)?"btn-success":"btn-primary" }} text-light">{{$k}}</a>
+                            @endforeach
+                            @endif
                         </div>
                     </div>
                     <div class="main-table mt-30">
@@ -323,74 +332,27 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">Date</th>
-                                        <th scope="col">Item Sales Count</th>
+                                        <th scope="col">For</th>
                                         <th scope="col">Earning</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($collections as $item)
                                     <tr>
-                                        <td><a href="#">1, Wednesday</a></td>
-                                        <td>3</td>
-                                        <td>$120.50</td>
+                                        <td><a href="#">{{date('d-M-Y H:i:s', strtotime($item->created_at))}}</a></td>
+                                        <td>{{$item->pay_for}}</td>
+                                        <td>{{($item->first_sale == 1)? ($item->amount)* (100 - env("RATE_FOR_AGENT"))/100 :($item->amount)* (env("RATE_FOR_AGENT"))/100 }}</td>
                                     </tr>
-                                    <tr>
-                                        <td><a href="#">2, Thursday</a></td>
-                                        <td>2</td>
-                                        <td>$84.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">4, Saturday</a></td>
-                                        <td>4</td>
-                                        <td>$150.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">5, Sunday</a></td>
-                                        <td>3</td>
-                                        <td>$102.24</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">6, Monday</a></td>
-                                        <td>2</td>
-                                        <td>$80.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">7, Tuesday</a></td>
-                                        <td>3</td>
-                                        <td>$70.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">8, Wednesday</a></td>
-                                        <td>5</td>
-                                        <td>$130.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">9, Thursday</a></td>
-                                        <td>3</td>
-                                        <td>$95.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">10, Friday</a></td>
-                                        <td>4</td>
-                                        <td>$152.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">11, Saturday</a></td>
-                                        <td>3</td>
-                                        <td>$100.40</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">12, Sunday</a></td>
-                                        <td>2</td>
-                                        <td>$60.14</td>
-                                    </tr>
+                                    @endforeach
+
                                 </tbody>
-                                <tfoot>
+                                {{-- <tfoot>
                                     <tr>
                                         <td>Total</td>
                                         <td>34</td>
                                         <td>$1146.78</td>
                                     </tr>
-                                </tfoot>
+                                </tfoot> --}}
                             </table>
                         </div>
                     </div>

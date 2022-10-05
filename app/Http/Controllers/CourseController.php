@@ -44,6 +44,7 @@ class CourseController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
+
     public function latest()
     {
         $parts = 'snippet';
@@ -73,6 +74,7 @@ class CourseController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
+
     public function trending()
     {
         $parts = 'snippet';
@@ -102,6 +104,7 @@ class CourseController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
+
     public function week()
     {
         $parts = 'snippet';
@@ -162,7 +165,6 @@ class CourseController extends Controller
         return view('coursetype', compact('playlists_json', 'id', 'playlist'));
     }
 
-
     //show single course
     public function showcourse($id)
     {
@@ -182,10 +184,9 @@ class CourseController extends Controller
             Session::put($course_key, 1);
         }
         $reviews = Coursereview::where('course_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(4);
-       
+
         return view('course_single', compact('playlist_data', 'playlist', 'reviews'));
     }
-
 
     //store course data
     public function get(Request $request)
@@ -201,7 +202,7 @@ class CourseController extends Controller
                 },
             ],
             'Category'      => ['required', 'max:25'],
-            'type'          => ['required','regex:/^(0|1)$/'],
+            'type'          => ['required', 'regex:/^(0|1)$/'],
         ]);
 
         if ($request->hasFile('file')) {
@@ -217,7 +218,7 @@ class CourseController extends Controller
             parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
             $filename = time() . '_' . $request->file->getClientOriginalName();
             $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
-            Course::create(array_merge($request->only( 'type', 'Category'), [
+            Course::create(array_merge($request->only('type', 'Category'), [
                 'user_id'      => auth()->id(),
                 'price'        => $price,
                 'playlists_id' => $my_array['list'],
