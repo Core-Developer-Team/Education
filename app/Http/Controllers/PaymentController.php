@@ -153,7 +153,10 @@ class PaymentController extends Controller
                     'pay_by' => Auth()->id(),
                     'pay_for' => $additionalData["resource"],
                     'bid_id' => $additionalData["bid_id"],
-                    'first_sale' => (count($findIfAny) > 0) ? 0 : 1
+                    'first_sale' => (count($findIfAny) > 0) ? 0 : 1,
+                    'amount_seller' => (count($findIfAny) > 0) ? ($resultdatax->amount * env('RATE_FOR_AGENT')) / 100 : ($resultdatax->amount * (100 - env('RATE_FOR_AGENT'))) / 100,
+                    'amount_admin' => (count($findIfAny) > 0) ? ($resultdatax->amount * (100 - env('RATE_FOR_AGENT'))) / 100 : ($resultdatax->amount * env('RATE_FOR_AGENT')) / 100,
+                    'seller_id' => $additionalData["seller_id"]
                 ]);
                 if ($insertIntoPayment->id) {
                     if ($this->resource == 'requests') :
@@ -174,7 +177,7 @@ class PaymentController extends Controller
     public function paymentAdditional(Request $request)
     {
         session()->forget('bKadditional');
-        session()->put('bKadditional', ["bid_id" => $request->bid_id, "amount" => $request->amount, "resource" => $request->resource, "req_id" => $request->req_id]);
+        session()->put('bKadditional', ["bid_id" => $request->bid_id, "amount" => $request->amount, "resource" => $request->resource, "req_id" => $request->req_id, "seller_id" => $request->seller_id]);
         return response()->json(['status' => true, 'data' => session()->get('bKadditional')]);
     }
 }

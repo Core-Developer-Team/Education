@@ -322,6 +322,7 @@
                                     data-id="{{ $playlist->id }}"
                                     data-amount="{{ $playlist->price }}"
                                     data-resource="cources"
+                                    data-seller="{{$playlist->user_id}}"
                                     type="submit">Buy Now</button>
                                 </div>
                                 @else

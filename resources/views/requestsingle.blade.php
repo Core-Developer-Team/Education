@@ -486,7 +486,9 @@
                                                                             class="job-badge bg-success payNow bkashPayBtn"
                                                                             data-id="{{ $bids->id }}"
                                                                             data-amount="{{ $bids->price }}"
-                                                                            data-resource="requests">
+                                                                            data-resource="requests"
+                                                                            data-seller="{{$bids->user_id}}"
+                                                                            >
                                                                             Take this offer
                                                                         </span>
                                                                         {{-- <input type="hidden" id="bKash_button"> --}}

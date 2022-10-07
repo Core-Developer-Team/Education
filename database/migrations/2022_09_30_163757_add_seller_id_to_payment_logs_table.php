@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::table('payment_logs', function (Blueprint $table) {
             $table->integer('seller_id')->after('pay_by')->nullable();
+            $table->integer('amount_seller')->after('amount')->nullable();
+            $table->integer('amount_admin')->after('amount_seller')->nullable();
         });
     }
 
@@ -27,6 +29,8 @@ return new class extends Migration
     {
         Schema::table('payment_logs', function (Blueprint $table) {
             $table->dropColumn('seller_id');
+            $table->dropColumn('amount_seller');
+            $table->dropColumn('amount_admin');
         });
     }
 };

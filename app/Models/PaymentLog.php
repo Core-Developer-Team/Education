@@ -19,6 +19,9 @@ class PaymentLog extends Model
         'bid_id',
         'status',
         'first_sale',
+        'amount_seller',
+        'amount_admin',
+        'seller_id'
     ];
 
     public function findSeller($id)

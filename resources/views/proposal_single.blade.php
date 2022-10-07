@@ -212,7 +212,7 @@
                                                             @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0)
                                                             @if(\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0)
                                                             {{ \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) }}
-                                                            Seconds left          
+                                                            Seconds left
                                                             @else
                                                                 @if ($data->propsolution()->count() >= 1 && $data->propsolution->proposal_id == $data->id)
                                                                     Closed
@@ -514,7 +514,7 @@
                                                                     @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($bids->days, false) <= 0)
                                                                     @if(\Carbon\Carbon::parse(now())->diffInSeconds($bids->days, false) > 0)
                                                                     {{ \Carbon\Carbon::parse(now())->diffInSeconds($bids->days, false) }}
-                                                                    Seconds          
+                                                                    Seconds
                                                                     @else
                                                                         @if ($data->propsolution()->count() >= 1 && $data->propsolution->proposal_id == $data->id)
                                                                             Closed
@@ -749,6 +749,7 @@
                                                                     download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
                                                                     data-id="{{ $data->paymentLog($data->id)->request_id }}"
                                                                     data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                    data-seller="{{$bids->user_id}}"
                                                                     data-resource="requests" class="payNow">
                                                                     Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
                                                             </div>

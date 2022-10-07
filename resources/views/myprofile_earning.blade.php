@@ -211,13 +211,13 @@
                 <div class="col-xl-4 col-lg-4 col-md-12">
                     <div class="earning_steps">
                         <p>Your balance:</p>
-                        <h2>$1146.78</h2>
+                        <h2>{{$available_amount}}</h2>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-12">
                     <div class="earning_steps">
                         <p>Total value of your sales, before taxes:</p>
-                        <h2>$95895.54</h2>
+                        <h2>{{$total_earning}}</h2>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-12">
@@ -348,7 +348,7 @@
                                     <tr>
                                         <td><a href="#">{{date('d-M-Y H:i:s', strtotime($item->created_at))}}</a></td>
                                         <td>{{$item->pay_for}}</td>
-                                        <td>{{($item->first_sale == 1)? ($item->amount)* (100 - env("RATE_FOR_AGENT"))/100 :($item->amount)* (env("RATE_FOR_AGENT"))/100 }}</td>
+                                        <td>{{$item->amount_seller}}</td>
                                     </tr>
                                     @endforeach
 

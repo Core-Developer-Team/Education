@@ -29,7 +29,7 @@ class ProfileController extends Controller
     {
         $user = User::where('id', Auth()->id())->first();
         $dep = Department::all();
-        return view('profile', compact('user','dep'));
+        return view('profile', compact('user', 'dep'));
     }
 
 
@@ -42,7 +42,7 @@ class ProfileController extends Controller
             'uni_id'    => ['required', 'string'],
             'uni_name'  => ['required', 'string'],
             'gender'    => ['required'],
-            'department_id'=> ['required'],
+            'department_id' => ['required'],
         ]);
         $users = User::find($id);
         if ($request->hasFile('image')) {
@@ -145,7 +145,9 @@ class ProfileController extends Controller
 
 
         // $data["thisMonth"] = PaymentLog::where('seller_id', auth()->user()->id)->whereBetween('created_at', ['2022-09-01 00:00:00', '2022-09-30 23:59:59'])->pluck('amount')->sum();
-        $data["thisMonth"] = PaymentLog::where('seller_id', auth()->user()->id)->whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->pluck('amount')->sum();
+        $data["thisMonth"] = PaymentLog::where('seller_id', auth()->user()->id)->whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->pluck('amount_seller')->sum();
+        $data["available_amount"] = PaymentLog::where('seller_id', auth()->user()->id)->where('status', 0)->pluck('amount_seller')->sum();
+        $data["total_earning"] = PaymentLog::where('seller_id', auth()->user()->id)->pluck('amount_seller')->sum();
 
         $data["collections"] = PaymentLog::where('seller_id', auth()->user()->id)->where('pay_for', $step)->get();
         return view('myprofile_earning', $data);
