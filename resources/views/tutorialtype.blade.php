@@ -161,7 +161,6 @@
                                                 </div>
                                                 <div class="action-btns-job">
                                                     <i class="feather-eye mr-2"></i> {{$items['view_count']}}
-                                                 
                                                 </div>
                                             </div>
                                         </div>
