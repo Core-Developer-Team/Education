@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentLog;
+use App\Models\Reqsolutionreport;
 use App\Models\Request as MyRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -158,6 +159,11 @@ class PaymentController extends Controller
                     'amount_admin' => (count($findIfAny) > 0) ? ($resultdatax->amount * (100 - env('RATE_FOR_AGENT'))) / 100 : ($resultdatax->amount * env('RATE_FOR_AGENT')) / 100,
                     'seller_id' => $additionalData["seller_id"]
                 ]);
+
+                if ($additionalData["resource"] == "requests") {
+                    $data =  Reqsolutionreport::orderBy('id', 'DESC')->first()->update(['status' => 2]);
+                }
+
                 if ($insertIntoPayment->id) {
                     if ($this->resource == 'requests') :
                         MyRequest::find($this->rId)->update(['payment_status' => 1]);

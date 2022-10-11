@@ -304,6 +304,7 @@
                                                             Online
                                                         @endif
                                                     </span>
+
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                                     <span class="job-badge ttcolor">
                                                         @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1)
@@ -363,7 +364,7 @@
                                             @if ($data->user_id == Auth()->id())
 
                                                 <div
-                                                    class="@if ($data->reqsolution()->count() > 0) @foreach ($data->reqsolution as $item) @if ($item->request_id == $data->id) d-none @endif @endforeach @endif">
+                                                    class="@if ($data->reqsolution()->count() > 0) @foreach ($data->reqsolution as $item) @if (@$item->request_id == $data->id) d-none @endif @endforeach @endif">
                                                     <a href="{{ route('req.show', ['id' => $data->id]) }}"
                                                         title="Edit" class="px-3">
                                                         <button type="button" class="bm-btn btn-hover">

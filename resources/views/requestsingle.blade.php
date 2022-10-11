@@ -246,11 +246,13 @@
                                         </div>
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
-                                        @if (!(auth()->id() == $data->user_id))
-                                            @if ($data->reqsolution()->count() == 0)
+                                        @if (!(auth()->id() == $data->user_id) )
+                                            @if ($data->reqsolution()->count() == 0 || @$data->activeReport($data->id)->status == 1)
                                                 <a href="#"
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                                    data-bs-toggle="modal" data-bs-target="#addbid">Bid Now</a>
+                                                    data-bs-toggle="modal" data-bs-target="#addbid">
+                                                    Bid Now
+                                                </a>
                                             @endif
 
                                             @if ($data->reqsolutionreport()->count() >0 )
@@ -262,12 +264,13 @@
 
                                                     @endif
                                                     @endif
-                                            @if (@$data->isBided()->first()->id != @$data->paymentLog($data->id)->bid_id)
-                                                <a href="#" class="job-badge btn-success text-light"
-                                                    data-bs-toggle="" data-bs-target=""
-                                                    title="Waiting for buyer response"><i
-                                                        class="fa-solid fa-check"></i> Bided</a>
-                                            @else
+                                                @if (@$data->isBided($data->id)->first()->id && @$data->isBided($data->id)->first()->id != @$data->paymentLog($data->id)->bid_id)
+                                                    <a href="#" class="job-badge btn-success text-light"
+                                                        data-bs-toggle="" data-bs-target=""
+                                                        title="Waiting for buyer response">
+                                                        <i class="fa-solid fa-check"></i> Bided
+                                                    </a>
+                                                @else
                                                 <a href="#"
                                                     class="apply_job_btn ps-4 view-btn btn-hover @if ($data->reqbid()->where('user_id', Auth()->id())->count() == false ||
                                                         $data->reqsolution()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
@@ -479,7 +482,7 @@
                                                     <div class="jbopdt142">
                                                         <div class="jbbdges10">
 
-                                                            @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false)
+                                                            @if ($data->user_id == auth()->id() && $data->isAccept($data->id, $bids->id) == false )
                                                                 @if ($data->isAccept($data->id) != true)
                                                                     <div class="bkashPayDiv_{{ $bids->id }}">
                                                                         <span
@@ -496,6 +499,8 @@
                                                                     {{-- id="bKash_button" --}}
                                                                 @endif
                                                             @else
+
+
                                                             @if ( !$data->reqsolution()->count())
                                                                 <form method="POST" class="job-badge p-0"
                                                                     action="{{ route('messages') }}">
@@ -508,6 +513,19 @@
                                                                         class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
                                                                 </form>
                                                             @endif
+                                                            @endif
+                                                            @if($data->activeReport($data->id)->status == 1)
+                                                            <div class="bkashPayDiv_{{ $bids->id }}">
+                                                                <span
+                                                                    class="job-badge bg-success payNow bkashPayBtn"
+                                                                    data-id="{{ $bids->id }}"
+                                                                    data-amount="{{ $bids->price }}"
+                                                                    data-resource="requests"
+                                                                    data-seller="{{$bids->user_id}}"
+                                                                    >
+                                                                    Take this offer
+                                                                </span>
+                                                            </div>
                                                             @endif
                                                             <span class="job-badge ffcolor">৳
                                                                 {{ $bids->price }}</span>
@@ -753,12 +771,18 @@
                                                             <p>{{ $item->description }}</p>
 
                                                             <div class="jobtxt47">
+                                                                @if($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id && auth()->user()->role_id == 1)
+                                                                <a href=" {{$item->file }} "
+                                                                    download title="Download">
+                                                                    Download file from here </a>
+                                                                @else
                                                                 <a href=" {{ $data->istTakeSolution($data->id) ? $item->file : 'javascript:void(0)' }} "
                                                                     download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
                                                                     data-id="{{ $data->paymentLog($data->id)->request_id }}"
                                                                     data-amount="{{ $data->paymentLog($data->id)->amount }}"
                                                                     data-resource="requests" class="{!! $data->istTakeSolution($data->id) == false ?'payNow':'' !!} ">
                                                                     Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
+                                                                @endif
                                                             </div>
                                                             <!-- Download solution from here -->
                                                             @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id)
@@ -773,6 +797,17 @@
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#review" data-id="{{$item->id}}" data-rid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span>
                                                             </a>
+                                                            @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id && auth()->user()->role_id == 1)
+
+                                                            @if( @$data->activeReport($data->id)->status == 0 )
+                                                            <a href="{{route('admin.approve-report',$data->reqsolutionreport->id)}}"
+                                                            class="label-dker mr-20 ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            @else
+                                                            <a href="javascript:void(0)"
+                                                                class="label-dker mr-20 ms-2 px-2  btn-danger" >Report Approved</a>
+                                                            @endif
+
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1331,6 +1366,24 @@
         $(".modal-footer #t_user").val(userid);
         $(".modal-footer #solu_id").val(solId);
         $('#review').modal('show');
+    });
+    $(document).on("click",".approveReport",function(e){
+        e.preventDefault()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to approve this report!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, approve it!'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = (e.target.href)
+            }else{
+                return false
+            }
+        });
     });
 </script>
 
