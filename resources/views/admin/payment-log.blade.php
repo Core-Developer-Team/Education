@@ -32,7 +32,7 @@
                         <div class="btn-group btn-group-md">
                             @if($items)
                             @foreach ($items as $k=>$item)
-                            <a href="{{route('admin.payment-log',["step"=>$k])}}" type="button" class="btn btn-primary text-uppercase">{{$k}}</a>
+                            <a href="{{route('admin.payment-log',["step"=>$k])}}" type="button" class="btn {{ (isset($_GET['step']) && $_GET['step'] == $k)?"btn-success":"btn-primary" }} text-uppercase">{{$k}}</a>
                             @endforeach
                             @endif
                         </div>

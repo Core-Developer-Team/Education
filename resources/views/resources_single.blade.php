@@ -180,6 +180,7 @@
                                                         <div class="aplcnts_15 job-center applcntres ml-3 mb-md-0 mb-4">
                                                             <span class="job-badge bg-success payNow d-inline" data-id=""
                                                                 data-amount="{{ $data->price }}"
+                                                                data-seller="{{$data->user_id}}"
                                                                 data-resource="resources">
                                                                 Take this resource
                                                             </span>

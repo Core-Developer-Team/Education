@@ -1,29 +1,35 @@
 var accessToken = "";
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
 
-    $(document).on("click", ".payNow", function() {
+    $(document).on("click", ".payNow", function () {
         $("#paymentModal").modal("show");
     });
 
-    $(document).on("click", ".dangerButton", function() {
+    $(document).on("click", ".dangerButton", function () {
         $("#paymentModal").modal("hide");
         createToken();
     });
 
-    const paymentAdditionalInfo = (bid_id, amount, resource, req_id) => {
+    const paymentAdditionalInfo = (
+        bid_id,
+        amount,
+        resource,
+        req_id,
+        seller_id
+    ) => {
         $.ajax({
             url: bKpaymentAdditional,
             type: "POST",
-            data: { bid_id, amount, resource, req_id },
-            success: function(data) {
+            data: { bid_id, amount, resource, req_id, seller_id },
+            success: function (data) {
                 console.log(data);
             },
-            error: function(err) {
+            error: function (err) {
                 console.log(err);
             },
         });
@@ -34,12 +40,12 @@ $(document).ready(function() {
             url: bKasTokenUrl,
             type: "POST",
             contentType: "application/json",
-            success: function(data) {
+            success: function (data) {
                 console.log("got data from token  ..");
                 console.log(JSON.stringify(data));
                 accessToken = JSON.stringify(data);
             },
-            error: function() {
+            error: function () {
                 console.log("error");
             },
         });
@@ -59,31 +65,39 @@ $(document).ready(function() {
         rid: $(".reqId").val(),
     };
 
-    $(document).on("click", ".payNow", function() {
+    $(document).on("click", ".payNow", function () {
         $("#paymentModal").modal("show");
         let bid_id = $(this).attr("data-id");
         let resource = $(this).attr("data-resource");
         let amount = $(this).attr("data-amount");
         let req_id = $(".reqId").val();
+        let seller_id = $(this).attr("data-seller");
         paymentRequest.amount = amount;
-        let response = paymentAdditionalInfo(bid_id, amount, resource, req_id);
+        let response = paymentAdditionalInfo(
+            bid_id,
+            amount,
+            resource,
+            req_id,
+            seller_id
+        );
     });
 
     bKash.init({
         paymentMode: "checkout",
         paymentRequest: paymentRequest,
-        createRequest: function(request) {
+        createRequest: function (request) {
             console.log("=> createRequest (request) :: ");
             console.log(request);
             $.ajax({
-                url: paymentConfig.createCheckoutURL +
+                url:
+                    paymentConfig.createCheckoutURL +
                     "?amount=" +
                     paymentRequest.amount +
                     "&invoice=" +
                     paymentRequest.invoice,
                 type: "GET",
                 contentType: "application/json",
-                success: function(data) {
+                success: function (data) {
                     // console.log('got data from create  ..');
                     // console.log('data ::=>');
                     // console.log(JSON.stringify(data));
@@ -98,7 +112,7 @@ $(document).ready(function() {
                         bKash.create().onError();
                     }
                 },
-                error: function() {
+                error: function () {
                     createToken();
                     alert("Something Went Wront Please Try again later");
                     console.log("error");
@@ -107,15 +121,16 @@ $(document).ready(function() {
             });
         },
 
-        executeRequestOnAuthorization: function() {
+        executeRequestOnAuthorization: function () {
             console.log("=> executeRequestOnAuthorization");
             $.ajax({
-                url: paymentConfig.executeCheckoutURL +
+                url:
+                    paymentConfig.executeCheckoutURL +
                     "?paymentID=" +
                     paymentID,
                 type: "GET",
                 contentType: "application/json",
-                success: function(data) {
+                success: function (data) {
                     data = JSON.parse(data);
                     if (data && data.paymentID != null) {
                         Swal.fire(
@@ -131,7 +146,7 @@ $(document).ready(function() {
                         bKash.execute().onError();
                     }
                 },
-                error: function() {
+                error: function () {
                     createToken();
                     alert("Something Went Wront Please Try again later");
                     bKash.execute().onError();

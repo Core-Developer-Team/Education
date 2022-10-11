@@ -198,8 +198,7 @@
                                                             <input type="hidden" name="to_id"
                                                                 value="{{ $data->user_id }}" />
                                                             <button type="submit"
-                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                                Now</button>
+                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
                                                         </form>
                                                     @endif
 
@@ -213,7 +212,7 @@
                                                             @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0)
                                                             @if(\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0)
                                                             {{ \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) }}
-                                                            Seconds left          
+                                                            Seconds left
                                                             @else
                                                                 @if ($data->propsolution()->count() >= 1 && $data->propsolution->proposal_id == $data->id)
                                                                     Closed
@@ -242,7 +241,7 @@
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
                                         @if (!(auth()->id() == $data->user_id))
-                                            @if ($data->proposalbid()->count() == 0)
+                                            @if ($data->proposalbid()->count() == 0 || count($data->reqsolutionreport()->get())>0)
                                                 <a href="#"
                                                     class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
                                                     data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
@@ -257,7 +256,7 @@
                                                         Again</a>
                                                 @endif
                                             @endif
-                                            @if (@$data->isBided()->first()->id != @$data->paymentLog($data->id)->bid_id)
+                                            @if (@$data->isBided()->first()->id &&  @$data->isBided()->first()->id != @$data->paymentLog($data->id)->bid_id)
                                                 <a href="#" class="job-badge btn-success text-light"
                                                     data-bs-toggle="" data-bs-target=""
                                                     title="Waiting for buyer response"><i
@@ -477,7 +476,8 @@
                                                                             class="job-badge bg-success payNow bkashPayBtn"
                                                                             data-id="{{ $bids->id }}"
                                                                             data-amount="{{ $bids->price }}"
-                                                                            data-resource="requests">
+                                                                            data-resource="proposals"
+                                                                            >
                                                                             Take this offer
                                                                         </span>
                                                                         {{-- <input type="hidden" id="bKash_button"> --}}
@@ -485,6 +485,7 @@
                                                                     {{-- id="bKash_button" --}}
                                                                 @endif
                                                             @else
+                                                            @if ( !$data->propsolution()->count())
                                                                 <form method="POST" class="job-badge p-0"
                                                                     action="{{ route('messages') }}">
                                                                     @csrf
@@ -496,6 +497,7 @@
                                                                         class="apply_job_btn ps-4 view-btn btn-hover">Chat
                                                                         Now</button>
                                                                 </form>
+                                                            @endif
                                                             @endif
                                                             <span class="job-badge ffcolor">৳
                                                                 {{ $bids->price }}</span>
@@ -512,7 +514,7 @@
                                                                     @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($bids->days, false) <= 0)
                                                                     @if(\Carbon\Carbon::parse(now())->diffInSeconds($bids->days, false) > 0)
                                                                     {{ \Carbon\Carbon::parse(now())->diffInSeconds($bids->days, false) }}
-                                                                    Seconds          
+                                                                    Seconds
                                                                     @else
                                                                         @if ($data->propsolution()->count() >= 1 && $data->propsolution->proposal_id == $data->id)
                                                                             Closed
@@ -747,6 +749,7 @@
                                                                     download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
                                                                     data-id="{{ $data->paymentLog($data->id)->request_id }}"
                                                                     data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                    data-seller="{{$bids->user_id}}"
                                                                     data-resource="requests" class="payNow">
                                                                     Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
                                                             </div>
@@ -1163,7 +1166,7 @@
     $(document).on("click", ".prev", function() {
         var solId = $(this).data('id');
         var userid = $(this).data('uid');
-        var pid = $(this).data('pid'); 
+        var pid = $(this).data('pid');
 
         $(".modal-footer #pid").val(pid);
         $(".modal-footer #uid").val(userid);

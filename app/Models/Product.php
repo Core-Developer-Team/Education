@@ -26,4 +26,9 @@ class Product extends Model
     {
         return $this->hasMany(Productreview::class);
     }
+
+    public function isPurchase()
+    {
+        return $this->hasOne(PaymentLog::class, 'request_id', 'id')->where('pay_by', auth()->user()->id)->where('pay_for', 'products');
+    }
 }

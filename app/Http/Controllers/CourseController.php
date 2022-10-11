@@ -44,6 +44,7 @@ class CourseController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
+
     public function latest()
     {
         $parts = 'snippet';
@@ -73,6 +74,7 @@ class CourseController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
+
     public function trending()
     {
         $parts = 'snippet';
@@ -102,6 +104,7 @@ class CourseController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
+
     public function week()
     {
         $parts = 'snippet';
@@ -162,7 +165,6 @@ class CourseController extends Controller
         return view('coursetype', compact('playlists_json', 'id', 'playlist'));
     }
 
-
     //show single course
     public function showcourse($id)
     {
@@ -182,10 +184,9 @@ class CourseController extends Controller
             Session::put($course_key, 1);
         }
         $reviews = Coursereview::where('course_id', $id)->orderBy('created_at', 'DESC')->cursorPaginate(4);
-       
+
         return view('course_single', compact('playlist_data', 'playlist', 'reviews'));
     }
-
 
     //store course data
     public function get(Request $request)
@@ -201,7 +202,7 @@ class CourseController extends Controller
                 },
             ],
             'Category'      => ['required', 'max:25'],
-            'type'          => ['required','regex:/^(0|1)$/'],
+            'type'          => ['required', 'regex:/^(0|1)$/'],
         ]);
 
         if ($request->hasFile('file')) {
@@ -217,7 +218,7 @@ class CourseController extends Controller
             parse_str(parse_url($url, PHP_URL_QUERY), $my_array);
             $filename = time() . '_' . $request->file->getClientOriginalName();
             $filepath = $request->file('file')->storeAs('uploads', $filename, 'public');
-            Course::create(array_merge($request->only( 'type', 'Category'), [
+            Course::create(array_merge($request->only('type', 'Category'), [
                 'user_id'      => auth()->id(),
                 'price'        => $price,
                 'playlists_id' => $my_array['list'],
@@ -278,19 +279,19 @@ class CourseController extends Controller
         return view('course', compact('playlists_json', 'playlist', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count'));
     }
 
-      //live search
-      public function livesearch(Request $request)
-      {
-          if ($request->ajax()) {
-              $output = "";
-              $parts = 'snippet';
-              $apikey = config('services.youtube.api_key');
-              $maxResults = 40;
-              $youtubeEndPoint = config('services.youtube.playlist_endpoint');
+    //live search
+    public function livesearch(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+            $parts = 'snippet';
+            $apikey = config('services.youtube.api_key');
+            $maxResults = 40;
+            $youtubeEndPoint = config('services.youtube.playlist_endpoint');
 
-              $datas = Course::where('Category', 'LIKE', '%' . $request->search . "%")->get();
-              $playlists_json = [];
-              foreach ($datas as $playlists) {
+            $datas = Course::where('Category', 'LIKE', '%' . $request->search . "%")->get();
+            $playlists_json = [];
+            foreach ($datas as $playlists) {
                 $playlist_id = $playlists->playlists_id;
                 $playid      = $playlists->id;
                 $price       = $playlists->price;
@@ -304,12 +305,12 @@ class CourseController extends Controller
                 $playlist_data = (array)json_decode($response->body());
                 $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
             }
-              if ($datas) {
+            if ($datas) {
                 foreach ($playlists_json as $key => $items) {
-                  foreach ($items['playlists']['items'] as $key => $item) {
-                    if($key == 0){
-                        
-                      $output .= ' 
+                    foreach ($items['playlists']['items'] as $key => $item) {
+                        if ($key == 0) {
+
+                            $output .= '
                       <div class="col-xl-4 col-lg-6 col-md-6">
                       <div class="full-width mt-4">
                           <div class="recent-items">
@@ -318,29 +319,29 @@ class CourseController extends Controller
                                       <div class="pdct-img">
                                           <a><img
                                                   class="ft-plus-square product-bg-w bg-cyan me-0"
-                                                  src="'.$item->snippet->thumbnails->medium->url.'"
+                                                  src="' . $item->snippet->thumbnails->medium->url . '"
                                                   alt=""></a>
                                           <div class="overlay-item">
                                               <div class="badge-timer">
-                                                  '.\Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans().'
+                                                  ' . \Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans() . '
                                               </div>
                                           </div>
                                       </div>
                                       <div class="author-dts pp-20">
                                           <a  class="job-heading pp-title">
-                                              '.$item->snippet->title.'</a>
+                                              ' . $item->snippet->title . '</a>
                                                   <p
                                                   class="notification-text font-small-4">
                                                   by <a href="#"
-                                                  class="cmpny-dt blk-clr" style="color:'.$items['color'].'">'.$items['user'].'</a>
+                                                  class="cmpny-dt blk-clr" style="color:' . $items['color'] . '">' . $items['user'] . '</a>
                                               </p>
                                               <p class="notification-text font-small-4">
-                                                  <i class="fas fa-tag"></i> '.$items['category'].'
+                                                  <i class="fas fa-tag"></i> ' . $items['category'] . '
                                               </p>
                                           <div class="ppdt-price-sales">
 
                                               <div class="ppdt-price">
-                                                  ৳ '.$items['price'].'
+                                                  ৳ ' . $items['price'] . '
                                               </div>
                                               <div class="ppdt-sales">
                                                   0 Sales
@@ -352,26 +353,24 @@ class CourseController extends Controller
                               <div class="post-meta">
                                   <div class="job-actions">
                                       <div class="aplcnts_15">
-                                          <a href="/course_single/'.$items['id'].'" class="
+                                          <a href="/course_single/' . $items['id'] . '" class="
                                               view-btn btn-hover">Detail
                                               View</a>
                                       </div>
                                       <div class="action-btns-job">
-                                          <i class="feather-eye mr-2"></i>'.$items['view_count'].'
-                                       
+                                          <i class="feather-eye mr-2"></i>' . $items['view_count'] . '
+
                                       </div>
                                   </div>
                               </div>
                           </div>
                       </div>
                   </div>';
-                
+                        }
+                    }
                 }
-                  }
-                }
-                  return Response($output);
-              }
-          }
-      }
-
+                return Response($output);
+            }
+        }
+    }
 }
