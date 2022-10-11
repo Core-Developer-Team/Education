@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentLog;
+use App\Models\Reqsolutionreport;
 use App\Models\Request as MyRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -153,8 +154,16 @@ class PaymentController extends Controller
                     'pay_by' => Auth()->id(),
                     'pay_for' => $additionalData["resource"],
                     'bid_id' => $additionalData["bid_id"],
-                    'first_sale' => (count($findIfAny) > 0) ? 0 : 1
+                    'first_sale' => (count($findIfAny) > 0) ? 0 : 1,
+                    'amount_seller' => (count($findIfAny) > 0) ? ($resultdatax->amount * env('RATE_FOR_AGENT')) / 100 : ($resultdatax->amount * (100 - env('RATE_FOR_AGENT'))) / 100,
+                    'amount_admin' => (count($findIfAny) > 0) ? ($resultdatax->amount * (100 - env('RATE_FOR_AGENT'))) / 100 : ($resultdatax->amount * env('RATE_FOR_AGENT')) / 100,
+                    'seller_id' => $additionalData["seller_id"]
                 ]);
+
+                if ($additionalData["resource"] == "requests") {
+                    $data =  Reqsolutionreport::orderBy('id', 'DESC')->first()->update(['status' => 2]);
+                }
+
                 if ($insertIntoPayment->id) {
                     if ($this->resource == 'requests') :
                         MyRequest::find($this->rId)->update(['payment_status' => 1]);
@@ -174,7 +183,7 @@ class PaymentController extends Controller
     public function paymentAdditional(Request $request)
     {
         session()->forget('bKadditional');
-        session()->put('bKadditional', ["bid_id" => $request->bid_id, "amount" => $request->amount, "resource" => $request->resource, "req_id" => $request->req_id]);
+        session()->put('bKadditional', ["bid_id" => $request->bid_id, "amount" => $request->amount, "resource" => $request->resource, "req_id" => $request->req_id, "seller_id" => $request->seller_id]);
         return response()->json(['status' => true, 'data' => session()->get('bKadditional')]);
     }
 }

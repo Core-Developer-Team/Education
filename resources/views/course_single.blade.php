@@ -9,6 +9,7 @@
     </div>
 </header>
 
+
 <div class="wrapper pt-0">
 
     <div class="page-tabs">
@@ -30,17 +31,32 @@
             <div class="row">
                 <div class="col-lg-8 col-md-12">
                     <div class="prdct_dt_view">
-                        <div class="pdct-img">
+                        @if(!$playlist->isPurchase)
+                        <div style="
+                        background: url(http://127.0.0.1:8000/images/locked.jpg);
+                        width: 100%;
+                        height: 380px;
+                        background-size: 100%;
+                        background-repeat: no-repeat;
+                        "
+                        title="Please buy first to show video"
+                        >
+
+                        </div>
+                        @else
+                        <div class="pdct-img"
+                        style="">
                             <iframe width="560" height="315"
-                                src="https://www.youtube.com/embed/{{ $playlist_data['items'][0]->snippet->resourceId->videoId }}"
-                                title="YouTube video player" frameborder="0"
+                                src="https://www.youtube.com/embed/{{ $playlist->isPurchase?$playlist_data['items'][0]->snippet->resourceId->videoId:'' }}"
+                                title="{!! $playlist->isPurchase?'YouTube video player':'Please buy first to show video' !!} " frameborder="0"
                                 class="ft-plus-square product-bg-w bg-cyan br-10 mr-0 mainvid"
                                 allow="accelerometer; autoplay; clipboard-write;  gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
                         </div>
+                        @endif
                         <div class="learning_all_items mt-35">
                             <div class="owl-carousel related_courses_slider owl-theme">
-                             
+
                                 @foreach ($playlist_data['items'] as $key => $item)
                                     <div class="item lists">
                                         <div class="full-width">
@@ -50,16 +66,18 @@
                                                         <div class="pdct-img crse-img-tt ">
                                                             <a>
                                                                 <iframe
-                                                                    src="https://www.youtube.com/embed/{{ $item->snippet->resourceId->videoId }}"
+                                                                    src="https://www.youtube.com/embed/{{$playlist->isPurchase? $item->snippet->resourceId->videoId:'' }}"
                                                                     frameborder="0" class="d-none vid"></iframe>
                                                                 <img class="ft-plus-square product-bg-w bg-cyan mr-0"
-                                                                    src="{{ $item->snippet->thumbnails->medium->url }}"
-                                                                    alt="">
+                                                                    src="{{$playlist->isPurchase? $item->snippet->thumbnails->medium->url: asset('images/locked.jpg') }}"
+                                                                    alt="{!! $playlist->isPurchase?'See video':'Please buy first to show video' !!}"
+                                                                    title="{{$playlist->isPurchase? $item->snippet->thumbnails->medium->url: 'Please buy first to show video' }}"
+                                                                    >
                                                             </a>
                                                         </div>
                                                         <div class="author-dts pp-20">
                                                             <a
-                                                                class="job-heading pp-title">{{ Str::limit($item->snippet->title, 20, $end = '....') }}</a>
+                                                                class="job-heading pp-title">{{$playlist->isPurchase? Str::limit($item->snippet->title, 20, $end = '....'):"Please buy first." }}</a>
                                                             <div class="dex d-none">
                                                                 {{ $item->snippet->description }}
                                                             </div>
@@ -79,7 +97,7 @@
                             <div class="jobtxt47">
                                 <h4>Description</h4>
                                 <div class="desc">
-                                    {{ $playlist_data['items'][0]->snippet->description }}
+                                    {{ $playlist->isPurchase? $playlist_data['items'][0]->snippet->description: "Please pay first to show description."}}
                                 </div>
                             </div>
 
@@ -276,7 +294,7 @@
                                             </div>
                                         </form>
                                         <!--end review form-->
-@endif
+                                        @endif
                                         <!--close comments section-->
                                     </div>
 
@@ -298,10 +316,25 @@
                                 </li>
                             </ul>
                             <div class="item_buttons">
+                                @if(!$playlist->isPurchase)
                                 <div class="purchase_form_btn">
-                                    <button class="buy-btn btn-hover" type="submit">Buy Now</button>
+                                    <button class="buy-btn btn-hover payNow"
+                                    data-id="{{ $playlist->id }}"
+                                    data-amount="{{ $playlist->price }}"
+                                    data-resource="cources"
+                                    data-seller="{{$playlist->user_id}}"
+                                    type="submit">Buy Now</button>
                                 </div>
+                                @else
+                                <div class="purchase_form_btn">
+                                    <a href="javascript:void(0)"
+                                    >
+                                        <button class="buy-btn btn-hover btn-success" type="button">Already Purchased</button>
+                                    </a>
+                                </div>
+                                @endif
                             </div>
+                            <input type="hidden" name="request_id" value="{{ $playlist->id }}">
                         </div>
                     </div>
                     <div class="event-card mt-30">
@@ -424,3 +457,6 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+
+<script src="{{ asset('asset/js/bkashpayment.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('asset/css/paymentBkash.css') }}">

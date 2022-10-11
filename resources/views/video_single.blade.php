@@ -38,7 +38,7 @@
                                 allow="accelerometer; autoplay; clipboard-write;  gyroscope; picture-in-picture"
                                 allowfullscreen>
                             </iframe>
-                           
+
                             @else
                             <img class="ft-plus-square product-bg-w bg-cyan me-0"
                             src="{{ $playlist_data['items'][0]->snippet->thumbnails->medium->url }}"
@@ -289,7 +289,9 @@
                                         <div class="purchase_form_btn">
                                             <button class="buy-btn btn-hover payNow" type="submit"
                                                 data-id="{{ $playlist->id }}" data-amount="{{ $playlist->price }}"
-                                                data-resource="playlists">Buy Now</button>
+                                                data-resource="playlists"
+                                                data-seller="{{$playlist->user_id}}"
+                                                >Buy Now</button>
                                         </div>
                                     @endif
                                     {{-- <form method="POST" class="pb-3" action="{{ route('messages') }}">

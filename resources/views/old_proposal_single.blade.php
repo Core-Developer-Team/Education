@@ -354,6 +354,7 @@
                                                             <span class="job-badge bg-success payNow"
                                                                 data-id="{{ $bids->id }}"
                                                                 data-amount="{{ $bids->price }}"
+                                                                data-seller="{{$bids->user_id}}"
                                                                 data-resource="proposals">
                                                                 Take this offer
                                                             </span>
@@ -511,7 +512,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
+
                                             @endforeach
                                         </div>
 

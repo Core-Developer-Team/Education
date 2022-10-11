@@ -94,4 +94,14 @@ class Request extends Model
     {
         return $this->hasMany(Moderator::class);
     }
+
+    public function activeReport($reqId)
+    {
+        $data = Reqsolutionreport::where('request_id', $reqId)->orderBy('id')->first();
+        if ($data) {
+            return $data;
+        }
+        return false;
+        //return $this->hasOne(Reqsolutionreport::class, 'request_id', 'id')->where('status', 1)->orderBy('id')->first();
+    }
 }

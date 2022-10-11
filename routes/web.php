@@ -37,6 +37,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
 use App\Http\Controllers\admin\PaymentLogController;
 use App\Http\Controllers\admin\PrivacyController;
+use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\TermController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\UserInfoController;
@@ -64,6 +65,7 @@ use App\Http\Controllers\TermsandPrivacyController;
 use App\Http\Controllers\TutorialreviewController;
 
 use Illuminate\Support\Facades\Artisan;
+use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,7 +123,7 @@ Route::middleware('auth', 'needInfo')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
+        ->name('logout');
 });
 
 Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
@@ -248,8 +250,6 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::get('/profile_review/{id}', [ProfileController::class, ('showreview')])->name('profile.review');
     Route::get('/profile_activity/{id}', [ProfileController::class, ('showactivity')])->name('profile.activity');
     Route::get('/profile_earning/{id}', [ProfileController::class, ('showearning')])->name('profile.earning');
-
-
 });
 
 Route::get('/', [RequestController::class, 'index'])->name('req.index');
@@ -346,10 +346,11 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::patch('/admin/updateterm/{id}', [TermController::class, 'update'])->name('updateterm.up');
     Route::post('/admin/Editterm', [TermController::class, 'get'])->name('editterm.add');
     //Departments
-    Route::get('/Dep',[DepartmentController::class, ('index')])->name('dep');
-    Route::get('/Add_Dep',[DepartmentController::class, ('show')])->name('dep.show');
-    Route::post('/Add_Dep/add',[DepartmentController::class, ('add')])->name('dep.add');
-    Route::post('/Add_Dep/delete',[DepartmentController::class, ('del')])->name('dep.del');
+    Route::get('/Dep', [DepartmentController::class, ('index')])->name('dep');
+    Route::get('/Add_Dep', [DepartmentController::class, ('show')])->name('dep.show');
+    Route::post('/Add_Dep/add', [DepartmentController::class, ('add')])->name('dep.add');
+    Route::post('/Add_Dep/delete', [DepartmentController::class, ('del')])->name('dep.del');
+    Route::get('approve-report/{id}', [ReportController::class, 'approveReport'])->name('approve-report');
 });
 
 // terms of use and privacy
@@ -381,6 +382,6 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
 Route::get('/request/action', [RequestController::class, 'action'])->name('live_search.action');
 
 
-Route::get('/test', function(){
+Route::get('/test', function () {
     return view('testsignup');
 });

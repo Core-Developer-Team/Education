@@ -259,7 +259,7 @@
                             </ul>
 
                             <div class="item_buttons">
-                                <form action="{{ route('bookorder.store', ['bid' => $data->id]) }}" method="post">
+                                {{-- <form action="{{ route('bookorder.store', ['bid' => $data->id]) }}" method="post">
                                     @csrf
                                     <div class="purchase_form_btn">
                                         <button class="add-cart-btn btn-hover" type="submit"><i
@@ -270,7 +270,28 @@
                                     <form action="{{ route('bookorder.index') }}" method="get">
                                         <button class="buy-btn btn-hover" type="submit">Buy Now</button>
                                     </form>
+                                </div> --}}
+                                @if(!$data->isPurchase)
+                                <div class="purchase_form_btn">
+                                    <a href="javascript:void(0)"
+                                    class="payNow "
+                                    data-id="{{ $data->id }}"
+                                    data-amount="{{ $data->price }}"
+                                    data-resource="products"
+                                    data-seller="{{$data->user_id}}"
+                                    >
+                                    <input type="hidden" name="request_id" value="{{ $data->id }}">
+                                        <button class="buy-btn btn-hover" type="submit">Buy Now</button>
+                                    </a>
                                 </div>
+                                @else
+                                <div class="purchase_form_btn">
+                                    <a href="javascript:void(0)"
+                                    >
+                                        <button class="buy-btn btn-hover btn-success" type="button">Already Purchased</button>
+                                    </a>
+                                </div>
+                                @endif
                             </div>
 
                         </div>
@@ -396,14 +417,14 @@
                                                         </a>
                                                     </div>
                                                     <div class="author-dts pp-20">
-                                                        <a 
+                                                        <a
                                                             class="job-heading pp-title">{{ $item->name }}</a>
                                                         <p class="notification-text font-small-4">
                                                             by <a href="#" class="cmpny-dt blk-clr"
                                                                 style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}</a>
                                                         </p>
                                                         <p class="notification-text font-small-4 pt-1 catey-group">
-                                                            
+
                                                             <a href="#" class="catey-sub">{{$item->Category}}</a>
                                                         </p>
                                                         <div class="ppdt-price-sales">
@@ -445,3 +466,5 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<script src="{{ asset('asset/js/bkashpayment.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('asset/css/paymentBkash.css') }}">
