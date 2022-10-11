@@ -10,25 +10,14 @@
 </header>
 
 <div class="wrapper pt-0">
-    <div class="breadcrumb-pt breadcrumb-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="breadcrumb-title">
-
-                        <h1 class="title_text">Book</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <div class="page-tabs">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="">Book Details</a>
+                            <a class="nav-link active">Book Details</a>
                         </li>
                     </ul>
                 </div>
@@ -291,7 +280,7 @@
 
                             <div class="item_buttons">
                                 <div class="purchase_form_btn">
-                                    <form action="{{ route('bookorder.index') }}" method="get">
+                                    <form action="" method="get">
                                         <button class="buy-btn btn-hover" type="submit">Buy Now</button>
                                     </form>
                                 </div>

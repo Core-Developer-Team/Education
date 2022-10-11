@@ -285,10 +285,7 @@ Route::get('/resource', [ResourceController::class, 'index'])->name('resource.in
 Route::patch('/resource', [ResourceController::class, 'search'])->name('res.search');
 Route::get('/res/{cat}', [ResourceController::class, 'searchcategory'])->name('resource.searchcat');
 Route::get('/liveressearch', [ResourceController::class, 'livesearch'])->name('res.livesearch');
-//book order
-Route::get('/bookorder', [BookorderController::class, ('index')])->name('bookorder.index');
-Route::post('/bookorder/{bid}', [BookorderController::class, ('store')])->name('bookorder.store');
-Route::get('/booksell', [BookorderController::class, ('Sell')])->name('bookorder.sell');
+
 
 //Moderator Middleware
 Route::middleware(['moderator'])->name('moderator.')->group(function () {

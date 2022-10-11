@@ -1,4 +1,4 @@
-@section('title','Contests')
+@section('title', 'Contests')
 @include('layouts.header')
 
 <header class="header clearfix">
@@ -49,28 +49,23 @@
                             <div class="col-lg-12 col-md-12">
                                 <div class="ppevent-card mb-30">
                                     @if (auth()->user()->username == 'admin' || auth()->user()->username == 'Admin')
-                                  
-                                    <div class="eventc_dts">
-                                        <div class="Create_eicon">
-                                            <i class="fas fa-calendar-check"></i>
-                                        </div>
-                                        <h6>Create New Contest</h6>
-                                        @if (session('status'))
-                                        <div class="bg-primary p-4 rounded-lg mb-6 text-white text-center">
-                                            {{ session('status') }}
-                                        </div>
-                                    @endif
-                                        <a href="" class="create-ebtn btn-hover" data-bs-toggle="modal"
-                                        data-bs-target="@auth @fullinfo
+
+                                        <div class="eventc_dts">
+                                            <div class="Create_eicon">
+                                                <i class="fas fa-calendar-check"></i>
+                                            </div>
+                                            <h6>Create New Contest</h6>
+                                           
+                                            <a href="" class="create-ebtn btn-hover" data-bs-toggle="modal"
+                                                data-bs-target="@auth @fullinfo
 #addevent
 @else
 #userinfolink
 @endfullinfo
 @else
-#loginlink
-                                        @endauth ">Create</a>
-                                    </div>
-                                          
+#loginlink @endauth ">Create</a>
+                                        </div>
+
                                     @endif
                                 </div>
                             </div>
@@ -137,7 +132,7 @@
                                                                             </span>
                                                                         </div>
                                                                         <div class="ppdt-price">
-                                                                            ৳ {{$item->price}}
+                                                                            ৳ {{ $item->price }}
                                                                         </div>
                                                                         <div class="ttlcnt15">
                                                                             <span
@@ -227,7 +222,7 @@
                                                                                 class="evntcunt">{{ $next->description }}</span>
                                                                         </div>
                                                                         <div class="ppdt-price">
-                                                                            ৳ {{$next->price}}
+                                                                            ৳ {{ $next->price }}
                                                                         </div>
                                                                         <div class="ttlcnt15">
                                                                             <span
@@ -240,7 +235,8 @@
                                                                     <div class="ental488">
                                                                         <div class="evnticop me-3 dropdown">
                                                                             <a href="#" class="enptdwn"
-                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                role="button"
+                                                                                data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
                                                                                 <span class="entxt"> Going </span>
@@ -319,9 +315,9 @@
                                                                             </span>
                                                                         </div>
                                                                         <div class="ppdt-price">
-                                                                            ৳ {{$expire->price}}
+                                                                            ৳ {{ $expire->price }}
                                                                         </div>
-                                                                        
+
                                                                         <div class="ttlcnt15">
                                                                             <span
                                                                                 class="evntcunt">{{ $expire->contest_user()->where('slug', 'interested')->count() }}
@@ -333,7 +329,8 @@
                                                                     <div class="ental488">
                                                                         <div class="evnticop me-3 dropdown">
                                                                             <a href="#" class="enptdwn"
-                                                                                role="button" data-bs-toggle="dropdown"
+                                                                                role="button"
+                                                                                data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
                                                                                 <span class="entxt"> Going </span>
@@ -380,7 +377,8 @@
     </div>
 </div>
 <!--Add Event Model-->
-<div class="modal fade" id="addevent" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addevent" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -390,10 +388,10 @@
             <div class="modal-body">
                 <div class="container bg-white rounded">
                     <!--event Form-->
-                   
+
                     <!--event Form-->
                     <form class="form" method="POST" id="contest" enctype="multipart/form-data"
-                        action="{{route('contest.store')}}">
+                        action="{{ route('contest.store') }}">
                         @csrf
                         <div class="form-group">
                             <label for="name">Name</label>
