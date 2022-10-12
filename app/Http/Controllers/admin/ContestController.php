@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event;
+use App\Models\Contest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
-class EventController extends Controller
+class ContestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        $data = Event::orderBy('updated_at', 'DESC')->get();
-        return view('admin.event', compact('data'));
+        $data = Contest::orderBy('updated_at', 'DESC')->get();
+        return view('admin.contest', compact('data'));
     }
 
     /**
@@ -28,7 +28,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('admin.addevent');
+        return view('admin.addcontest');
     }
 
     /**
@@ -46,17 +46,17 @@ class EventController extends Controller
             'location'       => 'required',
             'event_date'     => 'required',
             'start_time'     => 'required',
+            'price'          => 'required',
             'end_time'       => 'required',
         ]);
         $imagename = time() . '_' . $request->image->getClientOriginalName();
         $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
-        Event::create(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
+        Contest::create(array_merge($request->only('description', 'location', 'price', 'event_date', 'start_time', 'end_time', 'name'), [
             'image' => '/storage/' . $imagepath,
             'user_id' => auth()->user()->id,
         ]));
-       
-        return redirect(route('admin.event.index'))->with('success','Event has Created Successfully');
+        return redirect(route('admin.contest.index'))->with('success','contest has been created Successfully');
     }
 
     /**
@@ -78,8 +78,8 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $data = Event::find($id);
-        return view('admin.addevent', compact('data'));
+        $data = Contest::find($id);
+        return view('admin.addcontest', compact('data'));
     }
 
     /**
@@ -91,6 +91,7 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
+    
         $request->validate([
             'name'   => 'required',
             'image'          => 'required|image|mimes:jpg,jpeg,png,svg',
@@ -98,16 +99,18 @@ class EventController extends Controller
             'location'       => 'required',
             'event_date'     => 'required',
             'start_time'     => 'required',
+            'price'          => 'required',
             'end_time'       => 'required',
         ]);
         $imagename = time() . '_' . $request->image->getClientOriginalName();
         $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
-        Event::find($id)->update(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
+        Contest::find($id)->update(array_merge($request->only('description', 'price', 'location', 'event_date', 'event_time', 'name'), [
 
             'image'   => '/storage/' . $imagepath,
         ]));
-        return redirect(route('admin.event.index'))->with('success','Event has Updated Successfully');
+      
+        return redirect(route('admin.contest.index'))->with('success','contest has Updated Successfully');
     }
 
     /**
@@ -119,12 +122,12 @@ class EventController extends Controller
     public function del(Request $request)
     {
 
-        $data = Event::find($request->event_id);
+        $data = Contest::find($request->event_id);
         $file_path = public_path() . $data->image;
         if (File::exists($file_path)) {
             File::delete($file_path);
         }
         $data->delete();
-        return back()->with('success', 'Event has deleted Successfully');
+        return back()->with('success', 'Contest has deleted Successfully');
     }
 }

@@ -514,7 +514,7 @@
                                                                 </form>
                                                             @endif
                                                             @endif
-                                                            @if($data->activeReport($data->id)->status == 1)
+                                                            @if($data->activeReport($data->id) && $data->activeReport($data->id)->status == 1)
                                                             <div class="bkashPayDiv_{{ $bids->id }}">
                                                                 <span
                                                                     class="job-badge bg-success payNow bkashPayBtn"

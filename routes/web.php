@@ -32,6 +32,7 @@ use App\Http\Controllers\admin\ResourceController  as AdminResourceController;
 use App\Http\Controllers\admin\RequestController as AdminRequest;
 use App\Http\Controllers\admin\TutorialController as AdminTutorialController;
 use App\Http\Controllers\admin\BadgeController;
+use App\Http\Controllers\admin\ContestController as AdminContestController;
 use App\Http\Controllers\admin\DepartmentController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\EventController as AdminEventController;
@@ -318,6 +319,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('/admin/user/role', [UserController::class, 'updaterole'])->name('user.updaterole');
     Route::resource('/admin/event', AdminEventController::class);
     Route::post('/admin/event/del', [AdminEventController::class, 'del'])->name('event.delete');
+    Route::resource('/admin/contest', AdminContestController::class);
+    Route::post('/admin/contest/del', [AdminContestController::class, 'del'])->name('contest.delete');
     Route::get('/admin/announcement', [AnnouncementController::class, 'index'])->name('announcement');
     Route::get('/admin/addannouncement', [AnnouncementController::class, 'get'])->name('addannouncement');
     Route::post('/admin/addannouncement', [AnnouncementController::class, 'store'])->name('storeannouncement');

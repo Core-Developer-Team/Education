@@ -1,4 +1,4 @@
-@section('title', 'Add Event')
+@section('title', 'Add Contest')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->
@@ -28,9 +28,9 @@
                 <div class="card-header py-3">
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <h1 class="h3 mb-0 text-gray-800"> @isset($data)
-                                Update Event
+                                Update Contest
                             @else
-                                Add Event
+                                Add Contest
                             @endisset
                         </h1>
                     </div>
@@ -43,9 +43,9 @@
                     @endif
                     <!--Proposal Form-->
                     <form class="form" method="POST" enctype="multipart/form-data"
-                        action=" @isset($data) {{ route('admin.event.update', ['event' => $data->id]) }}
+                        action=" @isset($data) {{ route('admin.contest.update', ['contest' => $data->id]) }}
                         @else
-                        {{ route('admin.event.store') }} @endisset">
+                        {{ route('admin.contest.store') }} @endisset">
 
                         @csrf
                         @isset($data)
@@ -56,8 +56,8 @@
                             <label for="name">Name</label>
                             <input type="text" class="form-control  @error('name') border-danger @enderror"
                                 name="name" id="name" placeholder="name"
-                                value="@isset($data) {{ $data->name }}
-                                @else{{ old('name') }} @endisset">
+                                value=@isset($data) {{ $data->name }}
+                                @else{{ old('name') }} @endisset>
                             @error('name')
                                 <div class="text-danger mt-2 text-sm">
                                     {{ $message }}
@@ -68,8 +68,8 @@
                             <label for="location">Location</label>
                             <input type="text" class="form-control  @error('location') border-danger @enderror"
                                 name="location" id="location" placeholder="location"
-                                value="@isset($data) {{ $data->location }}
-                                @else{{ old('location') }} @endisset">
+                                value=@isset($data) {{ $data->location }}
+                                @else{{ old('location') }} @endisset>
                             @error('location')
                                 <div class="text-danger mt-2 text-sm">
                                     {{ $message }}
@@ -77,7 +77,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="date">Event_Date</label>
+                            <label for="date">Contest_Date</label>
                             <input type="date" class="form-control" name="event_date" id="date"
                                 placeholder="date" value={{ old('event_date') }}>
                             @error('event_date')
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="time">Event End_Time</label>
+                            <label for="time">Contest End_Time</label>
                             <input type="time" class="form-control" name="end_time" id="time" placeholder="time"
                                 value={{ old('end_time') }}>
                             @error('end_time')
@@ -108,7 +108,18 @@
                                 </div>
                             @enderror
                         </div>
-
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control  @error('price') border-danger @enderror"
+                                name="price" id="price" placeholder="price"
+                                value=@isset($data) {{ $data->price }}
+                                @else{{ old('price') }} @endisset>
+                            @error('price')
+                                <div class="text-danger mt-2 text-sm">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control  @error('description') border-danger @enderror" id="description" name="description"
