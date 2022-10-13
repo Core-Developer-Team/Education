@@ -112,7 +112,26 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color,  'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
+
+            //get video duration
+            foreach ($playlist_data['items'] as $key => $data) {
+                if ($key == 0) {
+
+                    $video_id = $data->id->videoId;
+                    $url_duration = $youtubeEndPoint . "videos?id=" . $video_id . "&part=contentDetails&key=" . $apikey;
+                    $response_duration = Http::get($url_duration);
+                    $duration_data = (array)json_decode($response_duration->body());
+                    $video_duration = $duration_data['items'][0]->contentDetails->duration;
+
+                    if ($video_duration) {
+                        $start = new DateTime('@0'); // Unix epoch
+                        $start->add(new DateInterval($video_duration));
+                        $youtube_time = $start->format('H:i:s');
+                    }
+                }
+            }
+
+            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'duration' => $youtube_time, 'user' => $user, 'color' => $color,  'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
         }
 
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
@@ -144,7 +163,26 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+
+            //get video duration
+            foreach ($playlist_data['items'] as $key => $data) {
+                if ($key == 0) {
+
+                    $video_id = $data->id->videoId;
+                    $url_duration = $youtubeEndPoint . "videos?id=" . $video_id . "&part=contentDetails&key=" . $apikey;
+                    $response_duration = Http::get($url_duration);
+                    $duration_data = (array)json_decode($response_duration->body());
+                    $video_duration = $duration_data['items'][0]->contentDetails->duration;
+
+                    if ($video_duration) {
+                        $start = new DateTime('@0'); // Unix epoch
+                        $start->add(new DateInterval($video_duration));
+                        $youtube_time = $start->format('H:i:s');
+                    }
+                }
+            }
+
+            $playlists_json[] = ['playlists' => $playlist_data, 'duration' => $youtube_time, 'id' => $playid, 'user' => $user, 'color' => $color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
 
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
@@ -174,7 +212,27 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+
+            //get video duration
+
+            foreach ($playlist_data['items'] as $key => $data) {
+                if ($key == 0) {
+
+                    $video_id = $data->id->videoId;
+                    $url_duration = $youtubeEndPoint . "videos?id=" . $video_id . "&part=contentDetails&key=" . $apikey;
+                    $response_duration = Http::get($url_duration);
+                    $duration_data = (array)json_decode($response_duration->body());
+                    $video_duration = $duration_data['items'][0]->contentDetails->duration;
+
+                    if ($video_duration) {
+                        $start = new DateTime('@0'); // Unix epoch
+                        $start->add(new DateInterval($video_duration));
+                        $youtube_time = $start->format('H:i:s');
+                    }
+                }
+            }
+
+            $playlists_json[] = ['playlists' => $playlist_data, 'duration' => $youtube_time, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
@@ -205,7 +263,27 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+
+            //get video duration
+
+            foreach ($playlist_data['items'] as $key => $data) {
+                if ($key == 0) {
+
+                    $video_id = $data->id->videoId;
+                    $url_duration = $youtubeEndPoint . "videos?id=" . $video_id . "&part=contentDetails&key=" . $apikey;
+                    $response_duration = Http::get($url_duration);
+                    $duration_data = (array)json_decode($response_duration->body());
+                    $video_duration = $duration_data['items'][0]->contentDetails->duration;
+
+                    if ($video_duration) {
+                        $start = new DateTime('@0'); // Unix epoch
+                        $start->add(new DateInterval($video_duration));
+                        $youtube_time = $start->format('H:i:s');
+                    }
+                }
+            }
+
+            $playlists_json[] = ['playlists' => $playlist_data, 'duration' => $youtube_time, 'id' => $playid, 'user' => $user, 'color' => $color,  'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
 
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
@@ -296,7 +374,27 @@ class TutorialController extends Controller
             $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
-            $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
+
+            //get video duration
+
+            foreach ($playlist_data['items'] as $key => $data) {
+                if ($key == 0) {
+
+                    $video_id = $data->id->videoId;
+                    $url_duration = $youtubeEndPoint . "videos?id=" . $video_id . "&part=contentDetails&key=" . $apikey;
+                    $response_duration = Http::get($url_duration);
+                    $duration_data = (array)json_decode($response_duration->body());
+                    $video_duration = $duration_data['items'][0]->contentDetails->duration;
+
+                    if ($video_duration) {
+                        $start = new DateTime('@0'); // Unix epoch
+                        $start->add(new DateInterval($video_duration));
+                        $youtube_time = $start->format('H:i:s');
+                    }
+                }
+            }
+
+            $playlists_json[] = ['playlists' => $playlist_data, 'duration' => $youtube_time, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
         return view('tutorialtype', compact('playlists_json', 'id', 'playlist'));
     }
@@ -347,7 +445,24 @@ class TutorialController extends Controller
                 $url = $youtubeEndPoint . "search?part=" . $parts . "&maxResults=" . $maxResults . "&type=video&videoId=&key=" . $apikey . "&q=" . $playlist_id;
                 $response = Http::get($url);
                 $playlist_data = (array)json_decode($response->body());
-                $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
+                //get video duration
+                foreach ($playlist_data['items'] as $key => $data) {
+                    if ($key == 0) {
+
+                        $video_id = $data->id->videoId;
+                        $url_duration = $youtubeEndPoint . "videos?id=" . $video_id . "&part=contentDetails&key=" . $apikey;
+                        $response_duration = Http::get($url_duration);
+                        $duration_data = (array)json_decode($response_duration->body());
+                        $video_duration = $duration_data['items'][0]->contentDetails->duration;
+
+                        if ($video_duration) {
+                            $start = new DateTime('@0'); // Unix epoch
+                            $start->add(new DateInterval($video_duration));
+                            $youtube_time = $start->format('H:i:s');
+                        }
+                    }
+                }
+                $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'duration' => $youtube_time, 'user' => $user, 'color' => $color, 'type' => $type, 'price' => $price, 'view_count' => $view_count, 'category' => $cat];
             }
 
             if ($datas) {
@@ -368,7 +483,7 @@ class TutorialController extends Controller
                                                   alt=""></a>
                                           <div class="overlay-item">
                                               <div class="badge-timer">
-                                                  ' . \Carbon\Carbon::parse($item->snippet->publishedAt)->diffForHumans() . '
+                                                  ' . $items['duration'] . '
                                               </div>
                                           </div>
                                       </div>

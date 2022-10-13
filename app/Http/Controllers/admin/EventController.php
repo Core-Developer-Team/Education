@@ -17,7 +17,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $data = Event::orderBy('updated_at','DESC')->get();
+        $data = Event::orderBy('updated_at', 'DESC')->get();
         return view('admin.event', compact('data'));
     }
 
@@ -48,15 +48,15 @@ class EventController extends Controller
             'start_time'     => 'required',
             'end_time'       => 'required',
         ]);
-        $imagename = time().'_'.$request->image->getClientOriginalName();
-        $imagepath = $request->file('image')->storeAs('Images',$imagename, 'public');
+        $imagename = time() . '_' . $request->image->getClientOriginalName();
+        $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
-        Event::create(array_merge($request->only('description','location', 'event_date', 'start_time', 'end_time','name'),[
-            'image' => '/storage/'.$imagepath,
+        Event::create(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
+            'image' => '/storage/' . $imagepath,
             'user_id' => auth()->user()->id,
         ]));
-        flash()->addSuccess('Event has been created Successfully');
-        return redirect(route('admin.event.index'));
+       
+        return redirect(route('admin.event.index'))->with('success','Event has Created Successfully');
     }
 
     /**
@@ -79,7 +79,7 @@ class EventController extends Controller
     public function edit($id)
     {
         $data = Event::find($id);
-        return view('admin.addevent',compact('data'));
+        return view('admin.addevent', compact('data'));
     }
 
     /**
@@ -96,17 +96,18 @@ class EventController extends Controller
             'image'          => 'required|image|mimes:jpg,jpeg,png,svg',
             'description'    => 'required|string',
             'location'       => 'required',
-            'event_date'           => 'required',
-            'event_time'           => 'required',
+            'event_date'     => 'required',
+            'start_time'     => 'required',
+            'end_time'       => 'required',
         ]);
-        $imagename = time().'_'.$request->image->getClientOriginalName();
-        $imagepath = $request->file('image')->storeAs('Images',$imagename, 'public');
+        $imagename = time() . '_' . $request->image->getClientOriginalName();
+        $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
-        Event::find($id)->update(array_merge($request->only('description','location','event_date','event_time','name'),[
-     
-            'image'   => '/storage/'.$imagepath,
+        Event::find($id)->update(array_merge($request->only('description', 'location', 'event_date', 'start_time', 'end_time', 'name'), [
+
+            'image'   => '/storage/' . $imagepath,
         ]));
-        return back()->with('status', 'Event updated Successfully');
+        return redirect(route('admin.event.index'))->with('success','Event has Updated Successfully');
     }
 
     /**
@@ -117,12 +118,11 @@ class EventController extends Controller
      */
     public function del(Request $request)
     {
-     
-        $data=Event::find($request->event_id);
-        $file_path = public_path().$data->image;
-        if(File::exists($file_path))
-        {
-         File::delete($file_path);
+
+        $data = Event::find($request->event_id);
+        $file_path = public_path() . $data->image;
+        if (File::exists($file_path)) {
+            File::delete($file_path);
         }
         $data->delete();
         return back()->with('success', 'Event has deleted Successfully');

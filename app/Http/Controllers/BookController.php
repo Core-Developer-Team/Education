@@ -81,7 +81,7 @@ class BookController extends Controller
         ]);
         $search = $request->search;
         $data = Book::query()
-            ->where('book_name', 'LIKE', "%{$search}%")
+            ->where('title', 'LIKE', "%{$search}%")
             ->cursorPaginate(6);
         return view('books', compact('data'));
     }

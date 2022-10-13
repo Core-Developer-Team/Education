@@ -30,6 +30,11 @@
             <span>Event</span></a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.contest.index') }}">
+            <i class="fas fa-fw fa-calendar"></i>
+            <span>Contest</span></a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.resources.index') }}">
             <i class="fas fa-fw fa-file"></i>
             <span>Resource</span></a>

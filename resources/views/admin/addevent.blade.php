@@ -28,9 +28,9 @@
                 <div class="card-header py-3">
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <h1 class="h3 mb-0 text-gray-800"> @isset($data)
-                                Update Proposal
+                                Update Event
                             @else
-                                Add Proposal
+                                Add Event
                             @endisset
                         </h1>
                     </div>

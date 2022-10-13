@@ -1,3 +1,4 @@
+@section('title', 'Message')
 @include('layouts.header')
 <header class="header clearfix">
     <div class="header-inner">
@@ -127,23 +128,28 @@
                         <div id="receiverImageDiv">
                             @isset($userDetails)
                             <img
-                                    src="/storage/'{{@$userDetails->image}}"
+                                    src="/storage/{{$userDetails->image}}"
                                     loading="lazy"
                                     alt=""
                                     class="presence-entity__image nt-view-attr__img--centered chatHeadImage"
                                 />
                             @endisset
                         </div>
-                      <div class="presence-entity__badge ">
+                      <div class="presence-entity__badge @if (Cache::has('user-is-online-' . $userDetails->id)) badge__online @else badge__offline @endif">
                         <span class="visually-hidden">
                           Status is online
                         </span>
                       </div>
                     </div>
                     <div class="recipient-user-dt pt-3">
-                      <a href="#" target="_blank" class="chatHeadUserName">{{@$userDetails->username}}</a>
+                      <a href="#" target="_blank" class="chatHeadUserName">{{$userDetails->username}}</a>
                       <p class="user-last-seen">
-                        {{-- <span class="small-last-seen">2 d</span> --}}
+                        @if (Cache::has('user-is-online-' . $userDetails->id))
+                         <span
+                             class="text-success">Online</span>
+                           @else
+                          {{ Carbon\Carbon::parse($userDetails->last_seen)->diffForHumans() }}
+                          @endif
                       </p>
                     </div>
                   </div>
