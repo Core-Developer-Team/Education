@@ -126,29 +126,29 @@
                   <div class="msg-usr-dt">
                     <div class="recipient-avatar">
                         <div id="receiverImageDiv">
-                            @isset($userDetails)
+                            @if(@$userDetails)
                             <img
-                                    src="/storage/{{$userDetails->image}}"
+                                    src="/storage/{{@$userDetails->image}}"
                                     loading="lazy"
                                     alt=""
                                     class="presence-entity__image nt-view-attr__img--centered chatHeadImage"
                                 />
-                            @endisset
+                            @endif
                         </div>
-                      <div class="presence-entity__badge @if (Cache::has('user-is-online-' . $userDetails->id)) badge__online @else badge__offline @endif">
+                      <div class="presence-entity__badge @if (Cache::has('user-is-online-' . @$userDetails->id)) badge__online @else badge__offline @endif">
                         <span class="visually-hidden">
                           Status is online
                         </span>
                       </div>
                     </div>
                     <div class="recipient-user-dt pt-3">
-                      <a href="#" target="_blank" class="chatHeadUserName">{{$userDetails->username}}</a>
+                      <a href="#" target="_blank" class="chatHeadUserName">{{@$userDetails->username}}</a>
                       <p class="user-last-seen">
-                        @if (Cache::has('user-is-online-' . $userDetails->id))
+                        @if (Cache::has('user-is-online-' . @$userDetails->id))
                          <span
                              class="text-success">Online</span>
                            @else
-                          {{ Carbon\Carbon::parse($userDetails->last_seen)->diffForHumans() }}
+                          {{ Carbon\Carbon::parse(@$userDetails->last_seen)->diffForHumans() }}
                           @endif
                       </p>
                     </div>
