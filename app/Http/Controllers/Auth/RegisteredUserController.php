@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
             'image'     => ['required','image','mimes:jpg,jpeg,png,svg'],
             'uni_id'    => ['required','string'],
             'uni_name'  => ['required','string'],
-            'department_id'=> ['required','regex:/^(1|2)$/'],
+            'department_id'=> ['required','regex:/^(0|1|2|3|5|6|7|8|9)$/'],
             'gender'    => ['required','regex:/^(0|1)$/'],
             'cover_img' => ['required'],
             'password'  => ['required', 'confirmed', Rules\Password::defaults()],
