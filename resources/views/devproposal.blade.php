@@ -334,13 +334,14 @@
                                                 class="feather-users mr-2"></i><span>Applied</span><ins>{{ $item->proposalbid()->count() }}</ins>
                                             <i
                                                 class="feather-eye mr-2"></i><span>Views</span><ins>{{ $item->view_count }}</ins>
+                                                @if ($item->propsolution()->count() > 0) {{$item->propsolution->proposal_id}} @endif
                                         </div>
                                         <div class="action-btns-job d-flex justify-content-space">
                                             <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
                                                 class="view-btn btn-hover">Detail</a>
                                             @if ($item->user_id == Auth()->id())
                                                 <div
-                                                    class="@if ($item->propsolution()->count() > 0) @foreach ($item->propsolution as $bi) @if ($bi->proposal_id == $item->id) d-none @endif @endforeach @endif">
+                                                    class="@if ($item->propsolution()->count() > 0) @if ($item->propsolution->proposal_id == $item->id) d-none @endif @endif">
                                                     <a href="" title="Edit" class="px-3">
                                                         <a href="{{ route('proposal.edit', ['id' => $item->id]) }}"
                                                             type="button" class="bm-btn btn-hover">

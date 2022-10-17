@@ -259,7 +259,7 @@
                                             @if ($data->reqsolutionreport->request_id == $data->id && $data->reqsolutionreport->user_id == $data->user_id)
 
                                                 <a href="#"
-                                                    class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', $data->user_id)->count() > 2) d-none @endif"
+                                                    class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->reqbid()->where('user_id', Auth()->id())->count() > 2) d-none @endif"
                                                     data-bs-toggle="modal" data-bs-target="#addbid">Bid Again</a>
 
                                                     @endif

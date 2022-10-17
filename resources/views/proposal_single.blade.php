@@ -247,17 +247,17 @@
                                                     data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
                                                     Now</a>
                                             @endif
-
-                                            @if ($data->propsolreport()->count() > 0)
-                                                @if ($data->propsolreport->proposal_id == $data->id && $data->propsolreport->user_id == $data->user_id)
+                                            
+                                            @if ($data->propsolreport()->where('proposal_id', $data->proposal_id)->count() > 0) 
+                                                @if ($data->propsolreport->proposal_id == $data->id && $data->propsolreport->user_id == Auth()->id())
                                                     <a href="#"
-                                                        class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', $data->user_id)->count() > 2) d-none @endif"
+                                                        class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() > 2) d-none @endif"
                                                         data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
                                                         Again</a>
                                                 @endif
                                             @endif
                                             
-                                            @if ($data->isBided()->first()->id &&  $data->isBided()->first()->id != $data->paymentLog($data->id)->bid_id)
+                                            @if (@$data->isBided($data->id)->first()->id && @$data->isBided($data->id)->first()->id != @$data->paymentLog($data->id)->bid_id)
                                                 <a href="#" class="job-badge btn-success text-light"
                                                     data-bs-toggle="" data-bs-target=""
                                                     title="Waiting for buyer response"><i
@@ -758,7 +758,7 @@
                                                             @if ($data->propsolreport()->count() > 0 && $data->propsolreport->propsolution_id == $item->id)
                                                                 <span class="text-danger">Reported</span>
                                                             @else
-                                                                <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->proposal_id, 'sid' => $item->id]) }}"
+                                                                <a href="{{ route('proposal.reppropsol', ['uid' => $item->user_id, 'rid' => $item->proposal_id, 'sid' => $item->id]) }}"
                                                                     class="label-dker post_categories_reported mr-10 px-2"><span>Report</span></a>
                                                             @endif
 
