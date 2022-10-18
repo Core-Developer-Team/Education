@@ -193,8 +193,7 @@
                                                         <form method="POST" class="job-badge p-0"
                                                             action="{{ route('messages') }}">
                                                             @csrf
-                                                            <input type="hidden" name="reqid" class=""
-                                                                value="{{ $data->id }}" />
+                                                            
                                                             <input type="hidden" name="to_id"
                                                                 value="{{ $data->user_id }}" />
                                                             <button type="submit"
@@ -247,8 +246,8 @@
                                                     data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
                                                     Now</a>
                                             @endif
-                                            
-                                            @if ($data->propsolreport()->where('proposal_id', $data->proposal_id)->count() > 0) 
+
+                                            @if ($data->propsolreport()->where('proposal_id', $data->proposal_id)->count() > 0)
                                                 @if ($data->propsolreport->proposal_id == $data->id && $data->propsolreport->user_id == Auth()->id())
                                                     <a href="#"
                                                         class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() > 2) d-none @endif"
@@ -256,7 +255,7 @@
                                                         Again</a>
                                                 @endif
                                             @endif
-                                            
+
                                             @if (@$data->isBided($data->id)->first()->id && @$data->isBided($data->id)->first()->id != @$data->paymentLog($data->id)->bid_id)
                                                 <a href="#" class="job-badge btn-success text-light"
                                                     data-bs-toggle="" data-bs-target=""
