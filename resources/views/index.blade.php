@@ -364,7 +364,7 @@
                                             @if ($data->user_id == Auth()->id())
 
                                                 <div
-                                                    class="@if ($data->reqsolution()->count() > 0) @if ($item->reqsolution->request_id == $item->id) d-none @endif @endif">
+                                                    class="@if ($data->reqsolution()->count() > 0) @if (@$item->reqsolution->request_id == @$item->id) d-none @endif @endif">
                                                     <a href="{{ route('req.show', ['id' => $data->id]) }}"
                                                         title="Edit" class="px-3">
                                                         <button type="button" class="bm-btn btn-hover">

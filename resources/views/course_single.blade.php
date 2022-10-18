@@ -453,7 +453,7 @@
         </div>
     </div>
 </div>
-
+<input class="reqId" type="hidden" name="reqid" value="{{ $playlist->id }}">
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
