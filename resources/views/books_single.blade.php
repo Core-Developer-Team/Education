@@ -10,7 +10,7 @@
 </header>
 
 <div class="wrapper pt-0">
-   
+
     <div class="page-tabs">
         <div class="container">
             <div class="row">
@@ -279,11 +279,36 @@
                             </ul>
 
                             <div class="item_buttons">
-                                <div class="purchase_form_btn">
+                                {{-- <div class="purchase_form_btn">
                                     <form action="" method="get">
                                         <button class="buy-btn btn-hover" type="submit">Buy Now</button>
                                     </form>
+                                </div> --}}
+                                {{-- <input class="reqId" type="hidden" name="reqid"
+                                value="{{ $data->id }}" > --}}
+                                @if(auth()->id() != $data->user_id)
+                                @if(!$data->isPurchase)
+                                <div class="purchase_form_btn">
+                                    <a href="javascript:void(0)"
+                                    class="payNow "
+                                    data-id="{{ $data->id }}"
+                                    data-amount="{{ $data->price }}"
+                                    data-resource="books"
+                                    data-seller="{{$data->user_id}}"
+                                    >
+                                    <input type="hidden" name="request_id" value="{{ $data->id }}">
+                                        <button class="buy-btn btn-hover" type="submit">Buy Now</button>
+                                    </a>
                                 </div>
+                                @else
+                                <div class="purchase_form_btn">
+                                    <a href="javascript:void(0)"
+                                    >
+                                        <button class="buy-btn btn-hover btn-success" type="button">Already Purchased</button>
+                                    </a>
+                                </div>
+                                @endif
+                                @endif
                             </div>
 
                         </div>
@@ -463,7 +488,9 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" class="reqId" value="{{ $data->id }}" />
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+<script src="{{ asset('asset/js/bkashpayment.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('asset/css/paymentBkash.css') }}">
