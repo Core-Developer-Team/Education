@@ -1,4 +1,4 @@
-@section('title', 'Add Badge')
+@section('title', 'Add Announcement')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->

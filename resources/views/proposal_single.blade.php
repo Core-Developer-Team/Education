@@ -749,11 +749,11 @@
                                                                     download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
                                                                     data-id="{{ $data->paymentLog($data->id)->request_id }}"
                                                                     data-amount="{{ $data->paymentLog($data->id)->amount }}"
-                                                                    data-seller="{{$bids->user_id}}"
+                                                                    data-seller="{{$item->user_id}}"
                                                                     data-resource="requests" class="payNow">
                                                                     Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
                                                             </div>
-                                                            <!-- Download solution from here -->
+                                                            <!--End Download solution from here -->
                                                             @if ($data->propsolreport()->count() > 0 && $data->propsolreport->propsolution_id == $item->id)
                                                                 <span class="text-danger">Reported</span>
                                                             @else
@@ -762,7 +762,7 @@
                                                             @endif
 
                                                             <a href=""
-                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 prev  @foreach ($data->proposalreview as $item) @if ($item->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 prev  @foreach ($data->proposalreview as $item) @if ($item->fr_user_id == Auth()->id()) d-none @endif @endforeach"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#review" data-id="{{$item->id}}" data-pid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span></a>
                                                         </div>
@@ -1168,9 +1168,9 @@
         var userid = $(this).data('uid');
         var pid = $(this).data('pid');
 
-        $(".modal-footer #pid").val(pid);
-        $(".modal-footer #uid").val(userid);
-        $(".modal-footer #psol").val(solId);
+        $(".modal-body #pid").val(pid);
+        $(".modal-body #uid").val(userid);
+        $(".modal-body #psol").val(solId);
         $('#review').modal('show');
     });
 </script>
