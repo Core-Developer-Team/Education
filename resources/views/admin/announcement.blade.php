@@ -1,4 +1,4 @@
-@section('title', 'Event')
+@section('title', 'Announcement')
 @include('admin.layouts.header')
 
 <!-- Sidebar -->

@@ -793,7 +793,7 @@
                                                             @endif
 
                                                             <a href=""
-                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev @foreach ($data->review as $item) @if ($item->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev @foreach ($data->review as $item) @if ($item->f_user_id == Auth()->id()) d-none @endif @endforeach"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#review" data-id="{{$item->id}}" data-rid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span>
                                                             </a>

@@ -30,7 +30,7 @@ class AnnouncementController extends Controller
         $announcement->active = $request->active;
         $announcement->save();
 
-        return back()->with('success', 'Announcement Posted Success');
+        return redirect()->route('admin.announcement')->with('success', 'Announcement Posted Success');
     }
     public function updatestatus($id)
     {
