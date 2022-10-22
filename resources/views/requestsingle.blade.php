@@ -771,7 +771,7 @@
                                                             <p>{{ $item->description }}</p>
 
                                                             <div class="jobtxt47">
-                                                                @if($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id && auth()->user()->role_id == 1)
+                                                                @if($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id && auth()->user()->role_id == 1 || @$data->isAssignToModerator($data->id))
                                                                 <a href=" {{$item->file }} "
                                                                     download title="Download">
                                                                     Download file from here </a>
@@ -806,7 +806,10 @@
                                                             <a href="javascript:void(0)"
                                                                 class="label-dker mr-20 ms-2 px-2  btn-danger" >Report Approved</a>
                                                             @endif
-
+                                                            @endif
+                                                            @if(@$data->isAssignToModerator($data->id))
+                                                            <a href="{{route('admin.approve-report',$data->reqsolutionreport->id)}}"
+                                                            class="label-dker mr-20 ms-2 px-2  btn-warning approveReport" >Approve Report</a>
                                                             @endif
                                                         </div>
                                                     </div>
