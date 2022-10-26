@@ -51,12 +51,12 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.courses.index') }}">
-            <i class="fas fa-fw fa-screen"></i>
+            <i class="fas fa-chalkboard-teacher"></i>
             <span>Courses</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.tutorials.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-book-reader"></i>
             <span>Tutorial</span></a>
     </li>
     <li class="nav-item">
@@ -71,7 +71,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.product.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-shopping-cart"></i>
             <span>Products</span></a>
     </li>
     <li class="nav-item">

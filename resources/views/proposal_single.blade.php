@@ -246,11 +246,11 @@
                                                     data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
                                                     Now</a>
                                             @endif
-
-                                            @if ($data->propsolreport()->where('proposal_id', $data->proposal_id)->count() > 0)
+                                              
+                                            @if ($data->propsolreport()->where('proposal_id', $data->id)->count() > 0)
                                                 @if ($data->propsolreport->proposal_id == $data->id && $data->propsolreport->user_id == Auth()->id())
                                                     <a href="#"
-                                                        class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() > 2) d-none @endif"
+                                                        class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 2) d-none @endif"
                                                         data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
                                                         Again</a>
                                                 @endif
@@ -921,7 +921,7 @@
                         <div class="form-group">
                             <label for="file">File/Image</label>
                             <input type="file" class="form-control" id="file"
-                                accept="image/*,.doc,.docx,.pdf,.pptx" name="file" value=" {{ old('file') }}">
+                                accept="image/*,.doc,.docx,.pdf,.pptx,.zip,.rar" name="file" value=" {{ old('file') }}">
                             <div class="text-danger mt-2 text-sm fileeror"></div>
                         </div>
                         <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover btn-prevent-mul mt-3"

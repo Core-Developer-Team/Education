@@ -31,11 +31,11 @@
             <div class="row">
                 <div class="col-lg-8 col-md-12">
                     <div class="prdct_dt_view">
-                        @if ($playlist->isPurchase || $playlist->type == 0)
+                        @if ($playlist->isPurchase || $playlist->type == 0 ||  $playlist->user_id==Auth()->id())
                             <div class="pdct-img" style="">
                                 <iframe width="560" height="315"
-                                    src="https://www.youtube.com/embed/{{ $playlist->isPurchase || $playlist->type == 0 ? $playlist_data['items'][0]->snippet->resourceId->videoId : '' }}"
-                                    title="{!! $playlist->isPurchase || $playlist->type == 0 ? 'YouTube video player' : 'Please buy first to show video' !!} " frameborder="0"
+                                    src="https://www.youtube.com/embed/{{ $playlist->isPurchase || $playlist->type == 0 ||  $playlist->user_id==Auth()->id() ? $playlist_data['items'][0]->snippet->resourceId->videoId : '' }}"
+                                    title="{!! $playlist->isPurchase || $playlist->type == 0 ||  $playlist->user_id==Auth()->id() ? 'YouTube video player' : 'Please buy first to show video' !!} " frameborder="0"
                                     class="ft-plus-square product-bg-w bg-cyan br-10 mr-0 mainvid"
                                     allow="accelerometer; autoplay; clipboard-write;  gyroscope; picture-in-picture"
                                     allowfullscreen></iframe>
@@ -64,17 +64,17 @@
                                                         <div class="pdct-img crse-img-tt ">
                                                             <a>
                                                                 <iframe
-                                                                    src="https://www.youtube.com/embed/{{ $playlist->isPurchase || $playlist->type == 0 ? $item->snippet->resourceId->videoId : '' }}"
+                                                                    src="https://www.youtube.com/embed/{{ $playlist->isPurchase || $playlist->type == 0 ||  $playlist->user_id==Auth()->id() ? $item->snippet->resourceId->videoId : '' }}"
                                                                     frameborder="0" class="d-none vid"></iframe>
                                                                 <img class="ft-plus-square product-bg-w bg-cyan mr-0"
-                                                                    src="{{ $playlist->isPurchase || $playlist->type == 0 ? $item->snippet->thumbnails->medium->url : asset('images/locked.jpg') }}"
-                                                                    alt="{!! $playlist->isPurchase || $playlist->type == 0 ? 'See video' : 'Please buy first to show video' !!}"
-                                                                    title="{{ $playlist->isPurchase || $playlist->type == 0 ? $item->snippet->thumbnails->medium->url : 'Please buy first to show video' }}">
+                                                                    src="{{ $playlist->isPurchase ||  $playlist->user_id==Auth()->id() || $playlist->type == 0 ? $item->snippet->thumbnails->medium->url : asset('images/locked.jpg') }}"
+                                                                    alt="{!! $playlist->isPurchase ||  $playlist->user_id==Auth()->id() || $playlist->type == 0 ? 'See video' : 'Please buy first to show video' !!}"
+                                                                    title="{{ $playlist->isPurchase ||  $playlist->user_id==Auth()->id() || $playlist->type == 0 ? $item->snippet->thumbnails->medium->url : 'Please buy first to show video' }}">
                                                             </a>
                                                         </div>
                                                         <div class="author-dts pp-20">
                                                             <a
-                                                                class="job-heading pp-title">{{ $playlist->isPurchase || $playlist->type == 0 ? Str::limit($item->snippet->title, 20, $end = '....') : 'Please buy first.' }}</a>
+                                                                class="job-heading pp-title">{{ $playlist->isPurchase ||  $playlist->user_id==Auth()->id() || $playlist->type == 0 ? Str::limit($item->snippet->title, 20, $end = '....') : 'Please buy first.' }}</a>
                                                             <div class="dex d-none">
                                                                 {{ $item->snippet->description }}
                                                             </div>
@@ -94,10 +94,9 @@
                             <div class="jobtxt47">
                                 <h4>Description</h4>
                                 <div class="desc">
-                                    {{ $playlist->isPurchase || $playlist->type == 0 ? $playlist_data['items'][0]->snippet->description : 'Please pay first to show description.' }}
+                                    {{ $playlist->isPurchase || $playlist->user_id==Auth()->id() || $playlist->type == 0 ? $playlist_data['items'][0]->snippet->description : 'Please pay first to show description.' }}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <!--file-->
@@ -201,6 +200,7 @@
                                         <hr>
                                         <!-- END review-list -->
                                         @if (auth()->id() != $playlist->user_id)
+                                        @if ($playlist->isPurchase || $playlist->type==0)
                                             <!--review form-->
                                             <form method="POST"
                                                 class="@foreach ($playlist->coursereview as $item) @if ($item->user_id == Auth()->id()) d-none @endif @endforeach"
@@ -296,6 +296,8 @@
                                                 </div>
                                             </form>
                                             <!--end review form-->
+                                             
+                                        @endif
                                         @endif
                                         <!--close comments section-->
                                     </div>
