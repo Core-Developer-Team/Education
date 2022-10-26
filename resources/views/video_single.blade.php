@@ -30,9 +30,9 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="prdct_dt_view">
                         <div class="pdct-img">
-                            @if ($playlist->isPaid($playlist->id) == true || $playlist->type == 0)
+                            @if ($playlist->isPaid($playlist->id) == true || $playlist->type == 0 ||  $playlist->user_id==Auth()->id())
                             <iframe width="560" height="315"
-                                src="https://www.youtube.com/embed/{{ $playlist->isPaid($playlist->id) == true || $playlist->type == 0 ? $playlist_data['items'][0]->id->videoId : '' }}"
+                                src="https://www.youtube.com/embed/{{ $playlist->isPaid($playlist->id) == true ||  $playlist->user_id==Auth()->id() || $playlist->type == 0 ? $playlist_data['items'][0]->id->videoId : '' }}"
                                 title="YouTube video player" frameborder="0"
                                 class="ft-plus-square product-bg-w bg-cyan br-10 mr-0 mainvid"
                                 allow="accelerometer; autoplay; clipboard-write;  gyroscope; picture-in-picture"
@@ -78,7 +78,6 @@
                             </div>
                         @endif
                     @endif
-                    @if ($playlist->isPaid($playlist->id) == true || $playlist->type==0)
                         <!--Reviews-->
                         <div class="full-width mt-30">
                             <div class="event-card mt-4">
@@ -166,6 +165,7 @@
                                             </div>
                                             <!-- END review-list -->
                                             @if (auth()->id() != $playlist->user_id)
+                                            @if ($playlist->isPaid($playlist->id) == true || $playlist->type==0)
                                                 <!--review form-->
                                                 <form method="POST"  class="@foreach ( $playlist->tutorialreview as $item) @if($item->user_id==Auth()->id()) d-none @endif @endforeach" action="{{ route('playlist.storereview') }}">
                                                     @if ($errors->any())
@@ -261,6 +261,7 @@
                                                     </div>
                                                 </form>
                                                 <!--end review form-->
+                                                @endif
                                             @endif
                                             <!--close comments section-->
                                         </div>
@@ -270,7 +271,6 @@
                             </div>
                         </div>
                         <!--end Review section-->
-                    @endif
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="event-card rmt-30">

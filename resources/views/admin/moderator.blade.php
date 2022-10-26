@@ -41,7 +41,7 @@
                             href="{{ route($moderator->link, ['id' => $moderator->request_id]) }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="/storage/{{ $moderator->user->image }}"
-                                    alt="...">
+                                    alt="..." style="width: 60px;">
                                 <div
                                     class="status-indicator  @if (Cache::has('user-is-online-' . $moderator->user_id)) bg-success @else bg-secondary @endif ">
                                 </div>
