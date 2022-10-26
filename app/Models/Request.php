@@ -104,4 +104,14 @@ class Request extends Model
         return false;
         //return $this->hasOne(Reqsolutionreport::class, 'request_id', 'id')->where('status', 1)->orderBy('id')->first();
     }
+
+    public function isAssignToModerator($reqId)
+    {
+        $data = Moderator::where('request_id', $reqId)->orderBy('id', 'DESC')->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
