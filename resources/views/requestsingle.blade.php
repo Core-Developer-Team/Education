@@ -797,19 +797,33 @@
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#review" data-id="{{$item->id}}" data-rid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span>
                                                             </a>
+                                                            @if($data->reqsolutionreport()->first()->status == null)
                                                             @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id && auth()->user()->role_id == 1)
-
                                                             @if( @$data->activeReport($data->id)->status == 0 )
-                                                            <a href="{{route('admin.approve-report',$data->reqsolutionreport->id)}}"
-                                                            class="label-dker mr-20 ms-2 px-2  btn-warning approveReport" >Approve Report</a>
-                                                            @else
+                                                            <a href="{{route('admin-moderator.approve-report',$data->reqsolutionreport->id)}}"
+                                                            class="label-dker ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            <a href="{{route('admin-moderator.reject-report',$data->reqsolutionreport->id)}}"
+                                                                class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport" >Reject Report</a>
+                                                            @endif
+                                                            @endif
+                                                            @endif
+
+                                                            @if($data->reqsolutionreport()->first()->status == null)
+
+                                                            @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id != 1)
+                                                            <a href="{{route('admin-moderator.approve-report',$data->reqsolutionreport->id)}}"
+                                                            class="label-dker ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            <a href="{{route('admin-moderator.reject-report',$data->reqsolutionreport->id)}}"
+                                                                class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport" >Reject Report</a>
+                                                            @endif
+                                                            @endif
+                                                            @if($data->reqsolutionreport()->first()->status == 1)
                                                             <a href="javascript:void(0)"
-                                                                class="label-dker mr-20 ms-2 px-2  btn-danger" >Report Approved</a>
+                                                            class="label-dker mr-20 ms-2 px-2  btn-success" >Report Approved</a>
                                                             @endif
-                                                            @endif
-                                                            @if(@$data->isAssignToModerator($data->id))
-                                                            <a href="{{route('admin.approve-report',$data->reqsolutionreport->id)}}"
-                                                            class="label-dker mr-20 ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            @if($data->reqsolutionreport()->first()->status == 2)
+                                                            <a href="javascript:void(0)"
+                                                            class="label-dker mr-20 ms-2 px-2  btn-danger" >Report Rejected</a>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -1370,6 +1384,7 @@
         $(".modal-footer #solu_id").val(solId);
         $('#review').modal('show');
     });
+
     $(document).on("click",".approveReport",function(e){
         e.preventDefault()
         Swal.fire({
@@ -1388,15 +1403,23 @@
             }
         });
     });
+
+    $(document).on("click",".rejectReport",function(e){
+        e.preventDefault()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to reject this report!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, reject it!'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = (e.target.href)
+            }else{
+                return false
+            }
+        });
+    });
 </script>
-
-
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-{{-- <script src="https://code.jquery.com/jquery-1.8.3.min.js" integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script> --}}
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if (@env('BKASH_STATUS') == 'sandbox')
-    <script id="myScript" src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js">
-    </script>
-@else
-    <script id="myScript" src="https://scripts.pay.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout.js"></script>
-@endif

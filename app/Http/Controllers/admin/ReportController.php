@@ -13,4 +13,10 @@ class ReportController extends Controller
         $data = Reqsolutionreport::find($id)->update(['status' => 1]);
         return redirect()->back()->with('message', 'Report approved successfully');
     }
+
+    public function rejectReport($id)
+    {
+        $data = Reqsolutionreport::find($id)->update(['status' => 2]);
+        return redirect()->back()->with('message', 'Report rejected successfully');
+    }
 }

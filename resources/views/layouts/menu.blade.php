@@ -129,10 +129,15 @@
             <ul class="mn-icons-set ms-3 align-self-stretch">
 
                 @auth
+                @php
+                    $getNotification = \App\Models\MessageNotification::where('user_id',Auth()->id())->get();
+                @endphp
                     <li class="mn-icon">
                         <a class="mn-link" href="{{ route('messages') }}" role="button">
                             <i class="feather-message-square"></i>
+                            @if(count(@$getNotification)>0)
                             <div class="alert-circle"></div>
+                            @endif
                         </a>
                     </li>
                     @if (Auth()->id()!=1)
