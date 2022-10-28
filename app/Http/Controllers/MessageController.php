@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\MessageNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +41,10 @@ class MessageController extends Controller
         $mymessaghwith = Message::Where('to_user_id', $userId)->orWhere('from_user_id', $userId)->get();
         $usersWithMe = [];
         $i = 0;
+        $isNotification = MessageNotification::where('user_id',  Auth()->id())->get();
+        if ($isNotification) {
+            MessageNotification::where('user_id',  Auth()->id())->delete();
+        }
         foreach ($mymessaghwith as $key => $value) {
             if ($userId != $value->to_user_id) {
                 $usersWithMe[$i] = $value->to_user_id;
@@ -94,6 +99,8 @@ class MessageController extends Controller
             'to_user_id'  => $r->toId,
             'content' => $message,
         ]);
+
+        $makeNotification = MessageNotification::create(['user_id' => $toId, 'status' => 1]);
 
 
         return response()->json(['status' => true, 'message' => $this->getMessage($toId)]);

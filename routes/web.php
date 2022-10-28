@@ -293,6 +293,17 @@ Route::middleware(['moderator'])->name('moderator.')->group(function () {
     Route::get('/moderator', [AdminnotifController::class, 'moderator'])->name('index');
 });
 
+
+Route::middleware('auth')->name('admin-moderator.')->group(function () {
+    Route::get('approve-report/{id}', [ReportController::class, 'approveReport'])->name('approve-report');
+    Route::get('reject-report/{id}', [ReportController::class, 'rejectReport'])->name('reject-report');
+});
+
+// Route::group(['namespace' => 'Admin-moderator', 'as' => 'admin-moderator.', 'middleware' => ['admin', 'moderator']], function () {
+//     Route::get('approve-report/{id}', [ReportController::class, 'approveReport'])->name('approve-report');
+//     Route::get('reject-report/{id}', [ReportController::class, 'rejectReport'])->name('reject-report');
+// });
+
 Route::middleware(['admin'])->name('admin.')->group(function () {
     //admin controller
     Route::get('/admin', [AdminController::class, 'index'])->name('index');
@@ -350,7 +361,6 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('/Add_Dep', [DepartmentController::class, ('show')])->name('dep.show');
     Route::post('/Add_Dep/add', [DepartmentController::class, ('add')])->name('dep.add');
     Route::post('/Add_Dep/delete', [DepartmentController::class, ('del')])->name('dep.del');
-    Route::get('approve-report/{id}', [ReportController::class, 'approveReport'])->name('approve-report');
 });
 
 // terms of use and privacy
