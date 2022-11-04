@@ -12,6 +12,7 @@ class Propsolreport extends Model
         'user_id',
         'proposal_id',
         'propsolution_id',
+        'status'
     ];
 
     public function user()

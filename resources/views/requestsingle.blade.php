@@ -810,7 +810,7 @@
 
                                                             @if($data->reqsolutionreport()->first()->status == null)
 
-                                                            @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id != 1)
+                                                            @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id == 1)
                                                             <a href="{{route('admin-moderator.approve-report',$data->reqsolutionreport->id)}}"
                                                             class="label-dker ms-2 px-2  btn-warning approveReport" >Approve Report</a>
                                                             <a href="{{route('admin-moderator.reject-report',$data->reqsolutionreport->id)}}"
