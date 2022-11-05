@@ -80,4 +80,24 @@ class Proposal extends Model
     {
         return $this->hasOne(Proposalbid::class, 'proposal_id', 'id')->where('user_id', auth()->id());
     }
+
+    public function isAssignToModerator($reqId)
+    {
+        $data = Moderator::where('proposal_id', $reqId)->orderBy('id', 'DESC')->first();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function activeReport($reqId)
+    {
+        $data = Propsolreport::where('proposal_id', $reqId)->orderBy('id')->first();
+        if ($data) {
+            return $data;
+        }
+        return false;
+        //return $this->hasOne(Reqsolutionreport::class, 'request_id', 'id')->where('status', 1)->orderBy('id')->first();
+    }
 }
