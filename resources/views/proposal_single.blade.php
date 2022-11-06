@@ -202,18 +202,16 @@
                                                     </span>
                                                     @endif --}}
 
-                                                    @if ($data->payment_status == true && auth()->id() !=
-                                                    $data->user_id)
-                                                    <form method="POST" class="job-badge p-0"
-                                                        action="{{ route('messages') }}">
-                                                        @csrf
+                                                    @if ($data->payment_status == true && auth()->id() != $data->user_id)
+                                                        <form method="POST" class="job-badge p-0"
+                                                            action="{{ route('messages') }}">
+                                                            @csrf
 
-                                                        <input type="hidden" name="to_id"
-                                                            value="{{ $data->user_id }}" />
-                                                        <button type="submit"
-                                                            class="apply_job_btn ps-4 view-btn btn-hover">Chat
-                                                            Now</button>
-                                                    </form>
+                                                            <input type="hidden" name="to_id"
+                                                                value="{{ $data->user_id }}" />
+                                                            <button type="submit"
+                                                                class="apply_job_btn ps-4 view-btn btn-hover">Chat Now</button>
+                                                        </form>
                                                     @endif
 
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
@@ -266,13 +264,22 @@
                                         </div>
                                     </div>
                                     <div class="action-btns-job job-center resmargin">
-                                        @if (!(auth()->id() == $data->user_id))
-                                        @if ($data->proposalbid()->count() == 0)
-                                        <a href="#"
-                                            class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
-                                            data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
-                                            Now</a>
-                                        @endif
+                                        @if (!(auth()->id() == $data->user_id) )
+                                        @if ($data->propsolution()->count() == 0 || @$data->activeReport($data->id)->status == 1)
+                                                <a href="#"
+                                                    class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 1) d-none @endif"
+                                                    data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
+                                                    Now</a>
+                                            @endif
+
+                                            @if ($data->propsolreport()->where('proposal_id', $data->id)->count() > 0)
+                                                @if ($data->propsolreport->proposal_id == $data->id && $data->propsolreport->user_id == Auth()->id())
+                                                    <a href="#"
+                                                        class="apply_job_btn ps-4 view-btn btn-hover  @if ($data->proposalbid()->where('user_id', Auth()->id())->count() >= 2) d-none @endif"
+                                                        data-bs-toggle="modal" data-bs-target="#addproposalbid">Bid
+                                                        Again</a>
+                                                @endif
+                                            @endif
 
                                         @if ($data->propsolreport()->where('proposal_id', $data->id)->count() > 0)
                                         @if ($data->propsolreport->proposal_id == $data->id &&
@@ -683,6 +690,71 @@
 
                                                                 </div>
                                                             </div>
+                                                            <p> <small>Created on
+                                                                    {{ $item->created_at->diffForHumans() }}</small>
+                                                            </p>
+                                                            <!-- Download solution from here -->
+                                                            <p>{{ $item->description }}</p>
+
+                                                            <div class="jobtxt47">
+                                                                @if($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $item->id && auth()->user()->role_id == 1 || @$data->isAssignToModerator($data->id))
+                                                                <a href=" {{$item->file }} "
+                                                                    download title="Download">
+                                                                    Download file from here </a>
+                                                                @else
+                                                                <a href=" {{ $data->istTakeSolution($data->id) ? $item->file : 'javascript:void(0)' }} "
+                                                                    download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
+                                                                    data-id="{{ $data->paymentLog($data->id)->request_id }}"
+                                                                    data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                    data-resource="requests" class="{!! $data->istTakeSolution($data->id) == false ?'payNow':'' !!} ">
+                                                                    Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
+                                                                @endif
+                                                                {{-- <a href=" {{ $data->istTakeSolution($data->id) ? $item->file : 'javascript:void(0)' }} "
+                                                                    download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
+                                                                    data-id="{{ $data->paymentLog($data->id)->request_id }}"
+                                                                    data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                    data-seller="{{$item->user_id}}"
+                                                                    data-resource="requests" class="payNow">
+                                                                    Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a> --}}
+                                                            </div>
+                                                            <!--End Download solution from here -->
+                                                            @if ($data->propsolreport()->count() > 0 && $data->propsolreport->propsolution_id == $item->id)
+                                                                <span class="text-danger">Reported</span>
+                                                            @else
+                                                                <a href="{{ route('proposal.reppropsol', ['uid' => $item->user_id, 'rid' => $item->proposal_id, 'sid' => $item->id]) }}"
+                                                                    class="label-dker post_categories_reported mr-10 px-2"><span>Report</span></a>
+                                                            @endif
+
+                                                            <a href=""
+                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 prev  @foreach ($data->proposalreview as $item) @if ($item->fr_user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#review" data-id="{{$item->id}}" data-pid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span></a>
+                                                            @if($data->propsolreport()->first()->status == null)
+                                                            @if ($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $item->id && auth()->user()->role_id == 1)
+                                                            @if( @$data->activeReport($data->id)->status == 0 )
+                                                            <a href="{{route('admin-moderator.approve-report',$data->propsolreport->id)}}?type=proposal"
+                                                            class="label-dker ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            <a href="{{route('admin-moderator.reject-report',$data->propsolreport->id)}}?type=proposal"
+                                                                class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport" >Reject Report</a>
+                                                            @endif
+                                                            @endif
+                                                            @endif
+                                                            @if($data->propsolreport()->first()->status == null)
+                                                            @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id == 1)
+                                                            <a href="{{route('admin-moderator.approve-report',$data->propsolreport->id)}}?type=proposal"
+                                                            class="label-dker ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            <a href="{{route('admin-moderator.reject-report',$data->propsolreport->id)}}?type=proposal"
+                                                                class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport" >Reject Report</a>
+                                                            @endif
+                                                            @endif
+                                                            @if($data->propsolreport()->first()->status == 1)
+                                                            <a href="javascript:void(0)"
+                                                            class="label-dker mr-20 ms-2 px-2  btn-success" >Report Approved</a>
+                                                            @endif
+                                                            @if($data->propsolreport()->first()->status == 2)
+                                                            <a href="javascript:void(0)"
+                                                            class="label-dker mr-20 ms-2 px-2  btn-danger" >Report Rejected</a>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1210,5 +1282,43 @@
         $(".modal-body #uid").val(userid);
         $(".modal-body #psol").val(solId);
         $('#review').modal('show');
+    });
+
+    $(document).on("click",".approveReport",function(e){
+        e.preventDefault()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to approve this report!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, approve it!'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = (e.target.href)
+            }else{
+                return false
+            }
+        });
+    });
+
+    $(document).on("click",".rejectReport",function(e){
+        e.preventDefault()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to reject this report!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, reject it!'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = (e.target.href)
+            }else{
+                return false
+            }
+        });
     });
 </script>

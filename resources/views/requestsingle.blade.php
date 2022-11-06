@@ -707,6 +707,67 @@
 
                                                                 </div>
                                                             </div>
+                                                            <p> <small>Created on
+                                                                    {{ $item->created_at->diffForHumans() }}</small>
+                                                            </p>
+                                                            <!-- Download solution from here -->
+                                                            <p>{{ $item->description }}</p>
+
+                                                            <div class="jobtxt47">
+                                                                @if($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id && auth()->user()->role_id == 1 || @$data->isAssignToModerator($data->id))
+                                                                <a href=" {{$item->file }} "
+                                                                    download title="Download">
+                                                                    Download file from here </a>
+                                                                @else
+                                                                <a href=" {{ $data->istTakeSolution($data->id) ? $item->file : 'javascript:void(0)' }} "
+                                                                    download title="{!! $data->istTakeSolution($data->id) ? 'Download' : 'Please pay first to download the solution' !!}"
+                                                                    data-id="{{ $data->paymentLog($data->id)->request_id }}"
+                                                                    data-amount="{{ $data->paymentLog($data->id)->amount }}"
+                                                                    data-resource="requests" class="{!! $data->istTakeSolution($data->id) == false ?'payNow':'' !!} ">
+                                                                    Download file from here {!! $data->istTakeSolution($data->id) == false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
+                                                                @endif
+                                                            </div>
+                                                            <!-- Download solution from here -->
+                                                            @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id)
+                                                                <span class="text-danger">Reported</span>
+                                                            @else
+                                                                <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
+                                                                    class="label-dker post_categories_reported mr-10 px-2 @if($item->created_at->diffInDays(\Carbon\Carbon::parse(now()), true) >=1) d-none @endif"><span>Report</span></a>
+                                                            @endif
+
+                                                            <a href=""
+                                                                class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev @foreach ($data->review as $item) @if ($item->f_user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#review" data-id="{{$item->id}}" data-rid="{{$data->id}}" data-uid="{{$item->user_id}}"><span>Review</span>
+                                                            </a>
+                                                            @if($data->reqsolutionreport()->first()->status == null)
+                                                            @if ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->reqsolution_id == $item->id && auth()->user()->role_id == 1)
+                                                            @if( @$data->activeReport($data->id)->status == 0 )
+                                                            <a href="{{route('admin-moderator.approve-report',$data->reqsolutionreport->id)}}"
+                                                            class="label-dker ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            <a href="{{route('admin-moderator.reject-report',$data->reqsolutionreport->id)}}"
+                                                                class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport" >Reject Report</a>
+                                                            @endif
+                                                            @endif
+                                                            @endif
+
+                                                            @if($data->reqsolutionreport()->first()->status == null)
+
+                                                            @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id == 1)
+                                                            <a href="{{route('admin-moderator.approve-report',$data->reqsolutionreport->id)}}"
+                                                            class="label-dker ms-2 px-2  btn-warning approveReport" >Approve Report</a>
+                                                            <a href="{{route('admin-moderator.reject-report',$data->reqsolutionreport->id)}}"
+                                                                class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport" >Reject Report</a>
+                                                            @endif
+                                                            @endif
+                                                            @if($data->reqsolutionreport()->first()->status == 1)
+                                                            <a href="javascript:void(0)"
+                                                            class="label-dker mr-20 ms-2 px-2  btn-success" >Report Approved</a>
+                                                            @endif
+                                                            @if($data->reqsolutionreport()->first()->status == 2)
+                                                            <a href="javascript:void(0)"
+                                                            class="label-dker mr-20 ms-2 px-2  btn-danger" >Report Rejected</a>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
