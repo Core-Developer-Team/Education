@@ -114,4 +114,22 @@ class Request extends Model
             return false;
         }
     }
+    public function solcheck($id)
+    {
+        $data = reqsolution::where('request_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        else{
+        return 1;
+        }
+    }
+    public function test($id)
+    {
+        $data = Reqbid::where('request_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        return 1;
+    }
 }

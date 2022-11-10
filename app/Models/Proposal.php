@@ -100,4 +100,22 @@ class Proposal extends Model
         return false;
         //return $this->hasOne(Reqsolutionreport::class, 'request_id', 'id')->where('status', 1)->orderBy('id')->first();
     }
+    public function test($id)
+    {
+        $data = Proposalbid::where('proposal_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        return 1;
+    }
+    public function solcheck($id)
+    {
+        $data = Propsolution::where('proposal_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        else{
+        return 1;
+        }
+    }
 }

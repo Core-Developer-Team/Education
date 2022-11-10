@@ -13,9 +13,10 @@ class ReqSolution extends Model
         'request_id',
         'description',
         'file',
+        'status',
     ];
 
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);

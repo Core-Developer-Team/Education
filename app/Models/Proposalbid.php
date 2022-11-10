@@ -14,6 +14,8 @@ class Proposalbid extends Model
         'description',
         'days',
         'user_id',
+        'status',
+        'reported',
     ];
     public function user()
     {

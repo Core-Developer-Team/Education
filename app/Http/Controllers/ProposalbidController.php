@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Proposal;
 use Illuminate\Http\Request;
 use App\Models\Proposalbid;
+use App\Models\Propsolution;
 use App\Models\User;
 use App\Notifications\PbidNotification;
 
@@ -30,5 +31,18 @@ class ProposalbidController extends Controller
         }
 
         return back()->with('status','Your Bit Published Successfully:)');
+    }
+    public function acceptbid(Request $request, $id, $rid){
+        $updatebid = Proposalbid::find($id);
+        if($updatebid){
+            $updatebid->reported = '1';
+            $updatebid->save();
+        }
+        Propsolution::where('proposal_id', $rid)->update([
+            'status' => '1',
+        ]);
+
+        $request->session()->flash('success', 'Bid Accepted Successfully');
+        return back();
     }
 }

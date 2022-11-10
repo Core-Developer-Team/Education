@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Propsolution;
 use Illuminate\Http\Request;
 use App\Models\Reqbid;
+use App\Models\ReqSolution;
 use App\Models\Request as ModelsRequest;
 use App\Models\User;
 use App\Notifications\BidNotification;
@@ -30,5 +32,19 @@ class ReqbidController extends Controller
         }
 
         return back()->with('bidstatus', 'Your Bid Published Successfully Wait for client action:)');
+    }
+
+    public function acceptbid(Request $request, $id){
+        $updatebid = Reqbid::find($id);
+        if($updatebid){
+            $updatebid->reported = '1';
+            $updatebid->save();
+        }
+        ReqSolution::where('request_id', $rid)->update([
+            'status' => '1',
+        ]);
+
+        $request->session()->flash('success', 'Bid Accepted Successfully');
+        return back();
     }
 }

@@ -315,7 +315,7 @@
                                         </div>
                                         <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                             <a href=""
-                                                class="label-dker post_categories_reported mr-10 @if ($item->propsolreport()->count() > 0 && $item->propsolreport->proposal_id == $item->id) @else d-none @endif"><span
+                                                class="label-dker post_categories_reported mr-10 @if ($item->propsolreport()->count() > 0 && $item->propsolreport->proposal_id == $item->id && $item->propsolreport->status==1) @else d-none @endif"><span
                                                     class="label-dker post_categories_reported mr-10">Reported</span></a>
                                             <a href=""
                                                 class="label-dker post_department_top_right mr-10 px-2 ms-2"><span>
@@ -334,7 +334,6 @@
                                                 class="feather-users mr-2"></i><span>Applied</span><ins>{{ $item->proposalbid()->count() }}</ins>
                                             <i
                                                 class="feather-eye mr-2"></i><span>Views</span><ins>{{ $item->view_count }}</ins>
-                                                @if ($item->propsolution()->count() > 0) {{$item->propsolution->proposal_id}} @endif
                                         </div>
                                         <div class="action-btns-job d-flex justify-content-space">
                                             <a href="{{ route('proposal.showproposal', ['id' => $item->id]) }}"
@@ -355,15 +354,12 @@
                                                     </button>
                                                 </div>
                                             @endif
-                                            @isset($bid)
-                                                @foreach ($bid as $bidd)
-                                                    @if ($bidd->proposal_id == $item->id && $bidd->status == 1)
+                                                    @if ($item->propsolution()->count()>0 && $item->propsolution->proposal_id)
                                                         <a href="#" title="Solved"
                                                             class="bm-btn bm-btn-hover-solve  ms-2 active"><i
                                                                 class="fas fa-check"></i></a>
                                                     @endif
-                                                @endforeach
-                                            @endisset
+
                                         </div>
                                     </div>
                                 </div>

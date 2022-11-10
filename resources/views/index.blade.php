@@ -379,15 +379,11 @@
                                                 </div>
                                             @endif
 
-                                            @isset($bid)
-                                                @foreach ($bid as $item)
-                                                    @if ($item->request_id == $data->id && $item->status == 1)
+                                                     @if ($data->reqsolution()->count()>0 && $data->reqsolution->request_id)
                                                         <a href="#" title="Solved"
                                                             class="bm-btn bm-btn-hover-solve  ms-2 active"><i
                                                                 class="fas fa-check"></i></a>
                                                     @endif
-                                                @endforeach
-                                            @endisset
 
                                         </div>
                                     </div>
