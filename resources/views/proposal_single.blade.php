@@ -780,8 +780,8 @@
                                                 <p>{{ $item->description }}</p>
 
                                                 <div class="jobtxt47">
-                                                    @if($data->propsolreport()->count() > 0 &&
-                                                    $data->propsolreport->proposal_id == $item->id &&
+                                                    @if($item->propsolreport()->count() > 0 &&
+                                                    $item->propsolreport->proposal_id == $item->id &&
                                                     auth()->user()->role_id == 1 ||
                                                     @$data->isAssignToModerator($data->id))
                                                     <a href=" {{$item->file }} " download title="Download">
@@ -1314,6 +1314,25 @@
         Swal.fire({
             title: 'Are you sure?',
             text: "You want to Accept this Bid!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Accept it!'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = (e.target.href)
+            }else{
+                return false
+            }
+        });
+    });
+
+    $(document).on("click",".apprrep",function(e){
+        e.preventDefault()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to Accept this Report!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

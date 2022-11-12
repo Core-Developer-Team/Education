@@ -34,7 +34,7 @@ class ReqbidController extends Controller
         return back()->with('bidstatus', 'Your Bid Published Successfully Wait for client action:)');
     }
 
-    public function acceptbid(Request $request, $id){
+    public function acceptbid(Request $request, $id, $rid){
         $updatebid = Reqbid::find($id);
         if($updatebid){
             $updatebid->reported = '1';

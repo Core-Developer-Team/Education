@@ -165,7 +165,7 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::post('/delete', [RequestController::class, 'destroy'])->name('req.destroy');
     Route::get('/myrequests', [RequestController::class, ('getuserrequests')])->name('req.myrequests');
     Route::post('/report/{uid}/{cid}', [CommentreportController::class, 'get'])->name('req.report');
-    Route::get('/acceptbid/{id}', [ReqbidController::class, 'acceptbid'])->name('acceptreqbid');
+    Route::get('/accepreqtbid/{id}/{rid}', [ReqbidController::class, 'acceptbid'])->name('acceptreqbid');
     //proposal routes
     Route::post('/proposals', [ProposalController::class, 'get'])->name('proposal.get');
     Route::get('/proposal_single/{id}', [ProposalController::class, 'showproposal'])->name('proposal.showproposal');

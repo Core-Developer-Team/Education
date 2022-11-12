@@ -272,12 +272,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {{ @$data->test($data->id) }}
                                     <div class="action-btns-job job-center resmargin">
                                         @if (!(auth()->id() == $data->user_id) )
                                         @if ($data->reqsolution()->count() == 0 ||
                                         @$data->activeReport($data->id)->status == 1)
                                         <a href="#"
-                                            class="apply_job_btn ps-4 view-btn btn-hover  @if(@$data->test($data->id) == 0) d-none  @endif"
+                                            class="apply_job_btn ps-4 view-btn btn-hover @if(@$data->test($data->id) == 0) d-none  @endif"
                                             data-bs-toggle="modal" data-bs-target="#addbid">
                                             Bid Now
                                         </a>
@@ -798,8 +799,8 @@
                                                 <p>{{ $item->description }}</p>
 
                                                 <div class="jobtxt47">
-                                                    @if($data->reqsolutionreport()->count() > 0 &&
-                                                    $data->reqsolutionreport->reqsolution_id == $item->id &&
+                                                    @if($item->reqsolutionreport()->count() > 0 &&
+                                                    $item->reqsolutionreport->req_solution_id == $item->id &&
                                                     auth()->user()->role_id == 1 ||
                                                     @$data->isAssignToModerator($data->id))
                                                     <a href=" {{$item->file }} " download title="Download">
@@ -816,10 +817,12 @@
                                                         false ? ' <i class="fas fa-lock"></i>' : '' !!} </a>
                                                     @endif
                                                 </div>
+
+                                                @if ($data->user_id == Auth()->id())
                                                 <!-- Download solution from here -->
-                                                @if ($data->reqsolutionreport()->count() > 0 &&
-                                                $data->reqsolutionreport->reqsolution_id == $item->id)
-                                                <span class="text-danger">Reported</span>
+                                                @if ($item->reqsolutionreport()->count() > 0 &&
+                                                $item->reqsolutionreport->req_solution_id == $item->id)
+                                                <span class="text-danger">@if($item->reqsolutionreport->status==1) Reported @elseif($item->reqsolutionreport->status==2) Rejected @else Pending @endif</span>
                                                 @else
                                                 <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
                                                     class="label-dker post_categories_reported mr-10 px-2 @if($item->created_at->diffInDays(\Carbon\Carbon::parse(now()), true) >=1) d-none @endif"><span>Report</span></a>
@@ -831,38 +834,41 @@
                                                     data-id="{{$item->id}}" data-rid="{{$data->id}}"
                                                     data-uid="{{$item->user_id}}"><span>Review</span>
                                                 </a>
-                                                @if($data->reqsolutionreport()->first()->status == null)
-                                                @if ($data->reqsolutionreport()->count() > 0 &&
-                                                $data->reqsolutionreport->reqsolution_id == $item->id &&
+
+                                                @endif
+
+                                                @if($item->reqsolutionreport()->count() > 0 && $item->reqsolutionreport()->first()->status == null)
+                                                @if ($item->reqsolutionreport()->count() > 0 &&
+                                                $item->reqsolutionreport->req_solution_id == $item->id &&
                                                 auth()->user()->role_id == 1)
-                                                @if( @$data->activeReport($data->id)->status == 0 )
+                                                @if($item->reqsolutionreport()->count() > 0 && @$data->activeReport($data->id)->status == 0 )
                                                 <a href="{{route('admin-moderator.approve-report',['id'=>$item->reqsolutionreport->id, 'rid'=>$data->id])}}"
                                                     class="label-dker ms-2 px-2  btn-warning approveReport">Approve
                                                     Report</a>
-                                                <a href="{{route('admin-moderator.reject-report',$data->reqsolutionreport->id)}}"
+                                                <a href="{{route('admin-moderator.reject-report',$item->reqsolutionreport->id)}}"
                                                     class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport">Reject
                                                     Report</a>
                                                 @endif
                                                 @endif
                                                 @endif
 
-                                                @if($data->reqsolutionreport()->first()->status == null)
+                                                @if($item->reqsolutionreport()->count() > 0 && $item->reqsolutionreport()->first()->status == null)
 
                                                 @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id ==
                                                 1)
                                                 <a href="{{route('admin-moderator.approve-report',['id'=>$item->reqsolutionreport->id, 'rid'=>$data->id])}}"
                                                     class="label-dker ms-2 px-2  btn-warning approveReport">Approve
                                                     Report</a>
-                                                <a href="{{route('admin-moderator.reject-report',$data->reqsolutionreport->id)}}"
+                                                <a href="{{route('admin-moderator.reject-report',$item->reqsolutionreport->id)}}"
                                                     class="label-dker mr-20 ms-2 px-2  btn-danger rejectReport">Reject
                                                     Report</a>
                                                 @endif
                                                 @endif
-                                                @if($data->reqsolutionreport()->first()->status == 1)
+                                                @if($item->reqsolutionreport()->count() > 0 && $item->reqsolutionreport()->first()->status == 1)
                                                 <a href="javascript:void(0)"
                                                     class="label-dker mr-20 ms-2 px-2  btn-success">Report Approved</a>
                                                 @endif
-                                                @if($data->reqsolutionreport()->first()->status == 2)
+                                                @if($item->reqsolutionreport()->count() > 0 && $item->reqsolutionreport()->first()->status == 2)
                                                 <a href="javascript:void(0)"
                                                     class="label-dker mr-20 ms-2 px-2  btn-danger">Report Rejected</a>
                                                 @endif
@@ -1469,6 +1475,25 @@
         Swal.fire({
             title: 'Are you sure?',
             text: "You want to Accept this Bid!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Accept it!'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = (e.target.href)
+            }else{
+                return false
+            }
+        });
+    });
+
+    $(document).on("click",".reqrepp",function(e){
+        e.preventDefault()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to Accept this Report!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
