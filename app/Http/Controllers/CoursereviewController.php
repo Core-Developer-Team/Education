@@ -133,7 +133,7 @@ class CoursereviewController extends Controller
             $data = User::find($request->course_user);
             $data->notify(new CourseNotification($user, $course));
         }
-
-        return back()->with('status', 'Thanks for your Review :)');
+        flash()->addSuccess('Thanks for your Review :)');
+        return back();
     }
 }

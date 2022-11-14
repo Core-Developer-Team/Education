@@ -58,7 +58,8 @@ class BookController extends Controller
             'user_id'   => auth()->id(),
             'cover_pic' => '/storage/' . $imagepath,
         ]));
-        return back()->with('success', 'Book has been uploaded Successfully');
+        flash()->addSuccess('Book has been uploaded Successfully');
+        return back();
     }
     //get single book
     public function showbook($id)
@@ -73,7 +74,7 @@ class BookController extends Controller
         }
         return view('books_single', compact('data', 'reviews'));
     }
-    //search 
+    //search
     public function search(Request $request)
     {
         $request->validate([
@@ -94,7 +95,7 @@ class BookController extends Controller
             $datas = Book::where('title', 'LIKE', '%' . $request->search . "%")->get();
             if ($datas) {
                 foreach ($datas as $data) {
-                    $output .= ' 
+                    $output .= '
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                     <div class="full-width mt-4">
                         <div class="recent-items">

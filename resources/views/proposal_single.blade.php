@@ -832,7 +832,7 @@
                                                 @if ($item->propsolreport()->count() > 0 &&
                                                 $item->propsolreport->proposal_id == $data->id &&
                                                 auth()->user()->role_id == 1)
-                                                @if( @$data->activeReport($item->id)->status == 0 )
+                                                @if($item->propsolreport()->count() > 0 && @$data->activeReport($item->id)->status == 0 )
                                                 <a href="{{route('admin-moderator.approve-report',['id'=>$item->propsolreport->id, 'rid'=>$data->id])}}?type=proposal"
                                                     class="label-dker ms-2 px-2  btn-warning approveReport">Approve
                                                     Report</a>
@@ -843,7 +843,7 @@
                                                 @endif
                                                 @endif
                                                 @if($item->propsolreport()->count() > 0 && $item->propsolreport()->first()->status == null)
-                                                @if(@$data->isAssignToModerator($item->id) && auth()->user()->role_id ==
+                                                @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id ==
                                                 1)
                                                 <a href="{{route('admin-moderator.approve-report',['id'=>$item->propsolreport->id, 'rid'=>$data->id])}}?type=proposal"
                                                     class="label-dker ms-2 px-2  btn-warning approveReport">Approve

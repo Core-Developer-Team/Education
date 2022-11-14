@@ -30,8 +30,8 @@ class ReqbidController extends Controller
             $data = User::find($request->request_user);
             $data->notify(new BidNotification($user,$req));
         }
-
-        return back()->with('bidstatus', 'Your Bid Published Successfully Wait for client action:)');
+        flash()->addSuccess('Bid Published Successfully');
+        return back();
     }
 
     public function acceptbid(Request $request, $id, $rid){
@@ -43,8 +43,7 @@ class ReqbidController extends Controller
         ReqSolution::where('request_id', $rid)->update([
             'status' => '1',
         ]);
-
-        $request->session()->flash('success', 'Bid Accepted Successfully');
+        flash()->addSuccess('Bid Accepted Successfully');
         return back();
     }
 }

@@ -56,8 +56,8 @@ class PropsolutionController extends Controller
             $data->notify(new PsolNotification($user, $proposal));
         }
 
-
-        return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
+        flash()->addSuccess('Your Solution Published Successfully:)');
+        return back();
     }
     public function solutionreport($uid, $rid, $sid)
     {
@@ -74,6 +74,7 @@ class PropsolutionController extends Controller
             $data = User::find(1);
             $data->notify(new PsolreportNotification($user, $req, $touser));
         }
+        flash()->addSuccess('Report Send Successfully:)');
         return back();
     }
 }

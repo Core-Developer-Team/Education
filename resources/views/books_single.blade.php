@@ -38,6 +38,11 @@
                             {{ session()->get('status') }}
                         </div>
                     @endif
+                    @if (session()->has('success'))
+                    <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+                        <p>{{ session()->get('success') }}</p>
+                    </div>
+                    @endif
                     <div class="prdct_dt_view">
                         <div class="pdct-img">
                             <img class="ft-plus-square product-bg-w bg-cyan br-10 mr-0" src="{{ $data->cover_pic }}"
@@ -237,7 +242,7 @@
                                                 </div>
 
                                                 <div class="submit_btn">
-                                                    <button type="submit" class="main-btn color btn-hover"
+                                                    <button type="submit" @disabled($errors->isNotEmpty())  class="main-btn color btn-hover"
                                                         data-ripple="">Send
                                                         Review</button>
                                                 </div>

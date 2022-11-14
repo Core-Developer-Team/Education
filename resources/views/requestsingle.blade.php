@@ -9,7 +9,11 @@
 </header>
 
 <div class="wrapper pt-0">
-
+    @if (session()->has('success'))
+    <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+        <p>{{ session()->get('success') }}</p>
+    </div>
+@endif
     <div class="page-tabs">
         <div class="container">
             <div class="row">
@@ -218,9 +222,9 @@
                                                     @endif
                                                     <span class="job-badge ffcolor">
                                                         @if ($data->tag == 1)
-                                                        Offline
-                                                        @else
                                                         Online
+                                                        @else
+                                                        Offline
                                                         @endif
                                                     </span>
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
@@ -272,7 +276,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{ @$data->test($data->id) }}
+
                                     <div class="action-btns-job job-center resmargin">
                                         @if (!(auth()->id() == $data->user_id) )
                                         @if ($data->reqsolution()->count() == 0 ||
@@ -829,7 +833,7 @@
                                                 @endif
 
                                                 <a href=""
-                                                    class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev @foreach ($data->review as $item) @if ($item->f_user_id == Auth()->id()) d-none @endif @endforeach"
+                                                    class="label-dker post_categories_top_right mr-20 ms-2 px-2 rev @foreach ($data->review as $iten) @if ($iten->f_user_id == Auth()->id()) d-none @endif @endforeach"
                                                     data-bs-toggle="modal" data-bs-target="#review"
                                                     data-id="{{$item->id}}" data-rid="{{$data->id}}"
                                                     data-uid="{{$item->user_id}}"><span>Review</span>
@@ -839,9 +843,9 @@
 
                                                 @if($item->reqsolutionreport()->count() > 0 && $item->reqsolutionreport()->first()->status == null)
                                                 @if ($item->reqsolutionreport()->count() > 0 &&
-                                                $item->reqsolutionreport->req_solution_id == $item->id &&
+                                                $item->reqsolutionreport->request_id == $data->id &&
                                                 auth()->user()->role_id == 1)
-                                                @if($item->reqsolutionreport()->count() > 0 && @$data->activeReport($data->id)->status == 0 )
+                                                @if($item->reqsolutionreport()->count() > 0 && @$data->activeReport($item->id)->status == 0 )
                                                 <a href="{{route('admin-moderator.approve-report',['id'=>$item->reqsolutionreport->id, 'rid'=>$data->id])}}"
                                                     class="label-dker ms-2 px-2  btn-warning approveReport">Approve
                                                     Report</a>
@@ -854,8 +858,7 @@
 
                                                 @if($item->reqsolutionreport()->count() > 0 && $item->reqsolutionreport()->first()->status == null)
 
-                                                @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id ==
-                                                1)
+                                                @if(@$data->isAssignToModerator($data->id) && auth()->user()->role_id == 1)
                                                 <a href="{{route('admin-moderator.approve-report',['id'=>$item->reqsolutionreport->id, 'rid'=>$data->id])}}"
                                                     class="label-dker ms-2 px-2  btn-warning approveReport">Approve
                                                     Report</a>
@@ -914,7 +917,7 @@
                                         @forelse ($data->reqcomment()->orderBy('updated_at','DESC')->get() as $item)
                                         <div
                                             class="d-sm-flex align-items-center rounded w-full border-none mt-3 p-3 mb-4">
-                                            <div class="rounded-circle d-flex">
+                                            <div class="rounded-circle d-flex" style="width: 100%;">
                                                 <div class="userimg">
                                                     <img class="ft-plus-square job-bg-circle iconreq bg-cyan mr-0"
                                                         src="{{ $item->user->badge->image }}"
@@ -1166,7 +1169,7 @@
                                 rows="3"> {{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm descriptionError"></div>
                         </div>
-                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover mt-3"
+                        <button type="submit" @disabled($errors->isNotEmpty()) class="apply_job_btn ps-4 view-btn btn-hover mt-3"
                             name="submit">submit</button>
                     </form>
 
@@ -1216,7 +1219,7 @@
                                 id="description" name="file" value=" {{ old('file') }}">
                             <div class="text-danger mt-2 text-sm fileeror"></div>
                         </div>
-                        <button type="submit" class="apply_job_btn ps-4 view-btn btn-hover btn-prevent-mul mt-3"
+                        <button type="submit" @disabled($errors->isNotEmpty()) class="apply_job_btn ps-4 view-btn btn-hover btn-prevent-mul mt-3"
                             name="submit"> submit</button>
                     </form>
 
@@ -1323,7 +1326,7 @@
                         </div>
 
                         <div class="submit_btn mb-4">
-                            <button type="submit" class="main-btn color btn-hover mt-3" data-ripple="">Send
+                            <button type="submit" @disabled($errors->isNotEmpty()) class="main-btn color btn-hover mt-3" data-ripple="">Send
                                 Review</button>
                         </div>
                     </form>
@@ -1426,9 +1429,9 @@
         var userid = $(this).data('uid');
         var reqid = $(this).data('rid');
 
-        $(".modal-footer #req_id").val(reqid);
-        $(".modal-footer #t_user").val(userid);
-        $(".modal-footer #solu_id").val(solId);
+        $(".modal-body #req_id").val(reqid);
+        $(".modal-body #t_user").val(userid);
+        $(".modal-body #solu_id").val(solId);
         $('#review').modal('show');
     });
 

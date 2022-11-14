@@ -93,7 +93,7 @@ class Proposal extends Model
 
     public function activeReport($reqId)
     {
-        $data = Propsolreport::where('proposal_id', $reqId)->orderBy('id')->first();
+        $data = Propsolreport::where('propsolution_id', $reqId)->orderBy('id')->first();
         if ($data) {
             return $data;
         }

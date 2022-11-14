@@ -97,7 +97,7 @@ class Request extends Model
 
     public function activeReport($reqId)
     {
-        $data = Reqsolutionreport::where('request_id', $reqId)->orderBy('id')->first();
+        $data = Reqsolutionreport::where('req_solution_id', $reqId)->orderBy('id')->first();
         if ($data) {
             return $data;
         }

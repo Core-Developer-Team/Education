@@ -29,8 +29,8 @@ class ProposalbidController extends Controller
             $data = User::find($request->proposal_user);
             $data->notify(new PbidNotification($user,$proposal));
         }
-
-        return back()->with('status','Your Bit Published Successfully:)');
+        flash()->addSuccess('Your Bit Published Successfully:)');
+        return back();
     }
     public function acceptbid(Request $request, $id, $rid){
         $updatebid = Proposalbid::find($id);
@@ -41,8 +41,7 @@ class ProposalbidController extends Controller
         Propsolution::where('proposal_id', $rid)->update([
             'status' => '1',
         ]);
-
-        $request->session()->flash('success', 'Bid Accepted Successfully');
+        flash()->addSuccess('Bid Accepted Successfully');
         return back();
     }
 }

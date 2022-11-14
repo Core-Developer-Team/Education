@@ -33,7 +33,8 @@ class ProductController extends Controller
             'user_id'   => auth()->id(),
             'cover_pic' => '/storage/' . $imagepath,
         ]));
-        return back()->with('success', 'Product has been Added Successfully');
+        flash()->addSuccess('Product has been Added Successfully:)');
+        return back();
     }
 
     //search
