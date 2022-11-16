@@ -45,13 +45,13 @@ class ReqSolutionController extends Controller
 
         $users = User::where('id', $request->user_id)->first();
 
-        if ($users->solutions >= 20 && $users->solutions<=70) {
+        if ($users->solutions >= 20 && $users->solutions <= 70) {
             $users->badge_id = 2;
-        } elseif ($users->solutions > 70 && $users->solutions <= 80 && $users->rating>=4.7 ) {
+        } elseif ($users->solutions > 70 && $users->solutions <= 80 && $users->rating >= 4.7) {
             $users->badge_id = 3;
-        } elseif ($users->solutions > 80 && $users->solutions <= 100 && $users->rating>=4.0) {
+        } elseif ($users->solutions > 80 && $users->solutions <= 100 && $users->rating >= 4.0) {
             $users->badge_id = 4;
-        } elseif ($users->solutions > 100 && $users->rating>=4.0) {
+        } elseif ($users->solutions > 100 && $users->rating >= 4.0) {
             $users->badge_id = 5;
         }
 
@@ -61,12 +61,12 @@ class ReqSolutionController extends Controller
 
         $users->update();
 
-        if(auth()->user()){
-            $req = ModelsRequest::where('id',$request->request_id)->first();
+        if (auth()->user()) {
+            $req = ModelsRequest::where('id', $request->request_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->request_user);
-            $data->notify(new SolNotification($user,$req));
-            }
+            $data->notify(new SolNotification($user, $req));
+        }
 
         return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
     }
@@ -93,7 +93,7 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('mysolutions', compact('data','contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('mysolutions', compact('data', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //all solutions
@@ -120,7 +120,7 @@ class ReqSolutionController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
 
-        return view('allsolutions', compact('datas','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('allsolutions', compact('datas', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function solutionreport($uid, $rid, $sid)
     {
@@ -161,7 +161,6 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('reportedsolutions',compact('datas','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('reportedsolutions', compact('datas', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
-
 }

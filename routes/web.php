@@ -392,6 +392,4 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
 Route::get('/request/action', [RequestController::class, 'action'])->name('live_search.action');
 
 
-Route::get('/test', function () {
-    return view('testsignup');
-});
+Route::get('/test', [PaymentLogController::class, 'checkB2C']);

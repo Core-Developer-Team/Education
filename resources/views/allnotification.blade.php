@@ -31,6 +31,7 @@
                                 <i class="feather-refresh-cw"></i>
                             </span>
                         </div>
+
                         <div class="notification-block">
                             @foreach (auth()->user()->notifications as $notification)
                                 {{ $notification->markAsRead() }}
@@ -54,6 +55,7 @@
                                             </div>
                                         </a>
                                     </div>
+                                  
                                     <div class="display-flex flex-column flex-grow-1 mt-1 mr-3">
                                         <a class="nt-card__headline t-black t-normal"
                                             href="{{ route($notification->data['link'], ['id' => $notification->data['request_id']]) }}">
