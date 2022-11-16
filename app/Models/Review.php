@@ -12,7 +12,7 @@ class Review extends Model
         'f_user_id',
         't_user_id',
         'rating',
-        'reqsolution_id',
+        'req_solution_id',
         'request_id',
         'description',
      ];

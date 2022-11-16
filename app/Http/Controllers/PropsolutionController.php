@@ -21,14 +21,14 @@ class PropsolutionController extends Controller
         $request->validate([
             'file'         => ['required', 'mimes:csv,txt,xlx,xls,pdf,docx,ppt,,zip,rar,pptx,jpg,jpeg,png,svg', 'max:10000'],
             'description'  => ['required', 'string', 'max:255'],
-            'proposal_id'  => ['unique:propsolutions,proposal_id,' . $request->proposal_id],
+            'proposal_id'  => ['required'],
             'user_id'      => ['required'],
         ]);
 
         Propsolution::create($request->only('file', 'description', 'proposal_id', 'user_id'));
-        Proposalbid::where('proposal_id', $request->proposal_id)->update([
-            'status' => '1',
-        ]);
+      //  Proposalbid::where('proposal_id', $request->proposal_id)->update([
+        //    'status' => '1',
+       // ]);
         User::where('id', $request->user_id)->increment('solutions', 1);
 
         $users = User::where('id', $request->user_id)->first();
@@ -56,7 +56,8 @@ class PropsolutionController extends Controller
             $data->notify(new PsolNotification($user, $proposal));
         }
 
-        return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
+        flash()->addSuccess('Your Solution Published Successfully:)');
+        return back();
     }
     public function solutionreport($uid, $rid, $sid)
     {
@@ -65,6 +66,7 @@ class PropsolutionController extends Controller
             'proposal_id'  => $rid,
             'propsolution_id' => $sid,
         ]);
+
         if (auth()->user()) {
             $req = Proposal::where('id', $rid)->first();
             $user = User::find(auth()->user()->id);
@@ -72,6 +74,7 @@ class PropsolutionController extends Controller
             $data = User::find(1);
             $data->notify(new PsolreportNotification($user, $req, $touser));
         }
+        flash()->addSuccess('Report Send Successfully:)');
         return back();
     }
 }

@@ -13,6 +13,8 @@ class Propsolution extends Model
         'proposal_id',
         'description',
         'file',
+        'status',
+        'reported',
     ];
     public function user()
     {

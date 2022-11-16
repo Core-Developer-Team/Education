@@ -43,7 +43,7 @@ class ReviewNotification extends Notification
             'name'    => $this->user['username'],
             'image'   => $this->user['image'],
             'mesg'    => "Gave review on Your Solution",
-            'request_id' => $this->reqrev['id'],
+            'request_id' => $this->reqrev,
             'link'       => "req.showsingle",
         ];
     }

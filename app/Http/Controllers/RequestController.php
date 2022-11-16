@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Flasher\Prime\FlasherInterface;
 
 class RequestController extends Controller
 {
@@ -155,7 +156,7 @@ class RequestController extends Controller
         return view('index', compact('datas', 'sol_count', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //store requests
-    public function insert(Request $request)
+    public function insert(FlasherInterface $flasher, Request $request)
     {
 
         $request->validate([
@@ -185,8 +186,8 @@ class RequestController extends Controller
                 'filename' => '',
             ]));
         }
-
-        return redirect('/')->with('reqstatus', 'Your Request Published Successfully:)');
+        flash()->addSuccess('Your Request Published Successfully:)');
+        return redirect('/');
     }
 
     // Show single Request
@@ -336,8 +337,8 @@ class RequestController extends Controller
             'description' => $request->description,
             'tag' => $request->tag,
         ]);
-
-        return redirect('/')->with('requpstatus', 'Your Request updated Successfully:)');
+        flash()->addSuccess('Your Request updated Successfully:)');
+        return redirect('/');
     }
     // Delete
     public function destroy(Request $request)
@@ -349,7 +350,8 @@ class RequestController extends Controller
             File::delete($file_path);
         }
         $data->delete();
-        return back()->with('success', 'Request has deleted Successfully');
+        flash()->addSuccess('Request has deleted Successfully');
+        return back();
     }
 
     function action(Request $request)
@@ -413,7 +415,7 @@ class RequestController extends Controller
                     }
 
 
-                    $output .= ' 
+                    $output .= '
                     <div class="full-width mt-4">
                     <div class="recent-items">
                         <div class="posts-list">
@@ -434,7 +436,7 @@ class RequestController extends Controller
                                                         <div class="author-left">
                                                             <img class="ft-plus-square job-bg-circle bg-cyan" src="/storage/' . $data->user->image . '" alt="">
                                                             <div class="' . (Cache::has("user-is-online-" . $data->user->id) ? 'status-oncircle' : 'status-ofcircle') . '">
-                                                            
+
                                                             </div>
                                                         </div>
 
@@ -553,9 +555,9 @@ class RequestController extends Controller
                                     </ins>
                                 </div>
                                 <div class="action-btns-job d-flex justify-content-space">
-                                    <a href="/request_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>                                                                                              
+                                    <a href="/request_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>
                                 </div>
-                                ' . ($data->user_id == Auth()->id() ? '  
+                                ' . ($data->user_id == Auth()->id() ? '
                                 <div class="' . $see . '">
                                 <a href="/edit/' . $data->id . '"
                                     title="Edit" class="px-3">

@@ -15,7 +15,7 @@
             <div class="col-xl-3 col-lg-4 col-md-12">
                 <div class="full-width">
                     <div class="btn_1589">
-                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" 
+                        <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                         data-bs-target="@auth @fullinfo
 #addcourse
 @else
@@ -68,7 +68,7 @@
                                 <span class="all-info__right">{{$t_prop_count}}</span>
                             </a>
                         </li>
-                
+
                         <li>
                             <a  class="all-info__sections">
                                 <span class="all-info__left"><i class="feather-download me-2"></i>Request Solution</span>
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-12">
-                
+
                 <div class="filter_items">
                     <div class="row">
                         <div class="col-lg-12">
@@ -95,7 +95,7 @@
                                     <a href="{{route('course.trending')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_trending') fltr-active @endif">Trending</a>
                                     <a href="{{route('course.week')}}" class="fltr-btn @if (request()->getpathinfo() == '/course_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                              
+
                             </div>
                         </div>
                     </div>
@@ -103,6 +103,11 @@
                 @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <strong>{{ $message }}</strong>
+                </div>
+                @endif
+                @if (session()->has('success'))
+                <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+                    <p>{{ session()->get('success') }}</p>
                 </div>
                 @endif
                 <div class="all-items">
@@ -139,7 +144,7 @@
                                                                 </a>
                                                             </div>
                                                             <div class="author-dts pp-20">
-                                                                <a 
+                                                                <a
                                                                     class="job-heading pp-title">{{
                                                                     Str::limit($item->snippet->title, 50, $end = '....')
                                                                     }}</a>
@@ -172,7 +177,7 @@
                                                             <div class="action-btns-job">
                                                                 <i class="feather-eye mr-2"></i>
                                                                 {{$items['view_count']}}
-                                                              
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -227,7 +232,7 @@
                                                                 </a>
                                                             </div>
                                                             <div class="author-dts pp-20">
-                                                                <a 
+                                                                <a
                                                                     class="job-heading pp-title">{{
                                                                     Str::limit($item->snippet->title, 50, $end = '....')
                                                                     }}</a>
@@ -260,7 +265,7 @@
                                                             <div class="action-btns-job">
                                                                 <i class="feather-eye mr-2"></i>
                                                                 {{$items['view_count']}}
-                                                               
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -337,7 +342,7 @@
                         <div id="price">
 
                         </div>
-                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
+                        <button type="submit" @disabled($errors->isNotEmpty()) name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>

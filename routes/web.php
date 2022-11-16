@@ -165,6 +165,7 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::post('/delete', [RequestController::class, 'destroy'])->name('req.destroy');
     Route::get('/myrequests', [RequestController::class, ('getuserrequests')])->name('req.myrequests');
     Route::post('/report/{uid}/{cid}', [CommentreportController::class, 'get'])->name('req.report');
+    Route::get('/accepreqtbid/{id}/{rid}', [ReqbidController::class, 'acceptbid'])->name('acceptreqbid');
     //proposal routes
     Route::post('/proposals', [ProposalController::class, 'get'])->name('proposal.get');
     Route::get('/proposal_single/{id}', [ProposalController::class, 'showproposal'])->name('proposal.showproposal');
@@ -176,6 +177,7 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::get('/latest_proposal', [ProposalController::class, 'latesttutorial'])->name('proposal.new');
     Route::get('/weekly_proposal', [ProposalController::class, 'week'])->name('proposal.week');
     Route::get('/trending_proposal', [ProposalController::class, 'trending'])->name('proposal.trending');
+    Route::get('/acceptbid/{id}/{rid}', [ProposalbidController::class, 'acceptbid'])->name('acceptbid');
     //book routes
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books_single/{id}', [BookController::class, 'showbook'])->name('books.showbook');
@@ -295,7 +297,7 @@ Route::middleware(['moderator'])->name('moderator.')->group(function () {
 
 
 Route::middleware('auth')->name('admin-moderator.')->group(function () {
-    Route::get('approve-report/{id}', [ReportController::class, 'approveReport'])->name('approve-report');
+    Route::get('approve-report/{id}/{rid}', [ReportController::class, 'approveReport'])->name('approve-report');
     Route::get('reject-report/{id}', [ReportController::class, 'rejectReport'])->name('reject-report');
 });
 
