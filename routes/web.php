@@ -395,3 +395,4 @@ Route::get('/request/action', [RequestController::class, 'action'])->name('live_
 
 
 Route::get('/test', [PaymentLogController::class, 'checkB2C']);
+
