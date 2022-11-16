@@ -14,6 +14,8 @@ class Reqbid extends Model
         'price',
         'days',
         'description',
+        'status',
+        'reported',
     ];
 
     public function user()

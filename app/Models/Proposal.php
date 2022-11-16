@@ -93,11 +93,29 @@ class Proposal extends Model
 
     public function activeReport($reqId)
     {
-        $data = Propsolreport::where('proposal_id', $reqId)->orderBy('id')->first();
+        $data = Propsolreport::where('propsolution_id', $reqId)->orderBy('id')->first();
         if ($data) {
             return $data;
         }
         return false;
         //return $this->hasOne(Reqsolutionreport::class, 'request_id', 'id')->where('status', 1)->orderBy('id')->first();
+    }
+    public function test($id)
+    {
+        $data = Proposalbid::where('proposal_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        return 1;
+    }
+    public function solcheck($id)
+    {
+        $data = Propsolution::where('proposal_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        else{
+        return 1;
+        }
     }
 }

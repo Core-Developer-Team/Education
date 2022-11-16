@@ -129,7 +129,7 @@ class TutorialreviewController extends Controller
             $data = User::find($request->playlist_user);
             $data->notify(new TutorialNotification($user, $tutorial));
         }
-
-        return back()->with('status', 'Thanks for your Review :)');
+        flash()->addSuccess('Thanks for your Review :)');
+        return back();
     }
 }

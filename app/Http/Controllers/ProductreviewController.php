@@ -130,7 +130,7 @@ class ProductreviewController extends Controller
             $data = User::find($request->product_user);
             $data->notify(new ProductrevNotification($user,$product));
         }
-
-        return back()->with('status', 'Thanks for your Review :)');
+        flash()->addSuccess('Thanks for your Review:)');
+        return back();
     }
 }

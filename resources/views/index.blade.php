@@ -121,16 +121,7 @@
                         {{ session()->get('success') }}
                     </div>
                 @endif
-                @if (session()->has('requpstatus'))
-                    <div class="alert alert-success mt-3">
-                        {{ session()->get('requpstatus') }}
-                    </div>
-                @endif
-                @if (session()->has('reqstatus'))
-                    <div class="alert alert-success mt-3">
-                        {{ session()->get('reqstatus') }}
-                    </div>
-                @endif
+
                 <div class="bod">
                     @forelse ($datas as $data)
                         <div class="full-width mt-4">
@@ -299,9 +290,9 @@
                                                 <div class="jbbdges10">
                                                     <span class="job-badge ffcolor">
                                                         @if ($data->tag == 1)
-                                                            Offline
-                                                        @else
                                                             Online
+                                                        @else
+                                                            Offline
                                                         @endif
                                                     </span>
 
@@ -379,15 +370,11 @@
                                                 </div>
                                             @endif
 
-                                            @isset($bid)
-                                                @foreach ($bid as $item)
-                                                    @if ($item->request_id == $data->id && $item->status == 1)
+                                                     @if ($data->reqsolution()->count()>0 && $data->reqsolution->request_id)
                                                         <a href="#" title="Solved"
                                                             class="bm-btn bm-btn-hover-solve  ms-2 active"><i
                                                                 class="fas fa-check"></i></a>
                                                     @endif
-                                                @endforeach
-                                            @endisset
 
                                         </div>
                                     </div>
@@ -497,7 +484,7 @@
                             </select>
                             <div class="text-danger mt-2 text-sm tagError"></div>
                         </div>
-                        <button type="submit" class="post-link-btn btn-hover mt-3 btn-prevent" name="submit"
+                        <button type="submit" @disabled($errors->isNotEmpty()) class="post-link-btn btn-hover mt-3 btn-prevent" name="submit"
                             value="Submit"> <i class="spinner fa fa-spinner fa-spin" style="display: none;"></i>
                             Submit
                         </button>

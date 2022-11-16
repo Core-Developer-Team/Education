@@ -155,8 +155,8 @@ class ProposalController extends Controller
                 'filename' => '',
             ]));
         }
-
-        return back()->with('status', 'Your Proposal Published Successfully:)');
+        flash()->addSuccess('Your Proposal Published Successfully:)');
+        return back();
     }
     //show single proposal
     public function showproposal($id)
@@ -287,8 +287,8 @@ class ProposalController extends Controller
             'category' => $request->category,
             'description' => $request->description,
         ]);
-
-        return back()->with('status', 'Your Proposal Updated Successfully:)');
+        flash()->addSuccess('Your Proposal Updated Successfully:)');
+        return redirect('/proposals');
     }
     public function livesearch(Request $request)
     {
@@ -333,7 +333,7 @@ class ProposalController extends Controller
                         }
                     }
 
-                    $output .= ' 
+                    $output .= '
                     <div class="full-width mt-4">
                     <div class="recent-items">
                         <div class="posts-list">
@@ -354,7 +354,7 @@ class ProposalController extends Controller
                                                         <div class="author-left">
                                                             <img class="ft-plus-square job-bg-circle bg-cyan" src="/storage/' . $data->user->image . '" alt="">
                                                             <div class="' . (Cache::has("user-is-online-" . $data->user->id) ? 'status-oncircle' : 'status-ofcircle') . '">
-                                                            
+
                                                             </div>
                                                         </div>
 
@@ -472,9 +472,9 @@ class ProposalController extends Controller
                                     </ins>
                                 </div>
                                 <div class="action-btns-job d-flex justify-content-space">
-                                    <a href="/proposal_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>                                                                                              
+                                    <a href="/proposal_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>
                                 </div>
-                                ' . ($data->user_id == Auth()->id() ? '  
+                                ' . ($data->user_id == Auth()->id() ? '
                                 <div class="' . $see . '">
                                 <a href="/proposal_edit/' . $data->id . '"
                                     title="Edit" class="px-3">

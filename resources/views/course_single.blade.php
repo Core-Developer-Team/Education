@@ -26,6 +26,11 @@
             </div>
         </div>
     </div>
+    @if (session()->has('success'))
+    <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+        <p>{{ session()->get('success') }}</p>
+    </div>
+    @endif
     <div class="event-content-main">
         <div class="container">
             <div class="row">
@@ -290,13 +295,13 @@
                                                 </div>
 
                                                 <div class="submit_btn">
-                                                    <button type="submit" class="main-btn color btn-hover"
+                                                    <button type="submit" @disabled($errors->isNotEmpty()) class="main-btn color btn-hover"
                                                         data-ripple="">Send
                                                         Review</button>
                                                 </div>
                                             </form>
                                             <!--end review form-->
-                                             
+
                                         @endif
                                         @endif
                                         <!--close comments section-->

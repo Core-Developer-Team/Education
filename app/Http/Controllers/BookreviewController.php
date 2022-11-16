@@ -130,7 +130,7 @@ class BookreviewController extends Controller
             $data = User::find($request->book_user);
             $data->notify(new BookrevNotification($user,$book));
         }
-
-        return back()->with('status', 'Thanks for your Review :)');
+        flash()->addSuccess('Thanks for your Review :)');
+        return back();
     }
 }

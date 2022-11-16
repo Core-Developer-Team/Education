@@ -11,6 +11,7 @@ use App\Models\Review;
 use App\Models\User;
 use App\Notifications\ReviewNotification;
 use Illuminate\Http\Request;
+use App\Models\Request as ModelRequest;
 
 class ReviewController extends Controller
 {
@@ -24,7 +25,7 @@ class ReviewController extends Controller
         Review::create(array_merge($request->only('description', 'rating'), [
             'f_user_id'      => auth()->id(),
             't_user_id'      => $request->t_user_id,
-            'reqsolution_id' => $request->solution_id,
+            'req_solution_id' => $request->solution_id,
             'request_id'     => $request->request_id,
         ]));
         $five = 0;
@@ -125,12 +126,12 @@ class ReviewController extends Controller
         }
 
         if (auth()->user()) {
-            $reqrev = Review::where('id',$request->request_id)->get();
+            $reqrev = ModelRequest::where('id',$request->request_id)->get();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->t_user_id);
-            $data->notify(new ReviewNotification($user, $reqrev));
+            $data->notify(new ReviewNotification($user, $request->request_id));
         }
-
-        return back()->with('reciewstatus', 'Thanks for your Review :)');
+        flash()->addSuccess('Thanks for your Review:)');
+        return back();
     }
 }

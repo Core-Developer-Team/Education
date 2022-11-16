@@ -19,9 +19,9 @@
 	- Scrollbar
 	- Header section
 	- Left section
-	- Center section 
+	- Center section
 - Right section
-	- Statistics section	
+	- Statistics section
 	- Loading Section
 	- Footer section
 	- All Popups
@@ -30,7 +30,7 @@
 2.  Post a Job Page
 3.  Add New Product
 4.  Add New Course
-5.  All Jobs 
+5.  All Jobs
 6.  Learning
 7. 	Find Connections
 8. 	My Connections
@@ -63,12 +63,12 @@
 =============================================================*/
 
 
-/* ================================================================================== 
+/* ==================================================================================
  Google Fonts
 ===================================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;700;800;900&amp;display=swap')
-/* ================================================================================== 
+/* ==================================================================================
 Reset Css
 ===================================================================================== */
 
@@ -359,7 +359,7 @@ blockquote {
         font-size: 3em;
         /* 3x body copy size = 48px */
         line-height: 1.05;
-        /* keep to a multiple of the 20px line height 
+        /* keep to a multiple of the 20px line height
 	and something more appropriate for display headings */
     }
     h2 {
@@ -9858,9 +9858,9 @@ a.nav-icon-list:hover {
 /* --- My Page and Group --- */
 
 .banner-user {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center !important;
     border-radius: 0px;
     padding: 0;
     position: relative;

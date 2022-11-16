@@ -10,7 +10,11 @@
 </header>
 
 <div class="wrapper pt-0">
-
+    @if (session()->has('success'))
+    <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+        <p>{{ session()->get('success') }}</p>
+    </div>
+    @endif
     <div class="page-tabs">
         <div class="container">
             <div class="row">
@@ -255,7 +259,7 @@
                                                     </div>
 
                                                     <div class="submit_btn">
-                                                        <button type="submit" class="main-btn color btn-hover"
+                                                        <button type="submit" @disabled($errors->isNotEmpty()) class="main-btn color btn-hover"
                                                             data-ripple="">Send
                                                             Review</button>
                                                     </div>

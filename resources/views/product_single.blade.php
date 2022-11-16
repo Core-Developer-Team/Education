@@ -28,10 +28,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-12">
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
+                    @if (session()->has('success'))
+                    <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+                        <p>{{ session()->get('success') }}</p>
+                    </div>
                     @endif
                     <div class="prdct_dt_view">
                         <div class="pdct-img">
@@ -228,7 +228,7 @@
                                                 </div>
 
                                                 <div class="submit_btn">
-                                                    <button type="submit" class="main-btn color btn-hover"
+                                                    <button type="submit" @disabled($errors->isNotEmpty()) class="main-btn color btn-hover"
                                                         data-ripple="">Send
                                                         Review</button>
                                                 </div>
