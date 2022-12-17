@@ -95,7 +95,7 @@
                                     <a href="{{ route('prod.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/product_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                              
+
                             </div>
                         </div>
                     </div>
@@ -104,6 +104,11 @@
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
+                @endif
+                @if (session()->has('success'))
+                <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+                    <p>{{ session()->get('success') }}</p>
+                </div>
                 @endif
                 <div class="all-items">
                     <div class="product-items-list">
@@ -128,7 +133,7 @@
                                                         <a class="job-heading pp-title">{{ $item->name }}</a>
                                                         <p class="notification-text font-small-4 d-inline-block me-2">
                                                             by
-                                                        <div class="userimg d-inline-block"> 
+                                                        <div class="userimg d-inline-block">
                                                             <a
                                                                 href="{{ route('profile.show', ['id' => $item->user_id]) }}"
                                                                 class="cmpny-dt blk-clr"
@@ -290,7 +295,7 @@
                             <textarea id="desc" class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
-                        <button type="submit" name="submit" value="submit"
+                        <button type="submit" @disabled($errors->isNotEmpty()) name="submit" value="submit"
                             class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
@@ -315,7 +320,7 @@
             success: function(data) {
                 $('.productsearch').html(data);
             }
-           
+
         });
     })
 </script>

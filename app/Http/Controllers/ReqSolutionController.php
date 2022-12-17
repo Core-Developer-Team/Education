@@ -38,9 +38,7 @@ class ReqSolutionController extends Controller
         ReqSolution::create(array_merge($request->only('user_id', 'request_id', 'description'), [
             'file'    => '/storage/' . $imgPath,
         ]));
-        Reqbid::where('request_id', $request->request_id)->update([
-            'status' => '1',
-        ]);
+
         User::where('id', $request->user_id)->increment('solutions', 1);
 
         $users = User::where('id', $request->user_id)->first();
@@ -67,8 +65,8 @@ class ReqSolutionController extends Controller
             $data = User::find($request->request_user);
             $data->notify(new SolNotification($user,$req));
             }
-
-        return back()->with('solstatus', 'Your Solution Published Successfully Wait for client action:)');
+            flash()->addSuccess('Solution Published Successfully');
+        return back();
     }
 
     //get my solution
@@ -127,7 +125,7 @@ class ReqSolutionController extends Controller
         Reqsolutionreport::Create([
             'user_id' => $uid,
             'request_id'  => $rid,
-            'reqsolution_id' => $sid,
+            'req_solution_id' => $sid,
         ]);
         if (auth()->user()) {
             $req = ModelsRequest::where('id', $rid)->first();
@@ -136,6 +134,7 @@ class ReqSolutionController extends Controller
             $data = User::find(1);
             $data->notify(new SolreportNotification($user, $req, $touser));
         }
+        flash()->addSuccess('Report Send Successfully');
         return back();
     }
     //All Reported Solution

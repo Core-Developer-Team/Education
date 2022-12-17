@@ -95,7 +95,7 @@
                                     <a href="{{ route('book.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/books_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                              
+
                             </div>
                         </div>
                     </div>
@@ -105,10 +105,15 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if (session()->has('success'))
+                <div class="fixed bg-green-600 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+                    <p>{{ session()->get('success') }}</p>
+                </div>
+                @endif
                 <div class="all-items">
                     <div class="product-items-list">
                         <div class="row booksearch">
-                                   
+
                             @forelse ($data as $item)
                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                     <div class="full-width mt-4">
@@ -227,7 +232,7 @@
                             <textarea id="desc" class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
-                        <button type="submit" name="submit" value="submit"
+                        <button type="submit" @disabled($errors->isNotEmpty()) name="submit" value="submit"
                             class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
@@ -253,7 +258,7 @@
             success: function(data) {
                 $('.booksearch').html(data);
             }
-           
+
         });
     })
 </script>

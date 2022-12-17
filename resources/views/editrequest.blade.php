@@ -12,7 +12,7 @@
 <div class="wrapper">
     <div class="container">
         <div class="row">
-           
+
             <!--side bar-->
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
@@ -118,7 +118,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                
+
                                     <div class="form-group pt-2">
                                         <label for="coursename">Course/Category Name</label>
                                         <input type="text" class="form-control" name="coursename" id="coursename"

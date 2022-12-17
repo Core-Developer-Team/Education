@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('request_id')->constrained()->onDelete('cascade');
             $table->text('description');
             $table->string('file');
+            $table->enum('status',['0','1'])->default('0');
             $table->timestamps();
         });
     }

@@ -109,7 +109,7 @@
                                     <a href="{{ route('res.week') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/res_weekly') fltr-active @endif">Weekly</a>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                                                                         {{ $data->user->created_at }}</span>
                                                                 </p>
                                                                 <p class="notification-text font-small-4 pt-1">
-                                                                    <span class="time-dt">Last Seen 
+                                                                    <span class="time-dt">Last Seen
                                                                         @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
                                                                         </span>
                                                                 </p>
@@ -230,7 +230,7 @@
                                                                             {{ $data->user->created_at }}</span>
                                                                     </p>
                                                                     <p class="notification-text font-small-4 pt-1">
-                                                                        <span class="time-dt">Last Seen 
+                                                                        <span class="time-dt">Last Seen
                                                                             @if(Cache::has('user-is-online-' . $data->user->id))  <span class="text-success">Online</span> @else {{ Carbon\Carbon::parse($data->user->last_seen)->diffForHumans() }} @endif
                                                                             </span>
                                                                     </p>
@@ -269,9 +269,9 @@
                                     <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                         <a href=""
                                             class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
-     
+
                                         <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                      
+
                                     </div>
                                 </div>
                             </div>
@@ -305,7 +305,7 @@
                     </div>
 
                 @endforelse
-                
+
                 <div class="mt-5">
                     {{ $datas->links() }}
                 </div>
@@ -361,7 +361,7 @@
                             <div class="text-danger mt-2 text-sm description"></div>
                         </div>
 
-                        <button type="submit" name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
+                        <button type="submit" @disabled($errors->isNotEmpty()) name="submit" class="post-link-btn btn-hover mt-3">Upload</button>
                     </form>
                 </div>
             </div>
@@ -426,7 +426,7 @@
             success: function(data) {
                 $('.ressearch').html(data);
             }
-           
+
         });
     })
 </script>

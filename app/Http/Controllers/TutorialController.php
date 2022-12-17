@@ -81,8 +81,8 @@ class TutorialController extends Controller
                 'file'         => '',
             ]));
         }
-
-        return back()->with('success', 'Tutorial has been uploaded Successfully');
+        flash()->addSuccess('Tutorial has been uploaded Successfully');
+        return back();
     }
 
     //search
@@ -470,7 +470,7 @@ class TutorialController extends Controller
                     foreach ($items['playlists']['items'] as $key => $item) {
                         if ($key == 0) {
 
-                            $output .= ' 
+                            $output .= '
                       <div class="col-xl-4 col-lg-6 col-md-6">
                       <div class="full-width mt-4">
                           <div class="recent-items">
@@ -519,7 +519,7 @@ class TutorialController extends Controller
                                       </div>
                                       <div class="action-btns-job">
                                           <i class="feather-eye mr-2"></i>' . $items['view_count'] . '
-                                       
+
                                       </div>
                                   </div>
                               </div>

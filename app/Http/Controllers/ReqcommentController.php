@@ -27,7 +27,7 @@ class ReqcommentController extends Controller
             $data = User::find($request->request_user);
             $data->notify(new CommentNotification($user, $req));
         }
-
-        return back()->with('cstatus', 'Your Comment Published Successfully');
+        flash()->addSuccess('Your Comment Published Successfully');
+        return back();
     }
 }

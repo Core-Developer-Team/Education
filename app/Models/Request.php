@@ -97,7 +97,7 @@ class Request extends Model
 
     public function activeReport($reqId)
     {
-        $data = Reqsolutionreport::where('request_id', $reqId)->orderBy('id')->first();
+        $data = Reqsolutionreport::where('req_solution_id', $reqId)->orderBy('id')->first();
         if ($data) {
             return $data;
         }
@@ -113,5 +113,23 @@ class Request extends Model
         } else {
             return false;
         }
+    }
+    public function solcheck($id)
+    {
+        $data = reqsolution::where('request_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        else{
+        return 1;
+        }
+    }
+    public function test($id)
+    {
+        $data = Reqbid::where('request_id',$id)->where('user_id',Auth()->id())->latest()->first();
+        if($data){
+            return $data->status;
+        }
+        return 1;
     }
 }

@@ -225,7 +225,7 @@ class ResourceController extends Controller
           $datas = Resource::where('name', 'LIKE', '%' . $request->search . "%")->get();
           if ($datas) {
               foreach ($datas as $data) {
-                  $output .= ' 
+                  $output .= '
                   <div class="full-width mt-4">
                   <div class="recent-items">
                       <div class="posts-list">
@@ -246,7 +246,7 @@ class ResourceController extends Controller
                                                       <div class="author-left">
                                                           <img class="ft-plus-square job-bg-circle bg-cyan" src="/storage/' . $data->user->image . '" alt="">
                                                           <div class="'.(Cache::has("user-is-online-".$data->user->id) ? 'status-oncircle' : 'status-ofcircle' ).'">
-                                                          
+
                                                           </div>
                                                       </div>
 
@@ -345,7 +345,7 @@ class ResourceController extends Controller
                               <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                               <span class="job-badge ddcolor">৳ '.$data->price.' </span>
                                   <a href="" class="label-dker post_categories_top_right mr-20 ms-2"><span>'.$data->category.'</span></a>
-                                  
+
                                   </div>
                           </div>
                       </div>
@@ -356,9 +356,9 @@ class ResourceController extends Controller
                                   </ins>
                               </div>
                               <div class="action-btns-job d-flex justify-content-space">
-                                  <a href="/resource_single/'.$data->id.'" class="view-btn btn-hover">Detail</a>                                                                                              
+                                  <a href="/resource_single/'.$data->id.'" class="view-btn btn-hover">Detail</a>
                               </div>
-                              
+
                           </div>
                       </div>
                   </div>

@@ -240,7 +240,8 @@ class CourseController extends Controller
                 'file'         => '',
             ]));
         }
-        return back()->with('success', 'Course has been uploaded Successfully');
+        flash()->addSuccess('Course has been uploaded Successfully');
+        return back();
     }
 
     //search

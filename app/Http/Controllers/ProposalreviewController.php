@@ -25,7 +25,7 @@ class ProposalreviewController extends Controller
         Proposalreview::create(array_merge($request->only('description', 'rating'), [
             'fr_user_id'   => auth()->id(),
             'tp_user_id'   => $request->tp_user_id,
-            'proposal_id'  => $request->proposal_id, 
+            'proposal_id'  => $request->proposal_id,
             'propsolution_id' => $request->propsolution_id,
         ]));
         $five = 0;
@@ -120,13 +120,13 @@ class ProposalreviewController extends Controller
 
         $totaluserrating = $rating + $tuserrating + $trating + $courating + $bookrating + $prod;
         $useravgrating = $totaluserrating / 6;
-      
+
         if ($user) {
             $user->rating = $useravgrating;
             $user->save();
         }
 
-      
+
         if (auth()->user()) {
             $prorev = Proposal::where('id',$request->proposal_id)->first();
             $user = User::find(auth()->user()->id);
@@ -134,7 +134,7 @@ class ProposalreviewController extends Controller
             $data->notify(new PrevNotification($user, $prorev));
         }
 
-
-        return back()->with('reciewstatus', 'Thanks for your Review :)');
+        flash()->addSuccess('Thanks for your Review:)');
+        return back();
     }
 }
