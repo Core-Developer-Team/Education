@@ -31,13 +31,7 @@
                 <div class="full-width mt-10">
                     <div class="btn_1589">
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
-                            data-bs-target="@auth @fullinfo
-#addrequest
-@else
-#userinfolink
-@endfullinfo
-@else
-#loginlink @endauth ">Post
+                            data-bs-target=" ">Post
                             your problem</a>
                     </div>
                     @include('layouts.sidebar')
