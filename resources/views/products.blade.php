@@ -16,6 +16,7 @@
 
                 <div class="full-width">
                     <div class="btn_1589">
+                        @if(auth()->check() == false || auth()->user()->block != 1)
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target="@auth @fullinfo
 #addnew
@@ -25,6 +26,7 @@
 @else
 #loginlink @endauth ">Add
                             New</a>
+                            @endif
                     </div>
                     <div class="posted_1590">
                         <div class="count-ttl">{{ $books->count() + $products->count() }}</div>
@@ -96,7 +98,7 @@
 
             </div>
             <div class="col-xl-9 col-lg-8 col-md-12">
-                
+
                 <div class="all-items">
                     <div class="product-items-list">
                         <div class="row">
@@ -126,7 +128,7 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="author-dts pp-20">
-                                                                    <a 
+                                                                    <a
                                                                         class="job-heading pp-title">{{ $book->title }}</a>
                                                                     <p class="notification-text font-small-4">
                                                                         by <a
@@ -197,7 +199,7 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="author-dts pp-20">
-                                                                    <a 
+                                                                    <a
                                                                         class="job-heading pp-title">{{ $product->name }}</a>
                                                                     <p class="notification-text font-small-4">
                                                                         by <a

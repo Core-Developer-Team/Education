@@ -117,7 +117,26 @@ class ProductreviewController extends Controller
         }
 
         $totaluserrating = $tuserrating +$ptuserrating  + $trating + $courating + $bookrating + $prod;
-        $useravgrating = $totaluserrating / 6;
+        $no_rating = 0;
+        if($ptuserrating > 0){
+            $no_rating += 1;
+        }
+        if($tuserrating > 0) {
+            $no_rating += 1;
+        }
+        if($trating > 0) {
+            $no_rating += 1;
+        }
+        if($courating > 0) {
+            $no_rating += 1;
+        }
+        if($bookrating > 0) {
+            $no_rating += 1;
+        }
+        if($prod > 0) {
+            $no_rating += 1;
+        }
+        $useravgrating = $totaluserrating / $no_rating;
         $user = User::find($request->product_user);
         if ($user) {
             $user->rating = $useravgrating;

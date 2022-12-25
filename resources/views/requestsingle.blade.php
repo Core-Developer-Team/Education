@@ -230,7 +230,7 @@
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }}</span>
                                                     <span class="job-badge ttcolor">
                                                         @if (\Carbon\Carbon::parse(now())->diffInDays($data->days,
-                                                        false) <= 1) @if (\Carbon\Carbon::parse(now())->
+                                                        false) < 1) @if (\Carbon\Carbon::parse(now())->
                                                             diffInMinutes($data->days, false) < 60 &&
                                                                 \Carbon\Carbon::parse(now())->diffInMinutes($data->days,
                                                                 false) >= 1)
@@ -278,7 +278,7 @@
                                     </div>
 
                                     <div class="action-btns-job job-center resmargin">
-                                        @if (!(auth()->id() == $data->user_id) )
+                                        @if (auth()->id() != $data->user_id &&  auth()->user()->block != 1 )
                                         @if ($data->reqsolution()->count() == 0 ||
                                         @$data->activeReport($data->id)->status == 1)
                                         <a href="#"
@@ -325,6 +325,243 @@
                         {{ session('cstatus') }}
                     </div>
                     @endif
+
+
+                    <!--My bids-->
+                    @if ($data->reqbid()->count() > 0 && @$data->checmybid(auth()->id() , $data->id)->count() > 0)
+                    <div class="event-card mt-4">
+                        <div class="jobdt99">
+                            <div class="jbdes25">
+                                <div class="jobtxt47">
+                                    <h4>My Bid</h4>
+                                    <hr>
+                                    @forelse (@$data->checmybid(auth()->id() , $data->id) as $bids)
+                                    <div class="joblftdt5">
+                                        <div class="author-left main_img_view userimg">
+                                            <a href="#">
+                                                <img class="ft-plus-square job-bg-circle iconreq bg-cyan mr-0"
+                                                    src="{{ $bids->user->badge->image }}"
+                                                    style="width:20px; height:20px"
+                                                    title="{{ $bids->user->badge->name }}">
+                                                <img class="ft-plus-square main-job-bg-circle bg-cyan me-0"
+                                                    src="/storage/{{ $bids->user->image }}"
+                                                    style="width: 50px;height: 50px;" alt="">
+                                                <div style="margin-top: 38px; position:absolute;display: inline-block;margin-left: -18px;"
+                                                    class="@if (Cache::has('user-is-online-' . $bids->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                </div>
+                                            </a>
+                                            <!--hover-->
+                                            <div class="box imagehov shadow"
+                                                style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                <div class="full-width">
+                                                    <div class="recent-items">
+                                                        <div class="posts-list">
+                                                            <div class="feed-shared-author-dt">
+                                                                <div class="author-left">
+                                                                    <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                        src="/storage/{{ $bids->user->image }}" alt="">
+                                                                    <div
+                                                                        class="@if (Cache::has('user-is-online-' . $bids->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="author-dts">
+                                                                    <p class="notification-text font-username">
+                                                                        <a href="{{ route('profile.show', ['id' => $bids->user_id]) }}"
+                                                                            style="color: {{ $bids->user->role->color->name }}">{{
+                                                                            $bids->user->username }}
+                                                                        </a><img src="{{ $bids->user->badge->image }}"
+                                                                            alt="" style="width: 20px;"
+                                                                            title="{{ $bids->user->badge->name }}">
+                                                                        <span class="job-loca"><i
+                                                                                class="fas fa-location-arrow"></i>{{
+                                                                            $bids->user->uni_name }}</span>
+                                                                    </p>
+
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Joined on
+                                                                            {{ $bids->user->created_at->format('d:M:y
+                                                                            g:i A') }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Last Seen
+                                                                            @if (Cache::has('user-is-online-' .
+                                                                            $bids->user->id))
+                                                                            <span class="text-success">Online</span>
+                                                                            @else
+                                                                            {{
+                                                                            Carbon\Carbon::parse($bids->user->last_seen)->diffForHumans()
+                                                                            }}
+                                                                            @endif
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Total Solutions
+                                                                            {{ $bids->user->solutions }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">Rating
+                                                                            {{ $bids->user->rating }}</span>
+                                                                    </p>
+                                                                    <p class="notification-text font-small-4 pt-1">
+                                                                        <span class="time-dt">{{
+                                                                            $bids->user->badge->name }}</span>
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end hover-->
+
+                                        </div>
+
+                                        <div class="author-dts">
+                                            <div class="userimg" style="display: block;max-width: fit-content;">
+                                                <a href="{{ route('profile.show', ['id' => $bids->user_id]) }}"
+                                                    class="job-view-heading job-center"
+                                                    style="color: {{ $bids->user->role->color->name }}">
+                                                    {{ $bids->user->username }}
+                                                </a>
+                                                <!--hover-->
+                                                <div class="box imagehov shadow"
+                                                    style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                    <div class="full-width">
+                                                        <div class="recent-items">
+                                                            <div class="posts-list">
+                                                                <div class="feed-shared-author-dt">
+                                                                    <div class="author-left">
+                                                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                            src="/storage/{{ $bids->user->image }}"
+                                                                            alt="">
+                                                                        <div
+                                                                            class="@if (Cache::has('user-is-online-' . $bids->user->id)) status-oncircle @else status-ofcircle @endif">
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="author-dts">
+                                                                        <p class="notification-text font-username">
+                                                                            <a href="{{ route('profile.show', ['id' => $bids->user_id]) }}"
+                                                                                style="color: {{ $bids->user->role->color->name }}">{{
+                                                                                $bids->user->username }}
+                                                                            </a><img
+                                                                                src="{{ $bids->user->badge->image }}"
+                                                                                alt="" style="width: 20px;"
+                                                                                title="{{ $bids->user->badge->name }}">
+                                                                            <span class="job-loca"><i
+                                                                                    class="fas fa-location-arrow"></i>{{
+                                                                                $bids->user->uni_name }}</span>
+                                                                        </p>
+
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Joined on
+                                                                                {{
+                                                                                $bids->user->created_at->format('d:M:y
+                                                                                g:i A') }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Last Seen
+                                                                                @if (Cache::has('user-is-online-' .
+                                                                                $bids->user->id))
+                                                                                <span class="text-success">Online</span>
+                                                                                @else
+                                                                                {{
+                                                                                Carbon\Carbon::parse($bids->user->last_seen)->diffForHumans()
+                                                                                }}
+                                                                                @endif
+                                                                            </span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Total
+                                                                                Solutions
+                                                                                {{ $bids->user->solutions }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Rating
+                                                                                {{ $bids->user->rating }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">{{
+                                                                                $bids->user->badge->name }}</span>
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end hover-->
+                                            </div>
+                                            <p class="notification-text font-small-4 job-center">
+                                            <p>{{ $bids->description }}</p>
+                                            </p>
+                                            <p class="notification-text font-small-4 pt-2 job-center">
+                                                <span class="time-dt"> Bid on
+                                                    {{ $bids->updated_at->diffForHumans() }}</span>
+                                            </p>
+                                            <div class="jbopdt142">
+                                                <div class="jbbdges10">
+                                                    <span class="job-badge ffcolor">৳
+                                                        {{ $bids->price }}</span>
+
+                                                </div>
+                                                <div class="aplcnts_15 job-center applcntres ml-3">
+                                                    <i class="feather-users ms-2"></i> Do On
+                                                    <ins> @if (\Carbon\Carbon::parse(now())->diffInDays($bids->days,
+                                                        false) <= 1) @if (\Carbon\Carbon::parse(now())->
+                                                            diffInMinutes($bids->days, false) < 60 &&
+                                                                \Carbon\Carbon::parse(now())->diffInMinutes($bids->days,
+                                                                false) >= 1)
+                                                                {{
+                                                                \Carbon\Carbon::parse(now())->diffInMinutes($bids->days,
+                                                                false) }}
+                                                                Minutes
+                                                                @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($bids->days,
+                                                                false) <= 0) @if(\Carbon\Carbon::parse(now())->
+                                                                    diffInSeconds($bids->days, false) > 0)
+                                                                    {{
+                                                                    \Carbon\Carbon::parse(now())->diffInSeconds($bids->days,
+                                                                    false) }}
+                                                                    Seconds
+                                                                    @else
+                                                                    @if ($data->reqsolution()->count() >= 1 &&
+                                                                    $data->reqsolution->request_id == $data->id)
+                                                                    Closed
+                                                                    @else
+                                                                    Unsolved
+                                                                    @endif
+                                                                    @endif
+                                                                    @else
+                                                                    {{
+                                                                    \Carbon\Carbon::parse(now())->diffInHours($bids->days,
+                                                                    false) }}
+                                                                    Hours
+                                                                    @endif
+                                                                    @else
+                                                                    {{
+                                                                    \Carbon\Carbon::parse(now())->diffInDays($bids->days,
+                                                                    false) }}
+                                                                    Days
+                                                                    @endif</ins>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    @empty
+                                    <div>No bid Yet</div>
+                                    @endforelse
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+
                     <!--allbids-->
                     @if (auth()->id() == $data->user_id)
                     <div class="event-card mt-4">
@@ -509,9 +746,9 @@
                                                     @endif
 
 
-                                                    @if ($data->user_id == auth()->id() && $data->isAccept($data->id,
+                                                    @if ($data->user_id == auth()->id() && @$data->isAccept($data->id,
                                                     $bids->id) == false )
-                                                    @if ($data->isAccept($data->id) != true)
+                                                    @if (@$data->isAccept($data->id) != true)
                                                     <div class="bkashPayDiv_{{ $bids->id }}">
                                                         <span class="job-badge bg-success payNow bkashPayBtn"
                                                             data-id="{{ $bids->id }}" data-amount="{{ $bids->price }}"
@@ -828,8 +1065,8 @@
                                                 $item->reqsolutionreport->req_solution_id == $item->id)
                                                 <span class="text-danger">@if($item->reqsolutionreport->status==1) Reported @elseif($item->reqsolutionreport->status==2) Rejected @else Pending @endif</span>
                                                 @else
-                                                <a href="{{ route('profile.repsol', ['uid' => $item->user_id, 'rid' => $item->request_id, 'sid' => $item->id]) }}"
-                                                    class="label-dker post_categories_reported mr-10 px-2 @if($item->created_at->diffInDays(\Carbon\Carbon::parse(now()), true) >=1) d-none @endif"><span>Report</span></a>
+                                                <a data-bs-toggle="modal" data-bs-target="#reqreport" data-id="{{ $item->user_id }}" data-repid="{{ $item->request_id }}" data-repsol="{{ $item->id }}"
+                                                    class="label-dker reqrep post_categories_reported mr-10 px-2 @if($item->created_at->diffInDays(\Carbon\Carbon::parse(now()), true) >=1) d-none @endif"><span>Report</span></a>
                                                 @endif
 
                                                 <a href=""
@@ -1024,6 +1261,7 @@
                                                         style="">
 
                                                         <li class="media-list custom-media-list">
+
                                                             <form
                                                                 action="{{ route('req.report', ['uid' => $item->user_id, 'cid' => $item->id]) }}"
                                                                 method="post">
@@ -1037,6 +1275,7 @@
                                                                 <a class="btn">Reported</a>
                                                                 @endif
                                                             </form>
+
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -1045,6 +1284,7 @@
                                         @empty
                                         @endforelse
 
+                                        @if (auth()->user()->block != 1 )
                                         <!-- END comment-list -->
                                         <div class="comment-form-wrap pt-5">
                                             <h3 class="mb-5">Leave a comment</h3>
@@ -1071,6 +1311,8 @@
                                             </form>
 
                                         </div>
+
+                                    @endif
                                     </div>
                                     <!--close comments section-->
                                 </div>
@@ -1173,6 +1415,38 @@
                             name="submit">submit</button>
                     </form>
 
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Request Report Model-->
+<div class="modal fade" id="reqreport" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Solution Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container bg-white rounded">
+                    <!--proposal Report Form-->
+                    <form class="form p-3" method="POST" id="reqsolrep" action="{{ route('profile.repsol') }}">
+                        @csrf
+                        <input type="hidden" name="rep_user" id="rep_user" value="{{ $data->user_id }}">
+                        <input type="hidden" name="repprop_id" id="repprop_id" value="{{ $data->id }}">
+                        <input type="hidden" name="repsol_id" id="repsol_id" value="{{ $data->sol_id }}">
+
+                        <div class="form-group pt-2">
+                            <label for="message">Message</label>
+                            <textarea class="form-control" id="message" name="message"
+                                rows="3"> {{ old('message') }}</textarea>
+                            <div class="text-danger mt-2 text-sm messageError"></div>
+                        </div>
+                        <input type="submit" class="view-btn btn-hover mt-3" name="submit" value="Submit">
+                    </form>
                 </div>
             </div>
 
@@ -1422,6 +1696,39 @@
     })
 </script>
 
+<!--report model script-->
+<script>
+    const reqrepform = $('form#reqsolrep');
+    reqrepform.on('submit', (e) => {
+        e.preventDefault();
+
+        $('.message').text('');
+
+
+        const formreqrep = document.getElementById('reqsolrep');
+        const formData = new FormData(formreqrep);
+        const action = $(e.currentTarget).attr('action');
+        formData.append('_token', '{{ csrf_token() }}');
+        $.ajax({
+            url: action,
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                location.href = location.href;
+            },
+            error: function(error) {
+                const errorResponse = error.responseJSON.errors;
+                if (errorResponse.message) {
+                    $('.messageError').text(errorResponse.message[0]);
+                }
+
+            }
+        });
+    });
+</script>
 
 <script>
     $(document).on("click", ".rev", function() {
@@ -1433,6 +1740,17 @@
         $(".modal-body #t_user").val(userid);
         $(".modal-body #solu_id").val(solId);
         $('#review').modal('show');
+    });
+
+      $(document).on("click", ".reqrep", function() {
+        var userId = $(this).data('id');
+        var propid = $(this).data('repid');
+        var repsol = $(this).data('repsol');
+
+        $(".modal-body #rep_user").val(userId);
+        $(".modal-body #repprop_id").val(propid);
+        $(".modal-body #repsol_id").val(repsol);
+        $('#reqreport').modal('show');
     });
 
     $(document).on("click",".approveReport",function(e){

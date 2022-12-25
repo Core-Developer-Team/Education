@@ -132,4 +132,13 @@ class Request extends Model
         }
         return 1;
     }
+    public function checkreported($id){
+        $data = Reqsolutionreport::where('request_id', $id)->orderBy('updated_at', 'desc')->first();
+        return $data->status;
+    }
+    public function checmybid($bid , $id){
+        $data = Reqbid::where('request_id', $id)->where('user_id', $bid)->get();
+        return $data;
+   }
+
 }

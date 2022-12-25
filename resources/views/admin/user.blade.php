@@ -81,12 +81,17 @@
                                         <td><img style="width: 50px; height:50px" src="/storage/{{ $item->image }}"
                                                 alt="" srcset=""></td>
                                         <td style="display: inline-flex">
-                                            @if ($item->role->name != 'admin')
-                                                <button type="button" class="btn btn-sm btn-danger delete-confirm"
-                                                    data-bs-toggle="modal" data-bs-target="#delreq"
-                                                    data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
-                                                    </i>
-                                                </button>
+
+                                            @if ($item->role->name != 'Admin')
+                                            <a style="margin-left: 3px"
+                                            href="{{ route('admin.user.block', ['id' => $item->id]) }}"
+                                            class="btn btn-sm btn-danger">
+                                            @if ($item->block == 0)
+                                                Block
+                                            @elseif($item->block == 1)
+                                                Unblock
+                                            @endif
+                                        </a>
                                             @endif
                                             <a style="margin-left: 3px"
                                                 href="{{ route('admin.user.status', ['id' => $item->id]) }}"
@@ -124,14 +129,14 @@
                     <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
                 </div>
                 <div class="modal-body p-3">
-                    <p>Do you really want to delete this User? </p>
+                    <p>Do you really want to Block this User? </p>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form action="{{ route('admin.user.delete') }}" method="POST">
+                    <form action="" method="POST">
                         @csrf
                         <input type="hidden" name="user_id" value="" id="req_id">
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Block</button>
                     </form>
                 </div>
             </div>

@@ -30,6 +30,7 @@
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
                     <div class="btn_1589">
+                        @if(auth()->check() == false || auth()->user()->block != 1)
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target="@auth @fullinfo
 #addresource
@@ -39,6 +40,7 @@
 @else
 #loginlink @endauth ">Add
                             Resource</a>
+                            @endif
                     </div>
                     @include('layouts/sidebar')
                     <div class="full-width mt-4">

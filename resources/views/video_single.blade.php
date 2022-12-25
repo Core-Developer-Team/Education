@@ -168,8 +168,8 @@
                                                 {{ $reviews->links() }}
                                             </div>
                                             <!-- END review-list -->
-                                            @if (auth()->id() != $playlist->user_id)
-                                            @if ($playlist->isPaid($playlist->id) == true || $playlist->type==0)
+                                            @if (auth()->id() != $playlist->user_id && auth()->user()->block != 1)
+                                            @if ($playlist->isPaid($playlist->id) == true || $playlist->type == 0)
                                                 <!--review form-->
                                                 <form method="POST"  class="@foreach ( $playlist->tutorialreview as $item) @if($item->user_id==Auth()->id()) d-none @endif @endforeach" action="{{ route('playlist.storereview') }}">
                                                     @if ($errors->any())
@@ -289,7 +289,7 @@
                             </ul>
                             <div class="item_buttons text-center">
                                 @if (auth()->id() != $playlist->user_id && $playlist->type != 0)
-                                    @if ($playlist->isPaid($playlist->id) != true)
+                                    @if ($playlist->isPaid($playlist->id) != true && auth()->user()->block != 1)
                                         <div class="purchase_form_btn">
                                             <button class="buy-btn btn-hover payNow" type="submit"
                                                 data-id="{{ $playlist->id }}" data-amount="{{ $playlist->price }}"

@@ -31,6 +31,7 @@ return new class extends Migration
             $table->float('rating')->default('0');
             $table->enum('gender', ['0', '1']);
             $table->enum('status',['0','1'])->default('0');
+            $table->enum('block',['0','1'])->default('0');
             $table->timestamp('last_seen');
             $table->string('password');
             $table->boolean('provider')->default(false);

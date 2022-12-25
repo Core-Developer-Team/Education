@@ -1,27 +1,19 @@
 <footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-6">
-                <div class="footer-items">
-                    <ul class="footer-links d-flex">
-                        <li><a href="{{ route('term.show') }}">Terms of Use</a></li>
-                        <li class="ms-auto"><a href="{{ route('privacy.show') }}">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="footer-bottom-items">
         <div class="container">
             <div class="col-md-12">
                 <div class="footer-bottom-links">
-                    <div class="footer-logo">
-                        <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a>
+                    <div class="footer-items">
+                        <ul class="footer-links d-flex">
+                            <li><a href="{{ route('term.show') }}">Terms of Use</a></li>
+                            <li class="ms-5"><a href="{{ route('privacy.show') }}">Privacy Policy</a></li>
+                        </ul>
                     </div>
                     <div class="micko-copyright">
-                        <p>
-                            All
-                            Right Reserved.</p>
+                        <div class="footer-logo">
+                            <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,6 +163,58 @@
                 }
                 if (errorResponse.tag) {
                     $('.tagError').text(errorResponse.tag[0]);
+                }
+            }
+        })
+    })
+</script>
+<!--ques model script-->
+<script>
+    const quesForm = $('form#ques');
+    quesForm.on('submit', (e) => {
+        e.preventDefault();
+
+        $('.quesnameError').text('');
+        $('.priceError').text('');
+        $('.coursenameError').text('');
+        $('.descriptionError').text('');
+        $('.fileError').text('');
+
+        const form = document.getElementById('ques');
+        const formData = new FormData(form);
+        const action = $(e.currentTarget).attr('action');
+        formData.append('_token', '{{ csrf_token() }}');
+        $.ajax({
+            url: action,
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                $('.form-prevent').on('submit', function() {
+                    $('.btn-prevent').attr('disabled', 'true');
+                    $('.spinner').show();
+                })
+                location.href = location.href;
+
+            },
+            error: function(error) {
+                const errorResponse = error.responseJSON.errors;
+                if (errorResponse.quesname) {
+                    $('.quesnameError').text(errorResponse.quesname[0]);
+                }
+                if (errorResponse.price) {
+                    $('.priceError').text(errorResponse.price[0]);
+                }
+                if (errorResponse.coursename) {
+                    $('.coursenameError').text(errorResponse.coursename[0]);
+                }
+                if (errorResponse.description) {
+                    $('.descriptionError').text(errorResponse.description[0]);
+                }
+                if (errorResponse.file) {
+                    $('.fileError').text(errorResponse.file[0]);
                 }
             }
         })
@@ -326,7 +370,7 @@
         $('.category').text('');
         $('.description').text('');
         $('.dayError').text('');
- 
+
 
         const formprop = document.getElementById('proposal');
         const formData = new FormData(formprop);
@@ -478,7 +522,7 @@
         $('.end_time').text('');
         $('.image').text('');
         $('.description').text('');
-        $('.price').text('');
+        $('.typeError').text('');
 
         const formcontest = document.getElementById('contest');
         const formData = new FormData(formcontest);
@@ -514,8 +558,8 @@
                 if (errorResponse.image) {
                     $('.image').text(errorResponse.image[0]);
                 }
-                if (errorResponse.price) {
-                    $('.price').text(errorResponse.price[0]);
+                if (errorResponse.type) {
+                    $('.typeError').text(errorResponse.type[0]);
                 }
                 if (errorResponse.description) {
                     $('.description').text(errorResponse.description[0]);

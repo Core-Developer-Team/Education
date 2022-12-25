@@ -30,6 +30,7 @@
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
                     <div class="btn_1589">
+                        @if(auth()->check() == false || auth()->user()->block != 1)
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" data-bs-target="@auth @fullinfo
 #addproposal
 @else
@@ -38,6 +39,7 @@
 @else
 #loginlink @endauth  ">Post
                             your Proposal</a>
+                            @endif
                     </div>
                     @include('layouts.sidebar')
                     <div class="full-width mt-5">
@@ -296,7 +298,7 @@
                                             <div class="jbbdges10">
                                                 <span class="job-badge ddcolor">৳ {{ $item->price }}</span>
                                                 <span class="job-badge ttcolor">
-                                                    @if (\Carbon\Carbon::parse(now())->diffInDays($item->days, false) <=
+                                                    @if (\Carbon\Carbon::parse(now())->diffInDays($item->days, false) <
                                                         1) @if (\Carbon\Carbon::parse(now())->diffInMinutes($item->days,
                                                         false) < 60 && \Carbon\Carbon::parse(now())->
                                                             diffInMinutes($item->days, false) >= 1)
@@ -333,9 +335,10 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                         <a href=""
-                                            class="label-dker post_categories_reported mr-10 @if ($item->propsolreport()->count() > 0 && $item->propsolreport->proposal_id == $item->id && $item->propsolreport->status==1) @else d-none @endif"><span
+                                            class="label-dker post_categories_reported mr-10 @if ($item->propsolreport()->count() > 0 && $item->propsolreport->proposal_id == $item->id && @$item->checkreported($item->id) == 1 ) @else d-none @endif"><span
                                                 class="label-dker post_categories_reported mr-10">Reported</span></a>
                                         <a href="" class="label-dker post_department_top_right mr-10 px-2 ms-2"><span>
                                                 {{ $item->user->department->name }}
@@ -372,7 +375,8 @@
                                             </button>
                                         </div>
                                         @endif
-                                        @if ($item->propsolution()->count()>0 && $item->propsolution->proposal_id)
+                                        @if ($item->propsolution()->count()>0 && $item->propsolution->proposal_id ==
+                                        $item->id)
                                         <a href="#" title="Solved" class="bm-btn bm-btn-hover-solve  ms-2 active"><i
                                                 class="fas fa-check"></i></a>
                                         @endif

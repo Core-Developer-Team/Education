@@ -33,11 +33,13 @@ class CourseController extends Controller
             $color       = $playlists->user->role->color->name;
             $cat         = $playlists->Category;
             $view_count  = $playlists->view_count;
-            $url = $youtubeEndPoint . "playlistItems?part=" . $parts . "&maxResults=" . $maxResults . "&playlistId=" . $playlist_id . "&key=" . $apikey;
+            $url = $youtubeEndPoint . "playlistItems?part=" . $parts . "&part=contentDetails&maxResults=" . $maxResults . "&playlistId=" . $playlist_id . "&key=" . $apikey;
             $response = Http::get($url);
             $playlist_data = (array)json_decode($response->body());
             $playlists_json[] = ['playlists' => $playlist_data, 'id' => $playid, 'user' => $user, 'color' => $color, 'price' => $price, 'type' => $type, 'category' => $cat, 'view_count' => $view_count];
         }
+         //dd($playlist_data['pageInfo']->totalResults);
+
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();

@@ -9,7 +9,7 @@
         <a class="navbar-bran ms-lg-0 ml-2 me-auto" href="{{ route('req.index') }}">
 
             <div class="res_main_logo">
-                <img src="{{ asset('images/res-logo.png') }}" alt="">
+                <img src="{{ asset('images/logo.png') }}" alt="">
             </div>
             <div class="main_logo" id="logo">
                 <img src="{{ asset('images/logo.png') }}" alt="">
@@ -140,7 +140,7 @@
                             @endif
                         </a>
                     </li>
-                    @if (Auth()->id()!=1)
+
                     <li class="mn-icon dropdown dropdown-account">
                         <a href="#" class="mn-link" role="button" id="dropdownMenuClickableInside"
                             data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -187,7 +187,7 @@
 
                         </ul>
                     </li>
-                    @endif
+
                     <li class="mn-icon dropdown dropdown-account ms-4">
                         <a href="#" class="opts_account" role="button" id="dropdownMenuClickableInside"
                             data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">

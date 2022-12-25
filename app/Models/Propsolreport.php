@@ -11,6 +11,7 @@ class Propsolreport extends Model
     protected $fillable = [
         'user_id',
         'proposal_id',
+        'message',
         'propsolution_id',
         'status'
     ];

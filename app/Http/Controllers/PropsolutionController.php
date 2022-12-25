@@ -59,20 +59,27 @@ class PropsolutionController extends Controller
         flash()->addSuccess('Your Solution Published Successfully:)');
         return back();
     }
-    public function solutionreport($uid, $rid, $sid)
+    public function solutionreport(Request $request)
     {
+
+        $request->validate([
+            'message'  => ['required', 'string'],
+        ]);
+
         Propsolreport::Create([
-            'user_id' => $uid,
-            'proposal_id'  => $rid,
-            'propsolution_id' => $sid,
+            'user_id' => $request->rep_user,
+            'proposal_id'  => $request->repprop_id,
+            'propsolution_id' => $request->repsol_id,
+            'message'    => $request->message,
         ]);
 
         if (auth()->user()) {
-            $req = Proposal::where('id', $rid)->first();
+            $req = Proposal::where('id', $request->repprop_id)->first();
             $user = User::find(auth()->user()->id);
-            $touser = User::find($uid);
+            $touser = User::find($request->rep_user);
+            $remesg = $request->message;
             $data = User::find(1);
-            $data->notify(new PsolreportNotification($user, $req, $touser));
+            $data->notify(new PsolreportNotification($user, $req, $touser, $remesg));
         }
         flash()->addSuccess('Report Send Successfully:)');
         return back();

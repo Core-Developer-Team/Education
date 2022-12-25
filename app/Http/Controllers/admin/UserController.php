@@ -36,18 +36,24 @@ class UserController extends Controller
        return back()->with('success', 'Status Updated Successfully');
     }
 
-    public function delete(Request $request)
+    public function block($id)
     {
-      
-        $data=User::find($request->user_id);
-        $file_path = public_path().'/storage/'.$data->profile_photo_path;
-        if(File::exists($file_path))
-        {
-         File::delete($file_path);
-        }
-        $data->delete();
-        return back()->with('success', 'User has deleted Successfully');
+       $user =  User::find($id);
+       if($user->block == 0)
+       {
+        $user->block = '1';
+        $user->save();
+        return back()->with('success', 'User Blocked Successfully');
+       }
+       elseif($user->block==1)
+       {
+        $user->block = '0';
+        $user->save();
+        return back()->with('success', 'User Un-Blocked  Successfully');
+       }
+
     }
+
 
     // show Role Update Page
     public function showeditrole($id)

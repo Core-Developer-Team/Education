@@ -140,8 +140,9 @@
                                             {{ $reviews->links() }}
                                         </div>
                                         <hr>
+
                                         <!-- END review-list -->
-                                        @if (Auth()->id() != $data->user_id)
+                                        @if (Auth()->id() != $data->user_id && @$data->is_sold($data->id) == true)
                                             <!--review form-->
                                             <form method="POST" class="@foreach ($data->productreview as $item) @if ($item->user_id == Auth()->id()) d-none @endif @endforeach" action="{{ route('products.storereview') }}">
                                                 @if ($errors->any())
@@ -257,11 +258,11 @@
                                 </li>
                             </ul>
                             <div class="item_buttons">
-
+                                @if(auth()->id() != $data->user_id && auth()->user()->block != 1)
                                 @if(!$data->isPurchase)
                                 <div class="purchase_form_btn">
                                     <a href="javascript:void(0)"
-                                    class="payNow "
+                                    class="payNow"
                                     data-id="{{ $data->id }}"
                                     data-amount="{{ $data->price }}"
                                     data-resource="products"
@@ -278,6 +279,7 @@
                                         <button class="buy-btn btn-hover btn-success" type="button">Already Purchased</button>
                                     </a>
                                 </div>
+                                @endif
                                 @endif
                             </div>
 

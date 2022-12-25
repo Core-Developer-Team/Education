@@ -41,7 +41,7 @@
                                                 <div class="notifi-event">
                                                     <span
                                                         style="position: relative" class=" @if ($chat->user->id == Auth()->id()) text-warning @else text-secondary @endif">
-                                                        
+
                                                         @if ($chat->user->id == Auth()->id())
                                                             You
                                                         @else
@@ -50,7 +50,7 @@
                                                         <div style="width: 12px; height:12px; position: absolute;margin-left: -18px;" class="@if(Cache::has('user-is-online-' . $chat->user->id)) status-oncircle @else status-ofcircle @endif">
                                                         </div>
                                                     </span>
-                                                    
+
                                                     <span class="chat-msg-item">
                                                         {{ $chat->group_chat_message }}
                                                     </span>
@@ -76,6 +76,8 @@
                                     </ul>
                                 </div>
                             </div>
+                            @if (auth()->user()->block != 1)
+
                             <form id="offchat" class="send_messages_form">
                                 @csrf
                                 <div class="send_input_group">
@@ -91,6 +93,8 @@
                                     </span>
                                 </div>
                             </form>
+
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -181,7 +185,7 @@
 </script>
 
 <script>
-     
+
     $(function() {
 
         $('#offchat').on('submit', function(e) {
@@ -199,7 +203,7 @@
 
             });
 
-       
+
 
     });
 </script>

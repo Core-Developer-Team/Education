@@ -15,7 +15,7 @@
     <li>
         <a href="{{ route('profile.mysol') }}" class="all-info__sections">
             <span class="all-info__left"><i class="feather-check-square me-2"></i>My Solutions</span>
-            <span class="all-info__right">{{ $mysol }}</span>
+            <span class="all-info__right">{{ $mysol + $mypropsol }}</span>
         </a>
     </li>
     <li>

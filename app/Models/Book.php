@@ -38,4 +38,13 @@ class Book extends Model
     {
         return $this->hasOne(PaymentLog::class, 'request_id', 'id')->where('pay_by', auth()->user()->id)->where('pay_for', 'books');
     }
+    public function is_sold($bid){
+        $data = PaymentLog::where('pay_by', Auth()->id())->where('request_id', $bid)->where('pay_for', 'books')->first();
+        if($data){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

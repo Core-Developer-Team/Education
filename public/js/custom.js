@@ -4,7 +4,7 @@
  * Copyright 2021 | Gambolthemes | https://gambolthemes.net
  * @package Gambolthemes
  ****************************************************************************/
- 
+
 /*----------------------------------------------
 Index Of Script
 ------------------------------------------------
@@ -33,7 +33,7 @@ Index Of Script
 ------------------------------------------------
 Index Of Script
 ----------------------------------------------*/
- 
+
 /*--- Bootstrap Tooltip ---*/
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -141,7 +141,7 @@ $(".tags-container").each(function() {
 	});
 
 	// add via button
-	$('.tags-input-button').on('click', function(){ 
+	$('.tags-input-button').on('click', function(){
 		if((keywordInput.val()!=="")){
 			addKeyword();
 		}
@@ -178,8 +178,8 @@ $(".tags-container").each(function() {
 		// Enables scrollbar if more than 3 items
 		if (keywordCount > 0) {
 			keywordsList.css({'height':'auto'}).height();
-	
-		} 
+
+		}
 	});
 
 });
@@ -208,7 +208,7 @@ function _populateFileField($button) {
 function Checkbox(elem) {
   this.elem = elem;
   this.checked = elem.dataset.checked;
-  
+
   // Extend your component:
   // this.name = ...
   // this.value = ...
@@ -237,7 +237,7 @@ initCheckboxes(document.querySelectorAll('.checkbox'));
 $('.msgngup').on('click', function() {
 	$('.chat-box').addClass("show");
 	return false;
-});	
+});
 $('.close-msg').on('click', function() {
 	$('.chat-box').removeClass("show");
 	return false;
@@ -289,18 +289,18 @@ expandLink.click(function(){
     var isAllOpen = !$(this).data('isAllOpen');
     console.log({isAllOpen: isAllOpen, contentAreas: contentAreas})
     contentAreas[isAllOpen? 'slideDown': 'slideUp']();
-    
+
     expandLink.text(isAllOpen? 'Collapse All': 'Expand all')
-                .data('isAllOpen', isAllOpen);    
+                .data('isAllOpen', isAllOpen);
 });
 
 /*--- Rating Javascript ---*/
 $(document).ready(function(){
-  
+
   /* 1. Visualizing things on Hover - See next part for action on click */
   $('.rstars li').on('mouseover', function(){
     var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
-   
+
     // Now highlight all the stars that's not after the current hovered star
     $(this).parent().children('li.star').each(function(e){
       if (e < onStar) {
@@ -310,27 +310,27 @@ $(document).ready(function(){
         $(this).removeClass('hover');
       }
     });
-    
+
   }).on('mouseout', function(){
     $(this).parent().children('li.star').each(function(e){
       $(this).removeClass('hover');
     });
   });
-  
-  
+
+
   /* 2. Action to perform on click */
   $('.rstars li').on('click', function(){
     var onStar = parseInt($(this).data('value'), 10); // The star currently selected
     var stars = $(this).parent().children('li.star');
-    
+
     for (i = 0; i < stars.length; i++) {
       $(stars[i]).removeClass('selected');
     }
-    
+
     for (i = 0; i < onStar; i++) {
       $(stars[i]).addClass('selected');
     }
-    
+
     // JUST RESPONSE (Not needed)
     var ratingValue = parseInt($('.rstars li.selected').last().data('value'), 10);
     var msg = "";
@@ -341,19 +341,19 @@ $(document).ready(function(){
         msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
     }
     responseMessage(msg);
-    
+
   });
-  
+
 });
 
 function responseMessage(msg) {
-  $('.success-box').fadeIn(200);  
+  $('.success-box').fadeIn(200);
   $('.success-box div.text-message').html("<span>" + msg + "</span>");
 }
 
 /*--- Period Toggle ---*/
 jQuery(document).ready(function(){
-    jQuery('.custom-period-btn').on('click', function(event) {        
+    jQuery('.custom-period-btn').on('click', function(event) {
         jQuery('.custom-period-content').toggle('show');
     });
 });
@@ -390,7 +390,7 @@ $(document).ready(function(){
 
 /*--- Add Money Toggle ---*/
 jQuery(document).ready(function(){
-    jQuery('.add-money-btn').on('click', function(event) {        
+    jQuery('.add-money-btn').on('click', function(event) {
         jQuery('.add_money-content').toggle('show');
     });
 });
@@ -569,7 +569,7 @@ $('.hash_slider').owlCarousel({
 	}
 })
 
-/*--- Suggesyion Pages OWL ---*/ 
+/*--- Suggesyion Pages OWL ---*/
 $('.group_slider').owlCarousel({
 	loop:false,
     margin:15,
@@ -598,7 +598,7 @@ $('.group_slider').owlCarousel({
 	}
 })
 
-/*--- Event Category OWL ---*/ 
+/*--- Event Category OWL ---*/
 $('.evtcate_slider').owlCarousel({
 	loop:false,
     margin:10,
@@ -627,7 +627,7 @@ $('.evtcate_slider').owlCarousel({
 	}
 })
 
-/*--- Related Products OWL ---*/ 
+/*--- Related Products OWL ---*/
 $('.related_products_slider').owlCarousel({
 	loop:false,
     margin:30,
@@ -656,7 +656,7 @@ $('.related_products_slider').owlCarousel({
 	}
 })
 
-/*--- Related Courses OWL ---*/ 
+/*--- Related Courses OWL ---*/
 $('.related_courses_slider').owlCarousel({
 	loop:false,
     margin:30,
@@ -686,7 +686,7 @@ $('.related_courses_slider').owlCarousel({
 })
 
 
-/*--- Multi Dropdown JS ---*/ 
+/*--- Multi Dropdown JS ---*/
 
 $(document).ready(function(){
   $('.dropdown-submenu a.submenu-item').on("click", function(e){

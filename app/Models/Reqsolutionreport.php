@@ -11,6 +11,7 @@ class Reqsolutionreport extends Model
     protected $fillable = [
         'user_id',
         'request_id',
+        'message',
         'req_solution_id',
         'status'
     ];

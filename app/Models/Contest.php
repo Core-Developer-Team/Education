@@ -18,7 +18,7 @@ class Contest extends Model
         'event_date',
         'price',
         'start_time',
-        'end_time',    
+        'end_time',
     ];
 
     public function user()
@@ -29,5 +29,10 @@ class Contest extends Model
     public function contest_user()
     {
         return $this->hasMany(Contest_user::class);
+    }
+    public function checkslug($id , $cid)
+    {
+        $data = contest_user::where('user_id', $id)->where('contest_id', $cid)->get();
+        return $data;
     }
 }

@@ -16,6 +16,7 @@
             <div class="col-xl-3 col-lg-4 col-md-12">
                 <div class="full-width">
                     <div class="btn_1589">
+                        @if(auth()->check() == false || auth()->user()->block != 1)
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal" data-bs-target="@auth @fullinfo
 #addtutorial
 @else
@@ -24,6 +25,7 @@
 @else
 #loginlink @endauth ">Add
                             Tutorials</a>
+                            @endif
                     </div>
 
                     <div class="posted_1590">
