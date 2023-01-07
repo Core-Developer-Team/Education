@@ -152,7 +152,7 @@
                                         <hr>
 
                                         <!-- END review-list -->
-                                        @if (Auth()->id() != $data->user_id)
+                                        @if (Auth()->id() != $data->user_id && @$data->is_sold($data->id) == true)
 
                                             <!--review form-->
                                             <form method="POST"
@@ -259,16 +259,19 @@
                     </div>
                     <!--end Review section-->
                     <!--download book section-->
+                    {{-- @if (@$data->is_sold($data->user_id, $data->id) == true)
+
                     <div class="full-width mt-30">
                         <div class="item-description">
                             <div class="jobtxt47">
                                 <h4>download Book</h4>
                                 <a href="{{ $data->book }}"
                                     download="{{ $data->book_name }}">{{ $data->book_name }}</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--/download book section-->
+                    @endif --}}
+                        <!--/download book section-->
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="event-card rmt-30">
@@ -291,8 +294,8 @@
                                 </div> --}}
                                 {{-- <input class="reqId" type="hidden" name="reqid"
                                 value="{{ $data->id }}" > --}}
-                                @if(auth()->id() != $data->user_id)
-                                @if(!$data->isPurchase)
+                                @if(auth()->id() != $data->user_id && auth()->user()->block != 1)
+                                @if(!$data->isPurchase )
                                 <div class="purchase_form_btn">
                                     <a href="javascript:void(0)"
                                     class="payNow "

@@ -325,6 +325,7 @@
                                 </li>
                             </ul>
                             <div class="item_buttons">
+                                @if(auth()->id() != $playlist->user_id && auth()->user()->block != 1)
                                 @if (!$playlist->isPurchase)
                                     <div class="purchase_form_btn">
                                         <button class="buy-btn btn-hover payNow" data-id="{{ $playlist->id }}"
@@ -338,6 +339,7 @@
                                                 Purchased</button>
                                         </a>
                                     </div>
+                                @endif
                                 @endif
                             </div>
                             <input type="hidden" name="request_id" value="{{ $playlist->id }}">

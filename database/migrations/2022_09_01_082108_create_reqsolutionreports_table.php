@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('request_id')->constrained()->onDelete('cascade');
+            $table->string('message');
             $table->foreignId('req_solution_id')->constrained();
 
             $table->timestamps();

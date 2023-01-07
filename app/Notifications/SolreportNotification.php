@@ -13,17 +13,19 @@ class SolreportNotification extends Notification
     public $user;
     public $req;
     public $touser;
+    public $remesg;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $req, $touser)
+    public function __construct($user, $remesg, $req, $touser)
     {
         $this->user = $user;
         $this->req = $req;
         $this->touser = $touser;
+        $this->remesg = $remesg;
     }
 
     /**
@@ -37,7 +39,7 @@ class SolreportNotification extends Notification
         return ['database'];
     }
 
-   
+
     public function toArray($notifiable)
     {
         return [
@@ -45,6 +47,7 @@ class SolreportNotification extends Notification
             'user_id'    => $this->user['id'],
             'name'       => $this->user['username'],
             'image'      => $this->user['image'],
+            'remesg'     => $this->remesg,
             'mesg'       => "Report on ".$this->touser['username']." Solution",
             'link'       => "req.showsingle",
         ];

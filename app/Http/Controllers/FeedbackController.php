@@ -25,6 +25,7 @@ class FeedbackController extends Controller
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $mypropsol = Propsolution::where('user_id', Auth()->id())->count();
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
@@ -34,7 +35,7 @@ class FeedbackController extends Controller
         $prop   = Proposal::count();
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
-       
+
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
@@ -53,7 +54,7 @@ class FeedbackController extends Controller
             $rating   = number_format((float)$totalrat, 2, '.', '');
         }
 
-        return view('feedback', compact('datas','rating','t_req_count','contest','t_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('feedback', compact('datas','mypropsol','rating','t_req_count','contest','t_prop_count', 't_reqsolution_count', 't_propsolution_count','sol_count','prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function store(Request $request)
     {

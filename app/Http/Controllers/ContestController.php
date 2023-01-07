@@ -18,7 +18,7 @@ class ContestController extends Controller
         $contestcount = $contest->count();
         return view('contest', compact('data','expires','upcoming','contestcount'));
     }
-   
+
     public function store(Request $request)
     {
         $request->validate([
@@ -29,14 +29,22 @@ class ContestController extends Controller
             'event_date'     => 'required',
             'start_time'     => 'required',
             'end_time'       => 'required',
-            'price'          => 'required',
+            'type'           => ['required', 'regex:/^(0|1)$/'],
         ]);
+
+        if ($request->price != '') {
+            $price = $request->price;
+        } else {
+            $price = 0;
+        }
+
         $imagename = time() . '_' . $request->image->getClientOriginalName();
         $imagepath = $request->file('image')->storeAs('Images', $imagename, 'public');
 
-        Contest::create(array_merge($request->only('description', 'location','price','event_date', 'start_time', 'end_time', 'name'), [
+        Contest::create(array_merge($request->only('description', 'location','event_date', 'start_time', 'end_time', 'name'), [
             'image' => '/storage/' . $imagepath,
             'user_id' => Auth()->id(),
+            'price'   => $price,
         ]));
         return back()->with('status', 'Event
          has been created Successfully');

@@ -13,16 +13,18 @@ class PsolreportNotification extends Notification
     public $user;
     public $req;
     public $touser;
+    public $remesg;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $req, $touser)
+    public function __construct($user, $req, $touser, $remesg)
     {
         $this->user = $user;
         $this->req = $req;
+        $this->remesg = $remesg;
         $this->touser = $touser;
     }
 
@@ -45,6 +47,7 @@ class PsolreportNotification extends Notification
             'user_id'    => $this->user['id'],
             'name'       => $this->user['username'],
             'image'      => $this->user['image'],
+            'remesg'     => $this->remesg,
             'mesg'       => "Report on " . $this->touser['username'] . " Solution",
             'link'       => "proposal.showproposal",
         ];

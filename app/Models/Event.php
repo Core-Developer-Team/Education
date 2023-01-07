@@ -17,7 +17,7 @@ class Event extends Model
         'location',
         'event_date',
         'start_time',
-        'end_time',    
+        'end_time',
     ];
     public function user()
     {
@@ -26,5 +26,10 @@ class Event extends Model
     public function event_user()
     {
         return $this->hasMany(Event_user::class);
+    }
+    public function checkslug($id, $eid)
+    {
+        $data = Event_user::where('user_id', $id)->where('event_id', $eid)->get();
+        return $data;
     }
 }

@@ -93,7 +93,7 @@ class Proposal extends Model
 
     public function activeReport($reqId)
     {
-        $data = Propsolreport::where('propsolution_id', $reqId)->orderBy('id')->first();
+        $data = Propsolreport::where('proposal_id', $reqId)->orderBy('updated_at', 'desc')->first();
         if ($data) {
             return $data;
         }
@@ -117,5 +117,13 @@ class Proposal extends Model
         else{
         return 1;
         }
+    }
+    public function checkreported($id){
+        $data = Propsolreport::where('proposal_id', $id)->orderBy('updated_at', 'desc')->first();
+        return $data->status;
+    }
+    public function checmybid($bid , $id){
+         $data = Proposalbid::where('proposal_id', $id)->where('user_id', $bid)->get();
+         return $data;
     }
 }

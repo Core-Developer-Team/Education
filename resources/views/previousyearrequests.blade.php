@@ -17,15 +17,16 @@
             <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-12 col-sm-12 col-12">
                 <div class="full-width mt-10">
                     <div class="btn_1589">
+                        @if(auth()->check() == false || auth()->user()->block != 1)
                         <a href="" class="post-link-btn btn-hover" data-bs-toggle="modal"
                             data-bs-target="@auth @fullinfo
-#addrequest
+#addquestion
 @else
 #userinfolink
 @endfullinfo
 @else
-#loginlink @endauth ">Post
-                            your problem</a>
+#loginlink @endauth ">Post your Question</a>
+@endif
                     </div>
                     @include('layouts.sidebar')
                     <div class="full-width mt-5">
@@ -97,7 +98,7 @@
                                     <a href="{{ route('req.weekly') }}"
                                         class="fltr-btn @if (request()->getpathinfo() == '/week') fltr-active @endif">Weekly</a>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -118,8 +119,6 @@
                     </div>
                 @endif
                 @forelse ($datas as $data)
-                    @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
-
                         <div class="full-width mt-4">
                             <div class="recent-items">
                                 <div class="posts-list">
@@ -194,7 +193,7 @@
                                                 alt="">
                                         </div>
                                         <div class="author-dts">
-                                            <a class="problems_title">{{ $data->requestname }}</a>
+                                            <a class="problems_title">{{ $data->quesname }}</a>
                                             <p class="notification-text font-username">
                                             <div class="userimg">
                                                 <a href="#" class="text-success">{{ $data->user->username }}
@@ -273,49 +272,13 @@
                                             </p>
                                             <div class="jbopdt142">
                                                 <div class="jbbdges10">
-                                                    <span class="job-badge ffcolor">
-                                                        @if ($data->tag == 1)
-                                                            Offline
-                                                        @else
-                                                            Online
-                                                        @endif
-                                                    </span>
                                                     <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
-                                                    <span class="job-badge ttcolor">
-                                                        @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <= 1)
-                                                            @if (\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) < 60 &&
-                                                                \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) >= 1)
-                                                                {{ \Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) }}
-                                                                Minutes left
-                                                            @elseif(\Carbon\Carbon::parse(now())->diffInMinutes($data->days, false) <= 0)
-                                                            @if(\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0)
-                                                            {{ \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) }}
-                                                            Seconds left          
-                                                            @else
-                                                                @if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id)
-                                                                    Closed
-                                                                @else
-                                                                    Unsolved
-                                                                @endif
-                                                            @endif
-                                                            @else
-                                                                {{ \Carbon\Carbon::parse(now())->diffInHours($data->days, false) }}
-                                                                Hours left
-                                                            @endif
-                                                        @else
-                                                            {{ \Carbon\Carbon::parse(now())->diffInDays($data->days, false) }}
-                                                            Days left
-                                                        @endif
-                                                    </span>
-
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
                                             <a href=""
-                                                class="label-dker post_categories_reported mr-10 d-none"><span>Reported</span></a>
-                                            <a href=""
-                                                class="label-dker post_department_top_right mr-10"><span>BBA</span></a>
+                                                class="label-dker post_department_top_right mr-10"><span>{{ $data->user->department->name }}</span></a>
                                             <a href=""
                                                 class="label-dker post_categories_top_right mr-20"><span>{{ $data->coursename }}</span></a>
                                         </div>
@@ -325,41 +288,17 @@
                                     <div class="job-actions">
                                         <div class="aplcnts_15">
                                             <i
-                                                class="feather-users mr-2"></i><span>Applied</span><ins>{{ $data->reqbid->count() }}</ins>
-                                            <i
-                                                class="feather-eye mr-2"></i><span>Views</span><ins>{{ $data->view_count }}</ins>
+                                                class="feather-eye mr-2"></i><span>Views</span><ins>6</ins>
                                         </div>
-                                        <div class="action-btns-job">
-                                            <a href="{{ route('req.showsingle', ['id' => $data->id]) }}"
+                                        <div class="action-btns-job d-flex justify-content-space">
+                                            <a href="{{ route('ques.single', ['id' => $data->id]) }}"
                                                 class="view-btn btn-hover">View Job</a>
-                                            @if ($data->reqbid()->where('request_id', $data->id)->pluck('status')->first() == 0)
-                                                <a href="{{ route('req.show', ['id' => $data->id]) }}" title="Edit"
-                                                    class="bm-btn btn-hover"><i class="feather-edit"></i></a>
-                                                <form action="{{ route('req.destroy', ['id' => $data->id]) }}"
-                                                    method="POST">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="submit" class="btn"><span
-                                                            class="bm-btn btn-hover ms-2"><i
-                                                                class="feather-trash-2"></i></span>
-                                                    </button>
-                                                </form>
-                                            @endif
-                                            @isset($bid)
-                                                @foreach ($bid as $item)
-                                                    @if ($item->request_id == $data->id && $item->status == 1)
-                                                        <a href="#" title="Solved"
-                                                            class="bm-btn bm-btn-hover-solve  ms-2 active"><i
-                                                                class="fas fa-check"></i></a>
-                                                    @endif
-                                                @endforeach
-                                            @endisset
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
+
                 @empty
                     <div class="alert alert-success mt-3">
                         Sorry! No data found
@@ -376,37 +315,31 @@
 </div>
 </div>
 
-<!--Request Model-->
-<div class="modal fade" id="addrequest" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--question Model-->
+<div class="modal fade" id="addquestion" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Request</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Previous year Ques</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-3">
                 <div class="container bg-white rounded">
                     <!--Request Form-->
-                    <form class="form form-prevent" method="POST" id="req" enctype="multipart/form-data"
-                        action="{{ route('req.insert') }}">
+                    <form class="form form-prevent" method="POST" id="ques" enctype="multipart/form-data"
+                        action="{{ route('ques.store') }}">
                         @csrf
                         <div class="form-group">
-                            <label for="requestname">Request Name</label>
-                            <input type="text" class="form-control " name="requestname" id="requestname"
-                                placeholder="Request Name" value="{{ old('requestname') }}">
-                            <div class="text-danger mt-2 text-sm requestnameError"></div>
+                            <label for="quesname">Question Name</label>
+                            <input type="text" class="form-control" name="quesname" id="quesname"
+                                placeholder="Question Name" value="{{ old('quesname') }}">
+                            <div class="text-danger mt-2 text-sm quesnameError"></div>
                         </div>
                         <div class="form-group">
-                            <label for="price">Request Price</label>
+                            <label for="price">Question Price</label>
                             <input type="number" class="form-control" name="price" id="price"
                                 value="{{ old('price') }}" placeholder="৳">
                             <div class="text-danger mt-2 text-sm priceError"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="days">In How much days</label>
-                            <input type="datetime-local" class="form-control " name="days" id="days"
-                                value="{{ old('days') }}" placeholder="No of Days">
-                            <div class="text-danger mt-2 text-sm dayError"></div>
                         </div>
                         <div class="form-group pt-2">
                             <label for="coursename">Course/Category Name</label>
@@ -426,15 +359,6 @@
                                 placeholder="Upload image or pdf">
 
                             <div class="text-danger mt-2 text-sm fileError"></div>
-                        </div>
-                        <div class="form-group pt-2">
-                            <label for="tag">Request Type</label>
-                            <select name="tag" id="tag" value="{{ old('tag') }}" class="form-control">
-                                <option selected disabled>Select Tag</option>
-                                <option value="0">Offline</option>
-                                <option value="1">Online</option>
-                            </select>
-                            <div class="text-danger mt-2 text-sm tagError"></div>
                         </div>
                         <button type="submit" class="post-link-btn btn-hover mt-3 btn-prevent" name="submit"
                             value="Submit"> <i class="spinner fa fa-spinner fa-spin" style="display: none;"></i>

@@ -58,7 +58,7 @@
                     <div class="jobdt99">
                         <div class="jbdes25">
                             <div class="jobtxt47">
-                                <h4>My Solution</h4>
+                                <h4>My Request Solution</h4>
 
                                 @forelse ($data as $item)
                                     <div
@@ -188,15 +188,160 @@
 
                                                     <a href="{{ $item->file }}"
                                                         download="{{ $item->file }}">{{ $item->file }}</a>
+                                                    <a href="{{ route('req.showsingle', ['id'=>$item->request_id]) }}">Go to Request</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @empty
                                     <div class="alert alert-success mt-3">
-                                        No solutions Yet
+                                        No Request solutions Yet
                                     </div>
                                 @endforelse
+
+                                <h4>My Proposal Solution</h4>
+
+
+                                @forelse ($propsoldata as $item)
+                                    <div
+                                        class="d-sm-flex align-items-center rounded border-none mt-3 p-3 justify-content-between mb-4">
+                                        <div class="rounded-circle d-flex ">
+                                            <div class="userimg">
+                                                <img src="/storage/{{ $item->user->image }}" class="rounded-circle"
+                                                    style="width: 50px;height: 50px;" alt="" srcset="">
+                                                <!--hover on image-->
+                                                <div class="box imagehov shadow"
+                                                    style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                    <div class="full-width">
+                                                        <div class="recent-items">
+                                                            <div class="posts-list">
+                                                                <div class="feed-shared-author-dt">
+                                                                    <div class="author-left">
+                                                                        <a href="#"><img
+                                                                                class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                                src="/storage/{{ $item->user->image }}"
+                                                                                alt=""></a>
+                                                                    </div>
+                                                                    <div class="author-dts">
+                                                                        <p class="notification-text font-username">
+                                                                            <a href="#"
+                                                                                style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                                                            </a><img
+                                                                                src="{{ $item->user->badge->image }}"
+                                                                                alt="" style="width: 20px;"
+                                                                                title="{{ $item->user->badge->name }}">
+                                                                            <span class="job-loca"><i
+                                                                                    class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                        </p>
+
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Joined on
+                                                                                {{ $item->user->created_at }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Total
+                                                                                Solutions
+                                                                                {{ $item->user->solutions }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span class="time-dt">Rating
+                                                                                {{ $item->user->rating }}</span>
+                                                                        </p>
+                                                                        <p class="notification-text font-small-4 pt-1">
+                                                                            <span
+                                                                                class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end hover-->
+                                            </div>
+                                            <div class="ps-4 pt-0">
+                                                <div class="userimg">
+                                                    <p class="h2"
+                                                        style="color: {{ $item->user->role->color->name }}">
+                                                        {{ $item->user->username }}</p>
+                                                    <!--hover on image-->
+                                                    <div class="box imagehov shadow"
+                                                        style="width: auto; height:auto;  position: absolute; z-index: 1;">
+                                                        <div class="full-width">
+                                                            <div class="recent-items">
+                                                                <div class="posts-list">
+                                                                    <div class="feed-shared-author-dt">
+                                                                        <div class="author-left">
+                                                                            <a href="#"><img
+                                                                                    class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                                                                                    src="/storage/{{ $item->user->image }}"
+                                                                                    alt=""></a>
+                                                                        </div>
+                                                                        <div class="author-dts">
+                                                                            <p class="notification-text font-username">
+                                                                                <a href="#"
+                                                                                    style="color: {{ $item->user->role->color->name }}">{{ $item->user->username }}
+                                                                                </a><img
+                                                                                    src="{{ $item->user->badge->image }}"
+                                                                                    alt="" style="width: 20px;"
+                                                                                    title="{{ $item->user->badge->name }}">
+                                                                                <span class="job-loca"><i
+                                                                                        class="fas fa-location-arrow"></i>{{ $item->user->uni_name }}</span>
+                                                                            </p>
+
+                                                                            <p
+                                                                                class="notification-text font-small-4 pt-1">
+                                                                                <span class="time-dt">Joined on
+                                                                                    {{ $item->user->created_at }}</span>
+                                                                            </p>
+                                                                            <p
+                                                                                class="notification-text font-small-4 pt-1">
+                                                                                <span class="time-dt">Total
+                                                                                    Solutions
+                                                                                    {{ $item->user->solutions }}</span>
+                                                                            </p>
+                                                                            <p
+                                                                                class="notification-text font-small-4 pt-1">
+                                                                                <span class="time-dt">Rating
+                                                                                    {{ $item->user->rating }}</span>
+                                                                            </p>
+                                                                            <p
+                                                                                class="notification-text font-small-4 pt-1">
+                                                                                <span
+                                                                                    class="time-dt">{{ $item->user->badge->name }}</span>
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end hover-->
+                                                </div>
+                                                <p> <small>Created on
+                                                        {{ $item->created_at->diffForHumans() }}</small>
+                                                </p>
+                                                <p>{{ $item->description }}</p>
+                                                <div class="jobtxt47">
+                                                    <hr>
+                                                    <h4>Download file from here</h4>
+
+                                                    <a href="{{ $item->file }}"
+                                                        download="{{ $item->file }}">{{ $item->file }}</a>
+
+                                                    <a href="{{ route('proposal.showproposal', ['id'=>$item->proposal_id]) }}">Go to Proposal</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="alert alert-success mt-3">
+                                        No Proposal solutions Yet
+                                    </div>
+                                @endforelse
+
                             </div>
 
                         </div>

@@ -22,7 +22,7 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
             </div>
-                  @if ($message = Session::get('status')) 
+                  @if ($message = Session::get('status'))
                     <div class="alert alert-success">
                         <strong>{{ $message }}</strong>
                     </div>
@@ -52,7 +52,10 @@
                                         @else
                                             {{ $notification->data['name'] }}
                                         @endif
-                                    </span>{{ $notification->data['mesg'] }} </div>
+                                    </span>{{ $notification->data['mesg'] }}
+                                   @if($notification->data['remesg'])<p> {{ $notification->data['remesg'] }}</p>
+                                   @endif
+                                </div>
                                 <div class="small text-gray-500">{{ $notification->created_at->diffForHumans() }}</div>
                             </div>
                         </a>
@@ -61,7 +64,7 @@
                               Asign to moderator
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);" x-placement="bottom-start">
-                           
+
                                 @foreach ($users as $user)
                                 @if ($user->role->name == 'Moderator')
                                     <a class="dropdown-item" href="{{route('admin.notification.assign', ['uid'=>$notification->data['user_id'],'rid'=>$notification->data['request_id'],'link'=>$notification->data['link']])}}">{{ $user->username }}</a>
@@ -83,4 +86,4 @@
 
     <!-- Footer -->
     @include('admin.layouts.footer')
- 
+

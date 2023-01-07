@@ -16,10 +16,12 @@ use App\Models\Reqsolutionreport;
 use App\Models\Request as ModelsRequest;
 use App\Models\Resource;
 use App\Models\User;
+use App\Notifications\Reporteduser;
 use App\Notifications\SolNotification;
 use App\Notifications\SolreportNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReqSolutionController extends Controller
 {
@@ -73,9 +75,11 @@ class ReqSolutionController extends Controller
     public function mysol()
     {
         $data = ReqSolution::where('user_id', Auth()->id())->get();
+        $propsoldata = Propsolution::where('user_id', Auth()->id())->get();
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $mypropsol = Propsolution::where('user_id', Auth()->id())->count();
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
@@ -91,7 +95,7 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('mysolutions', compact('data','contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('mysolutions', compact('data','mypropsol','propsoldata','contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //all solutions
@@ -102,6 +106,7 @@ class ReqSolutionController extends Controller
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $mypropsol = Propsolution::where('user_id', Auth()->id())->count();
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
@@ -118,21 +123,32 @@ class ReqSolutionController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
 
-        return view('allsolutions', compact('datas','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('allsolutions', compact('datas','mypropsol','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
-    public function solutionreport($uid, $rid, $sid)
+    public function solutionreport(Request $request)
     {
+        $request->validate([
+            'message'  => ['required', 'string'],
+        ]);
+
         Reqsolutionreport::Create([
-            'user_id' => $uid,
-            'request_id'  => $rid,
-            'req_solution_id' => $sid,
+            'user_id' => $request->rep_user,
+            'request_id'  => $request->repprop_id,
+            'req_solution_id' => $request->repsol_id,
+            'message'    => $request->message,
         ]);
         if (auth()->user()) {
-            $req = ModelsRequest::where('id', $rid)->first();
+            $req = ModelsRequest::where('id', $request->repprop_id)->first();
             $user = User::find(auth()->user()->id);
-            $touser = User::find($uid);
+            $touser = User::find($request->rep_user);
+            $remesg = $request->message;
             $data = User::find(1);
-            $data->notify(new SolreportNotification($user, $req, $touser));
+            $data->notify(new SolreportNotification($user,$remesg, $req, $touser));
+        }
+        if(auth()->user()){
+            $usr = User::find(auth()->user()->id);
+            $tuser = User::find($request->rep_user);
+            $tuser->notify(new Reporteduser($usr, $req , $tuser));
         }
         flash()->addSuccess('Report Send Successfully');
         return back();
@@ -145,6 +161,7 @@ class ReqSolutionController extends Controller
         $req_count = ModelsRequest::count();
         $feed_count = Feedback::count();
         $mysol = ReqSolution::where('user_id', Auth()->id())->count();
+        $mypropsol = Propsolution::where('user_id', Auth()->id())->count();
         $myques = ModelsRequest::where('user_id', Auth()->id())->count();
         $res  = Resource::count();
         $event = Event::count();
@@ -160,7 +177,7 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('reportedsolutions',compact('datas','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('reportedsolutions',compact('datas','mypropsol','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
 }

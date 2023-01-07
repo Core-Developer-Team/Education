@@ -54,6 +54,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OfflinereportsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PreviousquesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductreviewController;
 use App\Http\Controllers\ProfileController;
@@ -144,6 +145,9 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
+    // Question Routes
+    Route::post('/previousQuestions', [PreviousquesController::class, 'insert'])->name('ques.store');
+    Route::get('/questions_single/{id}', [PreviousquesController::class, 'showsingle'])->name('ques.single');
     //request routes
     Route::get('/previous_year', [RequestController::class, 'previousyearQuestion'])->name('req.prevyear');
     Route::get('/AllSolution', [ReqSolutionController::class, 'allsolution'])->name('req.allsolution');
@@ -173,7 +177,7 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::post('/proposal_edit/update', [ProposalController::class, 'update'])->name('proposal.update');
     Route::post('/proposal_single', [ProposalbidController::class, 'store'])->name('proposalbid.store');
     Route::post('/proposal_sol', [PropsolutionController::class, 'store'])->name('prosolution.store');
-    Route::get('/proposalsol/{uid}/{rid}/{sid}', [PropsolutionController::class, ('solutionreport')])->name('proposal.reppropsol');
+    Route::post('/proposalsol/rep', [PropsolutionController::class, ('solutionreport')])->name('proposal.reppropsol');
     Route::get('/latest_proposal', [ProposalController::class, 'latesttutorial'])->name('proposal.new');
     Route::get('/weekly_proposal', [ProposalController::class, 'week'])->name('proposal.week');
     Route::get('/trending_proposal', [ProposalController::class, 'trending'])->name('proposal.trending');
@@ -224,7 +228,7 @@ Route::middleware('auth', 'infoRequired', 'historyClear')->group(function () {
     Route::get('/reported', [ReqSolutionController::class, ('Allrepsolution')])->name('reported.ind');
     //req solution
     Route::get('/mysolution', [ReqSolutionController::class, ('mysol')])->name('profile.mysol');
-    Route::get('/mysolution/{uid}/{rid}/{sid}', [ReqSolutionController::class, ('solutionreport')])->name('profile.repsol');
+    Route::post('/mysolution/report', [ReqSolutionController::class, ('solutionreport')])->name('profile.repsol');
     //feedback
     Route::get('/feedback', [FeedbackController::class, ('index')])->name('feedback.index');
     Route::post('/feedback', [FeedbackController::class, ('store')])->name('feedback.store');
@@ -326,7 +330,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('/admin/badge', BadgeController::class);
     Route::post('/admin/badge/del', [BadgeController::class, 'del'])->name('badge.delete');
     Route::resource('/admin/user', UserController::class);
-    Route::post('/admin/user/del', [UserController::class, 'delete'])->name('user.delete');
+    Route::get('/admin/user/block/{id}', [UserController::class, 'block'])->name('user.block');
     Route::get('/admin/user/update/{id}', [UserController::class, 'upstatus'])->name('user.status');
     Route::get('/admin/user/roleup/{id}', [UserController::class, 'showeditrole'])->name('user.editrole');
     Route::post('/admin/user/role', [UserController::class, 'updaterole'])->name('user.updaterole');

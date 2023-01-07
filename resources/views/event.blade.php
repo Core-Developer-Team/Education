@@ -53,6 +53,7 @@
                                             <i class="fas fa-calendar-check"></i>
                                         </div>
                                         <h6>Create New Event</h6>
+                                        @if (auth()->user()->block != 1 )
                                         <a href="" class="create-ebtn btn-hover" data-bs-toggle="modal"
                                             data-bs-target="@auth @fullinfo
 #addevent
@@ -61,6 +62,7 @@
 @endfullinfo
 @else
 #loginlink @endauth ">Create</a>
+@endif
                                     </div>
                                 </div>
                             </div>
@@ -140,10 +142,15 @@
                                                                                 role="button" data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
-                                                                                <span class="entxt"> Going </span>
+                                                                                <span class="entxt"> @if($item->checkslug(Auth()->id(), $item->id)->count() > 0) @foreach ($item->checkslug(Auth()->id(), $item->id) as $slug)
+                                                                                    {{ $slug->slug }}
+                                                                                @endforeach
+                                                                                @else
+                                                                                Going
+                                                                                @endif </span>
                                                                                 <i class="fas fa-angle-down"></i>
                                                                             </a>
-                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($item->event_user as $event) @if ($event->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @if($item->checkslug(Auth()->id(), $item->id)->count() > 0) d-none @endif"
                                                                                 style="">
                                                                                 <li class="media-list">
                                                                                     <a href="{{ route('event.interested', ['id' => $item->id, 'mesg' => 'interested']) }}"
@@ -227,10 +234,16 @@
                                                                                 role="button" data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
-                                                                                <span class="entxt"> Going </span>
+                                                                                <span class="entxt"> @if($next->checkslug(Auth()->id(), $next->id)->count() > 0) @foreach ($next->checkslug(Auth()->id(), $next->id) as $slug)
+                                                                                    {{ $slug->slug }}
+                                                                                @endforeach
+                                                                                @else
+                                                                                Going
+                                                                                @endif
+                                                                            </span>
                                                                                 <i class="fas fa-angle-down"></i>
                                                                             </a>
-                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($next->event_user as $event) @if ($next->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @if($next->checkslug(Auth()->id(), $next->id)->count() > 0) d-none @endif "
                                                                                 style="">
                                                                                 <li class="media-list">
                                                                                     <a href="{{ route('event.interested', ['id' => $next->id, 'mesg' => 'interested']) }}"
@@ -316,10 +329,15 @@
                                                                                 role="button" data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
-                                                                                <span class="entxt"> Going </span>
+                                                                                <span class="entxt"> @if($expire->checkslug(Auth()->id(), $expire->id)->count() > 0) @foreach ($expire->checkslug(Auth()->id(), $expire->id) as $slug)
+                                                                                    {{ $slug->slug }}
+                                                                                @endforeach
+                                                                                @else
+                                                                                Going
+                                                                                @endif </span>
                                                                                 <i class="fas fa-angle-down"></i>
                                                                             </a>
-                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($expire->event_user as $event) @if ($expire->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @if($expire->checkslug(Auth()->id(), $expire->id)->count() > 0)  d-none @endif"
                                                                                 style="">
                                                                                 <li class="media-list">
                                                                                     <a href="{{ route('event.interested', ['id' => $expire->id, 'mesg' => 'interested']) }}"

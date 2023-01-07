@@ -55,7 +55,7 @@
                                                 <i class="fas fa-calendar-check"></i>
                                             </div>
                                             <h6>Create New Contest</h6>
-                                           
+
                                             <a href="" class="create-ebtn btn-hover" data-bs-toggle="modal"
                                                 data-bs-target="@auth @fullinfo
 #addevent
@@ -148,10 +148,15 @@
                                                                                 role="button" data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
-                                                                                <span class="entxt"> Going </span>
+                                                                                <span class="entxt"> @if($item->checkslug(Auth()->id(), $item->id)->count() > 0) @foreach ($item->checkslug(Auth()->id(), $item->id) as $slug)
+                                                                                    {{ $slug->slug }}
+                                                                                @endforeach
+                                                                                @else
+                                                                                Going
+                                                                                @endif </span>
                                                                                 <i class="fas fa-angle-down"></i>
                                                                             </a>
-                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($item->contest_user as $event) @if ($event->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @if($item->checkslug(Auth()->id(), $item->id)->count() > 0)  d-none @endif"
                                                                                 style="">
                                                                                 <li class="media-list">
                                                                                     <a href="{{ route('contest.interested', ['id' => $item->id, 'mesg' => 'interested']) }}"
@@ -239,10 +244,15 @@
                                                                                 data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
-                                                                                <span class="entxt"> Going </span>
+                                                                                <span class="entxt"> @if($next->checkslug(Auth()->id(), $next->id)->count() > 0) @foreach ($next->checkslug(Auth()->id(), $next->id) as $slug)
+                                                                                    {{ $slug->slug }}
+                                                                                @endforeach
+                                                                                @else
+                                                                                Going
+                                                                                @endif </span>
                                                                                 <i class="fas fa-angle-down"></i>
                                                                             </a>
-                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($next->contest_user as $event) @if ($next->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @if($next->checkslug(Auth()->id(), $next->id)->count() > 0) d-none @endif"
                                                                                 style="">
                                                                                 <li class="media-list">
                                                                                     <a href="{{ route('contest.interested', ['id' => $next->id, 'mesg' => 'interested']) }}"
@@ -333,10 +343,15 @@
                                                                                 data-bs-toggle="dropdown"
                                                                                 aria-expanded="false">
                                                                                 <i class="feather-check-circle"></i>
-                                                                                <span class="entxt"> Going </span>
+                                                                                <span class="entxt"> @if($expire->checkslug(Auth()->id(), $expire->id)->count() > 0) @foreach ($expire->checkslug(Auth()->id(), $expire->id) as $slug)
+                                                                                    {{ $slug->slug }}
+                                                                                @endforeach
+                                                                                @else
+                                                                                Going
+                                                                                @endif </span>
                                                                                 <i class="fas fa-angle-down"></i>
                                                                             </a>
-                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @foreach ($expire->contest_user as $event) @if ($expire->user_id == Auth()->id()) d-none @endif @endforeach"
+                                                                            <ul class="dropdown-menu dropdown-event dropdown-menu-end @if($expire->checkslug(Auth()->id(), $expire->id)->count() > 0) d-none @endif"
                                                                                 style="">
                                                                                 <li class="media-list">
                                                                                     <a href="{{ route('contest.interested', ['id' => $expire->id, 'mesg' => 'interested']) }}"
@@ -429,13 +444,19 @@
                             <div class="text-danger mt-2 text-sm end_time">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" class="form-control" name="price" id="price"
-                                placeholder="price" value={{ old('price') }}>
-                            <div class="text-danger mt-2 text-sm price">
-                            </div>
+                        <div class="form-group pt-2">
+                            <label for="type">Contest Type</label>
+                            <select name="type" id="type" value="{{ old('type') }}" class="form-control">
+                                <option selected disabled>Select type</option>
+                                <option value="0">free</option>
+                                <option value="1">Paid</option>
+                            </select>
+                            <div class="text-danger mt-2 text-sm typeError"></div>
                         </div>
+                        <div id="price">
+
+                        </div>
+
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
@@ -465,3 +486,23 @@
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->
+
+<script>
+    $('#type').change(function() {
+        let value =`
+        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" name="price" id="price"
+                                placeholder="price" value={{ old('price') }}>
+                            <div class="text-danger mt-2 text-sm price">
+                            </div>
+                        </div>
+        `;
+
+                 if ($('#type').val() == '1') {
+            $('#price').append(value);
+        } else {
+            $('#price').empty();
+        }
+    });
+</script>
