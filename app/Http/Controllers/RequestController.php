@@ -52,12 +52,13 @@ class RequestController extends Controller
         $prop   = Proposal::count();
         $prev_count = ModelsRequest::whereYear('created_at', date('Y', strtotime('-1 year')))->count();
         $sol_count = ReqSolution::orderBy('created_at', 'DESC')->count();
+        $users = User::count();
 
         $t_req_count = ModelsRequest::whereDate('created_at', Carbon::today())->count();
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count','mypropsol', 'contest', 'prev_count', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('index', compact('datas', 'users', 'sol_count', 'mypropsol', 'contest', 'prev_count', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     // previous year question page
     public function previousyearQuestion()
@@ -83,7 +84,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('previousyearrequests', compact('datas','mypropsol', 'sol_count', 'contest', 'prev_count', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('previousyearrequests', compact('datas', 'mypropsol', 'sol_count', 'contest', 'prev_count', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //get latest request
     public function latest()
@@ -108,7 +109,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count','mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('index', compact('datas', 'sol_count', 'mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //get week request
@@ -134,7 +135,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count','mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('index', compact('datas', 'sol_count', 'mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //get trending requests
     public function trending()
@@ -159,7 +160,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count','mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('index', compact('datas', 'sol_count', 'mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //store requests
     public function insert(FlasherInterface $flasher, Request $request)
@@ -233,7 +234,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count','mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('index', compact('datas', 'sol_count', 'mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //search cat
     public function searchcat($name)
@@ -261,7 +262,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count','mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('index', compact('datas', 'sol_count', 'mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //search
     public function search(Request $request)
@@ -293,7 +294,7 @@ class RequestController extends Controller
         $t_prop_count = Proposal::whereDate('created_at', Carbon::today())->count();
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
-        return view('index', compact('datas', 'sol_count','mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('index', compact('datas', 'sol_count', 'mypropsol', 'prev_count', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'categ', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     //show edit page
     public function show($id)
@@ -389,6 +390,7 @@ class RequestController extends Controller
             $output = "";
             $time  = "";
             $see   = "";
+            $check = "";
             $datas = ModelsRequest::where('requestname', 'LIKE', '%' . $request->search . "%")->get();
             if ($datas) {
                 foreach ($datas as $data) {
@@ -403,7 +405,7 @@ class RequestController extends Controller
                             if (\Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) > 0) {
                                 $time = \Carbon\Carbon::parse(now())->diffInSeconds($data->days, false) . " Seconds left";
                             } else {
-                                if ($data->reqsolution()->count() >= 1 && $data->reqsolution->request_id == $data->id) {
+                                if ($data->reqsolution()->count() > 0 && $data->reqsolution->request_id == $data->id) {
                                     $time = "Closed";
                                 } else {
                                     $time = "Unsolved";
@@ -417,14 +419,15 @@ class RequestController extends Controller
                     }
 
                     if ($data->reqsolution()->count() > 0) {
-                        foreach ($data->reqsolution  as $item) {
-                            if ($item->request_id == $data->id) {
-                                $see = "d-none";
-                            }
+                        if ($data->reqsolution->request_id == $data->id) {
+                            $see = "d-none";
                         }
                     }
-
-
+                    if ($data->reqsolution()->count() > 0 && $data->reqsolution->request_id == $data->id) {
+                        $check = '';
+                    } else {
+                        $check = "d-none";
+                    }
                     $output .= '
                     <div class="full-width mt-4">
                     <div class="recent-items">
@@ -551,7 +554,7 @@ class RequestController extends Controller
                                     </div>
                                 </div>
                                 <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                    <a href="" class="label-dker post_categories_reported mr-10 ' . ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->proposal_id == $data->id ? '' : 'd-none') . '"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
+                                    <a href="" class="label-dker post_categories_reported mr-10 ' . ($data->reqsolutionreport()->count() > 0 && $data->reqsolutionreport->proposal_id == $data->id && @$data->checkreported($data->id) == 1 ? '' : 'd-none') . '"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
                                     <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>' . $data->user->department->name . ' </span></a>
                                     <a href="" class="label-dker post_categories_top_right mr-20 ms-2"><span>' . $data->coursename . '</span></a>
                                 </div>
@@ -566,6 +569,7 @@ class RequestController extends Controller
                                 </div>
                                 <div class="action-btns-job d-flex justify-content-space">
                                     <a href="/request_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>
+                                    <a href="#" title="Solved" class="bm-btn bm-btn-hover-solve ' . $check . ' ms-2 active"><i class="fas fa-check"></i></a>
                                 </div>
                                 ' . ($data->user_id == Auth()->id() ? '
                                 <div class="' . $see . '">
@@ -580,7 +584,9 @@ class RequestController extends Controller
                                     data-id="' . $data->id . '"><i
                                         class="fa-solid fa-trash-can"></i>
                                 </button>
-                            </div>' : '') . '
+
+                            </div>
+                            ' : '') . '
                             </div>
                         </div>
                     </div>

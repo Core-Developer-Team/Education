@@ -42,7 +42,9 @@ class UserInfoController extends Controller
             'uni_id'     => $request->uni_id,
             'gender'     => $request->gender,
             'uni_name'   => $request->uni_name,
-            'department' => $request->department,
+            'department_id' => $request->department,
+            'role_id'    => '2',
+            'badge_id'   => '1',
         ]);
 
         $announcements = Announcement::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->first();

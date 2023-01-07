@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Badge;
 use App\Models\Contest;
 use App\Models\Event;
 use App\Models\Feedback;
@@ -45,14 +46,41 @@ class ReqSolutionController extends Controller
 
         $users = User::where('id', $request->user_id)->first();
 
-        if ($users->solutions >= 20 && $users->solutions<=70) {
+        // getting Badges details
+
+        $all_badges = Badge::all();
+        foreach ($all_badges as $key => $badge) {
+            $badge_name = $badge->name;
+            switch ($badge_name) {
+                case 'Medium level':
+                    $medium_sol = $badge->solution;
+                    $medium_rat = $badge->rating;
+                    break;
+                case 'Top rated':
+                    $top_sol = $badge->solution;
+                    $top_rat = $badge->rating;
+                    break;
+                case 'Verified':
+                    $verified_sol = $badge->solution;
+                    $verified_rat = $badge->rating;
+                    break;
+            }
+        }
+
+        if ($users->solutions >= $medium_sol && $users->solutions <= $top_sol) {
             $users->badge_id = 2;
-        } elseif ($users->solutions > 70 && $users->solutions <= 80 && $users->rating>=4.7 ) {
-            $users->badge_id = 3;
-        } elseif ($users->solutions > 80 && $users->solutions <= 100 && $users->rating>=4.0) {
-            $users->badge_id = 4;
-        } elseif ($users->solutions > 100 && $users->rating>=4.0) {
-            $users->badge_id = 5;
+        } elseif ($users->solutions > $top_sol && $users->solutions <= $verified_sol) {
+            if ($users->rating >= $top_rat) {
+                $users->badge_id = 3;
+            } else {
+                $users->badge_id = 2;
+            }
+        } elseif ($users->solutions > $verified_sol) {
+            if ($users->rating >= $verified_rat) {
+                $users->badge_id = 5;
+            } else {
+                $users->badge_id = 2;
+            }
         }
 
         $findRequest = ModelsRequest::find($request->request_id)->user_id;
@@ -61,13 +89,13 @@ class ReqSolutionController extends Controller
 
         $users->update();
 
-        if(auth()->user()){
-            $req = ModelsRequest::where('id',$request->request_id)->first();
+        if (auth()->user()) {
+            $req = ModelsRequest::where('id', $request->request_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->request_user);
-            $data->notify(new SolNotification($user,$req));
-            }
-            flash()->addSuccess('Solution Published Successfully');
+            $data->notify(new SolNotification($user, $req));
+        }
+        flash()->addSuccess('Solution Published Successfully');
         return back();
     }
 
@@ -95,7 +123,7 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('mysolutions', compact('data','mypropsol','propsoldata','contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('mysolutions', compact('data', 'mypropsol', 'propsoldata', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
 
     //all solutions
@@ -123,7 +151,7 @@ class ReqSolutionController extends Controller
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
 
-        return view('allsolutions', compact('datas','mypropsol','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('allsolutions', compact('datas', 'mypropsol', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
     public function solutionreport(Request $request)
     {
@@ -143,12 +171,12 @@ class ReqSolutionController extends Controller
             $touser = User::find($request->rep_user);
             $remesg = $request->message;
             $data = User::find(1);
-            $data->notify(new SolreportNotification($user,$remesg, $req, $touser));
+            $data->notify(new SolreportNotification($user, $remesg, $req, $touser));
         }
-        if(auth()->user()){
+        if (auth()->user()) {
             $usr = User::find(auth()->user()->id);
             $tuser = User::find($request->rep_user);
-            $tuser->notify(new Reporteduser($usr, $req , $tuser));
+            $tuser->notify(new Reporteduser($usr, $req, $tuser));
         }
         flash()->addSuccess('Report Send Successfully');
         return back();
@@ -177,7 +205,6 @@ class ReqSolutionController extends Controller
         $t_reqsolution_count = ReqSolution::whereDate('created_at', Carbon::today())->count();
         $t_propsolution_count = Propsolution::whereDate('created_at', Carbon::today())->count();
 
-        return view('reportedsolutions',compact('datas','mypropsol','contest','t_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
+        return view('reportedsolutions', compact('datas', 'mypropsol', 'contest', 't_req_count', 't_prop_count', 't_reqsolution_count', 't_propsolution_count', 'sol_count', 'prev_count', 'bid', 'req_count', 'feed_count', 'mysol', 'myques', 'res', 'event', 'offline', 'product', 'prop'));
     }
-
 }

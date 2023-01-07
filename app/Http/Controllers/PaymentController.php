@@ -2,9 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Course;
 use App\Models\PaymentLog;
+use App\Models\Playlist;
+use App\Models\Product;
+use App\Models\Proposal;
+use App\Models\Proposalbid;
+use App\Models\Reqbid;
 use App\Models\Reqsolutionreport;
 use App\Models\Request as MyRequest;
+use App\Models\Resource;
+use App\Models\User;
+use App\Notifications\acceptpropbidNotification;
+use App\Notifications\acceptreqbidNotification;
+use App\Notifications\BookpayNotification;
+use App\Notifications\CoursepayNotification;
+use App\Notifications\ProductpayNotification;
+use App\Notifications\ResourcepayNotification;
+use App\Notifications\TutorialpayNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -160,13 +176,11 @@ class PaymentController extends Controller
                     'seller_id' => $additionalData["seller_id"]
                 ]);
 
-                if ($additionalData["resource"] == "requests") {
-                    $data =  Reqsolutionreport::orderBy('id', 'DESC')->first()->update(['status' => 2]);
-                }
 
                 if ($insertIntoPayment->id) {
                     if ($this->resource == 'requests') :
-                        MyRequest::find($this->rId)->update(['payment_status' => 1]);
+                        MyRequest::find($additionalData["req_id"])->update(['payment_status' => 1]);
+                        Reqsolutionreport::orderBy('id', 'DESC')->first()->update(['status' => 2]);
                     endif;
                     DB::commit();
                     return response()->json(['status' => 1, "message" => "Payment Success"]);
@@ -182,8 +196,80 @@ class PaymentController extends Controller
 
     public function paymentAdditional(Request $request)
     {
+          return $request;
+        if ($request->resource == 'requests') {
+            $biddata = Reqbid::where('id', $request->bid_id)->first();
+            $to_user = $biddata->user_id;
+            if (auth()->user()){
+                $req = MyRequest::where('id', $request->req_id)->first();
+                $user = User::find(auth()->user()->id);
+                $data = User::find($to_user);
+                $data->notify(new acceptreqbidNotification($user, $req));
+            }
+        }
+
+        if ($request->resource == 'proposals') {
+            $biddata = Proposalbid::where('id', $request->bid_id)->first();
+            $to_user = $biddata->user_id;
+            if (auth()->user()) {
+                $req = Proposal::where('id', $request->req_id)->first();
+                $user = User::find(auth()->user()->id);
+                $data = User::find($to_user);
+                $data->notify(new acceptpropbidNotification($user, $req));
+            }
+        }
+
+        if ($request->resource == 'books') {
+            $to_user = $request->seller_id;
+            if (auth()->user()) {
+                $req = Book::where('id', $request->req_id)->first();
+                $user = User::find(auth()->user()->id);
+                $data = User::find($to_user);
+                $data->notify(new BookpayNotification($user, $req));
+            }
+        }
+        if ($request->resource == 'products') {
+            $to_user = $request->seller_id;
+            if (auth()->user()) {
+                $req = Product::where('id', $request->req_id)->first();
+                $user = User::find(auth()->user()->id);
+                $data = User::find($to_user);
+                $data->notify(new ProductpayNotification($user, $req));
+            }
+        }
+        if ($request->resource == 'cources') {
+            $to_user = $request->seller_id;
+            if (auth()->user()) {
+                $req = Course::where('id', $request->req_id)->first();
+                $user = User::find(auth()->user()->id);
+                $data = User::find($to_user);
+                $data->notify(new CoursepayNotification($user, $req));
+            }
+        }
+        if ($request->resource == 'playlists') {
+            $to_user = $request->seller_id;
+            if (auth()->user()) {
+                $req = Playlist::where('id', $request->req_id)->first();
+                $user = User::find(auth()->user()->id);
+                $data = User::find($to_user);
+                $data->notify(new TutorialpayNotification($user, $req));
+            }
+        }
+        if ($request->resource == 'resources') {
+            $to_user = $request->seller_id;
+            if (auth()->user()) {
+                $req = Resource::where('id', $request->req_id)->first();
+                $user = User::find(auth()->user()->id);
+                $data = User::find($to_user);
+                $data->notify(new ResourcepayNotification($user, $req));
+            }
+        }
+
+
         session()->forget('bKadditional');
         session()->put('bKadditional', ["bid_id" => $request->bid_id, "amount" => $request->amount, "resource" => $request->resource, "req_id" => $request->req_id, "seller_id" => $request->seller_id]);
+
         return response()->json(['status' => true, 'data' => session()->get('bKadditional')]);
+
     }
 }

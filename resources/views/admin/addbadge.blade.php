@@ -72,13 +72,19 @@
                         </div>
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea id="desc" class="form-control" name="description" rows="3">
-@isset($data)
-{{ $data->description }}
-@else
-{{ old('description') }}
-@endisset
-</textarea>
+                            <textarea id="desc" class="form-control" name="description" rows="3">@isset($data){{ $data->description }}@else{{ old('description') }}@endisset</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="solution">Solutions Required</label>
+                            <input type="text" id="solution" class="form-control" name="solution" value="@isset($data) {{ $data->solution }}
+                                @else {{ old('solution') }} @endisset">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rating">ratings Required</label>
+                            <input type="text" id="rating" class="form-control" name="rating" value="@isset($data) {{ $data->rating }}
+                                @else {{ old('rating') }} @endisset">
                         </div>
 
                         <button type="submit" name="submit" class="btn btn-primary mt-4">

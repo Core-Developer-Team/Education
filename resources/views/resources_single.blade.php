@@ -175,10 +175,10 @@
                                                 <span class="time-dt">{{ $data->updated_at->diffForHumans() }}</span>
                                             </p>
                                             <div class="jbopdt142">
-                                                @if ($data->user_id != auth()->id())
+                                                @if ($data->user_id != auth()->id() && auth()->user()->block != 1)
                                                     @if ($data->isAccept($data->id) == false)
                                                         <div class="aplcnts_15 job-center applcntres ml-3 mb-md-0 mb-4">
-                                                            <span class="job-badge bg-success payNow d-inline" data-id=""
+                                                            <span class="job-badge bg-success payNow d-inline" data-id="{{ $data->id }}"
                                                                 data-amount="{{ $data->price }}"
                                                                 data-seller="{{$data->user_id}}"
                                                                 data-resource="resources">

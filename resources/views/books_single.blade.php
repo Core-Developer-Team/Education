@@ -302,7 +302,7 @@
                                     data-id="{{ $data->id }}"
                                     data-amount="{{ $data->price }}"
                                     data-resource="books"
-                                    data-seller="{{$data->user_id}}"
+                                    data-seller="{{ $data->user_id }}"
                                     >
                                     <input type="hidden" name="request_id" value="{{ $data->id }}">
                                         <button class="buy-btn btn-hover" type="submit">Buy Now</button>

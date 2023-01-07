@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Badge;
 use App\Models\Message;
 use App\Models\Proposal;
 use App\Models\Proposalbid;
@@ -26,21 +27,48 @@ class PropsolutionController extends Controller
         ]);
 
         Propsolution::create($request->only('file', 'description', 'proposal_id', 'user_id'));
-      //  Proposalbid::where('proposal_id', $request->proposal_id)->update([
+        //  Proposalbid::where('proposal_id', $request->proposal_id)->update([
         //    'status' => '1',
-       // ]);
+        // ]);
         User::where('id', $request->user_id)->increment('solutions', 1);
 
         $users = User::where('id', $request->user_id)->first();
 
-        if ($users->solutions >= 20 && $users->solutions<=70) {
+        // getting Badges details
+
+        $all_badges = Badge::all();
+        foreach ($all_badges as $key => $badge) {
+            $badge_name = $badge->name;
+            switch ($badge_name) {
+                case 'Medium level':
+                    $medium_sol = $badge->solution;
+                    $medium_rat = $badge->rating;
+                    break;
+                case 'Top rated':
+                    $top_sol = $badge->solution;
+                    $top_rat = $badge->rating;
+                    break;
+                case 'Verified':
+                    $verified_sol = $badge->solution;
+                    $verified_rat = $badge->rating;
+                    break;
+            }
+        }
+
+        if ($users->solutions >= $medium_sol && $users->solutions <= $top_sol) {
             $users->badge_id = 2;
-        } elseif ($users->solutions > 70 && $users->solutions <= 80 && $users->rating>=4.7 ) {
-            $users->badge_id = 3;
-        } elseif ($users->solutions > 80 && $users->solutions <= 100 && $users->rating>=4.0) {
-            $users->badge_id = 4;
-        } elseif ($users->solutions > 100 && $users->rating>=4.0) {
-            $users->badge_id = 5;
+        } elseif ($users->solutions > $top_sol && $users->solutions <= $verified_sol) {
+            if ($users->rating >= $top_rat) {
+                $users->badge_id = 3;
+            } else {
+                $users->badge_id = 2;
+            }
+        } elseif ($users->solutions > $verified_sol) {
+            if ($users->rating >= $verified_rat) {
+                $users->badge_id = 5;
+            } else {
+                $users->badge_id = 2;
+            }
         }
 
         $findRequest = Proposal::find($request->proposal_id)->user_id;
@@ -50,7 +78,7 @@ class PropsolutionController extends Controller
         $users->update();
 
         if (auth()->user()) {
-            $proposal = Proposal::where('id',$request->proposal_id)->first();
+            $proposal = Proposal::where('id', $request->proposal_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->proposal_user);
             $data->notify(new PsolNotification($user, $proposal));

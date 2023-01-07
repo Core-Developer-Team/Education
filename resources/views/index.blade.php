@@ -52,6 +52,12 @@
                         <ul class="info__sections">
                             <li>
                                 <a class="all-info__sections">
+                                    <span class="all-info__left"><i class="feather-grid me-2"></i>Total Users</span>
+                                    <span class="all-info__right">{{ $users }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="all-info__sections">
                                     <span class="all-info__left"><i class="feather-grid me-2"></i>Request</span>
                                     <span class="all-info__right">{{ $t_req_count }}</span>
                                 </a>
@@ -304,7 +310,6 @@
                                                     Offline
                                                     @endif
                                                 </span>
-
                                                 <span class="job-badge ddcolor">৳ {{ $data->price }} </span>
                                                 <span class="job-badge ttcolor">
                                                     @if (\Carbon\Carbon::parse(now())->diffInDays($data->days, false) <

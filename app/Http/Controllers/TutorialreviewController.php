@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Badge;
 use App\Models\Book;
 use App\Models\Course;
 use App\Models\Playlist;
@@ -115,24 +116,24 @@ class TutorialreviewController extends Controller
             $prod   = number_format((float)$ptotal, 2, '.', '');
         }
 
-        $totaluserrating = $tuserrating+  $ptuserrating + $trating + $courating + $bookrating + $prod;
+        $totaluserrating = $tuserrating +  $ptuserrating + $trating + $courating + $bookrating + $prod;
         $no_rating = 0;
-        if($ptuserrating > 0){
+        if ($ptuserrating > 0) {
             $no_rating += 1;
         }
-        if($tuserrating > 0) {
+        if ($tuserrating > 0) {
             $no_rating += 1;
         }
-        if($trating > 0) {
+        if ($trating > 0) {
             $no_rating += 1;
         }
-        if($courating > 0) {
+        if ($courating > 0) {
             $no_rating += 1;
         }
-        if($bookrating > 0) {
+        if ($bookrating > 0) {
             $no_rating += 1;
         }
-        if($prod > 0) {
+        if ($prod > 0) {
             $no_rating += 1;
         }
         $useravgrating = $totaluserrating / $no_rating;
@@ -142,8 +143,46 @@ class TutorialreviewController extends Controller
             $user->save();
         }
 
+        // getting Badges details
+        $users = User::where('id', $request->playlist_user)->first();
+
+        $all_badges = Badge::all();
+        foreach ($all_badges as $key => $badge) {
+            $badge_name = $badge->name;
+            switch ($badge_name) {
+                case 'Medium level':
+                    $medium_sol = $badge->solution;
+                    $medium_rat = $badge->rating;
+                    break;
+                case 'Top rated':
+                    $top_sol = $badge->solution;
+                    $top_rat = $badge->rating;
+                    break;
+                case 'Verified':
+                    $verified_sol = $badge->solution;
+                    $verified_rat = $badge->rating;
+                    break;
+            }
+        }
+
+        if ($users->solutions >= $medium_sol && $users->solutions <= $top_sol) {
+            $users->badge_id = 2;
+        } elseif ($users->solutions > $top_sol && $users->solutions <= $verified_sol) {
+            if ($users->rating >= $top_rat) {
+                $users->badge_id = 3;
+            } else {
+                $users->badge_id = 2;
+            }
+        } elseif ($users->solutions > $verified_sol) {
+            if ($users->rating >= $verified_rat) {
+                $users->badge_id = 5;
+            } else {
+                $users->badge_id = 2;
+            }
+        }
+
         if (auth()->user()) {
-            $tutorial = Playlist::where('id',$request->playlist_id)->first();
+            $tutorial = Playlist::where('id', $request->playlist_id)->first();
             $user = User::find(auth()->user()->id);
             $data = User::find($request->playlist_user);
             $data->notify(new TutorialNotification($user, $tutorial));
