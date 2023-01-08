@@ -12,6 +12,6 @@ class ForgotPasswordController extends Controller
     }
 
     public function store(){
-        
+
     }
 }

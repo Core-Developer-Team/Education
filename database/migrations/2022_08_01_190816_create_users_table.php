@@ -19,13 +19,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('role_id')->constrained();
             $table->foreignId('badge_id')->constrained();
-            $table->foreignId('department_id')->constrained();
-            $table->string('username');
+            $table->foreignId('department_id')->nullable()->constrained();
+            $table->string('username')->nullable();
             $table->string('email')->unique();
-            $table->string('mobile_no')->unique();
-            $table->string('image');
-            $table->string('cover_img');
-            $table->string('uni_id');
+            $table->string('mobile_no')->unique()->nullable();
+            $table->string('image')->nullable();
+            $table->string('cover_img')->nullable();
+            $table->string('uni_id')->nullable();
             $table->string('uni_name')->nullable();
             $table->integer('solutions')->default('0');
             $table->float('rating')->default('0');
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->enum('status',['0','1'])->default('0');
             $table->enum('block',['0','1'])->default('0');
             $table->timestamp('last_seen');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->boolean('provider')->default(false);
             $table->timestamps();
         });

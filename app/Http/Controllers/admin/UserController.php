@@ -42,6 +42,7 @@ class UserController extends Controller
        if($user->block == 0)
        {
         $user->block = '1';
+        $user->badge_id = 6;
         $user->save();
         return back()->with('success', 'User Blocked Successfully');
        }

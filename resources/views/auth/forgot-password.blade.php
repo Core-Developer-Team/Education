@@ -55,7 +55,12 @@
                         </div>
                         <div class="col-xl-5 col-lg-6 col-md-7">
                             <div class="registration">
-                                <form method="POST" action="{{ route('forgotpassword') }}">
+                                @if (Session::has('status'))
+                                <div class="alert alert-success" role="alert">
+                                   {{ Session::get('status') }}
+                               </div>
+                           @endif
+                                <form method="POST" action="{{ route('password.email') }}">
                                     @csrf
                                     <h2 class="registration_title">Forgot Password?</h2>
                                     <div class="text-danger border border-danger error_box p-3 mt-4 d-none"></div>

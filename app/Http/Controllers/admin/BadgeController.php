@@ -42,11 +42,13 @@ class BadgeController extends Controller
             'name'   => 'required',
             'image'          => 'required|image|mimes:jpg,jpeg,png,svg',
             'description'  => 'required|string',
+            'solution'     => 'required|integer|regex:/^[0-9]+$/',
+            'rating'     => 'required|numeric|min:0|max:5',
         ]);
         $imagename = time().'_'.$request->image->getClientOriginalName();
         $imagepath = $request->file('image')->storeAs('Images',$imagename, 'public');
 
-        Badge::create(array_merge($request->only('description','name'),[
+        Badge::create(array_merge($request->only('description','solution','rating','name'),[
             'user_id'   => auth()->id(),
             'image' => '/storage/'.$imagepath,
         ]));
@@ -89,11 +91,13 @@ class BadgeController extends Controller
             'name'   => 'required',
             'image'          => 'required|image|mimes:jpg,jpeg,png,svg',
             'description'  => 'required|string',
+            'solution'     => 'required|integer|regex:/^[0-9]+$/',
+            'rating'     => 'required|numeric|min:0|max:5',
         ]);
         $imagename = time().'_'.$request->image->getClientOriginalName();
         $imagepath = $request->file('image')->storeAs('Images',$imagename, 'public');
 
-        Badge::find($id)->update(array_merge($request->only('description','name'),[
+        Badge::find($id)->update(array_merge($request->only('description','solution','rating','name'),[
             'image' => '/storage/'.$imagepath,
         ]));
         return back()->with('success', 'Badge has Updated Successfully');

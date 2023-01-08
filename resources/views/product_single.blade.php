@@ -252,7 +252,7 @@
                             <ul class="evnt_cogs_list">
                                 <li>
                                     <div class="product_license_check">
-                                        <div class="course-price">Regular Price</div>
+                                        <div class="course-price">Regular Price </div>
                                         <span class="item_price">৳ {{ $data->price }}</span>
                                     </div>
                                 </li>
@@ -452,6 +452,7 @@
     </div>
 </div>
 
+<input type="hidden" class="reqId" value="{{ $data->id }}" />
 <!--footer-->
 @include('layouts.footer')
 <!---/footer-->

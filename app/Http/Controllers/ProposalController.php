@@ -303,7 +303,7 @@ class ProposalController extends Controller
             $output = "";
             $time  = "";
             $see   = "";
-
+            $check = "";
             $datas = Proposal::where('proposalname', 'LIKE', '%' . $request->search . "%")->get();
             if ($datas) {
                 foreach ($datas as $data) {
@@ -333,11 +333,15 @@ class ProposalController extends Controller
                     }
 
                     if ($data->propsolution()->count() > 0) {
-                        foreach ($data->propsolution  as $item) {
-                            if ($item->proposal_id == $data->id) {
+                            if ($data->propsolution->proposal_id == $data->id) {
                                 $see = "d-none";
                             }
-                        }
+                    }
+
+                    if ($data->propsolution()->count() > 0 && $data->propsolution->proposal_id == $data->id) {
+                        $check = '';
+                    } else {
+                        $check = "d-none";
                     }
 
                     $output .= '
@@ -465,7 +469,7 @@ class ProposalController extends Controller
                                     </div>
                                 </div>
                                 <div class="ellipsis-options post-ellipsis-options dropdown dropdown-account">
-                                    <a href="" class="label-dker post_categories_reported mr-10 ' . ($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $data->id ? '' : 'd-none') . '"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
+                                    <a href="" class="label-dker post_categories_reported mr-10 ' . ($data->propsolreport()->count() > 0 && $data->propsolreport->proposal_id == $data->id && @$data->checkreported($data->id) == 1 ? '' : 'd-none') . '"><span class="label-dker post_categories_reported mr-10">Reported</span></a>
                                     <a href="" class="label-dker post_department_top_right mr-10 px-2"><span>' .  $data->user->department->name  . ' </span></a>
                                     <a href="" class="label-dker post_categories_top_right mr-20 ms-2"><span>' . $data->category . '</span></a>
                                 </div>
@@ -480,7 +484,8 @@ class ProposalController extends Controller
                                 </div>
                                 <div class="action-btns-job d-flex justify-content-space">
                                     <a href="/proposal_single/' . $data->id . '" class="view-btn btn-hover">View Job</a>
-                                </div>
+                                    <a href="#" title="Solved" class="bm-btn bm-btn-hover-solve ' . $check . ' ms-2 active"><i class="fas fa-check"></i></a>
+                                    </div>
                                 ' . ($data->user_id == Auth()->id() ? '
                                 <div class="' . $see . '">
                                 <a href="/proposal_edit/' . $data->id . '"

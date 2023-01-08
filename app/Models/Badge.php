@@ -12,10 +12,12 @@ class Badge extends Model
         'name',
         'description',
         'image',
+        'solution',
+        'rating',
     ];
 
     public function user(){
         return $this->hasOne(User::class);
     }
-    
+
 }

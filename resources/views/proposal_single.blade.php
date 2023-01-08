@@ -716,7 +716,7 @@
                                                     <div class="bkashPayDiv_{{ $bids->id }}">
                                                         <span class="job-badge bg-success payNow bkashPayBtn"
                                                             data-id="{{ $bids->id }}" data-amount="{{ $bids->price }}"
-                                                            data-resource="proposals">
+                                                            data-resource="proposals" data-seller="{{$bids->user_id}}">
                                                             Take this offer
                                                         </span>
                                                         {{-- <input type="hidden" id="bKash_button"> --}}

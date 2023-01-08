@@ -48,6 +48,8 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Image</th>
+                                    <th>Solution</th>
+                                    <th>Rating</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -57,37 +59,34 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->description }}</td>
-                                    <td><img style="width: 50px; height:50px" src="{{ $item->image }}" alt=""
-                                        class="" srcset=""></td>
+                                    <td><img style="width: 50px; height:50px" src="{{ $item->image }}" alt="" class=""
+                                            srcset=""></td>
+                                    <td>{{ $item->solution }}</td>
+                                    <td>{{ $item->rating }}</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-danger delete-confirm"
-                                        data-bs-toggle="modal" data-bs-target="#delreq"
-                                        data-id="{{ $item->id }}"><i class="fa fa-trash-alt">
-                                        </i></button>
+                                            data-bs-toggle="modal" data-bs-target="#delreq" data-id="{{ $item->id }}"><i
+                                                class="fa fa-trash-alt">
+                                            </i></button>
                                         <a href="{{ route('admin.badge.edit', ['badge' => $item->id]) }}"
                                             class="btn btn-sm btn-info"><i class="fa fa-edit">
                                             </i></a>
                                     </td>
                                 </tr>
                                 @endforeach
-
-
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
         <!-- /.container-fluid -->
 
     </div>
     <!-- End of Main Content -->
     <!--delete Model-->
-    <div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="delreq" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

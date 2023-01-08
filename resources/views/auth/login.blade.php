@@ -56,6 +56,11 @@
                         </div>
                         <div class="col-xl-5 col-lg-6 col-md-7">
                             <div class="registration">
+                                @if (Session::has('status'))
+                                <div class="alert alert-success" role="alert">
+                                   {{ Session::get('status') }}
+                               </div>
+                           @endif
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <h2 class="registration_title">Sign in to CRAVSOL</h2>
@@ -157,7 +162,7 @@
         } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 
         //GOOGLE SIGN IN
-        
+
         $('.google_provider').on('click', () => {
             const googleAuth = getAuth();
             const Gprovider = new GoogleAuthProvider();
